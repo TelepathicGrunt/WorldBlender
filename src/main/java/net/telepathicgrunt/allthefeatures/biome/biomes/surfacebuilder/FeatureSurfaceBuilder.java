@@ -87,7 +87,7 @@ public class FeatureSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 				}
 			}
 			else {
-				if(Math.abs(perlinGen.noiseAt((x+200*i)/(260D+i*3), (z+200*i)/(260D+i*3), true)) < 0.6D/size+Math.min(i/150D, 0.13D)) {
+				if(Math.abs(perlinGen.noiseAt((x+200*i)/(220D+i*3), (z+200*i)/(220D+i*3), true)) < 0.6D/size+Math.min(i/150D, 0.13D)) {
 					chosenIndex = i; // all other surfaces with scale offset and threshold decreasing as index gets closer to 0.
 					break;
 				}
