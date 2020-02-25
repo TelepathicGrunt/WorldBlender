@@ -57,7 +57,6 @@ public class AllTheFeatures
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void setup(final FMLLoadCompleteEvent event){
 
-		List<ConfiguredFeature<?, ?>> miscList = new ArrayList<ConfiguredFeature<?, ?>>();
 		List<ConfiguredFeature<?, ?>> grassyFlowerList = new ArrayList<ConfiguredFeature<?, ?>>();
 		List<ConfiguredFeature<?, ?>> bambooList = new ArrayList<ConfiguredFeature<?, ?>>();
 		
@@ -68,17 +67,16 @@ public class AllTheFeatures
 			for (Decoration stage : GenerationStage.Decoration.values()){
 				for (ConfiguredFeature<?, ?> configuredFeature : biome.getFeatures(stage)){
 					if (!BiomeInit.FEATURE_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, configuredFeature))) {
-						if(configuredFeature.feature == Feature.field_227248_z_ || configuredFeature.feature == Feature.RANDOM_RANDOM_SELECTOR || configuredFeature.feature == Feature.FLOWER || configuredFeature.feature == Feature.DECORATED_FLOWER) {
+						if(configuredFeature.feature == Feature.field_227248_z_ || configuredFeature.feature == Feature.SIMPLE_RANDOM_SELECTOR || configuredFeature.feature == Feature.RANDOM_RANDOM_SELECTOR || configuredFeature.feature == Feature.FLOWER || configuredFeature.feature == Feature.DECORATED_FLOWER) {
 							//add the grass and flowers later so trees have a chance to spawn
 							grassyFlowerList.add(configuredFeature);
 						}
-						else if(configuredFeature.feature != Feature.RANDOM_BOOLEAN_SELECTOR || configuredFeature.feature != Feature.RANDOM_SELECTOR) {
-							//testing something out
-							miscList.add(configuredFeature);
-						}
 						else {
-							if(!biome.getRegistryName().getNamespace().equals("minecraft")) {
-								//adds modded features that isnt grass/flowers to front of array so they have priority
+							if(!biome.getRegistryName().getNamespace().equals("minecraft") &&
+								stage == Decoration.VEGETAL_DECORATION && 
+								(configuredFeature.feature == Feature.RANDOM_BOOLEAN_SELECTOR || 
+								configuredFeature.feature == Feature.RANDOM_SELECTOR)){
+								//adds modded features that might be trees to front of array so they have priority
 								//over vanilla features.
 								BiomeInit.biomes.forEach(featureBiome -> featureBiome.features.get(stage).add(0, configuredFeature));
 							}
@@ -122,11 +120,6 @@ public class AllTheFeatures
 			}
 		}
 
-		
-		//add misc stuff now
-		for (ConfiguredFeature<?, ?> miscFeature : miscList){
-			BiomeInit.biomes.forEach(featureBiome -> featureBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, miscFeature));
-		}
 		
 		//add grass and flowers now so they are generated second to last
 		for (ConfiguredFeature<?, ?> grassyFlowerFeature : grassyFlowerList){
