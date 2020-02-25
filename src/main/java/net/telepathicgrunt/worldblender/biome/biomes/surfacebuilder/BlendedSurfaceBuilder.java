@@ -15,12 +15,12 @@ import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.PerlinNoiseGenerator;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
+import net.telepathicgrunt.worldblender.configs.WBConfig;
 
 public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 { 
 	public BlendedSurfaceBuilder(Function<Dynamic<?>, ? extends SurfaceBuilderConfig> config){
 		super(config);
-		resetSurfaceList();
 	}
 
 	@Override
@@ -40,15 +40,18 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 		//default order of surface builders I want to start with
 		configList.add(NETHERRACK_CONFIG);
 		configList.add(END_STONE_CONFIG);
-		configList.add(GRASS_DIRT_GRAVEL_CONFIG);
-		configList.add(PODZOL_DIRT_GRAVEL_CONFIG);
-		configList.add(RED_SAND_WHITE_TERRACOTTA_GRAVEL_CONFIG);
-		configList.add(SAND_CONFIG);
-		configList.add(MYCELIUM_DIRT_GRAVEL_CONFIG);
-		configList.add(new SurfaceBuilderConfig(Blocks.SNOW_BLOCK.getDefaultState(), Blocks.DIRT.getDefaultState(), Blocks.GRAVEL.getDefaultState()));
-		configList.add(CORASE_DIRT_DIRT_GRAVEL_CONFIG);
-		configList.add(AIR_CONFIG);
-		configList.add(GRAVEL_CONFIG);
+		
+		if (WBConfig.SERVER.allowVanillaSurfaces.get()) {
+			configList.add(GRASS_DIRT_GRAVEL_CONFIG);
+			configList.add(PODZOL_DIRT_GRAVEL_CONFIG);
+			configList.add(RED_SAND_WHITE_TERRACOTTA_GRAVEL_CONFIG);
+			configList.add(SAND_CONFIG);
+			configList.add(MYCELIUM_DIRT_GRAVEL_CONFIG);
+			configList.add(new SurfaceBuilderConfig(Blocks.SNOW_BLOCK.getDefaultState(), Blocks.DIRT.getDefaultState(), Blocks.GRAVEL.getDefaultState()));
+			configList.add(CORASE_DIRT_DIRT_GRAVEL_CONFIG);
+			configList.add(AIR_CONFIG);
+			configList.add(GRAVEL_CONFIG);
+		}
 	}
 	
 	
@@ -100,7 +103,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 			}
 		}
 		
-		return chosenConfigIndex;
+		return Math.min(chosenConfigIndex, listSize-1); //no index out of bounds
 	}
 	
 	public void setPerlinSeed(long seed){

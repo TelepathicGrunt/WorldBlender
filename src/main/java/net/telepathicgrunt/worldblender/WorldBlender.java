@@ -35,7 +35,7 @@ public class WorldBlender
 
 		//generates/handles config
 		modEventBus.addListener(this::modConfig);
-		modLoadingContext.registerConfig(ModConfig.Type.SERVER, WBConfig.SERVER_SPEC);
+		modLoadingContext.registerConfig(ModConfig.Type.COMMON, WBConfig.SERVER_SPEC);
 	}
 
 
