@@ -65,28 +65,25 @@ public class AllTheFeatures
 				continue;
 
 			for (Decoration stage : GenerationStage.Decoration.values()){
-				for (ConfiguredFeature<?, ?> feature : biome.getFeatures(stage)){
-					if (!BiomeInit.FEATURE_BIOME.getFeatures(stage).stream().anyMatch(feat -> serializeAndCompareFeature(feat, feature))) {
-						if(feature.feature == Feature.field_227248_z_ || feature.feature == Feature.FLOWER || feature.feature == Feature.DECORATED_FLOWER) {
+				for (ConfiguredFeature<?, ?> configuredFeature : biome.getFeatures(stage)){
+					if (!BiomeInit.FEATURE_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, configuredFeature))) {
+						if(configuredFeature.feature == Feature.field_227248_z_ || configuredFeature.feature == Feature.FLOWER || configuredFeature.feature == Feature.DECORATED_FLOWER) {
 							//add the grass and flowers later so trees have a chance to spawn
-							grassyFlowerList.add(feature);
+							grassyFlowerList.add(configuredFeature);
 						}
 						else {
 							if(!biome.getRegistryName().getNamespace().equals("minecraft")) {
 								//adds modded features that isnt grass/flowers to front of array so they have priority
 								//over vanilla features.
-								BiomeInit.FEATURE_BIOME.features.get(stage).add(0, feature);
-								BiomeInit.MOUNTAIN_FEATURE_BIOME.features.get(stage).add(0, feature);
-								BiomeInit.OCEAN_FEATURE_BIOME.features.get(stage).add(0, feature);
+								BiomeInit.biomes.forEach(featureBiome -> featureBiome.features.get(stage).add(0, configuredFeature));
 							}
 							else{
-								if(feature.feature == Feature.BAMBOO) {
-									bambooList.add(feature); //MAKE BAMBOO GENERATE VERY LAST. SCREW BAMBOO
+								if(configuredFeature.feature == Feature.BAMBOO) {
+									//MAKE BAMBOO GENERATE VERY LAST. SCREW BAMBOO
+									bambooList.add(configuredFeature); 
 								}
 								else {
-									BiomeInit.FEATURE_BIOME.addFeature(stage, feature);
-									BiomeInit.MOUNTAIN_FEATURE_BIOME.addFeature(stage, feature);
-									BiomeInit.OCEAN_FEATURE_BIOME.addFeature(stage, feature);
+									BiomeInit.biomes.forEach(featureBiome -> featureBiome.addFeature(stage, configuredFeature));
 								}
 							}
 						}
@@ -95,50 +92,40 @@ public class AllTheFeatures
 
 				for (Structure<?> structure : biome.structures.keySet()){
 					if (!BiomeInit.FEATURE_BIOME.structures.keySet().stream().anyMatch(struct -> struct == structure)){
-						BiomeInit.FEATURE_BIOME.addStructureFeature(new ConfiguredFeature(structure, biome.structures.get(structure)));
-						BiomeInit.MOUNTAIN_FEATURE_BIOME.addStructureFeature(new ConfiguredFeature(structure, biome.structures.get(structure)));
-						BiomeInit.OCEAN_FEATURE_BIOME.addStructureFeature(new ConfiguredFeature(structure, biome.structures.get(structure)));
+						BiomeInit.biomes.forEach(featureBiome -> featureBiome.addStructureFeature(new ConfiguredFeature(structure, biome.structures.get(structure))));
 					}
 				}
 			}
 			for (Carving carverStage : GenerationStage.Carving.values()){
 				for (ConfiguredCarver<?> carver : biome.getCarvers(carverStage)){
 					if (!BiomeInit.FEATURE_BIOME.getCarvers(carverStage).stream().anyMatch(config -> config.carver == carver.carver)) {
-						BiomeInit.FEATURE_BIOME.addCarver(carverStage, carver);
-						BiomeInit.MOUNTAIN_FEATURE_BIOME.addCarver(carverStage, carver);
-						BiomeInit.OCEAN_FEATURE_BIOME.addCarver(carverStage, carver);
+						BiomeInit.biomes.forEach(featureBiome -> featureBiome.addCarver(carverStage, carver));
 					}
 				}
 			}
 			for (EntityClassification entityClass : EntityClassification.values()){
 				for (SpawnListEntry spawnEntry : biome.getSpawns(entityClass)){
 					if (!BiomeInit.FEATURE_BIOME.getSpawns(entityClass).stream().anyMatch(spawn -> spawn.entityType == spawnEntry.entityType)) {
-						BiomeInit.FEATURE_BIOME.addSpawn(entityClass, spawnEntry);
-						BiomeInit.MOUNTAIN_FEATURE_BIOME.addSpawn(entityClass, spawnEntry);
-						BiomeInit.OCEAN_FEATURE_BIOME.addSpawn(entityClass, spawnEntry);
+						BiomeInit.biomes.forEach(featureBiome -> featureBiome.addSpawn(entityClass, spawnEntry));
 					}
 				}
 			}
 			
-			SurfaceBuilderConfig config = (SurfaceBuilderConfig) biome.getSurfaceBuilderConfig();
-			if(!((FeatureSurfaceBuilder) BiomeInit.FEATURE_SURFACE_BUILDER).containsConfig(config)) {
-				((FeatureSurfaceBuilder) BiomeInit.FEATURE_SURFACE_BUILDER).addConfig(config);
+			SurfaceBuilderConfig surfaceConfig = (SurfaceBuilderConfig) biome.getSurfaceBuilderConfig();
+			if(!((FeatureSurfaceBuilder) BiomeInit.FEATURE_SURFACE_BUILDER).containsConfig(surfaceConfig)) {
+				((FeatureSurfaceBuilder) BiomeInit.FEATURE_SURFACE_BUILDER).addConfig(surfaceConfig);
 			}
 		}
 		
 		
 		//add grass and flowers now so they are generated last
-		for (ConfiguredFeature<?, ?> feature : grassyFlowerList){
-				BiomeInit.FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
-				BiomeInit.MOUNTAIN_FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
-				BiomeInit.OCEAN_FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
+		for (ConfiguredFeature<?, ?> grassyFlowerFeature : grassyFlowerList){
+			BiomeInit.biomes.forEach(featureBiome -> featureBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, grassyFlowerFeature));
 		}
 
 		//add bamboo so it is dead last
-		for (ConfiguredFeature<?, ?> feature : bambooList){
-				BiomeInit.FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
-				BiomeInit.MOUNTAIN_FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
-				BiomeInit.OCEAN_FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
+		for (ConfiguredFeature<?, ?> bambooFeature : bambooList){
+			BiomeInit.biomes.forEach(featureBiome -> featureBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, bambooFeature));
 		}
 		
 		return;
