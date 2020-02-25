@@ -11,7 +11,7 @@ public final class FrozenOceanFeatureBiome extends Biome
 {
 	public FrozenOceanFeatureBiome()
 	{
-		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(BiomeInit.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.SNOW).category(Biome.Category.NONE).depth(-1.0F).scale(0.2F).temperature(0.1F).downfall(0.4F).waterColor(4159204).waterFogColor(329011).parent((String) null));
+		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(BiomeInit.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.SNOW).category(Biome.Category.NONE).depth(-1.4F).scale(0.2F).temperature(0.0F).downfall(0.4F).waterColor(4249573).waterFogColor(406594).parent((String) null));
 	}
 
 	/**
@@ -22,6 +22,11 @@ public final class FrozenOceanFeatureBiome extends Biome
 		return 0.35F;
 	}
 
+
+	@OnlyIn(Dist.CLIENT)
+	public int getSkyColor() {
+		return 44525;
+	}
 
 	/*
 	 * set grass color
