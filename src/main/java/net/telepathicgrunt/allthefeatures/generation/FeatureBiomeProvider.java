@@ -25,7 +25,7 @@ import net.minecraft.world.gen.layer.Layer;
 import net.minecraft.world.gen.layer.ZoomLayer;
 import net.minecraft.world.gen.layer.traits.IAreaTransformer1;
 import net.telepathicgrunt.allthefeatures.biome.BiomeInit;
-import net.telepathicgrunt.allthefeatures.generation.layer.TripleBiomeLayer;
+import net.telepathicgrunt.allthefeatures.generation.layer.QuadBiomeLayer;
 
 
 public class FeatureBiomeProvider extends BiomeProvider
@@ -46,7 +46,7 @@ public class FeatureBiomeProvider extends BiomeProvider
 	public FeatureBiomeProvider(World world)
 	{
 		this(world.getSeed(), world.getWorldInfo().getGenerator());
-		TripleBiomeLayer.setSeed(world.getSeed());
+		QuadBiomeLayer.setSeed(world.getSeed());
 	}
 
 
@@ -75,7 +75,7 @@ public class FeatureBiomeProvider extends BiomeProvider
 
 	public static <T extends IArea, C extends IExtendedNoiseRandom<T>> IAreaFactory<T> buildOverworldProcedure(WorldType worldTypeIn, LongFunction<C> contextFactory)
 	{
-	    IAreaFactory<T> layer = TripleBiomeLayer.INSTANCE.apply(contextFactory.apply(200L));
+	    IAreaFactory<T> layer = QuadBiomeLayer.INSTANCE.apply(contextFactory.apply(200L));
 		layer = ZoomLayer.FUZZY.apply(contextFactory.apply(2000L), layer);
 		layer = ZoomLayer.NORMAL.apply((IExtendedNoiseRandom<T>) contextFactory.apply(1001L), layer);
 		layer = ZoomLayer.NORMAL.apply((IExtendedNoiseRandom<T>) contextFactory.apply(1002L), layer);

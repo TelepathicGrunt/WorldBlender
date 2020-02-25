@@ -58,6 +58,7 @@ public class AllTheFeatures
 	private void setup(final FMLLoadCompleteEvent event){
 		
 		List<ConfiguredFeature<?, ?>> grassyFlowerList = new ArrayList<ConfiguredFeature<?, ?>>();
+		List<ConfiguredFeature<?, ?>> bambooList = new ArrayList<ConfiguredFeature<?, ?>>();
 		
 		for (Biome biome : ForgeRegistries.BIOMES.getValues()){
 			if (biome == BiomeInit.FEATURE_BIOME || biome == BiomeInit.MOUNTAIN_FEATURE_BIOME || biome == BiomeInit.OCEAN_FEATURE_BIOME)
@@ -71,7 +72,7 @@ public class AllTheFeatures
 							grassyFlowerList.add(feature);
 						}
 						else {
-							if(biome.getRegistryName().getNamespace().equals("minecraft")) {
+							if(!biome.getRegistryName().getNamespace().equals("minecraft")) {
 								//adds modded features that isnt grass/flowers to front of array so they have priority
 								//over vanilla features.
 								BiomeInit.FEATURE_BIOME.features.get(stage).add(0, feature);
@@ -79,9 +80,14 @@ public class AllTheFeatures
 								BiomeInit.OCEAN_FEATURE_BIOME.features.get(stage).add(0, feature);
 							}
 							else{
-								BiomeInit.FEATURE_BIOME.addFeature(stage, feature);
-								BiomeInit.MOUNTAIN_FEATURE_BIOME.addFeature(stage, feature);
-								BiomeInit.OCEAN_FEATURE_BIOME.addFeature(stage, feature);
+								if(feature.feature == Feature.BAMBOO) {
+									bambooList.add(feature); //MAKE BAMBOO GENERATE VERY LAST. SCREW BAMBOO
+								}
+								else {
+									BiomeInit.FEATURE_BIOME.addFeature(stage, feature);
+									BiomeInit.MOUNTAIN_FEATURE_BIOME.addFeature(stage, feature);
+									BiomeInit.OCEAN_FEATURE_BIOME.addFeature(stage, feature);
+								}
 							}
 						}
 					}
@@ -123,6 +129,13 @@ public class AllTheFeatures
 		
 		//add grass and flowers now so they are generated last
 		for (ConfiguredFeature<?, ?> feature : grassyFlowerList){
+				BiomeInit.FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
+				BiomeInit.MOUNTAIN_FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
+				BiomeInit.OCEAN_FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
+		}
+
+		//add bamboo so it is dead last
+		for (ConfiguredFeature<?, ?> feature : bambooList){
 				BiomeInit.FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
 				BiomeInit.MOUNTAIN_FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
 				BiomeInit.OCEAN_FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);

@@ -9,13 +9,14 @@ import net.telepathicgrunt.allthefeatures.biome.BiomeInit;
 
 
 @SuppressWarnings("deprecation")
-public enum TripleBiomeLayer implements IAreaTransformer0
+public enum QuadBiomeLayer implements IAreaTransformer0
 {
 	INSTANCE;
 
 	private static final int FEATURE_BIOME_ID = Registry.BIOME.getId(BiomeInit.FEATURE_BIOME);
 	private static final int MOUNTAIN_FEATURE_BIOME_ID = Registry.BIOME.getId(BiomeInit.MOUNTAIN_FEATURE_BIOME);
 	private static final int OCEAN_FEATURE_BIOME_ID = Registry.BIOME.getId(BiomeInit.OCEAN_FEATURE_BIOME);
+	private static final int FROZEN_OCEAN_FEATURE_BIOME_ID = Registry.BIOME.getId(BiomeInit.FROZEN_OCEAN_FEATURE_BIOME);
 	private static PerlinNoiseGenerator perlinGen;
 //	private double max = -100000;
 //	private double min = 100000;

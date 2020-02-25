@@ -12,6 +12,7 @@ import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.telepathicgrunt.allthefeatures.AllTheFeatures;
+import net.telepathicgrunt.allthefeatures.biome.biomes.FrozenOceanFeatureBiome;
 import net.telepathicgrunt.allthefeatures.biome.biomes.FeatureBiome;
 import net.telepathicgrunt.allthefeatures.biome.biomes.MountainFeatureBiome;
 import net.telepathicgrunt.allthefeatures.biome.biomes.OceanFeatureBiome;
@@ -29,15 +30,17 @@ public class BiomeInit {
 	public static Biome FEATURE_BIOME = new FeatureBiome();
 	public static Biome MOUNTAIN_FEATURE_BIOME = new MountainFeatureBiome();
 	public static Biome OCEAN_FEATURE_BIOME = new OceanFeatureBiome();
+	public static Biome FROZEN_OCEAN_FEATURE_BIOME = new FrozenOceanFeatureBiome();
 	
 	//registers the biomes so they now exist in the registry along with their types
 	public static void registerBiomes(RegistryEvent.Register<Biome> event) {
 
    	    IForgeRegistry<Biome> registry = event.getRegistry();
 
-		initBiome(registry, FEATURE_BIOME, "Feature Biome", BiomeType.WARM, Type.RARE);
+		initBiome(registry, FEATURE_BIOME, "Feature Biome", BiomeType.DESERT, Type.RARE);
 		initBiome(registry, MOUNTAIN_FEATURE_BIOME, "Mountain Feature Biome", BiomeType.WARM, Type.RARE);
-		initBiome(registry, OCEAN_FEATURE_BIOME, "Ocean Feature Biome", BiomeType.WARM, Type.RARE);
+		initBiome(registry, OCEAN_FEATURE_BIOME, "Ocean Feature Biome", BiomeType.COOL, Type.RARE);
+		initBiome(registry, FROZEN_OCEAN_FEATURE_BIOME, "Frozen Ocean Feature Biome", BiomeType.ICY, Type.RARE);
 	}
 
 

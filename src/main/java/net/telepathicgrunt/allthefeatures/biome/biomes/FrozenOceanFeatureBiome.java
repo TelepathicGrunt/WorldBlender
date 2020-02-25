@@ -7,11 +7,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.telepathicgrunt.allthefeatures.biome.BiomeInit;
 
-public final class OceanFeatureBiome extends Biome
+public final class FrozenOceanFeatureBiome extends Biome
 {
-	public OceanFeatureBiome()
+	public FrozenOceanFeatureBiome()
 	{
-		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(BiomeInit.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.RAIN).category(Biome.Category.NONE).depth(-1.0F).scale(0.2F).temperature(0.7F).downfall(0.4F).waterColor(4159204).waterFogColor(329011).parent((String) null));
+		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(BiomeInit.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.SNOW).category(Biome.Category.NONE).depth(-1.0F).scale(0.2F).temperature(0.2F).downfall(0.4F).waterColor(4159204).waterFogColor(329011).parent((String) null));
 	}
 
 	/**
