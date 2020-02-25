@@ -101,7 +101,7 @@ public class FeatureDimensionProvider extends Dimension
 	@Override
 	public Vec3d getFogColor(float celestialAngle, float partialTicks)
 	{
-		return new Vec3d(0.5D, 0.5D, 0.5D);
+		return new Vec3d(0.0D, 0.8D, 0.9D);
 	}
 
 
@@ -112,7 +112,7 @@ public class FeatureDimensionProvider extends Dimension
 	@Override
 	public double getVoidFogYFactor()
 	{
-		return 110;
+		return 0.011D;
 	}
 	
 
