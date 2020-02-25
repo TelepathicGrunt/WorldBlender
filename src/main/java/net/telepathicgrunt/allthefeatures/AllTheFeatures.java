@@ -1,5 +1,7 @@
 package net.telepathicgrunt.allthefeatures;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -18,6 +20,7 @@ import net.minecraft.world.gen.GenerationStage.Carving;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.carver.ConfiguredCarver;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.common.MinecraftForge;
@@ -54,6 +57,8 @@ public class AllTheFeatures
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void setup(final FMLLoadCompleteEvent event){
 		
+		List<ConfiguredFeature<?, ?>> grassyFlowerList = new ArrayList<ConfiguredFeature<?, ?>>();
+		
 		for (Biome biome : ForgeRegistries.BIOMES.getValues()){
 			if (biome == BiomeInit.FEATURE_BIOME || biome == BiomeInit.MOUNTAIN_FEATURE_BIOME || biome == BiomeInit.OCEAN_FEATURE_BIOME)
 				continue;
@@ -61,9 +66,24 @@ public class AllTheFeatures
 			for (Decoration stage : GenerationStage.Decoration.values()){
 				for (ConfiguredFeature<?, ?> feature : biome.getFeatures(stage)){
 					if (!BiomeInit.FEATURE_BIOME.getFeatures(stage).stream().anyMatch(feat -> serializeAndCompareFeature(feat, feature))) {
-						BiomeInit.FEATURE_BIOME.addFeature(stage, feature);
-						BiomeInit.MOUNTAIN_FEATURE_BIOME.addFeature(stage, feature);
-						BiomeInit.OCEAN_FEATURE_BIOME.addFeature(stage, feature);
+						if(feature.feature == Feature.field_227248_z_ || feature.feature == Feature.FLOWER || feature.feature == Feature.DECORATED_FLOWER) {
+							//add the grass and flowers later so trees have a chance to spawn
+							grassyFlowerList.add(feature);
+						}
+						else {
+							if(biome.getRegistryName().getNamespace().equals("minecraft")) {
+								//adds modded features that isnt grass/flowers to front of array so they have priority
+								//over vanilla features.
+								BiomeInit.FEATURE_BIOME.features.get(stage).add(0, feature);
+								BiomeInit.MOUNTAIN_FEATURE_BIOME.features.get(stage).add(0, feature);
+								BiomeInit.OCEAN_FEATURE_BIOME.features.get(stage).add(0, feature);
+							}
+							else{
+								BiomeInit.FEATURE_BIOME.addFeature(stage, feature);
+								BiomeInit.MOUNTAIN_FEATURE_BIOME.addFeature(stage, feature);
+								BiomeInit.OCEAN_FEATURE_BIOME.addFeature(stage, feature);
+							}
+						}
 					}
 				}
 
@@ -98,6 +118,14 @@ public class AllTheFeatures
 			if(!((FeatureSurfaceBuilder) BiomeInit.FEATURE_SURFACE_BUILDER).containsConfig(config)) {
 				((FeatureSurfaceBuilder) BiomeInit.FEATURE_SURFACE_BUILDER).addConfig(config);
 			}
+		}
+		
+		
+		//add grass and flowers now so they are generated last
+		for (ConfiguredFeature<?, ?> feature : grassyFlowerList){
+				BiomeInit.FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
+				BiomeInit.MOUNTAIN_FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
+				BiomeInit.OCEAN_FEATURE_BIOME.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
 		}
 		
 		return;

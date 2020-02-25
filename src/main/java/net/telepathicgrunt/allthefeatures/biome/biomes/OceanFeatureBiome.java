@@ -11,7 +11,7 @@ public final class OceanFeatureBiome extends Biome
 {
 	public OceanFeatureBiome()
 	{
-		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(BiomeInit.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.RAIN).category(Biome.Category.NONE).depth(-1.0F).scale(0.2F).temperature(1.85F).downfall(0.4F).waterColor(4159204).waterFogColor(329011).parent((String) null));
+		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(BiomeInit.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.RAIN).category(Biome.Category.NONE).depth(-1.0F).scale(0.2F).temperature(0.05F).downfall(0.4F).waterColor(4159204).waterFogColor(329011).parent((String) null));
 	}
 
 	/**
