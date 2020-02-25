@@ -18,7 +18,8 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
 public class FeatureSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 { 
-	public FeatureSurfaceBuilder(Function<Dynamic<?>, ? extends SurfaceBuilderConfig> config){
+	public FeatureSurfaceBuilder(Function<Dynamic<?>, ? extends SurfaceBuilderConfig> config)
+	{
 		super(config);
 		configList = new ArrayList<SurfaceBuilderConfig>();
 		
@@ -37,7 +38,8 @@ public class FeatureSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 	}
 
 	@Override
-	public void buildSurface(Random random, IChunk chunk, Biome biome, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, SurfaceBuilderConfig config){
+	public void buildSurface(Random random, IChunk chunk, Biome biome, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, SurfaceBuilderConfig config)
+	{
 //		max = Math.max(max, noise);
 //		min = Math.min(min, noise);
 //		AllTheFeatures.LOGGER.log(Level.DEBUG, "Max: " + max +", Min: "+min + ", perlin: "+noise);
@@ -62,43 +64,42 @@ public class FeatureSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 	}
 
 	private int weightedIndex(int x, int z) {
-		int listSize = configList.size();
+		int size = configList.size();
 		
 		//list checking
 //		for(int i = 0; i<configList.size(); i++) {
 //			AllTheFeatures.LOGGER.log(Level.INFO, i+": top "+configList.get(i).getTop().getBlock().getRegistryName().getPath()+": middle "+configList.get(i).getUnder().getBlock().getRegistryName().getPath()+": bottom "+configList.get(i).getUnderWaterMaterial().getBlock().getRegistryName().getPath());
 //		}
 		
-		int chosenConfigIndex = 2; // Grass surface
+		int chosenIndex = 2; // Grass surface
 		
-		for(int configIndex = 0; configIndex < listSize; configIndex++) {
-			if(configIndex == 0) {
+		for(int i = 0; i < size; i++) {
+			if(i == 0) {
 				if(Math.abs(perlinGen.noiseAt(x/240D, z/240D, true)) < 0.035D) {
-					chosenConfigIndex = 0; // nether pathway
+					chosenIndex = 0; // nether path
 					break;
 				}
 			}
-			else if(configIndex == 1) {
+			else if(i == 1) {
 				if(Math.abs(perlinGen.noiseAt(x/240D, z/240D, true)) < 0.06D) {
-					chosenConfigIndex = 1; // end border on nether path. Uses same scale as nether path.
+					chosenIndex = 1; // end border on nether path. Uses same scale as nether path.
 					break;
 				}
 			}
 			else {
-				double offset = 200D*configIndex;
-				double scaling = 200D+configIndex*4D;
-				double threshold = 0.6D/listSize+Math.min(configIndex/150D, 0.125D);
-				if(Math.abs(perlinGen.noiseAt((x+offset)/scaling, (z+offset)/scaling, true)) < threshold) {
-					chosenConfigIndex = configIndex; // all other surfaces with scale offset and threshold decreasing as index gets closer to 0.
+				if(Math.abs(perlinGen.noiseAt((x+200*i)/(220D+i*3), (z+200*i)/(220D+i*3), true)) < 0.6D/size+Math.min(i/150D, 0.13D)) {
+					chosenIndex = i; // all other surfaces with scale offset and threshold decreasing as index gets closer to 0.
 					break;
 				}
 			}
 		}
 		
-		return chosenConfigIndex;
+		
+		return chosenIndex;
 	}
 	
-	public void setPerlinSeed(long seed){
+	public void setPerlinSeed(long seed)
+	{
 		if(perlinGen == null) {
 			perlinGen = new PerlinNoiseGenerator(new SharedSeedRandom(seed), 0, 1);
 		}
