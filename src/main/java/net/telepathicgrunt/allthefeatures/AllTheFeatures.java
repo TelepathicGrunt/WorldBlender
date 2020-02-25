@@ -53,6 +53,7 @@ public class AllTheFeatures
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void setup(final FMLLoadCompleteEvent event){
+		
 		for (Biome biome : ForgeRegistries.BIOMES.getValues()){
 			if (biome == BiomeInit.FEATURE_BIOME || biome == BiomeInit.MOUNTAIN_FEATURE_BIOME || biome == BiomeInit.OCEAN_FEATURE_BIOME)
 				continue;
@@ -60,9 +61,17 @@ public class AllTheFeatures
 			for (Decoration stage : GenerationStage.Decoration.values()){
 				for (ConfiguredFeature<?, ?> feature : biome.getFeatures(stage)){
 					if (!BiomeInit.FEATURE_BIOME.getFeatures(stage).stream().anyMatch(feat -> serializeAndCompareFeature(feat, feature))) {
-						BiomeInit.FEATURE_BIOME.addFeature(stage, feature);
-						BiomeInit.MOUNTAIN_FEATURE_BIOME.addFeature(stage, feature);
-						BiomeInit.OCEAN_FEATURE_BIOME.addFeature(stage, feature);
+						if(biome.getRegistryName().getNamespace().equals("minecraft")) {
+							BiomeInit.FEATURE_BIOME.addFeature(stage, feature);
+							BiomeInit.MOUNTAIN_FEATURE_BIOME.addFeature(stage, feature);
+							BiomeInit.OCEAN_FEATURE_BIOME.addFeature(stage, feature);
+						}
+						else {
+							//add modded features in front of the vanilla features so they get priority
+							BiomeInit.FEATURE_BIOME.features.get(stage).add(0, feature);
+							BiomeInit.MOUNTAIN_FEATURE_BIOME.features.get(stage).add(0, feature);
+							BiomeInit.OCEAN_FEATURE_BIOME.features.get(stage).add(0, feature);
+						}
 					}
 				}
 
@@ -98,6 +107,8 @@ public class AllTheFeatures
 				((FeatureSurfaceBuilder) BiomeInit.FEATURE_SURFACE_BUILDER).addConfig(config);
 			}
 		}
+		
+		return;
 	}
 	
 	private static boolean serializeAndCompareFeature(ConfiguredFeature<?, ?> feature1, ConfiguredFeature<?, ?> feature2) {
