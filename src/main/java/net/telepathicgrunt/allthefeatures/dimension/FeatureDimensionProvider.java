@@ -101,7 +101,7 @@ public class FeatureDimensionProvider extends Dimension
 	@OnlyIn(Dist.CLIENT)
 	public float getCloudHeight()
 	{
-		return 185;
+		return 155;
 	}
 
 
