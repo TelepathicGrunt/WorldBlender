@@ -37,7 +37,7 @@ public enum QuadBiomeLayer implements IAreaTransformer0
 			return FEATURE_BIOME_ID;
 		}
 		else {	
-			return OCEAN_FEATURE_BIOME_ID;
+			return noise.random(100)/1000D + perlinNoise%0.4 > 0.2 ? OCEAN_FEATURE_BIOME_ID : FROZEN_OCEAN_FEATURE_BIOME_ID;
 		}
 	
 	}
