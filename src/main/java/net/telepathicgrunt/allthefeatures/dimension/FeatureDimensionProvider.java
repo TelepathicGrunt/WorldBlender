@@ -35,7 +35,7 @@ public class FeatureDimensionProvider extends Dimension
 		}
 	}
 
-	
+
 	/**
 	 * Use our own biome provider and chunk generator for this dimension
 	 */
@@ -44,19 +44,21 @@ public class FeatureDimensionProvider extends Dimension
 	{
 		return new OverworldChunkGenerator(world, new FeatureBiomeProvider(world), ChunkGeneratorType.SURFACE.createSettings());
 	}
-	
-	
+
+
 	@Override
-    public SleepResult canSleepAt(net.minecraft.entity.player.PlayerEntity player, BlockPos pos)
-    {
-        return SleepResult.DENY; //NO EXPLODING BEDS! But no sleeping too.
-    }
-	
+	public SleepResult canSleepAt(net.minecraft.entity.player.PlayerEntity player, BlockPos pos)
+	{
+		return SleepResult.DENY; //NO EXPLODING BEDS! But no sleeping too.
+	}
+
+
 	@Override
 	public boolean canRespawnHere()
 	{
 		return true;
 	}
+
 
 	@Override
 	public BlockPos findSpawn(ChunkPos chunkPosIn, boolean checkValid)
@@ -64,32 +66,44 @@ public class FeatureDimensionProvider extends Dimension
 		return null;
 	}
 
+
 	@Override
 	public BlockPos findSpawn(int posX, int posZ, boolean checkValid)
 	{
 		return null;
 	}
-	
+
 
 	@Override
 	public boolean shouldMapSpin(String entity, double x, double z, double rotation)
-    {
-        return true; //SPINNY MAPS!
-    }
-	
+	{
+		return true; //SPINNY MAPS!
+	}
+
+
 	@Override
 	public boolean isNether()
 	{
 		return false;
 	}
 
+
 	@Override
 	public boolean isSurfaceWorld()
 	{
 		return true;
 	}
-	
-	
+
+
+	/**
+	 * the y level at which clouds are rendered.
+	 */
+	@OnlyIn(Dist.CLIENT)
+	public float getCloudHeight()
+	{
+		return 185;
+	}
+
 
 	/**
 	 * Returns fog color
@@ -114,7 +128,7 @@ public class FeatureDimensionProvider extends Dimension
 	{
 		return 0.011D;
 	}
-	
+
 
 	/**
 	 * Show fog at all?
@@ -124,7 +138,6 @@ public class FeatureDimensionProvider extends Dimension
 	{
 		return false;
 	}
-
 
 
 	/**
