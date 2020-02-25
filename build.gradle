@@ -20,8 +20,8 @@ repositories {
 }
 
 version = '1.15.2-1.0.0'
-group = 'net.telepathicgrunt.allthefeatures' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'all_the_features'
+group = 'net.telepathicgrunt.worldblender' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'world_blender'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 

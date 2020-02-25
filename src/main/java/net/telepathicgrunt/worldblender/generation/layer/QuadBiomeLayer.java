@@ -1,11 +1,11 @@
-package net.telepathicgrunt.allthefeatures.generation.layer;
+package net.telepathicgrunt.worldblender.generation.layer;
 
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.INoiseRandom;
 import net.minecraft.world.gen.PerlinNoiseGenerator;
 import net.minecraft.world.gen.layer.traits.IAreaTransformer0;
-import net.telepathicgrunt.allthefeatures.biome.BiomeInit;
+import net.telepathicgrunt.worldblender.biome.BiomeInit;
 
 
 @SuppressWarnings("deprecation")
@@ -13,10 +13,10 @@ public enum QuadBiomeLayer implements IAreaTransformer0
 {
 	INSTANCE;
 
-	private static final int FEATURE_BIOME_ID = Registry.BIOME.getId(BiomeInit.FEATURE_BIOME);
-	private static final int MOUNTAIN_FEATURE_BIOME_ID = Registry.BIOME.getId(BiomeInit.MOUNTAIN_FEATURE_BIOME);
-	private static final int OCEAN_FEATURE_BIOME_ID = Registry.BIOME.getId(BiomeInit.OCEAN_FEATURE_BIOME);
-	private static final int FROZEN_OCEAN_FEATURE_BIOME_ID = Registry.BIOME.getId(BiomeInit.FROZEN_OCEAN_FEATURE_BIOME);
+	private static final int BLENDED_BIOME_ID = Registry.BIOME.getId(BiomeInit.BLENDED_BIOME);
+	private static final int MOUNTAINOUS_BLENDED_BIOME_ID = Registry.BIOME.getId(BiomeInit.MOUNTAINOUS_BLENDED_BIOME);
+	private static final int OCEAN_BLENDED_BIOME_ID = Registry.BIOME.getId(BiomeInit.OCEAN_BLENDED_BIOME);
+	private static final int FROZEN_OCEAN_BLENDED_BIOME_ID = Registry.BIOME.getId(BiomeInit.FROZEN_OCEAN_BLENDED_BIOME);
 	private static PerlinNoiseGenerator perlinGen;
 //	private double max = -100000;
 //	private double min = 100000;
@@ -31,13 +31,13 @@ public enum QuadBiomeLayer implements IAreaTransformer0
 		
 		
 		if(perlinNoise > 0.53) {	
-			return MOUNTAIN_FEATURE_BIOME_ID;
+			return MOUNTAINOUS_BLENDED_BIOME_ID;
 		}
 		else if(perlinNoise > -0.58) {	
-			return FEATURE_BIOME_ID;
+			return BLENDED_BIOME_ID;
 		}
 		else {	
-			return noise.random(100)/800D + perlinNoise%0.4D > -0.2D ? OCEAN_FEATURE_BIOME_ID : FROZEN_OCEAN_FEATURE_BIOME_ID;
+			return noise.random(100)/800D + perlinNoise%0.4D > -0.2D ? OCEAN_BLENDED_BIOME_ID : FROZEN_OCEAN_BLENDED_BIOME_ID;
 		}
 	
 	}

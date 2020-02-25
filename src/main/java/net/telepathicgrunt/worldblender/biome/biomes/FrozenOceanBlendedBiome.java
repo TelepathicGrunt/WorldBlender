@@ -1,17 +1,17 @@
-package net.telepathicgrunt.allthefeatures.biome.biomes;
+package net.telepathicgrunt.worldblender.biome.biomes;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.telepathicgrunt.allthefeatures.biome.BiomeInit;
+import net.telepathicgrunt.worldblender.biome.BiomeInit;
 
-public final class MountainFeatureBiome extends Biome
+public final class FrozenOceanBlendedBiome extends Biome
 {
-	public MountainFeatureBiome()
+	public FrozenOceanBlendedBiome()
 	{
-		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(BiomeInit.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.RAIN).category(Biome.Category.NONE).depth(0.5F).scale(1.0F).temperature(1.85F).downfall(0.4F).waterColor(4159204).waterFogColor(329011).parent((String) null));
+		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(BiomeInit.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.SNOW).category(Biome.Category.NONE).depth(-1.4F).scale(0.2F).temperature(0.0F).downfall(0.4F).waterColor(4249573).waterFogColor(406594).parent((String) null));
 	}
 
 	/**
@@ -27,14 +27,14 @@ public final class MountainFeatureBiome extends Biome
 	public int getSkyColor() {
 		return 44525;
 	}
-	
+
 	/*
 	 * set grass color
 	 */
 	@OnlyIn(Dist.CLIENT)
 	public int func_225528_a_(double p_225528_1_, double p_225528_3_)
 	{
-		return 6029101;
+		return 3730080;
 	}
 
 
@@ -44,6 +44,6 @@ public final class MountainFeatureBiome extends Biome
 	@OnlyIn(Dist.CLIENT)
 	public int func_225527_a_()
 	{
-		return 4777257;
+		return 3397255;
 	}
 }

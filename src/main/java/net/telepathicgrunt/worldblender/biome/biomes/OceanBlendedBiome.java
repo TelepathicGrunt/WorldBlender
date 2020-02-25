@@ -1,15 +1,15 @@
-package net.telepathicgrunt.allthefeatures.biome.biomes;
+package net.telepathicgrunt.worldblender.biome.biomes;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.telepathicgrunt.allthefeatures.biome.BiomeInit;
+import net.telepathicgrunt.worldblender.biome.BiomeInit;
 
-public final class OceanFeatureBiome extends Biome
+public final class OceanBlendedBiome extends Biome
 {
-	public OceanFeatureBiome()
+	public OceanBlendedBiome()
 	{
 		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(BiomeInit.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.RAIN).category(Biome.Category.NONE).depth(-1.0F).scale(0.2F).temperature(0.7F).downfall(0.4F).waterColor(4237029).waterFogColor(335155).parent((String) null));
 	}

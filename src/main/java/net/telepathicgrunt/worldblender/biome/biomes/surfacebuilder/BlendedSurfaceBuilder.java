@@ -1,4 +1,4 @@
-package net.telepathicgrunt.allthefeatures.biome.biomes.surfacebuilder;
+package net.telepathicgrunt.worldblender.biome.biomes.surfacebuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +16,25 @@ import net.minecraft.world.gen.PerlinNoiseGenerator;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
-public class FeatureSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
+public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 { 
-	public FeatureSurfaceBuilder(Function<Dynamic<?>, ? extends SurfaceBuilderConfig> config){
+	public BlendedSurfaceBuilder(Function<Dynamic<?>, ? extends SurfaceBuilderConfig> config){
 		super(config);
+		resetSurfaceList();
+	}
+
+	@Override
+	public void buildSurface(Random random, IChunk chunk, Biome biome, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, SurfaceBuilderConfig config){
+//		max = Math.max(max, noise);
+//		min = Math.min(min, noise);
+//		AllTheFeatures.LOGGER.log(Level.DEBUG, "Max: " + max +", Min: "+min + ", perlin: "+noise);
+		
+		//creates surface using normal surface builder but using a random config
+		SurfaceBuilder.DEFAULT.buildSurface(random, chunk, biome, x, z, startHeight, noise, defaultBlock, defaultFluid, seaLevel, seed, configList.get(weightedIndex(x, z)));
+
+	}
+
+	public static void resetSurfaceList() {
 		configList = new ArrayList<SurfaceBuilderConfig>();
 		
 		//default order of surface builders I want to start with
@@ -35,21 +50,11 @@ public class FeatureSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 		configList.add(AIR_CONFIG);
 		configList.add(GRAVEL_CONFIG);
 	}
-
-	@Override
-	public void buildSurface(Random random, IChunk chunk, Biome biome, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, SurfaceBuilderConfig config){
-//		max = Math.max(max, noise);
-//		min = Math.min(min, noise);
-//		AllTheFeatures.LOGGER.log(Level.DEBUG, "Max: " + max +", Min: "+min + ", perlin: "+noise);
-		
-		//creates surface using normal surface builder but using a random config
-		SurfaceBuilder.DEFAULT.buildSurface(random, chunk, biome, x, z, startHeight, noise, defaultBlock, defaultFluid, seaLevel, seed, configList.get(weightedIndex(x, z)));
-
-	}
-
+	
 	
 	private static List<SurfaceBuilderConfig> configList;
 	private static PerlinNoiseGenerator perlinGen;
+	public static long perlinSeed;
 //	private double max = -100000;
 //	private double min = 100000;
 	
@@ -101,6 +106,7 @@ public class FeatureSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 	public void setPerlinSeed(long seed){
 		if(perlinGen == null) {
 			perlinGen = new PerlinNoiseGenerator(new SharedSeedRandom(seed), 0, 1);
+			perlinSeed = seed;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package net.telepathicgrunt.allthefeatures.dimension;
+package net.telepathicgrunt.worldblender.dimension;
 
 import java.util.function.BiFunction;
 
@@ -12,40 +12,40 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.telepathicgrunt.allthefeatures.AllTheFeatures;
+import net.telepathicgrunt.worldblender.WorldBlender;
 
 
-@Mod.EventBusSubscriber(modid = AllTheFeatures.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class BzDimension {
+@Mod.EventBusSubscriber(modid = WorldBlender.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+public class WBDimension {
 
-	public static final ModDimension ALL_THE_FEATURES = new ModDimension() {
+	public static final ModDimension WORLD_BLENDER_DIMENSION = new ModDimension() {
         @Override
         public BiFunction<World, DimensionType, ? extends Dimension> getFactory() {
-            return FeatureDimensionProvider::new;
+            return WBDimensionProvider::new;
         }
     };
 
-    private static final ResourceLocation ALL_THE_FEATURES_ID = new ResourceLocation(AllTheFeatures.MODID, "all_the_features");
+    private static final ResourceLocation WORLD_BLENDER_DIMENSION_RL = new ResourceLocation(WorldBlender.MODID, "world_blender");
 	
     
     //registers the dimension
-    @Mod.EventBusSubscriber(modid = AllTheFeatures.MODID)
+    @Mod.EventBusSubscriber(modid = WorldBlender.MODID)
     private static class ForgeEvents {
         @SubscribeEvent
         public static void registerDimensions(RegisterDimensionsEvent event) {
-            if (DimensionType.byName(ALL_THE_FEATURES_ID) == null) {
-                DimensionManager.registerDimension(ALL_THE_FEATURES_ID, ALL_THE_FEATURES, null, true);
+            if (DimensionType.byName(WORLD_BLENDER_DIMENSION_RL) == null) {
+                DimensionManager.registerDimension(WORLD_BLENDER_DIMENSION_RL, WORLD_BLENDER_DIMENSION, null, true);
             }
         }
     }
 
     @SubscribeEvent
     public static void registerModDimensions(RegistryEvent.Register<ModDimension> event) {
-        RegUtil.generic(event.getRegistry()).add("ultraamplified", ALL_THE_FEATURES);
+        RegUtil.generic(event.getRegistry()).add(WorldBlender.MODID, WORLD_BLENDER_DIMENSION);
     }
 
     public static DimensionType bumblezone() {
-        return DimensionType.byName(ALL_THE_FEATURES_ID);
+        return DimensionType.byName(WORLD_BLENDER_DIMENSION_RL);
     }
     
 }

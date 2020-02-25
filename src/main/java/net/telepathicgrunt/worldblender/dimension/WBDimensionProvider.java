@@ -1,4 +1,4 @@
-package net.telepathicgrunt.allthefeatures.dimension;
+package net.telepathicgrunt.worldblender.dimension;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -13,15 +13,15 @@ import net.minecraft.world.gen.OverworldChunkGenerator;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
-import net.telepathicgrunt.allthefeatures.AllTheFeatures;
-import net.telepathicgrunt.allthefeatures.generation.FeatureBiomeProvider;
+import net.telepathicgrunt.worldblender.WorldBlender;
+import net.telepathicgrunt.worldblender.generation.WBBiomeProvider;
 
 
-@Mod.EventBusSubscriber(modid = AllTheFeatures.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class FeatureDimensionProvider extends Dimension
+@Mod.EventBusSubscriber(modid = WorldBlender.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+public class WBDimensionProvider extends Dimension
 {
 
-	public FeatureDimensionProvider(World world, DimensionType typeIn)
+	public WBDimensionProvider(World world, DimensionType typeIn)
 	{
 		super(world, typeIn, 1.0f); //set 1.0f. I think it has to do with maximum brightness?
 
@@ -42,7 +42,7 @@ public class FeatureDimensionProvider extends Dimension
 	@Override
 	public ChunkGenerator<?> createChunkGenerator()
 	{
-		return new OverworldChunkGenerator(world, new FeatureBiomeProvider(world), ChunkGeneratorType.SURFACE.createSettings());
+		return new OverworldChunkGenerator(world, new WBBiomeProvider(world), ChunkGeneratorType.SURFACE.createSettings());
 	}
 
 

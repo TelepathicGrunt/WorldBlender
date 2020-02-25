@@ -1,4 +1,4 @@
-package net.telepathicgrunt.allthefeatures.generation;
+package net.telepathicgrunt.worldblender.generation;
 
 import java.util.List;
 import java.util.Random;
@@ -24,17 +24,17 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.layer.Layer;
 import net.minecraft.world.gen.layer.ZoomLayer;
 import net.minecraft.world.gen.layer.traits.IAreaTransformer1;
-import net.telepathicgrunt.allthefeatures.biome.BiomeInit;
-import net.telepathicgrunt.allthefeatures.generation.layer.QuadBiomeLayer;
+import net.telepathicgrunt.worldblender.biome.BiomeInit;
+import net.telepathicgrunt.worldblender.generation.layer.QuadBiomeLayer;
 
 
-public class FeatureBiomeProvider extends BiomeProvider
+public class WBBiomeProvider extends BiomeProvider
 {
 
 	private final Layer genBiomes;
 
 
-	public FeatureBiomeProvider(long seed, WorldType worldType)
+	public WBBiomeProvider(long seed, WorldType worldType)
 	{
 		super(BiomeInit.biomes);
 
@@ -43,7 +43,7 @@ public class FeatureBiomeProvider extends BiomeProvider
 	}
 
 
-	public FeatureBiomeProvider(World world)
+	public WBBiomeProvider(World world)
 	{
 		this(world.getSeed(), world.getWorldInfo().getGenerator());
 		QuadBiomeLayer.setSeed(world.getSeed());

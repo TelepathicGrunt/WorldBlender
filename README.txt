@@ -4,7 +4,7 @@
 
 
 ------------------------------------------------
-       | All The Features changelog |
+       | World Blender changelog |
            
        
     (V.1.0.0 Changes) (1.15.2 Minecraft)

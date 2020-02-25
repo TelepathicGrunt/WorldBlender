@@ -1,4 +1,4 @@
-package net.telepathicgrunt.allthefeatures.dimension;
+package net.telepathicgrunt.worldblender.dimension;
 
 import java.util.Locale;
 import java.util.function.BiFunction;
@@ -18,7 +18,7 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.registries.GameData;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
-import net.telepathicgrunt.allthefeatures.AllTheFeatures;
+import net.telepathicgrunt.worldblender.WorldBlender;
 
 public class RegUtil {
     @Nonnull
@@ -88,7 +88,7 @@ public class RegUtil {
         }
 
         public Items add(String customName, Block block, BiFunction<Block, Item.Properties, Item> function) {
-            this.registry.register(function.apply(block, this.propertiesSupplier.get()).setRegistryName(AllTheFeatures.MODID, customName));
+            this.registry.register(function.apply(block, this.propertiesSupplier.get()).setRegistryName(WorldBlender.MODID, customName));
             return this;
         }
     }
