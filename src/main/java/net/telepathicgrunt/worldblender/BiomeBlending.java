@@ -19,140 +19,123 @@ import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
-import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.telepathicgrunt.worldblender.biome.BiomeInit;
 import net.telepathicgrunt.worldblender.biome.biomes.surfacebuilder.BlendedSurfaceBuilder;
 import net.telepathicgrunt.worldblender.configs.WBConfig;
 
 
-@Mod.EventBusSubscriber(modid = WorldBlender.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BiomeBlending
 {
-	@Mod.EventBusSubscriber(modid = WorldBlender.MODID)
-	private static class ForgeEvents
+	public static void setupBiomes()
 	{
+		//			//reset everything
+		//			FeatureSurfaceBuilder.resetSurfaceList();
+		//			for (Biome biome : BiomeInit.biomes)
+		//			{
+		//				biome.features.clear();
+		//				biome.structures.clear();
+		//				biome.structures.clear();
+		//				biome.carvers.clear();
+		//				biome.spawns.clear();
+		//
+		//				for (GenerationStage.Decoration generationstage$decoration : GenerationStage.Decoration.values())
+		//				{
+		//					biome.features.put(generationstage$decoration, Lists.newArrayList());
+		//				}
+		//
+		//				for (EntityClassification entityclassification : EntityClassification.values())
+		//				{
+		//					biome.spawns.put(entityclassification, Lists.newArrayList());
+		//				}
+		//			}
 
-		@SubscribeEvent(priority = EventPriority.LOWEST)
-		public static void setupBiomes(FMLLoadCompleteEvent event)
+		BlendedSurfaceBuilder.resetSurfaceList();
+
+		List<ConfiguredFeature<?, ?>> grassyFlowerList = new ArrayList<ConfiguredFeature<?, ?>>();
+		List<ConfiguredFeature<?, ?>> bambooList = new ArrayList<ConfiguredFeature<?, ?>>();
+
+		for (Biome biome : ForgeRegistries.BIOMES.getValues())
 		{
-			//			//reset everything
-			//			FeatureSurfaceBuilder.resetSurfaceList();
-			//			for (Biome biome : BiomeInit.biomes)
-			//			{
-			//				biome.features.clear();
-			//				biome.structures.clear();
-			//				biome.structures.clear();
-			//				biome.carvers.clear();
-			//				biome.spawns.clear();
-			//
-			//				for (GenerationStage.Decoration generationstage$decoration : GenerationStage.Decoration.values())
-			//				{
-			//					biome.features.put(generationstage$decoration, Lists.newArrayList());
-			//				}
-			//
-			//				for (EntityClassification entityclassification : EntityClassification.values())
-			//				{
-			//					biome.spawns.put(entityclassification, Lists.newArrayList());
-			//				}
-			//			}
+			if (BiomeInit.biomes.contains(biome)) //ignore our own biomes to speed things up
+				continue;
 
-
-			BlendedSurfaceBuilder.resetSurfaceList();
-			
-			List<ConfiguredFeature<?, ?>> grassyFlowerList = new ArrayList<ConfiguredFeature<?, ?>>();
-			List<ConfiguredFeature<?, ?>> bambooList = new ArrayList<ConfiguredFeature<?, ?>>();
-
-			for (Biome biome : ForgeRegistries.BIOMES.getValues())
+			///////////FEATURES//////////////////
+			if (biome.getRegistryName().getNamespace().equals("minecraft"))
 			{
-				if (BiomeInit.biomes.contains(biome)) //ignore our own biomes to speed things up
-					continue;
+				if (WBConfig.SERVER.allowVanillaFeatures.get())
+					addVanillaBiomeFeatures(biome, bambooList, grassyFlowerList);
+			}
+			else if (WBConfig.SERVER.allowModdedFeatures.get())
+			{
+				addModdedBiomeFeatures(biome, bambooList, grassyFlowerList);
+			}
 
-				///////////FEATURES//////////////////
-				if (biome.getRegistryName().getNamespace().equals("minecraft"))
-				{
-					if (WBConfig.SERVER.allowVanillaFeatures.get())
-						addVanillaBiomeFeatures(biome, bambooList, grassyFlowerList);
-				}
-				else if (WBConfig.SERVER.allowModdedFeatures.get())
-				{
-					addModdedBiomeFeatures(biome, bambooList, grassyFlowerList);
-				}
+			//add grass and flowers now so they are generated second to last
+			for (ConfiguredFeature<?, ?> grassyFlowerFeature : grassyFlowerList)
+			{
+				BiomeInit.biomes.forEach(featureBiome -> featureBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, grassyFlowerFeature));
+			}
 
-				
-				//add grass and flowers now so they are generated second to last
-				for (ConfiguredFeature<?, ?> grassyFlowerFeature : grassyFlowerList)
-				{
-					BiomeInit.biomes.forEach(featureBiome -> featureBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, grassyFlowerFeature));
-				}
+			//add bamboo so it is dead last
+			for (ConfiguredFeature<?, ?> bambooFeature : bambooList)
+			{
+				BiomeInit.biomes.forEach(featureBiome -> featureBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, bambooFeature));
+			}
 
-				//add bamboo so it is dead last
-				for (ConfiguredFeature<?, ?> bambooFeature : bambooList)
-				{
-					BiomeInit.biomes.forEach(featureBiome -> featureBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, bambooFeature));
-				}
-				
-				
-				//////////////////////STRUCTURES////////////////////////
-				if (biome.getRegistryName().getNamespace().equals("minecraft"))
-				{
-					if (WBConfig.SERVER.allowVanillaStructures.get())
-						addBiomeStructures(biome);
-				}
-				else if (WBConfig.SERVER.allowModdedStructures.get())
-				{
+			//////////////////////STRUCTURES////////////////////////
+			if (biome.getRegistryName().getNamespace().equals("minecraft"))
+			{
+				if (WBConfig.SERVER.allowVanillaStructures.get())
 					addBiomeStructures(biome);
-				}
+			}
+			else if (WBConfig.SERVER.allowModdedStructures.get())
+			{
+				addBiomeStructures(biome);
+			}
 
-				////////////////////////CARVERS/////////////////////////
-				if (biome.getRegistryName().getNamespace().equals("minecraft"))
-				{
-					if (WBConfig.SERVER.allowVanillaCarvers.get())
-						addBiomeCarvers(biome);
-				}
-				else if (WBConfig.SERVER.allowModdedCarvers.get())
-				{
+			////////////////////////CARVERS/////////////////////////
+			if (biome.getRegistryName().getNamespace().equals("minecraft"))
+			{
+				if (WBConfig.SERVER.allowVanillaCarvers.get())
 					addBiomeCarvers(biome);
-				}
+			}
+			else if (WBConfig.SERVER.allowModdedCarvers.get())
+			{
+				addBiomeCarvers(biome);
+			}
 
-				////////////////////////SPAWNER/////////////////////////
-				if (biome.getRegistryName().getNamespace().equals("minecraft"))
-				{
-					if (WBConfig.SERVER.allowVanillaSpawns.get())
-						addBiomeNaturalMobs(biome);
-				}
-				else if (WBConfig.SERVER.allowModdedSpawns.get())
-				{
+			////////////////////////SPAWNER/////////////////////////
+			if (biome.getRegistryName().getNamespace().equals("minecraft"))
+			{
+				if (WBConfig.SERVER.allowVanillaSpawns.get())
 					addBiomeNaturalMobs(biome);
-				}
-				
+			}
+			else if (WBConfig.SERVER.allowModdedSpawns.get())
+			{
+				addBiomeNaturalMobs(biome);
+			}
 
-				////////////////////////SURFACE/////////////////////////
-				if (biome.getRegistryName().getNamespace().equals("minecraft"))
-				{
-					if (WBConfig.SERVER.allowVanillaSurfaces.get())
-						addBiomeSurfaceConfig(biome);
-				}
-				else if (WBConfig.SERVER.allowModdedSurfaces.get())
-				{
+			////////////////////////SURFACE/////////////////////////
+			if (biome.getRegistryName().getNamespace().equals("minecraft"))
+			{
+				if (WBConfig.SERVER.allowVanillaSurfaces.get())
 					addBiomeSurfaceConfig(biome);
-				}
+			}
+			else if (WBConfig.SERVER.allowModdedSurfaces.get())
+			{
+				addBiomeSurfaceConfig(biome);
 			}
 		}
+	}
 
 
-		@SubscribeEvent(priority = EventPriority.LOWEST)
-		public static void Load(WorldEvent.Load event)
-		{
-			if (BlendedSurfaceBuilder.perlinSeed == event.getWorld().getSeed())
-				return; //We already set the stuff for this world (fires every time a dimension is loaded)
+	public static void setupPerlinSeed(long seed)
+	{
+		if (BlendedSurfaceBuilder.perlinSeed == seed)
+			return; //We already set the stuff for this world (fires every time a dimension is loaded)
 
-			((BlendedSurfaceBuilder) BiomeInit.FEATURE_SURFACE_BUILDER).setPerlinSeed(event.getWorld().getSeed());
-		}
+		((BlendedSurfaceBuilder) BiomeInit.FEATURE_SURFACE_BUILDER).setPerlinSeed(seed);
 	}
 
 
@@ -186,8 +169,8 @@ public class BiomeBlending
 			}
 		}
 	}
-	
-	
+
+
 	private static void addModdedBiomeFeatures(Biome biome, List<ConfiguredFeature<?, ?>> bambooList, List<ConfiguredFeature<?, ?>> grassyFlowerList)
 	{
 		for (Decoration stage : GenerationStage.Decoration.values())
