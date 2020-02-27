@@ -19,6 +19,13 @@ import net.minecraft.world.gen.feature.MultipleWithChanceRandomFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.SeaGrassConfig;
 import net.minecraft.world.gen.feature.SingleRandomFeature;
+import net.minecraft.world.gen.feature.structure.BuriedTreasureConfig;
+import net.minecraft.world.gen.feature.structure.MineshaftConfig;
+import net.minecraft.world.gen.feature.structure.MineshaftStructure;
+import net.minecraft.world.gen.feature.structure.OceanRuinConfig;
+import net.minecraft.world.gen.feature.structure.OceanRuinStructure;
+import net.minecraft.world.gen.feature.structure.ShipwreckConfig;
+import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.ChanceRangeConfig;
@@ -32,11 +39,28 @@ import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 
 
-public class VanillaFeatureTempBiome extends Biome
+public class VanillaTempBiome extends Biome
 {
-	public VanillaFeatureTempBiome()
+	public VanillaTempBiome()
 	{
 		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(SurfaceBuilder.NOPE, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.NONE).category(Biome.Category.NONE).depth(0.0F).scale(0.0F).temperature(0.0F).downfall(0.0F).waterColor(0).waterFogColor(0).parent((String) null));
+
+		//DefaultBiomeFeatures.addEndCities(this); //handle this separately in PerformBiomeBlending
+		//DefaultBiomeFeatures.addStructures(this); //handle this separately in PerformBiomeBlending
+		this.addStructureFeature(Feature.MINESHAFT.configure(new MineshaftConfig(0.004D, MineshaftStructure.Type.NORMAL)));
+		this.addStructureFeature(Feature.STRONGHOLD.configure(IFeatureConfig.NO_FEATURE_CONFIG));
+		this.addStructureFeature(Feature.JUNGLE_TEMPLE.configure(IFeatureConfig.NO_FEATURE_CONFIG));
+		this.addStructureFeature(Feature.BURIED_TREASURE.configure(new BuriedTreasureConfig(0.01F)));
+		this.addStructureFeature(Feature.SHIPWRECK.configure(new ShipwreckConfig(true)));
+		this.addStructureFeature(Feature.OCEAN_RUIN.configure(new OceanRuinConfig(OceanRuinStructure.Type.COLD, 0.3F, 0.9F)));
+		this.addStructureFeature(Feature.WOODLAND_MANSION.configure(IFeatureConfig.NO_FEATURE_CONFIG));
+		this.addStructureFeature(Feature.OCEAN_MONUMENT.configure(IFeatureConfig.NO_FEATURE_CONFIG));
+		this.addStructureFeature(Feature.VILLAGE.configure(new VillageConfig("village/desert/town_centers", 6)));
+		this.addStructureFeature(Feature.PILLAGER_OUTPOST.configure(IFeatureConfig.NO_FEATURE_CONFIG));
+		this.addStructureFeature(Feature.DESERT_PYRAMID.configure(IFeatureConfig.NO_FEATURE_CONFIG));
+		this.addStructureFeature(Feature.SWAMP_HUT.configure(IFeatureConfig.NO_FEATURE_CONFIG));
+		this.addStructureFeature(Feature.IGLOO.configure(IFeatureConfig.NO_FEATURE_CONFIG));
+		this.addStructureFeature(Feature.END_CITY.configure(IFeatureConfig.NO_FEATURE_CONFIG));
 
 		DefaultBiomeFeatures.addBamboo(this);
 		DefaultBiomeFeatures.addBambooJungleVegetation(this);
@@ -49,7 +73,6 @@ public class VanillaFeatureTempBiome extends Biome
 		DefaultBiomeFeatures.addDesertFeatures(this);
 		DefaultBiomeFeatures.addDesertLakes(this);
 		DefaultBiomeFeatures.addDoubleFlowers(this);
-		DefaultBiomeFeatures.addEndCities(this);
 		DefaultBiomeFeatures.addExtraDefaultFlowers(this);
 		DefaultBiomeFeatures.addExtraEmeraldOre(this);
 		DefaultBiomeFeatures.addExtraGoldOre(this);
@@ -88,7 +111,6 @@ public class VanillaFeatureTempBiome extends Biome
 		DefaultBiomeFeatures.addSparseOakTrees(this);
 		DefaultBiomeFeatures.addSprings(this);
 		DefaultBiomeFeatures.addStoneVariants(this);
-		//DefaultBiomeFeatures.addStructures(this); //handle this separately
 		DefaultBiomeFeatures.addSwampClayDisks(this);
 		DefaultBiomeFeatures.addSwampVegetation(this);
 		DefaultBiomeFeatures.addTaigaConifers(this);
@@ -111,12 +133,16 @@ public class VanillaFeatureTempBiome extends Biome
 		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.SEAGRASS.configure(new SeaGrassConfig(48, 0.3D)).createDecoratedFeature(Placement.TOP_SOLID_HEIGHTMAP.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
 		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.SEAGRASS.configure(new SeaGrassConfig(48, 0.8D)).createDecoratedFeature(Placement.TOP_SOLID_HEIGHTMAP.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
 		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.SEAGRASS.configure(new SeaGrassConfig(64, 0.6D)).createDecoratedFeature(Placement.TOP_SOLID_HEIGHTMAP.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
-		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new MultipleRandomFeatureConfig(ImmutableList.of(Feature.HUGE_BROWN_MUSHROOM.configure(DefaultBiomeFeatures.HUGE_BROWN_MUSHROOM_CONFIG).withChance(0.025F), Feature.HUGE_RED_MUSHROOM.configure(DefaultBiomeFeatures.HUGE_RED_MUSHROOM_CONFIG).withChance(0.05F), Feature.DARK_OAK_TREE.configure(DefaultBiomeFeatures.DARK_OAK_TREE_CONFIG).withChance(0.6666667F),Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.BIRCH_TREE_CONFIG).withChance(0.2F), Feature.FANCY_TREE.configure(DefaultBiomeFeatures.FANCY_TREE_CONFIG).withChance(0.1F)), Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.OAK_TREE_CONFIG))).createDecoratedFeature(Placement.DARK_OAK_TREE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
-		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new MultipleRandomFeatureConfig(ImmutableList.of(Feature.HUGE_RED_MUSHROOM.configure(DefaultBiomeFeatures.HUGE_RED_MUSHROOM_CONFIG).withChance(0.025F), Feature.HUGE_BROWN_MUSHROOM.configure(DefaultBiomeFeatures.HUGE_BROWN_MUSHROOM_CONFIG).withChance(0.05F), Feature.DARK_OAK_TREE.configure(DefaultBiomeFeatures.DARK_OAK_TREE_CONFIG).withChance(0.6666667F),Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.BIRCH_TREE_CONFIG).withChance(0.2F), Feature.FANCY_TREE.configure(DefaultBiomeFeatures.FANCY_TREE_CONFIG).withChance(0.1F)), Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.OAK_TREE_CONFIG))).createDecoratedFeature(Placement.DARK_OAK_TREE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
+		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new MultipleRandomFeatureConfig(ImmutableList.of(Feature.HUGE_BROWN_MUSHROOM.configure(DefaultBiomeFeatures.HUGE_BROWN_MUSHROOM_CONFIG).withChance(0.025F), Feature.HUGE_RED_MUSHROOM.configure(DefaultBiomeFeatures.HUGE_RED_MUSHROOM_CONFIG).withChance(0.05F), Feature.DARK_OAK_TREE.configure(DefaultBiomeFeatures.DARK_OAK_TREE_CONFIG).withChance(0.6666667F),
+				Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.BIRCH_TREE_CONFIG).withChance(0.2F), Feature.FANCY_TREE.configure(DefaultBiomeFeatures.FANCY_TREE_CONFIG).withChance(0.1F)), Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.OAK_TREE_CONFIG))).createDecoratedFeature(Placement.DARK_OAK_TREE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
+		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new MultipleRandomFeatureConfig(ImmutableList.of(Feature.HUGE_RED_MUSHROOM.configure(DefaultBiomeFeatures.HUGE_RED_MUSHROOM_CONFIG).withChance(0.025F), Feature.HUGE_BROWN_MUSHROOM.configure(DefaultBiomeFeatures.HUGE_BROWN_MUSHROOM_CONFIG).withChance(0.05F), Feature.DARK_OAK_TREE.configure(DefaultBiomeFeatures.DARK_OAK_TREE_CONFIG).withChance(0.6666667F),
+				Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.BIRCH_TREE_CONFIG).withChance(0.2F), Feature.FANCY_TREE.configure(DefaultBiomeFeatures.FANCY_TREE_CONFIG).withChance(0.1F)), Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.OAK_TREE_CONFIG))).createDecoratedFeature(Placement.DARK_OAK_TREE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
 		this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Feature.END_GATEWAY.configure(EndGatewayConfig.func_214702_a(EndDimension.SPAWN, true)).createDecoratedFeature(Placement.END_GATEWAY.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
 		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.CHORUS_PLANT.configure(IFeatureConfig.NO_FEATURE_CONFIG).createDecoratedFeature(Placement.CHORUS_PLANT.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
-		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_RANDOM_SELECTOR.configure(new MultipleWithChanceRandomFeatureConfig(ImmutableList.of(Feature.field_227248_z_.configure(DefaultBiomeFeatures.LILAC_CONFIG), Feature.field_227248_z_.configure(DefaultBiomeFeatures.ROSE_BUSH_CONFIG), Feature.field_227248_z_.configure(DefaultBiomeFeatures.PEONY_CONFIG), Feature.FLOWER.configure(DefaultBiomeFeatures.LILY_OF_THE_VALLEY_CONFIG)), 2)).createDecoratedFeature(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(5))));
-		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new MultipleRandomFeatureConfig(ImmutableList.of(Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.BIRCH_TREE_WITH_BEEHIVES_CONFIG).withChance(0.2F), Feature.FANCY_TREE.configure(DefaultBiomeFeatures.FANCY_TREE_WITH_BEEHIVES_CONFIG).withChance(0.1F)), Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.OAK_TREE_WITH_BEEHIVES_CONFIG))).createDecoratedFeature(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(6, 0.1F, 1))));
+		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
+				Feature.RANDOM_RANDOM_SELECTOR.configure(new MultipleWithChanceRandomFeatureConfig(ImmutableList.of(Feature.field_227248_z_.configure(DefaultBiomeFeatures.LILAC_CONFIG), Feature.field_227248_z_.configure(DefaultBiomeFeatures.ROSE_BUSH_CONFIG), Feature.field_227248_z_.configure(DefaultBiomeFeatures.PEONY_CONFIG), Feature.FLOWER.configure(DefaultBiomeFeatures.LILY_OF_THE_VALLEY_CONFIG)), 2)).createDecoratedFeature(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(5))));
+		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
+				Feature.RANDOM_SELECTOR.configure(new MultipleRandomFeatureConfig(ImmutableList.of(Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.BIRCH_TREE_WITH_BEEHIVES_CONFIG).withChance(0.2F), Feature.FANCY_TREE.configure(DefaultBiomeFeatures.FANCY_TREE_WITH_BEEHIVES_CONFIG).withChance(0.1F)), Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.OAK_TREE_WITH_BEEHIVES_CONFIG))).createDecoratedFeature(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(6, 0.1F, 1))));
 		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.FLOWER.configure(DefaultBiomeFeatures.FOREST_FLOWER_CONFIG).createDecoratedFeature(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(100))));
 		this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Feature.ICE_SPIKE.configure(IFeatureConfig.NO_FEATURE_CONFIG).createDecoratedFeature(Placement.COUNT_HEIGHTMAP.configure(new FrequencyConfig(3))));
 		this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Feature.ICE_PATCH.configure(new FeatureRadiusConfig(2)).createDecoratedFeature(Placement.COUNT_HEIGHTMAP.configure(new FrequencyConfig(2))));
@@ -137,7 +163,8 @@ public class VanillaFeatureTempBiome extends Biome
 		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.field_227248_z_.configure(DefaultBiomeFeatures.PUMPKIN_PATCH_CONFIG).createDecoratedFeature(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(32))));
 		this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Feature.END_SPIKE.configure(new EndSpikeFeatureConfig(false, ImmutableList.of(), (BlockPos) null)).createDecoratedFeature(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
 		this.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, Feature.VOID_START_PLATFORM.configure(IFeatureConfig.NO_FEATURE_CONFIG).createDecoratedFeature(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
-		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.SIMPLE_RANDOM_SELECTOR.configure(new SingleRandomFeature(ImmutableList.of(Feature.CORAL_TREE.configure(IFeatureConfig.NO_FEATURE_CONFIG), Feature.CORAL_CLAW.configure(IFeatureConfig.NO_FEATURE_CONFIG), Feature.CORAL_MUSHROOM.configure(IFeatureConfig.NO_FEATURE_CONFIG)))).createDecoratedFeature(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED.configure(new TopSolidWithNoiseConfig(20, 400.0D, 0.0D, Heightmap.Type.OCEAN_FLOOR_WG))));
+		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
+				Feature.SIMPLE_RANDOM_SELECTOR.configure(new SingleRandomFeature(ImmutableList.of(Feature.CORAL_TREE.configure(IFeatureConfig.NO_FEATURE_CONFIG), Feature.CORAL_CLAW.configure(IFeatureConfig.NO_FEATURE_CONFIG), Feature.CORAL_MUSHROOM.configure(IFeatureConfig.NO_FEATURE_CONFIG)))).createDecoratedFeature(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED.configure(new TopSolidWithNoiseConfig(20, 400.0D, 0.0D, Heightmap.Type.OCEAN_FLOOR_WG))));
 		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.SEA_PICKLE.configure(new CountConfig(20)).createDecoratedFeature(Placement.CHANCE_TOP_SOLID_HEIGHTMAP.configure(new ChanceConfig(16))));
 
 	}

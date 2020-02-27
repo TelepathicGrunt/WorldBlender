@@ -112,7 +112,7 @@ public class PerformBiomeBlending
 			{
 				if (!BiomeInit.BLENDED_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, configuredFeature)))
 				{
-					if(BiomeInit.TEMP_BIOME.getFeatures(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature))) {
+					if(BiomeInit.VANILLA_TEMP_BIOME.getFeatures(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature))) {
 						if (WBConfig.SERVER.allowVanillaFeatures.get())
 						{
 							if (configuredFeature.feature == Feature.field_227248_z_ || configuredFeature.feature == Feature.SIMPLE_RANDOM_SELECTOR || configuredFeature.feature == Feature.RANDOM_RANDOM_SELECTOR || configuredFeature.feature == Feature.FLOWER || configuredFeature.feature == Feature.DECORATED_FLOWER)
@@ -173,7 +173,7 @@ public class PerformBiomeBlending
 		{
 			if (!BiomeInit.BLENDED_BIOME.structures.keySet().stream().anyMatch(struct -> struct == structure))
 			{
-				if (structure.getRegistryName() != null && structure.getRegistryName().getNamespace().equals("minecraft"))
+				if (BiomeInit.VANILLA_TEMP_BIOME.structures.keySet().stream().anyMatch(vanillaStructure -> vanillaStructure.getClass().equals(structure.getClass())))
 				{
 					if (WBConfig.SERVER.allowVanillaStructures.get())
 					{
