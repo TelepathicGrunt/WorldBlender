@@ -13,7 +13,7 @@
 ·Fixed bug where some modded features are seen as vanilla features by mistake.
               
 	Importing Structures: 
-·
+·Fixed bug where importing structures also need importing features turned on. Now that option works without needing feature option also set to true.
     
 	Teleportation: 
 ·

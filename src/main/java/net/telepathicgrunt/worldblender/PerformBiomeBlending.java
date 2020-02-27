@@ -176,11 +176,38 @@ public class PerformBiomeBlending
 				if (structure.getRegistryName() != null && structure.getRegistryName().getNamespace().equals("minecraft"))
 				{
 					if (WBConfig.SERVER.allowVanillaStructures.get())
+					{
+						//add the structure version of the structure
 						BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addStructureFeature(new ConfiguredFeature(structure, biome.structures.get(structure))));
+						
+						//find the feature version of the structure in this biome and add it so it can spawn
+						for (Decoration stage : GenerationStage.Decoration.values())
+						{
+							for (ConfiguredFeature<?, ?> configuredFeature : biome.getFeatures(stage))
+							{
+								if(configuredFeature.feature.getClass().equals(biome.structures.get(structure).getClass())) {
+									BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
+								}
+							}
+						}
+					}
+						
 				}
 				else if (WBConfig.SERVER.allowModdedStructures.get())
 				{
+					//add the structure version of the structure
 					BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addStructureFeature(new ConfiguredFeature(structure, biome.structures.get(structure))));
+				
+					//find the feature version of the structure in this biome and add it so it can spawn
+					for (Decoration stage : GenerationStage.Decoration.values())
+					{
+						for (ConfiguredFeature<?, ?> configuredFeature : biome.getFeatures(stage))
+						{
+							if(configuredFeature.feature.getClass().equals(biome.structures.get(structure).getClass())) {
+								BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
+							}
+						}
+					}
 				}
 			}
 		}
