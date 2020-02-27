@@ -9,7 +9,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 public class CommonModBusEventHandler
 {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public static void latestLoadCompleteSetup(FMLLoadCompleteEvent event)
+	public static void latestCommonSetup(FMLLoadCompleteEvent event)
 	{
 		BiomeBlending.setupBiomes();
 	}
