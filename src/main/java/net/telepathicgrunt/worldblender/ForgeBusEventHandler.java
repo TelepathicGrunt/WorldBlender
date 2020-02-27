@@ -10,7 +10,7 @@ public class ForgeBusEventHandler
 	@SubscribeEvent
 	public static void Load(WorldEvent.Load event)
 	{
-		BiomeBlending.setupPerlinSeed(event.getWorld().getSeed());
+		PerformBiomeBlending.setupPerlinSeed(event.getWorld().getSeed());
 	}
 	
 }

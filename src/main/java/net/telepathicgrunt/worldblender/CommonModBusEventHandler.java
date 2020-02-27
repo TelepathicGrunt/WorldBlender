@@ -11,6 +11,6 @@ public class CommonModBusEventHandler
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void latestCommonSetup(FMLLoadCompleteEvent event)
 	{
-		BiomeBlending.setupBiomes();
+		PerformBiomeBlending.setupBiomes();
 	}
 }

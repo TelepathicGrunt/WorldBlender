@@ -25,7 +25,7 @@ import net.telepathicgrunt.worldblender.biome.biomes.surfacebuilder.BlendedSurfa
 import net.telepathicgrunt.worldblender.configs.WBConfig;
 
 
-public class BiomeBlending
+public class PerformBiomeBlending
 {
 	private static List<ConfiguredFeature<?, ?>> grassyFlowerList = new ArrayList<ConfiguredFeature<?, ?>>();
 	private static List<ConfiguredFeature<?, ?>> bambooList = new ArrayList<ConfiguredFeature<?, ?>>();
