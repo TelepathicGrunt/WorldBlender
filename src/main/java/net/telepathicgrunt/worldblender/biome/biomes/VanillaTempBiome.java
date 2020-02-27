@@ -61,6 +61,7 @@ public class VanillaTempBiome extends Biome
 		this.addStructureFeature(Feature.SWAMP_HUT.configure(IFeatureConfig.NO_FEATURE_CONFIG));
 		this.addStructureFeature(Feature.IGLOO.configure(IFeatureConfig.NO_FEATURE_CONFIG));
 		this.addStructureFeature(Feature.END_CITY.configure(IFeatureConfig.NO_FEATURE_CONFIG));
+		this.addStructureFeature(Feature.NETHER_BRIDGE.configure(IFeatureConfig.NO_FEATURE_CONFIG));
 
 		DefaultBiomeFeatures.addBamboo(this);
 		DefaultBiomeFeatures.addBambooJungleVegetation(this);
