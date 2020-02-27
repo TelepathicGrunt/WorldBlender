@@ -7,6 +7,13 @@
        | World Blender changelog |
            
        
+    (V.1.0.1 Changes) (1.15.2 Minecraft)
+    
+	Teleportation: 
+·
+       
+           
+       
     (V.1.0.0 Changes) (1.15.2 Minecraft)
     
 	Major: 

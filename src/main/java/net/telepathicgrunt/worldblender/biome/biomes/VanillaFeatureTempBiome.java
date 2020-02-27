@@ -88,6 +88,7 @@ public class VanillaFeatureTempBiome extends Biome
 		DefaultBiomeFeatures.addSparseOakTrees(this);
 		DefaultBiomeFeatures.addSprings(this);
 		DefaultBiomeFeatures.addStoneVariants(this);
+		//DefaultBiomeFeatures.addStructures(this); //handle this separately
 		DefaultBiomeFeatures.addSwampClayDisks(this);
 		DefaultBiomeFeatures.addSwampVegetation(this);
 		DefaultBiomeFeatures.addTaigaConifers(this);

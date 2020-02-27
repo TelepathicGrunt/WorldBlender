@@ -258,7 +258,7 @@ public class PerformBiomeBlending
 		}
 		catch (Exception e)
 		{
-			return true;
+			return false; //One feature cannot be serialized which can only happen with custom modded features
 		}
 
 		return false;

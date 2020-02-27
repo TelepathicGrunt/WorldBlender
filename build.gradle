@@ -20,6 +20,9 @@ repositories {
 //	flatDir {
 //		dirs 'deps'
 //	}
+	flatDir {
+		dirs 'deps'
+	}
 }
 
 version = '1.15.2-1.0.0'
@@ -85,6 +88,7 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.15.2-31.1.1'
 	//runtimeOnly fg.deobf("ignored:modname-1.15.2:x.x.x")
+	runtimeOnly fg.deobf("ignored:premium-wood-1.15.2:1.0.1")
 }
 
 // Process resources on build
