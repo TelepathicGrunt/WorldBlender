@@ -38,8 +38,21 @@ public class BiomeBlending
 		
 		for (Biome biome : ForgeRegistries.BIOMES.getValues())
 		{
-			if (BiomeInit.biomes.contains(biome)) //ignore our own biomes to speed things up
+			//ignore our own biomes to speed things up and prevent possible duplications
+			if (BiomeInit.biomes.contains(biome)) 
 				continue;
+			
+			 // if the biome is a vanilla biome but config says no vanilla biome, skip this biome
+			if(biome.getRegistryName().getNamespace().equals("minecraft")) {
+				if(!WBConfig.allowVanillaBiomeImport)
+					continue;
+			}
+			 // if the biome is a modded biome but config says no modded biome, skip this biome
+			else if(!WBConfig.allowModdedBiomeImport){
+				continue;
+			}
+			
+			
 
 			///////////FEATURES//////////////////
 			addBiomeFeatures(biome, bambooList, grassyFlowerList);

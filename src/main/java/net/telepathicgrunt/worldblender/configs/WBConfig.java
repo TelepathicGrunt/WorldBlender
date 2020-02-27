@@ -20,6 +20,8 @@ public class WBConfig
 	        SERVER_SPEC = specPair.getRight();
 	        SERVER = specPair.getLeft();
 	    }
+	    public static boolean allowVanillaBiomeImport = true;
+	    public static boolean allowModdedBiomeImport = true;
 
 	    public static boolean allowVanillaFeatures = true;
 	    public static boolean allowVanillaStructures = true;
@@ -36,7 +38,10 @@ public class WBConfig
 	    
 	    public static class ServerConfig
 	    {
-	    	//bee aggression
+
+		    public final BooleanValue allowVanillaBiomeImport;
+		    public final BooleanValue allowModdedBiomeImport;
+	    	
 		    public final BooleanValue allowVanillaFeatures;
 		    public final BooleanValue allowVanillaStructures;
 		    public final BooleanValue allowVanillaCarvers;
@@ -54,7 +59,17 @@ public class WBConfig
 
 	            
 	            builder.push("Vanilla Options");
+	        	
+	            	allowVanillaBiomeImport = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" Decides if the dimension can import anything from vanilla biomes.\r\n"
+		                    		+" Note: If the other vanilla stuff options are set to true and you \r\n"
+		                    		+" have the import from modded biome option set to true as well, then\r\n"
+		                    		+" vanilla stuff can still get imported if a modded biome has them.\r\n")
+		                    .translation("world_blender.config.vanilla.allowvanillabiomeimport")
+		                    .define("allowVanillaBiomeImport", true);
 	
+	            
 		            allowVanillaFeatures = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 		                    		+" Decides if the dimension imports features like trees, plants, ores, etc.\r\n")
@@ -88,6 +103,15 @@ public class WBConfig
 	            builder.pop();
 	            
 	            builder.push("Modded Options");
+	        	
+            		allowModdedBiomeImport = builder
+	                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+	                    		+" Decides if the dimension can import anything from modded biomes.\r\n"
+	                    		+" Note: If the other vanilla stuff options are set to true and you\r\n"
+	                    		+" this option set to true as well, then vanilla stuff can still\r\n"
+	                    		+" get imported if a modded biome has vanilla stuff in it.\r\n")
+	                    .translation("world_blender.config.vanilla.allowmoddedbiomeimport")
+	                    .define("allowModdedBiomeImport", true);
 
 	            	allowModdedFeatures = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
@@ -126,6 +150,9 @@ public class WBConfig
 	    
 	    public static void refreshServer()
 	    {
+	    	allowVanillaBiomeImport = SERVER.allowVanillaBiomeImport.get();
+	    	allowModdedBiomeImport = SERVER.allowModdedBiomeImport.get();
+	    	
 	    	allowVanillaFeatures = SERVER.allowVanillaFeatures.get();
 	    	allowVanillaStructures = SERVER.allowVanillaStructures.get();
 	    	allowVanillaCarvers = SERVER.allowVanillaCarvers.get();
