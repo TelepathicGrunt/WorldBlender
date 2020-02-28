@@ -49,9 +49,12 @@ public class WBPortalTileEntityRenderer extends TileEntityRenderer<WBPortalTileE
 
 	private void drawColor(WBPortalTileEntity tileEntity, float modifier, Matrix4f matrix4f, IVertexBuilder vertexBuilder)
 	{
-		float red = (RANDOM.nextFloat() * 1.1F) * modifier;
-		float green = (RANDOM.nextFloat() * 2.1F) * modifier;
-		float blue = (RANDOM.nextFloat() * 0.8F) * modifier;
+		// turns dark when cooling down but lightens over time. And when finished cooling down, it pops to full brightness
+		float coolDownEffect = tileEntity.isCoolingDown() ? 0.9f - tileEntity.getCoolDown()/900F : 1.0f ; 
+		
+		float red = (RANDOM.nextFloat() * 1.1F) * modifier * coolDownEffect;
+		float green = (RANDOM.nextFloat() * 2.1F) * modifier * coolDownEffect;
+		float blue = (RANDOM.nextFloat() * 0.8F) * modifier * coolDownEffect;
 		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, red, green, blue, Direction.SOUTH);
 		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, red, green, blue, Direction.NORTH);
 		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, red, green, blue, Direction.EAST);

@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.IBooleanFunction;
@@ -18,8 +19,11 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.Tags.Blocks;
 import net.telepathicgrunt.worldblender.dimension.WBDimension;
 
 
@@ -39,13 +43,53 @@ public class WBPortalBlock extends ContainerBlock
 
 	public void onEntityCollision(BlockState blockState, World world, BlockPos position, Entity entity)
 	{
-		if (!world.isRemote && 
-			!entity.isPassenger() && 
-			!entity.isBeingRidden() && 
-			entity.isNonBoss() && 
-			VoxelShapes.compare(VoxelShapes.create(entity.getBoundingBox().offset((double) (-position.getX()), (double) (-position.getY()), (double) (-position.getZ()))), blockState.getShape(world, position), IBooleanFunction.AND))
+		TileEntity tileentity = world.getTileEntity(position);
+		if (tileentity instanceof WBPortalTileEntity)
 		{
-			entity.changeDimension(world.dimension.getType() == WBDimension.worldblender() ? DimensionType.OVERWORLD : WBDimension.worldblender());
+			WBPortalTileEntity wbtile = (WBPortalTileEntity)tileentity;
+			
+			if (!world.isRemote && 
+				!wbtile.isCoolingDown() &&
+				!entity.isPassenger() && 
+				!entity.isBeingRidden() && 
+				entity.isNonBoss() && 
+				VoxelShapes.compare(VoxelShapes.create(entity.getBoundingBox().offset((double) (-position.getX()), (double) (-position.getY()), (double) (-position.getZ()))), blockState.getShape(world, position), IBooleanFunction.AND))
+			{
+				//gets the world in the destination dimension
+				MinecraftServer minecraftServer = entity.getServer(); // the server itself
+				ServerWorld destinationWorld = minecraftServer.getWorld(world.dimension.getType() == WBDimension.worldblender() ? DimensionType.OVERWORLD : WBDimension.worldblender());
+				
+				BlockPos destPos = null;
+				
+				//looks for portal blocks in other dimension
+				//within a 5x256x5 area
+				boolean portalOrChestFound = false;
+				for(BlockPos blockpos : BlockPos.getAllInBoxMutable(position.add(-2, -position.getY(), -2), position.add(2, 255-position.getY(), 2))) {
+					Block blockNearTeleport = destinationWorld.getBlockState(blockpos).getBlock();
+					
+					if(blockNearTeleport == WBBlocks.WORLD_BLENDER_PORTAL.get()) {
+						destPos = blockpos.toImmutable();
+						portalOrChestFound = true;
+
+						//make portals have a cooldown after being teleported to
+						WBPortalTileEntity wbtile2 = (WBPortalTileEntity)destinationWorld.getTileEntity(blockpos);
+						wbtile2.triggerCooldown();
+					}
+					else if(blockNearTeleport.getTags().contains(Blocks.CHESTS.getId())) {
+						//only set position to chest if no portal block is found
+						if(destPos == null) destPos = blockpos.toImmutable(); 
+						portalOrChestFound = true;
+					}
+				}
+				
+				//no portal or chest was found around destination. just teleport to top land
+				if(!portalOrChestFound) {
+					destPos = destinationWorld.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, position);
+				}
+
+				
+				wbtile.teleportEntity(entity, destPos, destinationWorld);
+			}
 		}
 	}
 

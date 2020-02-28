@@ -1,13 +1,18 @@
 package net.telepathicgrunt.worldblender.blocks;
 
-import java.util.List;
+import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -31,38 +36,36 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 		{
 			--this.teleportCooldown;
 		}
-		else if (!this.world.isRemote)
-		{
-			List<Entity> list = this.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(this.getPos()));
-			if (!list.isEmpty())
-			{
-				this.teleportEntity(list.get(0).getLowestRidingEntity());
-			}
-		}
 
 		if (isCoolingDown != this.isCoolingDown())
 		{
 			this.markDirty();
 		}
-
 	}
 
 
-	public void teleportEntity(Entity p_195496_1_)
+	public void teleportEntity(Entity entity, BlockPos destPos, ServerWorld destinationWorld)
 	{
-		this.teleportCooldown = 100;
-		//	         if (this.exitPortal == null && this.world.dimension instanceof EndDimension) {
-		//	            this.createPortal((ServerWorld)this.world);
-		//	         }
-		//
-		//	         if (this.exitPortal != null) {
-		//	            BlockPos blockpos = this.exactTeleport ? this.exitPortal : this.findExitPosition();
-		//	            p_195496_1_.teleportKeepLoaded((double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.5D, (double)blockpos.getZ() + 0.5D);
-		//	         }
-
 		this.triggerCooldown();
-	}
 
+		if(entity instanceof PlayerEntity) {
+			((ServerPlayerEntity) entity).teleport(
+					destinationWorld, 
+					destPos.getX() + 0.5D,
+					destPos.getY() + 1D,
+					destPos.getZ() + 0.5D, 
+					entity.rotationYaw, 
+					entity.rotationPitch);
+		}
+		else {
+			entity.setWorld(destinationWorld);
+			entity.dimension = destinationWorld.dimension.getType();
+			entity.teleportKeepLoaded(
+					destPos.getX() + 0.5D,
+					destPos.getY() + 1D,
+					destPos.getZ() + 0.5D);
+		}
+	}
 
 	public boolean isCoolingDown()
 	{
@@ -70,11 +73,34 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 	}
 
 
+	public float getCoolDown()
+	{
+		return this.teleportCooldown;
+	}
+
+
 	public void triggerCooldown()
 	{
-		this.teleportCooldown = 40;
+		this.teleportCooldown = 300;
 		this.world.addBlockEvent(this.getPos(), this.getBlockState().getBlock(), 1, 0);
 		this.markDirty();
+	}
+
+
+	@Override
+	public CompoundNBT write(CompoundNBT data)
+	{
+		super.write(data);
+		data.putFloat("Cooldown", this.teleportCooldown);
+		return data;
+	}
+
+
+	@Override
+	public void read(CompoundNBT data)
+	{
+		super.read(data);
+		this.teleportCooldown = data.getFloat("Cooldown");
 	}
 
 
@@ -97,4 +123,33 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 	{
 		return Block.shouldSideBeRendered(this.getBlockState(), this.world, this.getPos(), direction);
 	}
+
+
+	@OnlyIn(Dist.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
+	}
+
+
+	/**
+	 * Retrieves packet to send to the client whenever this Tile Entity is resynced via World.notifyBlockUpdate. For modded
+	 * TE's, this packet comes back to you clientside in {@link #onDataPacket}
+	 */
+	@Nullable
+	public SUpdateTileEntityPacket getUpdatePacket()
+	{
+		return new SUpdateTileEntityPacket(this.pos, 8, this.getUpdateTag());
+	}
+
+
+	/**
+	 * Get an NBT compound to sync to the client with SPacketChunkData, used for initial loading of the chunk or when many
+	 * blocks change at once. This compound comes back to you clientside in {@link handleUpdateTag}
+	 */
+	public CompoundNBT getUpdateTag()
+	{
+		return this.write(new CompoundNBT());
+	}
+
 }
