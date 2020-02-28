@@ -32,6 +32,6 @@ public class WBBlocks
 
 	public static final RegistryObject<Block> WORLD_BLENDER_PORTAL = BLOCKS.register("world_blender_portal", WBPortalBlock::new);
 	public static final RegistryObject<Item> WORLD_BLENDER_PORTAL_ITEM = ITEMS.register("world_blender_portal", () -> new BlockItem(WORLD_BLENDER_PORTAL.get(), new Item.Properties()));
-	public static final RegistryObject<TileEntityType<?>> WORLD_BLENDER_PORTAL_TILE = TILE_ENTITIES.register("world_blender_portal", () -> TileEntityType.Builder.create(WBPortalTileEntity::new, WORLD_BLENDER_PORTAL.get()).build(null));
+	public static final RegistryObject<TileEntityType<WBPortalTileEntity>> WORLD_BLENDER_PORTAL_TILE = TILE_ENTITIES.register("world_blender_portal", () -> TileEntityType.Builder.create(WBPortalTileEntity::new, WORLD_BLENDER_PORTAL.get()).build(null));
 
 }
