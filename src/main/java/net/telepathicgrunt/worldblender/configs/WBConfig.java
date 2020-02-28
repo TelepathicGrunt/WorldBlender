@@ -4,6 +4,8 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
@@ -35,6 +37,9 @@ public class WBConfig
 	    public static boolean allowModdedSpawns = true;
 	    public static boolean allowModdedSurfaces = true;
 
+	    public static int uniqueBlocksNeeded = 216;
+	    public static String activationItem = "minecraft:nether_star";
+	    public static boolean consumeChests = true;
 	    
 	    public static class ServerConfig
 	    {
@@ -54,6 +59,10 @@ public class WBConfig
 		    public final BooleanValue allowModdedSpawns;
 		    public final BooleanValue allowModdedSurfaces;
 
+		    public final IntValue uniqueBlocksNeeded;
+		    public final ConfigValue<String> activationItem;
+		    public final BooleanValue consumeChests;
+		    
 	        ServerConfig(ForgeConfigSpec.Builder builder) 
 	        {
 
@@ -144,6 +153,39 @@ public class WBConfig
 		                    .define("allowModdedSurfaces", true);
 		            
 	            builder.pop();
+	            
+	            builder.push("Portal Options");
+	            
+		            uniqueBlocksNeeded = builder
+			                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+			                    		+" At least many unique block items are needed to be in the eight\r\n"
+			                    		+" chests (or other blocks with chest tag) to create the portal. \r\n"
+			                    		+" Items with no block form will be ignored and not counted.\r\n")
+			                    .translation("world_blender.config.portal.uniqueblocksneeded")
+			                    .defineInRange("uniqueBlocksNeeded", 216, 0, 216);
+			            
+		            activationItem = builder
+			                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+			                    		+" Item that you need in your hand when you're crouching and right\r\n"
+			                    		+" clicking a chest block to begin the portal creation process.\r\n"
+			                    		+" \r\n"
+			                    		+" NOTE: the 8 chests needs to be in a 2x2 pattern before this mod "
+			                    		+" starts checking the contents of the chests and then create the"
+			                    		+" portal if there are enough unique blocks in the chests."
+			                    		+" \r\n"
+			                    		+" You can remove a portal by crouch right clicking execpt for the\r\n"
+			                    		+" portal block at world origin in World Blender dimension.\r\n")
+			                    .translation("world_blender.config.portal.activationitem")
+			                    .define("activationItem", "minecraft:nether_star");
+			            
+		            consumeChests = builder
+			                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+			                    		+" If true, portal creation will destroy the chests and all contents in it\r\n"
+			                    		+" If set to false, the chests and contents will be dropped when portal is made.\r\n")
+			                    .translation("world_blender.config.portal.consumechests")
+			                    .define("consumeChests", true);
+		            
+	            builder.pop();
 	        }
 	            		
 	    } 
@@ -164,5 +206,9 @@ public class WBConfig
 	    	allowModdedCarvers = SERVER.allowModdedCarvers.get();
 	    	allowModdedSpawns = SERVER.allowModdedSpawns.get();
 	    	allowModdedSurfaces = SERVER.allowModdedSurfaces.get();
+	    	
+		    uniqueBlocksNeeded = SERVER.uniqueBlocksNeeded.get();
+	    	activationItem = SERVER.activationItem.get();
+	    	consumeChests = SERVER.consumeChests.get();
 	    }
 }
