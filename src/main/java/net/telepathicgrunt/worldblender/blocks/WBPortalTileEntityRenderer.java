@@ -51,10 +51,10 @@ public class WBPortalTileEntityRenderer extends TileEntityRenderer<WBPortalTileE
 	{
 		// turns dark when cooling down but lightens over time. And when finished cooling down, it pops to full brightness
 		float coolDownEffect = tileEntity.isCoolingDown() ? 0.9f - tileEntity.getCoolDown()/900F : 1.0f ; 
-		
-		float red = (RANDOM.nextFloat() * 1.1F) * modifier * coolDownEffect;
-		float green = (RANDOM.nextFloat() * 2.1F) * modifier * coolDownEffect;
-		float blue = (RANDOM.nextFloat() * 0.8F) * modifier * coolDownEffect;
+
+		float red = (RANDOM.nextFloat() * 4.4F) * modifier * coolDownEffect;
+		float green = (RANDOM.nextFloat() * 3.2F) * modifier * coolDownEffect;
+		float blue = (RANDOM.nextFloat() * 2.8F) * modifier * coolDownEffect;
 		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, red, green, blue, Direction.SOUTH);
 		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, red, green, blue, Direction.NORTH);
 		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, red, green, blue, Direction.EAST);
@@ -84,38 +84,39 @@ public class WBPortalTileEntityRenderer extends TileEntityRenderer<WBPortalTileE
 		}
 		else if (distanceAway > 25600.0D)
 		{
-			return 3;
+			return 2;
 		}
 		else if (distanceAway > 16384.0D)
 		{
-			return 5;
+			return 3;
 		}
 		else if (distanceAway > 9216.0D)
 		{
-			return 7;
+			return 4;
 		}
 		else if (distanceAway > 4096.0D)
 		{
-			return 9;
+			return 5;
 		}
 		else if (distanceAway > 1024.0D)
 		{
-			return 11;
+			return 6;
 		}
 		else if (distanceAway > 576.0D)
 		{
-			return 13;
+			return 7;
 		}
 		else
 		{
-			return distanceAway > 256.0D ? 14 : 15;
+			return distanceAway > 256.0D ? 8 : 9;
 		}
 	}
 
 	
 	//////////////////////////////////RENDER STATE STUFF//////////////////////////////////////////
-	
+
 	public static final ResourceLocation MAIN_TEXTURE = new ResourceLocation("textures/misc/enchanted_item_glint.png");
+	public static final ResourceLocation ADDITIVE_TEXTURE = new ResourceLocation("textures/misc/forcefield.png");
 	private static final Random RANDOM = new Random(31100L);
 	private static final List<RenderType> WB_RENDER_TYPE = IntStream.range(0, 16).mapToObj((index) ->
 	{
@@ -123,11 +124,11 @@ public class WBPortalTileEntityRenderer extends TileEntityRenderer<WBPortalTileE
 	}).collect(ImmutableList.toImmutableList());
 
 	
-	public static RenderType getWBPortal(int p_228630_0_)
+	public static RenderType getWBPortal(int layer)
 	{
 		RenderState.TransparencyState renderstate$transparencystate;
 		RenderState.TextureState renderstate$texturestate;
-		if (p_228630_0_ <= 1)
+		if (layer <= 1)
 		{
 			renderstate$transparencystate = RenderState.TRANSLUCENT_TRANSPARENCY;
 			renderstate$texturestate = new RenderState.TextureState(MAIN_TEXTURE, false, false);
@@ -135,9 +136,9 @@ public class WBPortalTileEntityRenderer extends TileEntityRenderer<WBPortalTileE
 		else
 		{
 			renderstate$transparencystate = RenderState.ADDITIVE_TRANSPARENCY;
-			renderstate$texturestate = new RenderState.TextureState(MAIN_TEXTURE, false, false);
+			renderstate$texturestate = new RenderState.TextureState(ADDITIVE_TEXTURE, false, false);
 		}
 
-		return RenderType.of("end_portal", DefaultVertexFormats.POSITION_COLOR, 7, 256, false, true, RenderType.State.builder().transparency(renderstate$transparencystate).texture(renderstate$texturestate).texturing(new RenderState.PortalTexturingState(p_228630_0_)).fog(RenderState.BLACK_FOG).build(false));
+		return RenderType.of("end_portal", DefaultVertexFormats.POSITION_COLOR, 7, 256, false, true, RenderType.State.builder().transparency(renderstate$transparencystate).texture(renderstate$texturestate).texturing(new RenderState.PortalTexturingState(layer)).fog(RenderState.BLACK_FOG).build(false));
 	}
 }

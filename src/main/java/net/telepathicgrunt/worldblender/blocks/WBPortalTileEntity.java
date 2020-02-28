@@ -44,7 +44,7 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 	}
 
 
-	public void teleportEntity(Entity entity, BlockPos destPos, ServerWorld destinationWorld)
+	public void teleportEntity(Entity entity, BlockPos destPos, ServerWorld destinationWorld, ServerWorld originalWorld)
 	{
 		this.triggerCooldown();
 
@@ -58,12 +58,18 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 					entity.rotationPitch);
 		}
 		else {
-			entity.setWorld(destinationWorld);
-			entity.dimension = destinationWorld.dimension.getType();
-			entity.teleportKeepLoaded(
-					destPos.getX() + 0.5D,
-					destPos.getY() + 1D,
-					destPos.getZ() + 0.5D);
+	         Entity entity2 = entity.getType().create(destinationWorld);
+	         if (entity2 != null) {
+	        	 entity2.copyDataFromOld(entity);
+	        	 entity2.moveToBlockPosAndAngles(destPos, entity.rotationYaw, entity.rotationPitch);
+	        	 entity2.setMotion(entity.getMotion());
+	        	 destinationWorld.func_217460_e(entity2);
+	         }
+	         entity.remove(false);
+	         this.world.getProfiler().endSection();
+	         originalWorld.resetUpdateEntityTick();
+	         destinationWorld.resetUpdateEntityTick();
+	         this.world.getProfiler().endSection();
 		}
 	}
 

@@ -58,6 +58,7 @@ public class WBPortalBlock extends ContainerBlock
 				//gets the world in the destination dimension
 				MinecraftServer minecraftServer = entity.getServer(); // the server itself
 				ServerWorld destinationWorld = minecraftServer.getWorld(world.dimension.getType() == WBDimension.worldblender() ? DimensionType.OVERWORLD : WBDimension.worldblender());
+				ServerWorld originalWorld = minecraftServer.getWorld(entity.dimension);
 				
 				BlockPos destPos = null;
 				
@@ -68,7 +69,10 @@ public class WBPortalBlock extends ContainerBlock
 					Block blockNearTeleport = destinationWorld.getBlockState(blockpos).getBlock();
 					
 					if(blockNearTeleport == WBBlocks.WORLD_BLENDER_PORTAL.get()) {
-						destPos = blockpos.toImmutable();
+						//gets portal block closest to players original xz coordinate
+						if(destPos == null || (blockpos.getX()-position.getX() < destPos.getX()-position.getX() && blockpos.getZ()-position.getZ() < destPos.getZ()-position.getZ()))
+							destPos = blockpos.toImmutable();
+						
 						portalOrChestFound = true;
 
 						//make portals have a cooldown after being teleported to
@@ -88,7 +92,7 @@ public class WBPortalBlock extends ContainerBlock
 				}
 
 				
-				wbtile.teleportEntity(entity, destPos, destinationWorld);
+				wbtile.teleportEntity(entity, destPos, destinationWorld, originalWorld);
 			}
 		}
 	}
