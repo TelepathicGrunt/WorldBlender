@@ -24,6 +24,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.telepathicgrunt.worldblender.biome.BiomeInit;
 import net.telepathicgrunt.worldblender.blocks.WBBlocks;
 import net.telepathicgrunt.worldblender.configs.WBConfig;
+import net.telepathicgrunt.worldblender.networking.MessageHandler;
 import net.telepathicgrunt.worldblender.worldtype.WBWorldType;
 
 
@@ -89,6 +90,7 @@ public class WorldBlender
 	{
 		//registers the worldtype used for this mod so we can select that worldtype
 		WBWorldType = new WBWorldType();
+		MessageHandler.init();
 	}
 	
 	public void modConfig(final ModConfig.ModConfigEvent event)

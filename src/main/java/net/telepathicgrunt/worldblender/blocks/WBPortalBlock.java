@@ -46,52 +46,60 @@ public class WBPortalBlock extends ContainerBlock
 		TileEntity tileentity = world.getTileEntity(position);
 		if (tileentity instanceof WBPortalTileEntity)
 		{
-			WBPortalTileEntity wbtile = (WBPortalTileEntity)tileentity;
-			
-			if (!world.isRemote && 
-				!wbtile.isCoolingDown() &&
-				!entity.isPassenger() && 
-				!entity.isBeingRidden() && 
-				entity.isNonBoss() && 
-				VoxelShapes.compare(VoxelShapes.create(entity.getBoundingBox().offset((double) (-position.getX()), (double) (-position.getY()), (double) (-position.getZ()))), blockState.getShape(world, position), IBooleanFunction.AND))
+			WBPortalTileEntity wbtile = (WBPortalTileEntity) tileentity;
+
+			if (!world.isRemote && !wbtile.isCoolingDown() && !entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss() && VoxelShapes.compare(VoxelShapes.create(entity.getBoundingBox().offset((double) (-position.getX()), (double) (-position.getY()), (double) (-position.getZ()))), blockState.getShape(world, position), IBooleanFunction.AND))
 			{
 				//gets the world in the destination dimension
 				MinecraftServer minecraftServer = entity.getServer(); // the server itself
 				ServerWorld destinationWorld = minecraftServer.getWorld(world.dimension.getType() == WBDimension.worldblender() ? DimensionType.OVERWORLD : WBDimension.worldblender());
 				ServerWorld originalWorld = minecraftServer.getWorld(entity.dimension);
-				
+
 				BlockPos destPos = null;
-				
+
 				//looks for portal blocks in other dimension
-				//within a 5x256x5 area
+				//within a 9x256x9 area
 				boolean portalOrChestFound = false;
-				for(BlockPos blockpos : BlockPos.getAllInBoxMutable(position.add(-2, -position.getY(), -2), position.add(2, 255-position.getY(), 2))) {
+				for (BlockPos blockpos : BlockPos.getAllInBoxMutable(position.add(-4, -position.getY(), -4), position.add(4, 255 - position.getY(), 4)))
+				{
 					Block blockNearTeleport = destinationWorld.getBlockState(blockpos).getBlock();
-					
-					if(blockNearTeleport == WBBlocks.WORLD_BLENDER_PORTAL.get()) {
+
+					if (blockNearTeleport == WBBlocks.WORLD_BLENDER_PORTAL.get())
+					{
 						//gets portal block closest to players original xz coordinate
-						if(destPos == null || (blockpos.getX()-position.getX() < destPos.getX()-position.getX() && blockpos.getZ()-position.getZ() < destPos.getZ()-position.getZ()))
+						if (destPos == null || (Math.abs(blockpos.getX() - position.getX()) < Math.abs(destPos.getX() - position.getX()) && Math.abs(blockpos.getZ() - position.getZ()) < Math.abs(destPos.getZ() - position.getZ())))
 							destPos = blockpos.toImmutable();
-						
+
 						portalOrChestFound = true;
 
 						//make portals have a cooldown after being teleported to
-						WBPortalTileEntity wbtile2 = (WBPortalTileEntity)destinationWorld.getTileEntity(blockpos);
+						WBPortalTileEntity wbtile2 = (WBPortalTileEntity) destinationWorld.getTileEntity(blockpos);
 						wbtile2.triggerCooldown();
 					}
-					else if(blockNearTeleport.getTags().contains(Blocks.CHESTS.getId())) {
+					else if (blockNearTeleport.getTags().contains(Blocks.CHESTS.getId()))
+					{
 						//only set position to chest if no portal block is found
-						if(destPos == null) destPos = blockpos.toImmutable(); 
+						if (destPos == null)
+							destPos = blockpos.toImmutable();
 						portalOrChestFound = true;
 					}
 				}
-				
+
 				//no portal or chest was found around destination. just teleport to top land
-				if(!portalOrChestFound) {
+				if (!portalOrChestFound)
+				{
 					destPos = destinationWorld.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, position);
+
+					//places a portal block in World Blender so player can escape if
+					//there is no portal block and then makes it be in cooldown
+					if (destinationWorld.getWorld().dimension.getType() == WBDimension.worldblender())
+					{
+						destinationWorld.setBlockState(destPos, WBBlocks.WORLD_BLENDER_PORTAL.get().getDefaultState());
+						WBPortalTileEntity wbtile2 = (WBPortalTileEntity) destinationWorld.getTileEntity(destPos);
+						wbtile2.triggerCooldown();
+					}
 				}
 
-				
 				wbtile.teleportEntity(entity, destPos, destinationWorld, originalWorld);
 			}
 		}

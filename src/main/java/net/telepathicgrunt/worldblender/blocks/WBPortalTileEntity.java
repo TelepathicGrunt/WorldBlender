@@ -15,6 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.telepathicgrunt.worldblender.networking.MessageHandler;
 
 
 public class WBPortalTileEntity extends TileEntity implements ITickableTileEntity
@@ -84,14 +85,19 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 		return this.teleportCooldown;
 	}
 
+	public void setCoolDown(float cooldown)
+	{
+		this.teleportCooldown = cooldown;
+	}
+
 
 	public void triggerCooldown()
 	{
 		this.teleportCooldown = 300;
-		this.world.addBlockEvent(this.getPos(), this.getBlockState().getBlock(), 1, 0);
 		this.markDirty();
+		this.world.notifyBlockUpdate(this.pos, this.getBlockState(), this.getBlockState(), 3);
+		MessageHandler.UpdateTECooldownPacket.sendToClient(this.pos, this.getCoolDown());
 	}
-
 
 	@Override
 	public CompoundNBT write(CompoundNBT data)
@@ -145,9 +151,15 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 	@Nullable
 	public SUpdateTileEntityPacket getUpdatePacket()
 	{
-		return new SUpdateTileEntityPacket(this.pos, 8, this.getUpdateTag());
+		return new SUpdateTileEntityPacket(this.pos, 0, this.getUpdateTag());
 	}
 
+	@Override
+	public void onLoad() {
+		if (world.isRemote) {
+			//TutorialMod.network.sendToServer(new PacketRequestUpdatePedestal(this));
+		}
+	}
 
 	/**
 	 * Get an NBT compound to sync to the client with SPacketChunkData, used for initial loading of the chunk or when many
