@@ -20,7 +20,7 @@ import net.telepathicgrunt.worldblender.networking.MessageHandler;
 
 public class WBPortalTileEntity extends TileEntity implements ITickableTileEntity
 {
-	private float teleportCooldown;
+	private float teleportCooldown = 300;
 
 
 	public WBPortalTileEntity()
@@ -112,7 +112,14 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 	public void read(CompoundNBT data)
 	{
 		super.read(data);
-		this.teleportCooldown = data.getFloat("Cooldown");
+		if(data.contains("Cooldown")) 
+		{
+			this.teleportCooldown = data.getFloat("Cooldown");
+		}
+		else 
+		{
+			this.teleportCooldown = 300; //if this is missing cooldown entry, have it start with a cooldown
+		}
 	}
 
 

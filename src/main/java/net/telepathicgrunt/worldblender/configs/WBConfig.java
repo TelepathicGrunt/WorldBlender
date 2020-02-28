@@ -160,14 +160,20 @@ public class WBConfig
 			                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 			                    		+" At least many unique block items are needed to be in the eight\r\n"
 			                    		+" chests (or other blocks with chest tag) to create the portal. \r\n"
-			                    		+" Items with no block form will be ignored and not counted.\r\n")
+			                    		+" \r\n"
+			                    		+" Items with no block form will be ignored and not counted but still be consumed.\r\n"
+			                    		+" \r\n"
+			                    		+" If you set this to beyond 216 (maximum slots four 8 chests), make\r\n"
+			                    		+" sure you have a mod that has a chest that has much more inventory "
+			                    		+" slots to fill or else you cannot ")
 			                    .translation("world_blender.config.portal.uniqueblocksneeded")
-			                    .defineInRange("uniqueBlocksNeeded", 216, 0, 216);
+			                    .defineInRange("uniqueBlocksNeeded", 216, 0, 1000);
 			            
 		            activationItem = builder
 			                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 			                    		+" Item that you need in your hand when you're crouching and right\r\n"
 			                    		+" clicking a chest block to begin the portal creation process.\r\n"
+			                    		+" This activation item will then be consumed.\r\n"
 			                    		+" \r\n"
 			                    		+" NOTE: the 8 chests needs to be in a 2x2 pattern before this mod "
 			                    		+" starts checking the contents of the chests and then create the"
@@ -181,6 +187,8 @@ public class WBConfig
 		            consumeChests = builder
 			                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 			                    		+" If true, portal creation will destroy the chests and all contents in it\r\n"
+			                    		+" Non-block items and stacks of items will still be consumed.\r\n"
+			                    		+" \r\n"
 			                    		+" If set to false, the chests and contents will be dropped when portal is made.\r\n")
 			                    .translation("world_blender.config.portal.consumechests")
 			                    .define("consumeChests", true);

@@ -16,7 +16,6 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -121,25 +120,13 @@ public class WBPortalBlock extends ContainerBlock
 			if (world.isRemote)
 			{
 				//show lots of particles when portal is removed
-				animateTick(blockState, world, blockPos, world.rand);
-				animateTick(blockState, world, blockPos, world.rand);
-				animateTick(blockState, world, blockPos, world.rand);
-				animateTick(blockState, world, blockPos, world.rand);
+				createLotsOfParticles(blockState, world, blockPos, world.rand);
 				return ActionResultType.SUCCESS;
 			}
 			else
 			{
 				//remove this portal
 				world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
-				
-				//update neighboring portal blocks so they can be removed and keep the chain going
-				for(Direction direction : Direction.values()) 
-				{
-					BlockState neighborBlock = world.getBlockState(blockPos.offset(direction));
-					if(neighborBlock.getBlock() == WBBlocks.WORLD_BLENDER_PORTAL.get()) {
-						neighborBlock.onUse(world, playerEntity, hand, rayTrace);
-					}
-				}
 				
 				return ActionResultType.SUCCESS;
 			}
@@ -173,6 +160,25 @@ public class WBPortalBlock extends ContainerBlock
 		}
 	}
 
+	@OnlyIn(Dist.CLIENT)
+	public void createLotsOfParticles(BlockState blockState, World world, BlockPos position, Random random)
+	{
+		TileEntity tileentity = world.getTileEntity(position);
+		if (tileentity instanceof WBPortalTileEntity)
+		{
+			for(int i = 0; i < 50; i++) 
+			{
+				double xPos = (double) position.getX() + (double) random.nextFloat();
+				double yPos = (double) position.getY() + (double) random.nextFloat();
+				double zPos = (double) position.getZ() + (double) random.nextFloat();
+				double xVelocity = ((double) random.nextFloat() - 0.5D) * 0.08D;
+				double yVelocity = ((double) random.nextFloat() - 0.5D) * 0.13D;
+				double zVelocity = ((double) random.nextFloat() - 0.5D) * 0.08D;
+
+				world.addParticle(ParticleTypes.END_ROD, xPos, yPos, zPos, xVelocity, yVelocity, zVelocity);
+			}
+		}
+	}
 
 	public ItemStack getItem(IBlockReader p_185473_1_, BlockPos p_185473_2_, BlockState p_185473_3_)
 	{
