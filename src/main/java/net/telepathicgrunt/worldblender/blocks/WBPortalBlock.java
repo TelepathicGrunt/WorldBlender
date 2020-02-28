@@ -4,16 +4,22 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
@@ -23,7 +29,6 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.Tags.Blocks;
 import net.telepathicgrunt.worldblender.dimension.WBDimension;
 
 
@@ -76,7 +81,7 @@ public class WBPortalBlock extends ContainerBlock
 						WBPortalTileEntity wbtile2 = (WBPortalTileEntity) destinationWorld.getTileEntity(blockpos);
 						wbtile2.triggerCooldown();
 					}
-					else if (blockNearTeleport.getTags().contains(Blocks.CHESTS.getId()))
+					else if (blockNearTeleport.getTags().contains(net.minecraftforge.common.Tags.Blocks.CHESTS.getId()))
 					{
 						//only set position to chest if no portal block is found
 						if (destPos == null)
@@ -103,6 +108,44 @@ public class WBPortalBlock extends ContainerBlock
 				wbtile.teleportEntity(entity, destPos, destinationWorld, originalWorld);
 			}
 		}
+	}
+
+
+	/**
+	 * Turns this portal and all neightboring portal blocks to air when right clicked while crouching
+	 */
+	public ActionResultType onUse(BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult rayTrace)
+	{
+		if(playerEntity.isCrouching()) 
+		{
+			if (world.isRemote)
+			{
+				//show lots of particles when portal is removed
+				animateTick(blockState, world, blockPos, world.rand);
+				animateTick(blockState, world, blockPos, world.rand);
+				animateTick(blockState, world, blockPos, world.rand);
+				animateTick(blockState, world, blockPos, world.rand);
+				return ActionResultType.SUCCESS;
+			}
+			else
+			{
+				//remove this portal
+				world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
+				
+				//update neighboring portal blocks so they can be removed and keep the chain going
+				for(Direction direction : Direction.values()) 
+				{
+					BlockState neighborBlock = world.getBlockState(blockPos.offset(direction));
+					if(neighborBlock.getBlock() == WBBlocks.WORLD_BLENDER_PORTAL.get()) {
+						neighborBlock.onUse(world, playerEntity, hand, rayTrace);
+					}
+				}
+				
+				return ActionResultType.SUCCESS;
+			}
+		}
+		
+		return ActionResultType.FAIL;
 	}
 
 
