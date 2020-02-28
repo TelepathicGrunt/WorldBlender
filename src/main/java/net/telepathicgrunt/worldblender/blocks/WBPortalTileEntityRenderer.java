@@ -42,7 +42,7 @@ public class WBPortalTileEntityRenderer extends TileEntityRenderer<WBPortalTileE
 
 		for (int currentPass = 1; currentPass < passes; ++currentPass)
 		{
-			this.drawColor(tileEntity, 2.0F / (float) (18 - currentPass), matrix4f, renderBuffer.getBuffer(WB_RENDER_TYPE.get(currentPass)));
+			this.drawColor(tileEntity, 1.5F / (float) (18 - currentPass), matrix4f, renderBuffer.getBuffer(WB_RENDER_TYPE.get(currentPass)));
 		}
 	}
 

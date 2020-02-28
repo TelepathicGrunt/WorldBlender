@@ -36,6 +36,11 @@ public class WBPortalSpawning
 	{
 		World world = event.getWorld();
 		BlockPos position = event.getPos();
+		
+		//cannot create portals in WB world type
+		if(world.getWorldType() == WorldBlender.WBWorldType) {
+			return;
+		}
 
 		//checks to make sure the activation item is a real item before doing the rest of the checks
 		ForgeRegistry<Item> registry = ((ForgeRegistry<Item>) ForgeRegistries.ITEMS);
@@ -59,6 +64,7 @@ public class WBPortalSpawning
 			{
 				Set<Item> uniqueBlocksSet = new HashSet<Item>();
 				Set<Item> invalidItemSet = new HashSet<Item>();
+				Set<Item> duplicateBlockSlotSet = new HashSet<Item>();
 
 				for (BlockPos blockpos : BlockPos.getAllInBoxMutable(position, position.add(cornerOffset)))
 				{
@@ -70,7 +76,14 @@ public class WBPortalSpawning
 						//if it is a valid block, it would not return air
 						if (Block.getBlockFromItem(item) != Blocks.AIR)
 						{
-							uniqueBlocksSet.add(item);
+							if(uniqueBlocksSet.contains(item)) 
+							{
+								duplicateBlockSlotSet.add(item); // save what block is taking up multiple slots
+							}
+							else 
+							{
+								uniqueBlocksSet.add(item); 
+							}
 						}
 						//not a valid block item.
 						else
@@ -133,15 +146,31 @@ public class WBPortalSpawning
 				//throw error and list all the invalid items in the chests
 				else
 				{
-					//collect the items names into a list of strings
-					List<String> invalidItemString = new ArrayList<String>();
-					invalidItemSet.remove(Items.AIR); //We dont need to list air
-					invalidItemSet.stream().forEach(item -> invalidItemString.add(item.getName().getString()));
 
 					if (!event.getWorld().isRemote && event.getPlayer().getActiveHand() == event.getHand())
 					{
-						WorldBlender.LOGGER.log(Level.INFO, "World Blender: There are not enough unique block items in the chests. (stacks or duplicates are ignored) You need " + WBConfig.uniqueBlocksNeeded + " block items to make the portal but there is only " + uniqueBlocksSet.size() + " unique block items right now. Also, here is a list of non-block items if any are found: " + String.join(", ", invalidItemString));
-						ITextComponent message = new StringTextComponent("§eWorld Blender: §fThere are not enough unique block items in the chests. (stacks or duplicates are ignored) You need §c" + WBConfig.uniqueBlocksNeeded + "§f block items to make the portal but there is only §a" + uniqueBlocksSet.size() + "§f unique block items right now. Also, here is a list of non-block items if any are found:§6 " + String.join(", ", invalidItemString));
+						String msg = "§eWorld Blender: §fThere are not enough unique block items in the chests. (stacks or duplicates are ignored) You need §c" + WBConfig.uniqueBlocksNeeded + "§f block items to make the portal but there is only §a" + uniqueBlocksSet.size() + "§f unique block items right now.";
+						
+						if(invalidItemSet.size() != 0) 
+						{
+							//collect the items names into a list of strings
+							List<String> invalidItemString = new ArrayList<String>();
+							invalidItemSet.remove(Items.AIR); //We dont need to list air
+							invalidItemSet.stream().forEach(item -> invalidItemString.add(item.getName().getString()));
+							msg += "§f Also, here is a list of non-block items that were found and should be removed: §6" + String.join(", ", invalidItemString);
+						}
+
+						if(duplicateBlockSlotSet.size() != 0) 
+						{
+							//collect the items names into a list of strings
+							List<String> duplicateSlotString = new ArrayList<String>();
+							duplicateBlockSlotSet.remove(Items.AIR); //We dont need to list air
+							duplicateBlockSlotSet.stream().forEach(blockitem -> duplicateSlotString.add(blockitem.getName().getString()));
+							msg += "§f There are some slots that contains the same blocks and should be removed. These blocks are: §6" + String.join(", ", duplicateSlotString);
+						}
+						
+						WorldBlender.LOGGER.log(Level.INFO, msg);
+						ITextComponent message = new StringTextComponent(msg);
 						event.getPlayer().sendMessage(message);
 					}
 				}

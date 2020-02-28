@@ -24,7 +24,7 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.layer.Layer;
 import net.minecraft.world.gen.layer.ZoomLayer;
 import net.minecraft.world.gen.layer.traits.IAreaTransformer1;
-import net.telepathicgrunt.worldblender.biome.BiomeInit;
+import net.telepathicgrunt.worldblender.biome.WBBiomes;
 import net.telepathicgrunt.worldblender.generation.layer.QuadBiomeLayer;
 
 
@@ -36,7 +36,7 @@ public class WBBiomeProvider extends BiomeProvider
 
 	public WBBiomeProvider(long seed, WorldType worldType)
 	{
-		super(BiomeInit.biomes);
+		super(WBBiomes.biomes);
 
 		//generates the world and biome layouts
 		this.genBiomes =  buildOverworldProcedure(seed, worldType);

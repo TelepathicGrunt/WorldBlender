@@ -21,6 +21,7 @@ import net.telepathicgrunt.worldblender.networking.MessageHandler;
 public class WBPortalTileEntity extends TileEntity implements ITickableTileEntity
 {
 	private float teleportCooldown = 300;
+	private boolean removeable = true;
 
 
 	public WBPortalTileEntity()
@@ -79,7 +80,6 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 		return this.teleportCooldown > 0;
 	}
 
-
 	public float getCoolDown()
 	{
 		return this.teleportCooldown;
@@ -90,7 +90,6 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 		this.teleportCooldown = cooldown;
 	}
 
-
 	public void triggerCooldown()
 	{
 		this.teleportCooldown = 300;
@@ -98,12 +97,24 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 		this.world.notifyBlockUpdate(this.pos, this.getBlockState(), this.getBlockState(), 3);
 		MessageHandler.UpdateTECooldownPacket.sendToClient(this.pos, this.getCoolDown());
 	}
+	
+	public boolean isRemoveable()
+	{
+		return this.removeable;
+	}
+	
+	public void makeNotRemoveable()
+	{
+		this.removeable = false;
+		this.markDirty();
+	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT data)
 	{
 		super.write(data);
 		data.putFloat("Cooldown", this.teleportCooldown);
+		data.putBoolean("Removeable", this.removeable);
 		return data;
 	}
 
@@ -120,6 +131,8 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 		{
 			this.teleportCooldown = 300; //if this is missing cooldown entry, have it start with a cooldown
 		}
+		
+		this.removeable = data.getBoolean("Removeable");
 	}
 
 
@@ -160,13 +173,14 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 	{
 		return new SUpdateTileEntityPacket(this.pos, 0, this.getUpdateTag());
 	}
+	
 
-	@Override
-	public void onLoad() {
-		if (world.isRemote) {
-			//TutorialMod.network.sendToServer(new PacketRequestUpdatePedestal(this));
-		}
-	}
+//	@Override
+//	public void onLoad() {
+//		if (world.isRemote) {
+//			//TutorialMod.network.sendToServer(new PacketRequestUpdatePedestal(this));
+//		}
+//	}
 
 	/**
 	 * Get an NBT compound to sync to the client with SPacketChunkData, used for initial loading of the chunk or when many

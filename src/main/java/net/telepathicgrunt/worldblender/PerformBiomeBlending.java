@@ -20,7 +20,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.telepathicgrunt.worldblender.biome.BiomeInit;
+import net.telepathicgrunt.worldblender.biome.WBBiomes;
 import net.telepathicgrunt.worldblender.biome.biomes.surfacebuilder.BlendedSurfaceBuilder;
 import net.telepathicgrunt.worldblender.configs.WBConfig;
 
@@ -39,7 +39,7 @@ public class PerformBiomeBlending
 		for (Biome biome : ForgeRegistries.BIOMES.getValues())
 		{
 			//ignore our own biomes to speed things up and prevent possible duplications
-			if (BiomeInit.biomes.contains(biome)) 
+			if (WBBiomes.biomes.contains(biome)) 
 				continue;
 			
 			 // if the biome is a vanilla biome but config says no vanilla biome, skip this biome
@@ -85,13 +85,13 @@ public class PerformBiomeBlending
 		//add grass and flowers now so they are generated second to last
 		for (ConfiguredFeature<?, ?> grassyFlowerFeature : grassyFlowerList)
 		{
-			BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, grassyFlowerFeature));
+			WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, grassyFlowerFeature));
 		}
 
 		//add bamboo so it is dead last
 		for (ConfiguredFeature<?, ?> bambooFeature : bambooList)
 		{
-			BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, bambooFeature));
+			WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, bambooFeature));
 		}
 	}
 
@@ -101,9 +101,9 @@ public class PerformBiomeBlending
 		{
 			for (ConfiguredFeature<?, ?> configuredFeature : biome.getFeatures(stage))
 			{
-				if (!BiomeInit.BLENDED_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, configuredFeature)))
+				if (!WBBiomes.BLENDED_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, configuredFeature)))
 				{
-					if(BiomeInit.VANILLA_TEMP_BIOME.getFeatures(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature))) {
+					if(WBBiomes.VANILLA_TEMP_BIOME.getFeatures(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature))) {
 						if (WBConfig.SERVER.allowVanillaFeatures.get())
 						{
 							if (configuredFeature.feature == Feature.field_227248_z_ || configuredFeature.feature == Feature.SIMPLE_RANDOM_SELECTOR || configuredFeature.feature == Feature.RANDOM_RANDOM_SELECTOR || configuredFeature.feature == Feature.FLOWER || configuredFeature.feature == Feature.DECORATED_FLOWER)
@@ -120,7 +120,7 @@ public class PerformBiomeBlending
 								}
 								else
 								{
-									BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
+									WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
 								}
 							}
 						}
@@ -143,11 +143,11 @@ public class PerformBiomeBlending
 							{
 								//adds modded features that might be trees to front of array so they have priority
 								//over vanilla features.
-								BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.features.get(stage).add(0, configuredFeature));
+								WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.features.get(stage).add(0, configuredFeature));
 							}
 							else
 							{
-								BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
+								WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
 							}
 						}
 					}
@@ -162,14 +162,14 @@ public class PerformBiomeBlending
 	{
 		for (Structure<?> structure : biome.structures.keySet())
 		{
-			if (!BiomeInit.BLENDED_BIOME.structures.keySet().stream().anyMatch(struct -> struct == structure))
+			if (!WBBiomes.BLENDED_BIOME.structures.keySet().stream().anyMatch(struct -> struct == structure))
 			{
-				if (BiomeInit.VANILLA_TEMP_BIOME.structures.keySet().stream().anyMatch(vanillaStructure -> vanillaStructure.getClass().equals(structure.getClass())))
+				if (WBBiomes.VANILLA_TEMP_BIOME.structures.keySet().stream().anyMatch(vanillaStructure -> vanillaStructure.getClass().equals(structure.getClass())))
 				{
 					if (WBConfig.SERVER.allowVanillaStructures.get())
 					{
 						//add the structure version of the structure
-						BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addStructureFeature(new ConfiguredFeature(structure, biome.structures.get(structure))));
+						WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addStructureFeature(new ConfiguredFeature(structure, biome.structures.get(structure))));
 						
 						//find the feature version of the structure in this biome and add it so it can spawn
 						for (Decoration stage : GenerationStage.Decoration.values())
@@ -177,7 +177,7 @@ public class PerformBiomeBlending
 							for (ConfiguredFeature<?, ?> configuredFeature : biome.getFeatures(stage))
 							{
 								if(configuredFeature.feature.getClass().equals(biome.structures.get(structure).getClass())) {
-									BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
+									WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
 								}
 							}
 						}
@@ -187,7 +187,7 @@ public class PerformBiomeBlending
 				else if (WBConfig.SERVER.allowModdedStructures.get())
 				{
 					//add the structure version of the structure
-					BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addStructureFeature(new ConfiguredFeature(structure, biome.structures.get(structure))));
+					WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addStructureFeature(new ConfiguredFeature(structure, biome.structures.get(structure))));
 				
 					//find the feature version of the structure in this biome and add it so it can spawn
 					for (Decoration stage : GenerationStage.Decoration.values())
@@ -195,7 +195,7 @@ public class PerformBiomeBlending
 						for (ConfiguredFeature<?, ?> configuredFeature : biome.getFeatures(stage))
 						{
 							if(configuredFeature.feature.getClass().equals(biome.structures.get(structure).getClass())) {
-								BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
+								WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
 							}
 						}
 					}
@@ -211,16 +211,16 @@ public class PerformBiomeBlending
 		{
 			for (ConfiguredCarver<?> carver : biome.getCarvers(carverStage))
 			{
-				if (!BiomeInit.BLENDED_BIOME.getCarvers(carverStage).stream().anyMatch(config -> config.carver == carver.carver))
+				if (!WBBiomes.BLENDED_BIOME.getCarvers(carverStage).stream().anyMatch(config -> config.carver == carver.carver))
 				{
 					if (carver.carver.getRegistryName() != null && carver.carver.getRegistryName().getNamespace().equals("minecraft"))
 					{
 						if (WBConfig.SERVER.allowVanillaCarvers.get())
-							BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addCarver(carverStage, carver));
+							WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addCarver(carverStage, carver));
 					}
 					else if (WBConfig.SERVER.allowModdedCarvers.get())
 					{
-						BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addCarver(carverStage, carver));
+						WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addCarver(carverStage, carver));
 					}
 				}
 			}
@@ -234,16 +234,16 @@ public class PerformBiomeBlending
 		{
 			for (SpawnListEntry spawnEntry : biome.getSpawns(entityClass))
 			{
-				if (!BiomeInit.BLENDED_BIOME.getSpawns(entityClass).stream().anyMatch(spawn -> spawn.entityType == spawnEntry.entityType))
+				if (!WBBiomes.BLENDED_BIOME.getSpawns(entityClass).stream().anyMatch(spawn -> spawn.entityType == spawnEntry.entityType))
 				{
 					if (spawnEntry.entityType.getRegistryName() != null && spawnEntry.entityType.getRegistryName().getNamespace().equals("minecraft"))
 					{
 						if (WBConfig.SERVER.allowVanillaSpawns.get())
-							BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addSpawn(entityClass, spawnEntry));
+							WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addSpawn(entityClass, spawnEntry));
 					}
 					else if (WBConfig.SERVER.allowModdedSpawns.get())
 					{
-						BiomeInit.biomes.forEach(blendedBiome -> blendedBiome.addSpawn(entityClass, spawnEntry));
+						WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addSpawn(entityClass, spawnEntry));
 					}
 				}
 			}
@@ -254,9 +254,9 @@ public class PerformBiomeBlending
 	private static void addBiomeSurfaceConfig(Biome biome)
 	{
 		SurfaceBuilderConfig surfaceConfig = (SurfaceBuilderConfig) biome.getSurfaceBuilderConfig();
-		if (!((BlendedSurfaceBuilder) BiomeInit.FEATURE_SURFACE_BUILDER).containsConfig(surfaceConfig))
+		if (!((BlendedSurfaceBuilder) WBBiomes.FEATURE_SURFACE_BUILDER).containsConfig(surfaceConfig))
 		{
-			((BlendedSurfaceBuilder) BiomeInit.FEATURE_SURFACE_BUILDER).addConfig(surfaceConfig);
+			((BlendedSurfaceBuilder) WBBiomes.FEATURE_SURFACE_BUILDER).addConfig(surfaceConfig);
 		}
 	}
 

@@ -19,7 +19,7 @@ import net.telepathicgrunt.worldblender.biome.biomes.OceanBlendedBiome;
 import net.telepathicgrunt.worldblender.biome.biomes.VanillaTempBiome;
 import net.telepathicgrunt.worldblender.biome.biomes.surfacebuilder.BlendedSurfaceBuilder;
 
-public class BiomeInit {
+public class WBBiomes {
 
 
 	//list of all biomes we registered

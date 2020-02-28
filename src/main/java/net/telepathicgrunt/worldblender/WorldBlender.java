@@ -7,6 +7,7 @@ import net.minecraft.server.dedicated.ServerProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -21,9 +22,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
-import net.telepathicgrunt.worldblender.biome.BiomeInit;
+import net.telepathicgrunt.worldblender.biome.WBBiomes;
 import net.telepathicgrunt.worldblender.blocks.WBBlocks;
 import net.telepathicgrunt.worldblender.configs.WBConfig;
+import net.telepathicgrunt.worldblender.features.WBFeatures;
 import net.telepathicgrunt.worldblender.networking.MessageHandler;
 import net.telepathicgrunt.worldblender.worldtype.WBWorldType;
 
@@ -109,7 +111,14 @@ public class WorldBlender
 		public static void registerBiomes(final RegistryEvent.Register<Biome> event)
 		{
 			//registers all my modified biomes
-			BiomeInit.registerBiomes(event);
+			WBBiomes.registerBiomes(event);
+		}
+		
+		@SubscribeEvent
+		public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
+		{
+			//registers all my modified biomes
+			WBFeatures.registerFeatures(event);
 		}
 	}
 
