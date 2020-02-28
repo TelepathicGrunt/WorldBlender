@@ -106,7 +106,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 		return Math.min(chosenConfigIndex, listSize-1); //no index out of bounds
 	}
 	
-	public void setPerlinSeed(long seed){
+	public static void setPerlinSeed(long seed){
 		if(perlinGen == null) {
 			perlinGen = new PerlinNoiseGenerator(new SharedSeedRandom(seed), 0, 1);
 			perlinSeed = seed;

@@ -95,15 +95,6 @@ public class PerformBiomeBlending
 		}
 	}
 
-	public static void setupPerlinSeed(long seed)
-	{
-		if (BlendedSurfaceBuilder.perlinSeed == seed)
-			return; //We already set the stuff for this world (fires every time a dimension is loaded)
-
-		((BlendedSurfaceBuilder) BiomeInit.FEATURE_SURFACE_BUILDER).setPerlinSeed(seed);
-	}
-
-
 	private static void addBiomeFeatures(Biome biome, List<ConfiguredFeature<?, ?>> bambooList, List<ConfiguredFeature<?, ?>> grassyFlowerList)
 	{
 		for (Decoration stage : GenerationStage.Decoration.values())

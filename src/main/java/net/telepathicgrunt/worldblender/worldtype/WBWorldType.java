@@ -6,7 +6,7 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.ChunkGeneratorType;
 import net.minecraft.world.gen.OverworldChunkGenerator;
-import net.telepathicgrunt.worldblender.PerformBiomeBlending;
+import net.telepathicgrunt.worldblender.biome.biomes.surfacebuilder.BlendedSurfaceBuilder;
 import net.telepathicgrunt.worldblender.generation.WBBiomeProvider;
 
 
@@ -33,7 +33,7 @@ public class WBWorldType extends WorldType
 		if (world.dimension.getType() == DimensionType.OVERWORLD)
 		{
 			//set seed here as WorldEvent.Load fires too late
-			PerformBiomeBlending.setupPerlinSeed(world.getSeed());
+			BlendedSurfaceBuilder.setPerlinSeed(world.getSeed());
 			
 			//tells Minecraft to use this mod's ChunkGeneratorOverworld when running this world type in Overworld.
 			return new OverworldChunkGenerator(world, new WBBiomeProvider(world), ChunkGeneratorType.SURFACE.createSettings());

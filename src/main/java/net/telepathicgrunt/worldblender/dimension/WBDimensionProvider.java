@@ -13,8 +13,8 @@ import net.minecraft.world.gen.OverworldChunkGenerator;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
-import net.telepathicgrunt.worldblender.PerformBiomeBlending;
 import net.telepathicgrunt.worldblender.WorldBlender;
+import net.telepathicgrunt.worldblender.biome.biomes.surfacebuilder.BlendedSurfaceBuilder;
 import net.telepathicgrunt.worldblender.generation.WBBiomeProvider;
 
 
@@ -44,7 +44,7 @@ public class WBDimensionProvider extends Dimension
 	public ChunkGenerator<?> createChunkGenerator()
 	{
 		//set seed here as WorldEvent.Load fires at a bad time sometimes. 
-		PerformBiomeBlending.setupPerlinSeed(world.getSeed());
+		BlendedSurfaceBuilder.setPerlinSeed(world.getSeed());
 		
 		return new OverworldChunkGenerator(world, new WBBiomeProvider(world), ChunkGeneratorType.SURFACE.createSettings());
 	}
