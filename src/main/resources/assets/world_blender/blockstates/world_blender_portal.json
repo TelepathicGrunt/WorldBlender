@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "world_blender:block/world_blender_portal" }
+    }
+}

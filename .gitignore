@@ -21,7 +21,7 @@ build
 eclipse
 run
 .gitattributes
-assets
+.assets
 deps
 
 # Files from Forge MDK
