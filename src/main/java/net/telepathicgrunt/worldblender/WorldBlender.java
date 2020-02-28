@@ -7,10 +7,12 @@ import net.minecraft.server.dedicated.ServerProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -20,6 +22,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.telepathicgrunt.worldblender.biome.BiomeInit;
+import net.telepathicgrunt.worldblender.blocks.WBBlocks;
 import net.telepathicgrunt.worldblender.configs.WBConfig;
 import net.telepathicgrunt.worldblender.worldtype.WBWorldType;
 
@@ -38,6 +41,7 @@ public class WorldBlender
 	{
 		ModLoadingContext modLoadingContext = ModLoadingContext.get();
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 		MinecraftForge.EVENT_BUS.register(this);
 		
 		modEventBus.addListener(this::setup);
@@ -45,6 +49,11 @@ public class WorldBlender
 		//generates/handles config
 		modEventBus.addListener(this::modConfig);
 		modLoadingContext.registerConfig(ModConfig.Type.COMMON, WBConfig.SERVER_SPEC);
+		
+		//Add block, item, and tile entity to registration on mod bus
+		WBBlocks.registerAll(modEventBus);
+		
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> ClientEvents.subscribeClientEvents(modEventBus, forgeBus));
 	}
 
 
@@ -94,7 +103,6 @@ public class WorldBlender
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistryEvents
 	{
-
 		@SubscribeEvent
 		public static void registerBiomes(final RegistryEvent.Register<Biome> event)
 		{

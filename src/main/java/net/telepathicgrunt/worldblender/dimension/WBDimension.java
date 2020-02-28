@@ -44,7 +44,7 @@ public class WBDimension {
         RegUtil.generic(event.getRegistry()).add(WorldBlender.MODID, WORLD_BLENDER_DIMENSION);
     }
 
-    public static DimensionType bumblezone() {
+    public static DimensionType worldblender() {
         return DimensionType.byName(WORLD_BLENDER_DIMENSION_RL);
     }
     
