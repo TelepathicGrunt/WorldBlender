@@ -30,6 +30,7 @@ public class WBConfig
 	    public static boolean allowVanillaCarvers = true;
 	    public static boolean allowVanillaSpawns = true;
 	    public static boolean allowVanillaSurfaces = true;
+	    public static boolean disallowLaggyVanillaFeatures = false;
 	    
 	    public static boolean allowModdedFeatures = true;
 	    public static boolean allowModdedStructures = true;
@@ -52,6 +53,7 @@ public class WBConfig
 		    public final BooleanValue allowVanillaCarvers;
 		    public final BooleanValue allowVanillaSpawns;
 		    public final BooleanValue allowVanillaSurfaces;
+		    public final BooleanValue disallowLaggyVanillaFeatures;
 		    
 		    public final BooleanValue allowModdedFeatures;
 		    public final BooleanValue allowModdedStructures;
@@ -108,6 +110,14 @@ public class WBConfig
 		                    		+" Decides if the dimension imports surfaces like desert's sand, giant tree taiga's podzol, etc.\r\n")
 		                    .translation("world_blender.config.vanilla.allowvanillasurfaces")
 		                    .define("allowVanillaSurfaces", true);
+	
+		            disallowLaggyVanillaFeatures = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" Will make vanilla bamboo, lava, and fire features not spawn\r\n"
+		                    		+" in order to help reduce lag in the world due to bamboo\r\n"
+		                    		+" breaking like crazy or fire spreading rapidly.\r\n")
+		                    .translation("world_blender.config.vanilla.disallowlaggyvanillafeatures")
+		                    .define("disallowLaggyVanillaFeatures", true);
 	            
 	            builder.pop();
 	            
@@ -208,6 +218,7 @@ public class WBConfig
 	    	allowVanillaCarvers = SERVER.allowVanillaCarvers.get();
 	    	allowVanillaSpawns = SERVER.allowVanillaSpawns.get();
 	    	allowVanillaSurfaces = SERVER.allowVanillaSurfaces.get();
+	    	disallowLaggyVanillaFeatures = SERVER.disallowLaggyVanillaFeatures.get();
 	    	
 	    	allowModdedFeatures = SERVER.allowModdedFeatures.get();
 	    	allowModdedStructures = SERVER.allowModdedStructures.get();

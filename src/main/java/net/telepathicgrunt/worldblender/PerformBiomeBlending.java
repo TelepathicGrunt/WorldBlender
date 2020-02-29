@@ -88,10 +88,13 @@ public class PerformBiomeBlending
 			WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, grassyFlowerFeature));
 		}
 
-		//add bamboo so it is dead last
-		for (ConfiguredFeature<?, ?> bambooFeature : bambooList)
+		if(!WBConfig.disallowLaggyVanillaFeatures)
 		{
-			WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, bambooFeature));
+			//add bamboo so it is dead last
+			for (ConfiguredFeature<?, ?> bambooFeature : bambooList)
+			{
+				WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, bambooFeature));
+			}
 		}
 	}
 
@@ -120,7 +123,11 @@ public class PerformBiomeBlending
 								}
 								else
 								{
-									WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
+									//if we have no laggy feature config on, then the feature must not be fire or lava in order to be added
+									if(!WBConfig.disallowLaggyVanillaFeatures || !ListsOfVanillaEntries.lavaAndFirefeatures.get(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature)))
+									{
+										WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
+									}
 								}
 							}
 						}
