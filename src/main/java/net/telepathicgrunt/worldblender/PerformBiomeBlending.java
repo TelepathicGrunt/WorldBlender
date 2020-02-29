@@ -86,7 +86,10 @@ public class PerformBiomeBlending
 		//add grass and flowers now so they are generated second to last
 		for (ConfiguredFeature<?, ?> grassyFlowerFeature : grassyFlowerList)
 		{
-			WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, grassyFlowerFeature));
+			if (!WBBiomes.BLENDED_BIOME.getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, grassyFlowerFeature)))
+			{
+				WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, grassyFlowerFeature));
+			}
 		}
 
 		if(!WBConfig.disallowLaggyVanillaFeatures)
@@ -94,7 +97,10 @@ public class PerformBiomeBlending
 			//add bamboo so it is dead last
 			for (ConfiguredFeature<?, ?> bambooFeature : bambooList)
 			{
-				WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, bambooFeature));
+				if (!WBBiomes.BLENDED_BIOME.getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, bambooFeature)))
+				{
+					WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, bambooFeature));
+				}
 			}
 		}
 	}
