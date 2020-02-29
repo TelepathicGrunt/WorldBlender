@@ -16,6 +16,7 @@ import net.minecraft.world.gen.GenerationStage.Carving;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.carver.ConfiguredCarver;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
@@ -109,14 +110,20 @@ public class PerformBiomeBlending
 					if(WBBiomes.VANILLA_TEMP_BIOME.getFeatures(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature))) {
 						if (WBConfig.SERVER.allowVanillaFeatures.get())
 						{
-							if (configuredFeature.feature == Feature.field_227248_z_ || configuredFeature.feature == Feature.SIMPLE_RANDOM_SELECTOR || configuredFeature.feature == Feature.RANDOM_RANDOM_SELECTOR || configuredFeature.feature == Feature.FLOWER || configuredFeature.feature == Feature.DECORATED_FLOWER)
+							if (configuredFeature.config instanceof DecoratedFeatureConfig &&
+								(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.field_227248_z_
+								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.SIMPLE_RANDOM_SELECTOR 
+								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_RANDOM_SELECTOR 
+								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.FLOWER 
+								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.DECORATED_FLOWER))
 							{
 								//add the grass and flowers later so trees have a chance to spawn
 								grassyFlowerList.add(configuredFeature);
 							}
 							else
 							{
-								if (configuredFeature.feature == Feature.BAMBOO)
+								if (configuredFeature.config instanceof DecoratedFeatureConfig &&
+									((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.BAMBOO)
 								{
 									//MAKE BAMBOO GENERATE VERY LAST. SCREW BAMBOO
 									bambooList.add(configuredFeature);
@@ -134,19 +141,28 @@ public class PerformBiomeBlending
 					}
 					else if (WBConfig.SERVER.allowModdedFeatures.get())
 					{
-						if (configuredFeature.feature == Feature.field_227248_z_ || configuredFeature.feature == Feature.SIMPLE_RANDOM_SELECTOR || configuredFeature.feature == Feature.RANDOM_RANDOM_SELECTOR || configuredFeature.feature == Feature.FLOWER || configuredFeature.feature == Feature.DECORATED_FLOWER)
+						if (configuredFeature.config instanceof DecoratedFeatureConfig &&
+							(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.field_227248_z_
+							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.SIMPLE_RANDOM_SELECTOR 
+							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_RANDOM_SELECTOR 
+							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.FLOWER 
+							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.DECORATED_FLOWER))
 						{
 							//add the grass and flowers later so trees have a chance to spawn
 							grassyFlowerList.add(configuredFeature);
 						}
 						else
 						{
-							if (configuredFeature.feature == Feature.BAMBOO)
+							if (configuredFeature.config instanceof DecoratedFeatureConfig &&
+								((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.BAMBOO)
 							{
 								//MAKE BAMBOO GENERATE VERY LAST. SCREW BAMBOO
 								bambooList.add(configuredFeature);
 							}
-							else if (stage == Decoration.VEGETAL_DECORATION && (configuredFeature.feature == Feature.RANDOM_BOOLEAN_SELECTOR || configuredFeature.feature == Feature.RANDOM_SELECTOR))
+							else if (stage == Decoration.VEGETAL_DECORATION && 
+									(configuredFeature.config instanceof DecoratedFeatureConfig &&
+									((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_BOOLEAN_SELECTOR || 
+									((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_SELECTOR))
 							{
 								//adds modded features that might be trees to front of array so they have priority
 								//over vanilla features.

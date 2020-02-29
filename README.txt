@@ -7,7 +7,7 @@
        | World Blender changelog |
            
        
-    (V.1.0.1 Changes) (1.15.2 Minecraft)
+    (V.1.1.0 Changes) (1.15.2 Minecraft)
            
 	Importing Features: 
 ·Fixed bug where some modded features are seen as vanilla features by mistake.
@@ -16,8 +16,18 @@
 ·Fixed bug where importing structures also need importing features turned on. Now that option works without needing feature option also set to true.
     
 	Teleportation: 
-·
-    
+·Added World Blender Portal to teleport between Overworld and World Blender dimension. You make the portal by placing 8 chests in a 2x2 area and then fill all of their slots with an unique block (stacks of blocks will not count as extra and items without block form will be ignored). Then crouch and right click the chests while holding a Nether Star to create the portal to this overpowered dimension! Crouch right click the portal block without holding any item to remove the portal for good. 
+      
+	Dimension: 
+·Added World Blender Portal Altar at world origin in the dimension where the World Blender Portal block cannot be removed by crouch right clicking.
+       
+	Worldtype: 
+·Created worldtype as an alternative for the dimension. For server owners, add "use-modded-worldtype=world-blender" as a new entry in your server.properties file to use this worldtype.
+
+	Config: 
+·Added config to changed the amount of unique items needed to create the portal.
+·Added config to changed what item is needed to be held to create the portal.
+·Added config to turn off vanilla bamboo, fire, and lava based features to help reduce lag.
            
        
     (V.1.0.0 Changes) (1.15.2 Minecraft)
