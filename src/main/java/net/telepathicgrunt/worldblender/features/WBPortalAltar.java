@@ -5,6 +5,7 @@ import java.util.function.Function;
 
 import com.mojang.datafixers.Dynamic;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
@@ -32,8 +33,7 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 	{
 		super(configFactory);
 	}
-	//first NTB structure I made to work by watching tutorials lol. 
-	//PRAISE THE SUN!!!
+	
 
 	public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> changedBlock, Random rand, BlockPos position, NoFeatureConfig p_212245_5_)
 	{
@@ -54,11 +54,13 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 		
 		BlockPos finalPosition = world.getHeight(Heightmap.Type.WORLD_SURFACE_WG, position);
 		PlacementSettings placementsettings = (new PlacementSettings()).setMirror(Mirror.NONE).setRotation(Rotation.NONE).setIgnoreEntities(false).setChunk((ChunkPos) null);
-		template.addBlocksToWorld(world, finalPosition.add(-5, -1, -5), placementsettings);
+		template.addBlocksToWorld(world, finalPosition.add(-5, -2, -5), placementsettings);
 
 		//make portal block unremoveable in altar
 		if(world.getTileEntity(finalPosition) != null && world.getTileEntity(finalPosition) instanceof WBPortalTileEntity)
 			((WBPortalTileEntity)world.getTileEntity(finalPosition)).makeNotRemoveable();
+		
+		//world.setBlockState(finalPosition.up(5), Blocks.QUARTZ_BLOCK.getDefaultState(), 3);
 		
 		return true;
 

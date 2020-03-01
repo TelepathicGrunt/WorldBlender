@@ -7,6 +7,9 @@
        | World Blender changelog |
            
        
+    (V.1.2.0 Changes) (1.15.2 Minecraft)
+  
+       
     (V.1.1.0 Changes) (1.15.2 Minecraft)
            
 	Importing Features: 

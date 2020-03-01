@@ -1,5 +1,8 @@
 package net.telepathicgrunt.worldblender.dimension;
 
+import javax.annotation.Nullable;
+
+import net.minecraft.entity.player.PlayerEntity.SleepResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -21,10 +24,11 @@ import net.telepathicgrunt.worldblender.generation.WBBiomeProvider;
 @Mod.EventBusSubscriber(modid = WorldBlender.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WBDimensionProvider extends Dimension
 {
+	private final float[] colorsSunriseSunset = new float[4];
 
 	public WBDimensionProvider(World world, DimensionType typeIn)
 	{
-		super(world, typeIn, 1.0f); //set 1.0f. I think it has to do with maximum brightness?
+		super(world, typeIn, 15);
 
 		/**
 		 * Creates the light to brightness table. It changes how light levels looks to the players but does not change the
@@ -34,8 +38,11 @@ public class WBDimensionProvider extends Dimension
 		{
 			this.lightBrightnessTable[i] = (float) i / 15F;
 		}
-	}
 
+//		CompoundNBT compoundnbt = world.getWorldInfo().getDimensionData(typeIn);
+//		this.dragonFightManager = world instanceof ServerWorld && WBConfig.spawnEnderDragon ? new DragonFightManager((ServerWorld) world, compoundnbt.getCompound("DragonFight"), this) : null;
+	}
+	
 
 	/**
 	 * Use our own biome provider and chunk generator for this dimension
@@ -45,7 +52,7 @@ public class WBDimensionProvider extends Dimension
 	{
 		//set seed here as WorldEvent.Load fires at a bad time sometimes. 
 		BlendedSurfaceBuilder.setPerlinSeed(world.getSeed());
-		
+
 		return new OverworldChunkGenerator(world, new WBBiomeProvider(world), ChunkGeneratorType.SURFACE.createSettings());
 	}
 
@@ -61,6 +68,13 @@ public class WBDimensionProvider extends Dimension
 	public boolean canRespawnHere()
 	{
 		return true;
+	}
+
+
+	@Override
+	public BlockPos getSpawnCoordinate()
+	{
+		return null;
 	}
 
 
@@ -94,6 +108,39 @@ public class WBDimensionProvider extends Dimension
 
 	@Override
 	public boolean isSurfaceWorld()
+	{
+		return true;
+	}
+
+
+	/**
+	 * Returns array with sunrise/sunset colors
+	 */
+	@Nullable
+	@OnlyIn(Dist.CLIENT)
+	public float[] calcSunriseSunsetColors(float celestialAngle, float partialTicks)
+	{
+		float f1 = MathHelper.cos(celestialAngle * ((float) Math.PI * 2F)) - 0.0F;
+		if (f1 >= -0.4F && f1 <= 0.4F)
+		{
+			float f3 = (f1 - -0.0F) / 0.4F * 0.5F + 0.5F;
+			float f4 = 1.0F - (1.0F - MathHelper.sin(f3 * (float) Math.PI)) * 0.99F;
+			f4 = f4 * f4;
+			this.colorsSunriseSunset[0] = f3 * 0.3F + 0.7F;
+			this.colorsSunriseSunset[1] = f3 * f3 * 0.7F + 0.2F;
+			this.colorsSunriseSunset[2] = f3 * f3 * 0.0F + 0.2F;
+			this.colorsSunriseSunset[3] = f4;
+			return this.colorsSunriseSunset;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+
+	@OnlyIn(Dist.CLIENT)
+	public boolean isSkyColored()
 	{
 		return true;
 	}

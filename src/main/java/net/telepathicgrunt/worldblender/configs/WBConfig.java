@@ -41,6 +41,8 @@ public class WBConfig
 	    public static int uniqueBlocksNeeded = 216;
 	    public static String activationItem = "minecraft:nether_star";
 	    public static boolean consumeChests = true;
+
+	    public static boolean spawnEnderDragon = true;
 	    
 	    public static class ServerConfig
 	    {
@@ -64,6 +66,8 @@ public class WBConfig
 		    public final IntValue uniqueBlocksNeeded;
 		    public final ConfigValue<String> activationItem;
 		    public final BooleanValue consumeChests;
+		    
+		    public final BooleanValue spawnEnderDragon;
 		    
 	        ServerConfig(ForgeConfigSpec.Builder builder) 
 	        {
@@ -204,6 +208,21 @@ public class WBConfig
 			                    .define("consumeChests", true);
 		            
 	            builder.pop();
+	            builder.push("Misc Options");
+
+	            spawnEnderDragon = builder
+			                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+			                    		+" If true, the Enderdragon will spawn at world origin in the\r\n"
+			                    		+" World Blender dimension and can respawn if you put back the\r\n"
+			                    		+" End Crystals on the podiums. Once killed, the podium's portal \r\n"
+			                    		+" will take you to the End where you can battle the End's Enderdragon \r\n"
+			                    		+" \r\n"
+			                    		+" If set to false, the Enderdragon will not spawn.\r\n."
+			                    		+" NOTE: Once the Enderdragon is spawned, changing this to false"
+			                    		+" will not despawn the Enderdragon.\r\n")
+			                    .translation("world_blender.config.portal.spawnenderdragon")
+			                    .define("spawnEnderDragon", true);
+	            builder.pop();
 	        }
 	            		
 	    } 
@@ -229,5 +248,7 @@ public class WBConfig
 		    uniqueBlocksNeeded = SERVER.uniqueBlocksNeeded.get();
 	    	activationItem = SERVER.activationItem.get();
 	    	consumeChests = SERVER.consumeChests.get();
+
+	    	spawnEnderDragon = SERVER.spawnEnderDragon.get();
 	    }
 }

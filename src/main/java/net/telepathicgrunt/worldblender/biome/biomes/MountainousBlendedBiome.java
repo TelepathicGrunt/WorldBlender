@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.telepathicgrunt.worldblender.biome.WBBiomes;
 import net.telepathicgrunt.worldblender.features.WBFeatures;
 
-public final class MountainousBlendedBiome extends Biome
+public final class MountainousBlendedBiome extends WBBiome
 {
 	public MountainousBlendedBiome()
 	{

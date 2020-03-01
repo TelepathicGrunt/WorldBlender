@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.telepathicgrunt.worldblender.biome.WBBiomes;
 import net.telepathicgrunt.worldblender.features.WBFeatures;
 
-public final class OceanBlendedBiome extends Biome
+public final class OceanBlendedBiome extends WBBiome
 {
 	public OceanBlendedBiome()
 	{
