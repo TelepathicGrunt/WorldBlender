@@ -23,6 +23,7 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.server.ServerWorld;
 import net.telepathicgrunt.worldblender.WorldBlender;
 import net.telepathicgrunt.worldblender.blocks.WBPortalTileEntity;
+import net.telepathicgrunt.worldblender.configs.WBConfig;
 import net.telepathicgrunt.worldblender.dimension.WBDimension;
 
 
@@ -60,7 +61,20 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 		if(world.getTileEntity(finalPosition) != null && world.getTileEntity(finalPosition) instanceof WBPortalTileEntity)
 			((WBPortalTileEntity)world.getTileEntity(finalPosition)).makeNotRemoveable();
 		
-		//world.setBlockState(finalPosition.up(5), Blocks.QUARTZ_BLOCK.getDefaultState(), 3);
+		//adds extra block so End Portal frame is placed slightly higher on top
+//		if(WBConfig.spawnEnderDragon)
+//		{
+//			world.setBlockState(finalPosition.up(4), Blocks.QUARTZ_BLOCK.getDefaultState(), 3);
+//			
+//			//loads up all chunks for enderdragon manager so it can spawn portal right away
+//			for(int x = -8; x <= 8; x++)
+//			{
+//				for(int z = -8; z <= 8; z++)
+//				{
+//					world.getChunk(x, z);
+//				}
+//			}
+//		}
 		
 		return true;
 
