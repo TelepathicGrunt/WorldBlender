@@ -2,33 +2,36 @@ package net.telepathicgrunt.worldblender.dimension;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.player.PlayerEntity.SleepResult;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.dimension.EndDimension;
+import net.minecraft.world.end.DragonFightManager;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.ChunkGeneratorType;
 import net.minecraft.world.gen.OverworldChunkGenerator;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
 import net.telepathicgrunt.worldblender.WorldBlender;
 import net.telepathicgrunt.worldblender.biome.biomes.surfacebuilder.BlendedSurfaceBuilder;
+import net.telepathicgrunt.worldblender.configs.WBConfig;
 import net.telepathicgrunt.worldblender.generation.WBBiomeProvider;
 
 
 @Mod.EventBusSubscriber(modid = WorldBlender.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class WBDimensionProvider extends Dimension
+public class WBDimensionProvider extends EndDimension
 {
 	private final float[] colorsSunriseSunset = new float[4];
 
 	public WBDimensionProvider(World world, DimensionType typeIn)
 	{
-		super(world, typeIn, 15);
+		super(world, typeIn);
 
 		/**
 		 * Creates the light to brightness table. It changes how light levels looks to the players but does not change the
@@ -39,8 +42,8 @@ public class WBDimensionProvider extends Dimension
 			this.lightBrightnessTable[i] = (float) i / 15F;
 		}
 
-//		CompoundNBT compoundnbt = world.getWorldInfo().getDimensionData(typeIn);
-//		this.dragonFightManager = world instanceof ServerWorld && WBConfig.spawnEnderDragon ? new DragonFightManager((ServerWorld) world, compoundnbt.getCompound("DragonFight"), this) : null;
+		CompoundNBT compoundnbt = world.getWorldInfo().getDimensionData(typeIn);
+		this.dragonFightManager = world instanceof ServerWorld && WBConfig.spawnEnderDragon ? new DragonFightManager((ServerWorld) world, compoundnbt.getCompound("DragonFight"), this) : null;
 	}
 	
 
