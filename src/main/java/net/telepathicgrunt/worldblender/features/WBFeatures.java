@@ -15,6 +15,6 @@ public class WBFeatures
     {
     	IForgeRegistry<Feature<?>> registry = event.getRegistry();
         WorldBlender.register(registry, WB_PORTAL_ALTAR, "world_blender_portal_altar");
-        WorldBlender.register(registry, DD_DUNGEON_FEATURE, "dd_basic_dungeon_feature");
+        WorldBlender.register(registry, DD_DUNGEON_FEATURE, "dd_dungeon_feature");
     }
 }
