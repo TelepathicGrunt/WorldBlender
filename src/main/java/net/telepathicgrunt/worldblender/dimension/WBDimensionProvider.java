@@ -2,7 +2,6 @@ package net.telepathicgrunt.worldblender.dimension;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.player.PlayerEntity.SleepResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;

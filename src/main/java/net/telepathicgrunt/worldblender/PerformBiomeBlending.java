@@ -137,7 +137,7 @@ public class PerformBiomeBlending
 								else
 								{
 									//if we have no laggy feature config on, then the feature must not be fire or lava in order to be added
-									if(!WBConfig.disallowLaggyVanillaFeatures || !ListsOfVanillaEntries.lavaAndFirefeatures.get(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature)))
+									if(!WBConfig.disallowLaggyVanillaFeatures || !VanillaFeatureGrouping.lavaAndFirefeatures.get(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature)))
 									{
 										WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
 									}

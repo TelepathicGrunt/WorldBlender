@@ -25,25 +25,8 @@ import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.placement.TopSolidWithNoiseConfig;
 
 
-public class ListsOfVanillaEntries
+public class VanillaFeatureGrouping
 {
-	//TODO: make a proper list of vanilla features and structures and add optional lists to toggle
-	public static Map<GenerationStage.Decoration, List<ConfiguredFeature<?, ?>>> features = Maps.newHashMap();
-	static
-	{
-		Map<GenerationStage.Decoration, List<ConfiguredFeature<?, ?>>> result = new HashMap<GenerationStage.Decoration, List<ConfiguredFeature<?, ?>>>();
-		for (GenerationStage.Decoration generationstage$decoration : GenerationStage.Decoration.values())
-		{
-			result.put(generationstage$decoration, Lists.newArrayList());
-		}
-		
-		//add all vanilla features here
-		result.get(GenerationStage.Decoration.VEGETAL_DECORATION).add(Feature.SEAGRASS.configure(new SeaGrassConfig(32, 0.3D)).createDecoratedFeature(Placement.TOP_SOLID_HEIGHTMAP.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
-
-		
-		features = result;
-	}
-	
 	public static Map<GenerationStage.Decoration, List<ConfiguredFeature<?, ?>>> bamboofeatures = Maps.newHashMap();
 	static
 	{
@@ -79,5 +62,21 @@ public class ListsOfVanillaEntries
 		result.get(GenerationStage.Decoration.UNDERGROUND_DECORATION).add(Feature.LAKE.configure(new BlockStateFeatureConfig(Blocks.LAVA.getDefaultState())).createDecoratedFeature(Placement.LAVA_LAKE.configure(new ChanceConfig(80))));
 
 		lavaAndFirefeatures = result;
+	}
+	
+	public static Map<GenerationStage.Decoration, List<ConfiguredFeature<?, ?>>> treefeatures = Maps.newHashMap();
+	static
+	{
+		Map<GenerationStage.Decoration, List<ConfiguredFeature<?, ?>>> result = new HashMap<GenerationStage.Decoration, List<ConfiguredFeature<?, ?>>>();
+		for (GenerationStage.Decoration generationstage$decoration : GenerationStage.Decoration.values())
+		{
+			result.put(generationstage$decoration, Lists.newArrayList());
+		}
+		
+		//add all vanilla features here
+//		result.get(GenerationStage.Decoration.VEGETAL_DECORATION).add(Feature.BAMBOO.configure(new ProbabilityConfig(0.2F)).createDecoratedFeature(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED.configure(new TopSolidWithNoiseConfig(160, 80.0D, 0.3D, Heightmap.Type.WORLD_SURFACE_WG))));
+//		result.get(GenerationStage.Decoration.VEGETAL_DECORATION).add(Feature.BAMBOO.configure(new ProbabilityConfig(0.0F)).createDecoratedFeature(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(16))));
+
+		treefeatures = result;
 	}
 }

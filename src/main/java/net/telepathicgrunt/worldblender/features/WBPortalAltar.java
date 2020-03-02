@@ -5,7 +5,6 @@ import java.util.function.Function;
 
 import com.mojang.datafixers.Dynamic;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
@@ -23,7 +22,6 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.server.ServerWorld;
 import net.telepathicgrunt.worldblender.WorldBlender;
 import net.telepathicgrunt.worldblender.blocks.WBPortalTileEntity;
-import net.telepathicgrunt.worldblender.configs.WBConfig;
 import net.telepathicgrunt.worldblender.dimension.WBDimension;
 
 
