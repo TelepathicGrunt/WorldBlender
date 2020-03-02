@@ -9,12 +9,12 @@ import net.telepathicgrunt.worldblender.WorldBlender;
 public class WBFeatures
 {
     public static Feature<NoFeatureConfig> WB_PORTAL_ALTAR = new WBPortalAltar(NoFeatureConfig::deserialize);
-    public static Feature<NoFeatureConfig> DD_BASIC_DUNGEON_FEATURE = new DDBasicDungeonFeature(NoFeatureConfig::deserialize);
+    public static Feature<NoFeatureConfig> DD_DUNGEON_FEATURE = new DDDungeonFeature(NoFeatureConfig::deserialize);
 
     public static void registerFeatures(RegistryEvent.Register<Feature<?>> event)
     {
     	IForgeRegistry<Feature<?>> registry = event.getRegistry();
         WorldBlender.register(registry, WB_PORTAL_ALTAR, "world_blender_portal_altar");
-        WorldBlender.register(registry, DD_BASIC_DUNGEON_FEATURE, "dd_basic_dungeon_feature");
+        WorldBlender.register(registry, DD_DUNGEON_FEATURE, "dd_basic_dungeon_feature");
     }
 }
