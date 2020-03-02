@@ -91,9 +91,9 @@ public class DDDungeonFeature extends Feature<NoFeatureConfig>
 	public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> changedBlock, Random rand, BlockPos position, NoFeatureConfig config)
 	{
 		//low chance of spawning
-		double noise = noiseGen.noiseAt((double)position.getX() * 0.0125D, (double)position.getZ() * 0.0125D, 0.0625D, 0.0625D);
+		double noise = noiseGen.noiseAt((double)position.getX() * 0.019D, (double)position.getZ() * 0.019D, 0.0625D, 0.0625D);
 		WorldBlender.LOGGER.warn(noise);
-		if (noise < 0.4f)
+		if (noise < 0.28f)
 		{
 			return false;
 		}
