@@ -91,30 +91,69 @@ public class DDDungeonFeature extends Feature<NoFeatureConfig>
 	public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> changedBlock, Random rand, BlockPos position, NoFeatureConfig config)
 	{
 		//low chance of spawning
-		double noise = noiseGen.noiseAt((double)position.getX() * 0.0225D, (double)position.getZ() * 0.0225D, 0.0625D, 0.0625D);
+		double noise = noiseGen.noiseAt((double)position.getX() * 0.0125D, (double)position.getZ() * 0.0125D, 0.0625D, 0.0625D);
 		WorldBlender.LOGGER.warn(noise);
-		if (noise < 0.2f)
+		if (noise < 0.4f)
 		{
 			return false;
 		}
 
-		//picks a random room
-		String[] roomGroup = roomTypes[rand.nextInt(roomTypes.length)];
-		String roomName = roomGroup[rand.nextInt(roomGroup.length)];
+		int xChunk = position.getX() >> 4;
+		int zChunk = position.getZ() >> 4;
+		String roomName;
 
+		//Creates checker pattern of 4 ways rooms with a random room in the other spots
+		if(xChunk % 2 == zChunk % 2)
+		{
+			//picks only a 4 way room
+			roomName = fourway[rand.nextInt(fourway.length)];
+		}
+		else {
+			//picks a random room that can be any room
+			String[] roomGroup = roomTypes[rand.nextInt(roomTypes.length)];
+			roomName = roomGroup[rand.nextInt(roomGroup.length)];
+		}
+		
+		
 		TemplateManager templatemanager = ((ServerWorld) world.getWorld()).getSaveHandler().getStructureTemplateManager();
 		Template template = templatemanager.getTemplate(new ResourceLocation("dimdungeons:" + roomName));
 
 		if (template == null)
 		{
-			WorldBlender.LOGGER.warn("dimdungeons's fourway_1 NTB does not exist!");
+			WorldBlender.LOGGER.warn("dimdungeons's "+roomName+" NTB does not exist!");
 			return false;
 		}
 
 		//sets the dungeon at 20 and then as the noise increase towards the center, the dungeons raise in height slightly
-		BlockPos finalPosition = new BlockPos((position.getX() >> 4) << 4, 20 + noise*8, (position.getZ() >> 4) << 4);
+		BlockPos finalPosition = new BlockPos(xChunk << 4, 20 + noise*8, zChunk << 4);
 		PlacementSettings placementsettings = (new PlacementSettings()).setMirror(Mirror.NONE).setRotation(Rotation.NONE).setIgnoreEntities(false).setChunk((ChunkPos) null);
 		placementsettings.setBoundingBox(placementsettings.getBoundingBox());
+		
+		Rotation rot = Rotation.randomRotation(rand);
+		if (rot == Rotation.COUNTERCLOCKWISE_90)
+		{
+		    // west: rotate CCW and push +Z
+		    placementsettings.setRotation(Rotation.COUNTERCLOCKWISE_90);
+		    position = position.add(0, 0, template.getSize().getZ() - 1);
+		}
+		else if (rot == Rotation.CLOCKWISE_90)
+		{
+		    // east rotate CW and push +X
+		    placementsettings.setRotation(Rotation.CLOCKWISE_90);
+		    position = position.add(template.getSize().getX() - 1, 0, 0);
+		}
+		else if (rot == Rotation.CLOCKWISE_180)
+		{
+		    // south: rotate 180 and push both +X and +Z
+		    placementsettings.setRotation(Rotation.CLOCKWISE_180);
+		    position = position.add(template.getSize().getX() - 1, 0, template.getSize().getZ() - 1);
+		}
+		else
+		{
+		    // north: no rotation
+		    placementsettings.setRotation(Rotation.NONE);
+		}
+		
 		try 
 		{
 			template.addBlocksToWorld(world, finalPosition, placementsettings);
