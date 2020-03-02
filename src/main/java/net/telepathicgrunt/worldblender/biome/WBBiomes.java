@@ -16,7 +16,7 @@ import net.telepathicgrunt.worldblender.biome.biomes.BlendedBiome;
 import net.telepathicgrunt.worldblender.biome.biomes.FrozenOceanBlendedBiome;
 import net.telepathicgrunt.worldblender.biome.biomes.MountainousBlendedBiome;
 import net.telepathicgrunt.worldblender.biome.biomes.OceanBlendedBiome;
-import net.telepathicgrunt.worldblender.biome.biomes.VanillaTempBiome;
+import net.telepathicgrunt.worldblender.biome.biomes.VanillaEntriesHolderBiome;
 import net.telepathicgrunt.worldblender.biome.biomes.surfacebuilder.BlendedSurfaceBuilder;
 
 public class WBBiomes {
@@ -32,7 +32,7 @@ public class WBBiomes {
 	public static Biome MOUNTAINOUS_BLENDED_BIOME = new MountainousBlendedBiome();
 	public static Biome OCEAN_BLENDED_BIOME = new OceanBlendedBiome();
 	public static Biome FROZEN_OCEAN_BLENDED_BIOME = new FrozenOceanBlendedBiome();
-	public static Biome VANILLA_TEMP_BIOME = new VanillaTempBiome(); //do not register it. We aint ever spawning it
+	public static Biome VANILLA_TEMP_BIOME = new VanillaEntriesHolderBiome(); //do not register it. We aint ever spawning it
 	
 	//registers the biomes so they now exist in the registry along with their types
 	public static void registerBiomes(RegistryEvent.Register<Biome> event) {

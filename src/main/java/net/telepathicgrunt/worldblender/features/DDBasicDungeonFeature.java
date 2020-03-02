@@ -21,14 +21,12 @@ import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.server.ServerWorld;
 import net.telepathicgrunt.worldblender.WorldBlender;
-import net.telepathicgrunt.worldblender.blocks.WBPortalTileEntity;
-import net.telepathicgrunt.worldblender.dimension.WBDimension;
 
 
-public class WBPortalAltar extends Feature<NoFeatureConfig>
+public class DDBasicDungeonFeature extends Feature<NoFeatureConfig>
 {
 
-	public WBPortalAltar(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactory)
+	public DDBasicDungeonFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactory)
 	{
 		super(configFactory);
 	}
@@ -36,46 +34,25 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 
 	public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> changedBlock, Random rand, BlockPos position, NoFeatureConfig config)
 	{
-		//only world origin chunk allows generation
-		if (world.getDimension().getType() != WBDimension.worldblender() || position.getX() >> 4 != 0 || position.getZ() >> 4 != 0)
+		if(rand.nextFloat() < 0.5f) 
 		{
 			return false;
 		}
 		
 		TemplateManager templatemanager = ((ServerWorld) world.getWorld()).getSaveHandler().getStructureTemplateManager();
-		Template template = templatemanager.getTemplate(new ResourceLocation(WorldBlender.MODID + ":world_blender_portal_altar"));
+		Template template = templatemanager.getTemplate(new ResourceLocation("dimdungeons:fourway_1"));
 
 		if (template == null)
 		{
-			WorldBlender.LOGGER.warn("world blender portal altar NTB does not exist!");
+			WorldBlender.LOGGER.warn("dimdungeons's fourway_1 NTB does not exist!");
 			return false;
 		}
 		
+		//sets the dungeon anywhere between surface and y = 12.
 		BlockPos finalPosition = world.getHeight(Heightmap.Type.WORLD_SURFACE_WG, position);
 		PlacementSettings placementsettings = (new PlacementSettings()).setMirror(Mirror.NONE).setRotation(Rotation.NONE).setIgnoreEntities(false).setChunk((ChunkPos) null);
-		template.addBlocksToWorld(world, finalPosition.add(-5, -2, -5), placementsettings);
+		template.addBlocksToWorld(world, finalPosition.add(-8, -rand.nextInt(finalPosition.getY()-12), -8), placementsettings);
 
-		//make portal block unremoveable in altar
-		if(world.getTileEntity(finalPosition) != null && world.getTileEntity(finalPosition) instanceof WBPortalTileEntity)
-			((WBPortalTileEntity)world.getTileEntity(finalPosition)).makeNotRemoveable();
-		
-		//adds extra block so End Portal frame is placed slightly higher on top
-//		if(WBConfig.spawnEnderDragon)
-//		{
-//			world.setBlockState(finalPosition.up(4), Blocks.QUARTZ_BLOCK.getDefaultState(), 3);
-//			
-//			//loads up all chunks for enderdragon manager so it can spawn portal right away
-//			for(int x = -8; x <= 8; x++)
-//			{
-//				for(int z = -8; z <= 8; z++)
-//				{
-//					world.getChunk(x, z);
-//				}
-//			}
-//		}
-		
 		return true;
-
 	}
-
 }

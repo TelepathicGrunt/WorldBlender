@@ -39,9 +39,9 @@ import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 
 
-public class VanillaTempBiome extends Biome
+public class VanillaEntriesHolderBiome extends Biome
 {
-	public VanillaTempBiome()
+	public VanillaEntriesHolderBiome()
 	{
 		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(SurfaceBuilder.NOPE, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.NONE).category(Biome.Category.NONE).depth(0.0F).scale(0.0F).temperature(0.0F).downfall(0.0F).waterColor(0).waterFogColor(0).parent((String) null));
 
