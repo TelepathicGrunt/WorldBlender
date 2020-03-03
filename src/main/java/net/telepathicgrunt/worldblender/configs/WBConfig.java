@@ -183,23 +183,6 @@ public class WBConfig
 		                    .define("allowModdedSurfaces", true);
 		            
 	            builder.pop();
-
-	            builder.push("Resource Location Dump Option");
-	            
-				    resourceLocationDump = builder
-			                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
-			                    		+" Dumps all resource locations (IDs) for all mods into a new file\r\n"
-			                    		+" called resourceLocationDump.txt and can be found by looking below\r\n"
-			                    		+" the saves and mods folder in Minecraft's folder. The file is made if"
-			                    		+" you set this option to true and then run modded Minecraft until you"
-			                    		+" reach the title menu.\r\n"
-			                    		+"\r\n"
-			                    		+" Use this option to look up the resource location or name of features,"
-			                    		+" biomes, blocks, carvers, structures, or entities that you want to blacklist.\r\n")
-			                    .translation("world_blender.config.resourcelocation.resourcelocationdump")
-			                    .define("resourceLocationDump", false);
-			            
-	            builder.pop();
 	            
 	            builder.push("Portal Options");
 	            
@@ -240,6 +223,23 @@ public class WBConfig
 			                    .translation("world_blender.config.portal.consumechests")
 			                    .define("consumeChests", true);
 		            
+	            builder.pop();
+
+	            builder.push("Resource Location Dump Option");
+	            
+				    resourceLocationDump = builder
+			                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+			                    		+" Dumps all resource locations (IDs) for all mods into a new file\r\n"
+			                    		+" called resourceLocationDump.txt and can be found by looking below\r\n"
+			                    		+" the saves and mods folder in Minecraft's folder. The file is made if"
+			                    		+" you set this option to true and then run modded Minecraft until you"
+			                    		+" reach the title menu.\r\n"
+			                    		+"\r\n"
+			                    		+" Use this option to look up the resource location or name of features,"
+			                    		+" biomes, blocks, carvers, structures, or entities that you want to blacklist.\r\n")
+			                    .translation("world_blender.config.resourcelocation.resourcelocationdump")
+			                    .define("resourceLocationDump", false);
+			            
 	            builder.pop();
 	            
 	            builder.push("Blacklist Options");

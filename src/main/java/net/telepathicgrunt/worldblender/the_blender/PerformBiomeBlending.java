@@ -76,15 +76,7 @@ public class PerformBiomeBlending
 			addBiomeNaturalMobs(biome);
 
 			////////////////////////SURFACE/////////////////////////
-			if (biome.getRegistryName() != null && biome.getRegistryName().getNamespace().equals("minecraft"))
-			{
-				if (WBConfig.SERVER.allowVanillaSurfaces.get())
-					addBiomeSurfaceConfig(biome);
-			}
-			else if (WBConfig.SERVER.allowModdedSurfaces.get())
-			{
-				addBiomeSurfaceConfig(biome);
-			}
+			addBiomeSurfaceConfig(biome);
 		}
 		
 		
@@ -355,6 +347,17 @@ public class PerformBiomeBlending
 
 	private static void addBiomeSurfaceConfig(Biome biome)
 	{
+		//return early if biome's is turned off by the vanilla surface configs.
+		if (biome.getRegistryName() != null && biome.getRegistryName().getNamespace().equals("minecraft"))
+		{
+			if (!WBConfig.SERVER.allowVanillaSurfaces.get())
+				return;
+		}
+		else if (!WBConfig.SERVER.allowModdedSurfaces.get())
+		{
+			return;
+		}
+		
 		SurfaceBuilderConfig surfaceConfig = (SurfaceBuilderConfig) biome.getSurfaceBuilderConfig();
 		
 		//blacklisted by surface list. Checks top block
