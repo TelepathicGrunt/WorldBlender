@@ -5,9 +5,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.telepathicgrunt.worldblender.configs.WBConfig;
 import net.telepathicgrunt.worldblender.the_blender.ConfigBlacklisting;
 import net.telepathicgrunt.worldblender.the_blender.IntermodCompatibility;
 import net.telepathicgrunt.worldblender.the_blender.PerformBiomeBlending;
+import net.telepathicgrunt.worldblender.the_blender.ResourceLocationPrinting;
 
 @Mod.EventBusSubscriber(modid = WorldBlender.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CommonModBusEventHandler
@@ -22,6 +24,10 @@ public class CommonModBusEventHandler
 		{
 			IntermodCompatibility.addDDDungeons();
 		}
+		
+		if(WBConfig.resourceLocationDump)
+		{
+			ResourceLocationPrinting.printAllResourceLocations();
+		}
 	}
-
 }

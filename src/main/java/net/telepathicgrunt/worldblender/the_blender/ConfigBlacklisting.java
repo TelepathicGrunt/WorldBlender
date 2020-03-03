@@ -113,4 +113,5 @@ public class ConfigBlacklisting
 		boolean isNotAllowed = listToUse.stream().anyMatch(banEntry -> matchFound(banEntry, biomeRL));
 		return isNotAllowed;
 	}
+	
 }
