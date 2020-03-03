@@ -50,11 +50,11 @@ public class WBPortalTileEntityRenderer extends TileEntityRenderer<WBPortalTileE
 	private void drawColor(WBPortalTileEntity tileEntity, float modifier, Matrix4f matrix4f, IVertexBuilder vertexBuilder)
 	{
 		// turns dark red when cooling down but lightens over time. And when finished cooling down, it pops to full brightness
-		float coolDownEffect = tileEntity.isCoolingDown() ? 0.85f - tileEntity.getCoolDown()/1200F : 1.0f ; 
+		float coolDownEffect = tileEntity.isCoolingDown() ? 0.7f - tileEntity.getCoolDown()/1200F : 0.85f ; 
 
-		float red = (RANDOM.nextFloat() * 4.2F) * modifier * coolDownEffect + tileEntity.getCoolDown()/2800F;
-		float green = (RANDOM.nextFloat() * 3.0F) * modifier * coolDownEffect;
-		float blue = (RANDOM.nextFloat() * 2.6F) * modifier * coolDownEffect;
+		float red = (RANDOM.nextFloat() * 3.85F) * modifier * coolDownEffect + tileEntity.getCoolDown()/2800F;
+		float green = (RANDOM.nextFloat() * 3.3F) * modifier * coolDownEffect;
+		float blue = (RANDOM.nextFloat() * 2.95F) * modifier * coolDownEffect;
 		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, red, green, blue, Direction.SOUTH);
 		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, red, green, blue, Direction.NORTH);
 		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, red, green, blue, Direction.EAST);
@@ -115,10 +115,10 @@ public class WBPortalTileEntityRenderer extends TileEntityRenderer<WBPortalTileE
 	
 	//////////////////////////////////RENDER STATE STUFF//////////////////////////////////////////
 
-	public static final ResourceLocation MAIN_TEXTURE = new ResourceLocation("textures/misc/enchanted_item_glint.png");
+	public static final ResourceLocation MAIN_TEXTURE =     new ResourceLocation("textures/misc/enchanted_item_glint.png");
 	public static final ResourceLocation ADDITIVE_TEXTURE = new ResourceLocation("textures/misc/forcefield.png");
 	private static final Random RANDOM = new Random(31100L);
-	private static final List<RenderType> WB_RENDER_TYPE = IntStream.range(0, 16).mapToObj((index) ->
+	private static final List<RenderType> WB_RENDER_TYPE = IntStream.range(0, 10).mapToObj((index) ->
 	{
 		return getWBPortal(index + 1);
 	}).collect(ImmutableList.toImmutableList());
