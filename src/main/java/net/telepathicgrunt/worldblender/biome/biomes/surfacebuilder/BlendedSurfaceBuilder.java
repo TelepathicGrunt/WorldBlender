@@ -16,6 +16,7 @@ import net.minecraft.world.gen.PerlinNoiseGenerator;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.telepathicgrunt.worldblender.configs.WBConfig;
+import net.telepathicgrunt.worldblender.the_blender.ConfigBlacklisting;
 
 public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 { 
@@ -37,7 +38,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 	public static void resetSurfaceList() {
 		configList = new ArrayList<SurfaceBuilderConfig>();
 		
-		//default order of surface builders I want to start with
+		//default order of surface builders I want to start with always
 		configList.add(NETHERRACK_CONFIG);
 		configList.add(END_STONE_CONFIG);
 		
@@ -51,6 +52,14 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 			configList.add(CORASE_DIRT_DIRT_GRAVEL_CONFIG);
 			configList.add(AIR_CONFIG);
 			configList.add(GRAVEL_CONFIG);
+		}
+		
+		//remove the surfaces that we disallow through blacklist but keep nether/end road
+		for(int i = configList.size()-1; i > 1; i--) {
+			if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.BLANKET, configList.get(i).getTop().getBlock().getRegistryName()))
+			{
+				configList.remove(i);
+			}
 		}
 	}
 	

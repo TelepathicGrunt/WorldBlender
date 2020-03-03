@@ -228,7 +228,7 @@ public class WBConfig
 	            builder.push("Blacklist Options");
 	            
 	            
-			    blanketBlacklist = builder
+	            	blanketBlacklist = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 		                    		+" This option can let you blacklist entire biomes or mods to\r\n"
 		                    		+" prevent any importing of any kind from them. You can also use\r\n"
@@ -259,7 +259,7 @@ public class WBConfig
 		                    .define("blanketBlacklist", "ultra_amplified_dimension*");
 
 	            
-			    blacklistedFeatures = builder
+			    	blacklistedFeatures = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 		                    		+" Blacklist features by key terms, mod ID, or their resourcelocation\r\n"
 		                    		+" \r\n"
@@ -281,7 +281,7 @@ public class WBConfig
 		                    .define("blacklistedFeatures", "");
 
 	            
-			    blacklistedStructures = builder
+			    	blacklistedStructures = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 		                    		+" Blacklist structures by key terms, mod ID, or their resourcelocation\r\n"
 		                    		+" \r\n"
@@ -303,7 +303,7 @@ public class WBConfig
 		                    .define("blacklistedStructures", "");
 
 	            
-			    blacklistedCarvers = builder
+			    	blacklistedCarvers = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 		                    		+" Blacklist carvers by key terms, mod ID, or their resourcelocation\r\n"
 		                    		+" \r\n"
@@ -327,7 +327,7 @@ public class WBConfig
 		                    .define("blacklistedCarvers", "");
 
 	            
-			    blacklistedSpawns = builder
+			    	blacklistedSpawns = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 		                    		+" Blacklist natural spawning mobs by key terms,\r\n" 
 		                    		+" mod ID, or their resourcelocation\r\n"
@@ -350,7 +350,7 @@ public class WBConfig
 		                    .define("blacklistedSpawns", "");
 	            
 			    
-			    blacklistedBiomeSurfaces = builder
+			    	blacklistedBiomeSurfaces = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 		                    		+" Blacklist surfaces by key terms, mod ID, or by block's resourcelocation\r\n"
 		                    		+" This will blacklist based on the very top most block that the surface uses.\r\n"
@@ -373,12 +373,16 @@ public class WBConfig
 		                    .translation("world_blender.config.blacklist.blacklistedbiomesurfaces")
 		                    .define("blacklistedBiomeSurfaces", "");
 
-			    
-			    resourceLocationDump = builder
-		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
-		                    		+" Dump all resource locations for all mods into a separate file. *under contruction*.\r\n")
-		                    .translation("world_blender.config.blacklist.resourcelocationdump")
-		                    .define("resourceLocationDump", false);
+
+	            builder.pop();
+	            
+	            builder.push("Resource Location Dump Option");
+	            
+				    resourceLocationDump = builder
+			                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+			                    		+" Dump all resource locations for all mods into a separate file. *under contruction*.\r\n")
+			                    .translation("world_blender.config.resourcelocation.resourcelocationdump")
+			                    .define("resourceLocationDump", false);
 			            
 	            builder.pop();
 	            

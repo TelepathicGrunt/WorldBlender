@@ -15,7 +15,7 @@ public class ConfigBlacklisting
 	private static List<String> spawnBL;
 	private static List<String> surfaceBL;
 	
-	enum BlacklistType 
+	public enum BlacklistType 
 	{
 		BLANKET,
 		FEATURE,
@@ -53,28 +53,23 @@ public class ConfigBlacklisting
 	private static boolean matchFound(String blacklistedEntry, ResourceLocation resourceLocationToCheck) 
 	{
 		//cannot do any matching. RIP
-		if(resourceLocationToCheck == null) 
+		if(resourceLocationToCheck == null || blacklistedEntry.isEmpty()) 
 		{
 			return false;
 		}
 		
 		//full resource location specific ban
-		if(blacklistedEntry.contains(":") && blacklistedEntry.equals(resourceLocationToCheck.toString())) 
+		if(blacklistedEntry.contains(":")) 
 		{
-			return true;
+			return blacklistedEntry.equals(resourceLocationToCheck.toString());
 		}
 		//mod specific ban
-		else if(blacklistedEntry.contains("*") && blacklistedEntry.substring(0, blacklistedEntry.length() - 2).equals(resourceLocationToCheck.getNamespace().toString())) 
+		else if(blacklistedEntry.contains("*")) 
 		{
-			return true;
+			return blacklistedEntry.substring(0, blacklistedEntry.length() - 1).equals(resourceLocationToCheck.getNamespace().toString());
 		}
 		//term specific ban
-		else if(resourceLocationToCheck.toString().contains(blacklistedEntry))
-		{
-			return true;
-		}
-		
-		return false;
+		return resourceLocationToCheck.toString().contains(blacklistedEntry);
 	}
 	
 	
