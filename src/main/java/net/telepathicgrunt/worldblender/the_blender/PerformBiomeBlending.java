@@ -53,6 +53,10 @@ public class PerformBiomeBlending
 				continue;
 			}
 			
+			//blacklisted by blanket list
+			if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.BLANKET, biome.getRegistryName())) {
+				continue;
+			}
 			
 
 			///////////FEATURES//////////////////
@@ -114,7 +118,14 @@ public class PerformBiomeBlending
 			{
 				if (!WBBiomes.BLENDED_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, configuredFeature)))
 				{
+					//feature blacklisted
+					if(configuredFeature.config instanceof DecoratedFeatureConfig &&
+						ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((DecoratedFeatureConfig)configuredFeature.config).feature.feature.getRegistryName())) {
+						continue;
+					}
+					
 					if(WBBiomes.VANILLA_TEMP_BIOME.getFeatures(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature))) {
+						
 						if (WBConfig.SERVER.allowVanillaFeatures.get())
 						{
 							if (configuredFeature.config instanceof DecoratedFeatureConfig &&
@@ -194,6 +205,11 @@ public class PerformBiomeBlending
 		{
 			if (!WBBiomes.BLENDED_BIOME.structures.keySet().stream().anyMatch(struct -> struct == structure))
 			{
+				//blacklisted by structure list
+				if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.STRUCTURE, structure.getRegistryName())) {
+					continue;
+				}
+				
 				if (WBBiomes.VANILLA_TEMP_BIOME.structures.keySet().stream().anyMatch(vanillaStructure -> vanillaStructure.getClass().equals(structure.getClass())))
 				{
 					if (WBConfig.SERVER.allowVanillaStructures.get())
@@ -241,6 +257,11 @@ public class PerformBiomeBlending
 		{
 			for (ConfiguredCarver<?> carver : biome.getCarvers(carverStage))
 			{
+				//blacklisted by carver list
+				if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.CARVER, carver.carver.getRegistryName())) {
+					continue;
+				}
+				
 				if (!WBBiomes.BLENDED_BIOME.getCarvers(carverStage).stream().anyMatch(config -> config.carver == carver.carver))
 				{
 					if (carver.carver.getRegistryName() != null && carver.carver.getRegistryName().getNamespace().equals("minecraft"))
@@ -264,6 +285,11 @@ public class PerformBiomeBlending
 		{
 			for (SpawnListEntry spawnEntry : biome.getSpawns(entityClass))
 			{
+				//blacklisted by natural spawn list
+				if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.SPAWN, spawnEntry.entityType.getRegistryName())) {
+					continue;
+				}
+				
 				if (!WBBiomes.BLENDED_BIOME.getSpawns(entityClass).stream().anyMatch(spawn -> spawn.entityType == spawnEntry.entityType))
 				{
 					if (spawnEntry.entityType.getRegistryName() != null && spawnEntry.entityType.getRegistryName().getNamespace().equals("minecraft"))
@@ -284,6 +310,13 @@ public class PerformBiomeBlending
 	private static void addBiomeSurfaceConfig(Biome biome)
 	{
 		SurfaceBuilderConfig surfaceConfig = (SurfaceBuilderConfig) biome.getSurfaceBuilderConfig();
+		
+		//blacklisted by surface list. Checks top block
+		if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.SURFACE_BLOCK, surfaceConfig.getTop().getBlock().getRegistryName()))
+		{
+			return;
+		}
+		
 		if (!((BlendedSurfaceBuilder) WBBiomes.FEATURE_SURFACE_BUILDER).containsConfig(surfaceConfig))
 		{
 			((BlendedSurfaceBuilder) WBBiomes.FEATURE_SURFACE_BUILDER).addConfig(surfaceConfig);
@@ -293,7 +326,6 @@ public class PerformBiomeBlending
 
 	private static boolean serializeAndCompareFeature(ConfiguredFeature<?, ?> feature1, ConfiguredFeature<?, ?> feature2)
 	{
-
 		try
 		{
 			Map<Dynamic<INBT>, Dynamic<INBT>> feature1Map = feature1.serialize(NBTDynamicOps.INSTANCE).getMapValues().get();
@@ -306,7 +338,7 @@ public class PerformBiomeBlending
 		}
 		catch (Exception e)
 		{
-			return false; //One feature cannot be serialized which can only happen with custom modded features
+			return false; //One of the features cannot be serialized which can only happen with custom modded features
 		}
 
 		return false;

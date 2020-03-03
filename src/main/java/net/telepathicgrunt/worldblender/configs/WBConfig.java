@@ -353,6 +353,7 @@ public class WBConfig
 			    blacklistedBiomeSurfaces = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 		                    		+" Blacklist surfaces by key terms, mod ID, or by block's resourcelocation\r\n"
+		                    		+" This will blacklist based on the very top most block that the surface uses.\r\n"
 		                    		+" \r\n"
 		                    		+" To blacklist by key terms, just enter the term alone such as \"sand\"\r\n"
 		                    		+" and all biome surfaces that uses blocks with sand in its name will\r\n"

@@ -15,6 +15,17 @@ public class ConfigBlacklisting
 	private static List<String> spawnBL;
 	private static List<String> surfaceBL;
 	
+	enum BlacklistType 
+	{
+		BLANKET,
+		FEATURE,
+		STRUCTURE,
+		CARVER,
+		SPAWN,
+		SURFACE_BLOCK
+	}
+	
+	
 	public static void setupBlackLists() 
 	{
 		blanketBL = parseConfigAndAssignEntries(WBConfig.blanketBlacklist);
@@ -39,20 +50,26 @@ public class ConfigBlacklisting
 	 * Helper method that will perform the actual RL match, mod specific match, 
 	 * and term matching based on the format of the blacklisted entry string
 	 */
-	private static boolean matchFound(String blacklistedEntry, ResourceLocation biomeRL) 
+	private static boolean matchFound(String blacklistedEntry, ResourceLocation resourceLocationToCheck) 
 	{
+		//cannot do any matching. RIP
+		if(resourceLocationToCheck == null) 
+		{
+			return false;
+		}
+		
 		//full resource location specific ban
-		if(blacklistedEntry.contains(":") && blacklistedEntry.equals(biomeRL.toString())) 
+		if(blacklistedEntry.contains(":") && blacklistedEntry.equals(resourceLocationToCheck.toString())) 
 		{
 			return true;
 		}
 		//mod specific ban
-		else if(blacklistedEntry.contains("*") && blacklistedEntry.substring(0, blacklistedEntry.length() - 2).equals(biomeRL.getNamespace().toString())) 
+		else if(blacklistedEntry.contains("*") && blacklistedEntry.substring(0, blacklistedEntry.length() - 2).equals(resourceLocationToCheck.getNamespace().toString())) 
 		{
 			return true;
 		}
 		//term specific ban
-		else if(biomeRL.toString().contains(blacklistedEntry))
+		else if(resourceLocationToCheck.toString().contains(blacklistedEntry))
 		{
 			return true;
 		}
@@ -63,39 +80,42 @@ public class ConfigBlacklisting
 	
 	
 	
-	public static boolean allowedBiome(ResourceLocation biomeRL) 
+	public static boolean isBiomeNotAllowed(BlacklistType type, ResourceLocation biomeRL) 
 	{
-		boolean allowedBiome = !blanketBL.stream().anyMatch(banEntry -> matchFound(banEntry, biomeRL));
-		return allowedBiome;
-	}
-
-	public static boolean allowedFeature(ResourceLocation featureRL) 
-	{
-		boolean allowedFeature = !featureBL.stream().anyMatch(banEntry -> matchFound(banEntry, featureRL));
-		return allowedFeature;
-	}
-	
-	public static boolean allowedStructure(ResourceLocation structureRL) 
-	{
-		boolean allowedStructure = !structureBL.stream().anyMatch(banEntry -> matchFound(banEntry, structureRL));
-		return allowedStructure;
-	}
-	
-	public static boolean allowedcarver(ResourceLocation carverRL) 
-	{
-		boolean allowedcarver = !carverBL.stream().anyMatch(banEntry -> matchFound(banEntry, carverRL));
-		return allowedcarver;
-	}
-	
-	public static boolean allowedSpawn(ResourceLocation spawnRL) 
-	{
-		boolean allowedSpawn = !spawnBL.stream().anyMatch(banEntry -> matchFound(banEntry, spawnRL));
-		return allowedSpawn;
-	}
-	
-	public static boolean allowedSurface(ResourceLocation blockRL) 
-	{
-		boolean allowedSurface = !surfaceBL.stream().anyMatch(banEntry -> matchFound(banEntry, blockRL));
-		return allowedSurface;
+		List<String> listToUse;
+		
+		switch(type) 
+		{
+			case BLANKET:
+				listToUse = blanketBL;
+				break;
+				
+			case FEATURE:
+				listToUse = featureBL;
+				break;
+				
+			case STRUCTURE:
+				listToUse = structureBL;
+				break;
+				
+			case CARVER:
+				listToUse = carverBL;
+				break;
+				
+			case SPAWN:
+				listToUse = spawnBL;
+				break;
+				
+			case SURFACE_BLOCK:
+				listToUse = surfaceBL;
+				break;
+				
+			default:
+				return false;
+		}
+				
+		
+		boolean isNotAllowed = listToUse.stream().anyMatch(banEntry -> matchFound(banEntry, biomeRL));
+		return isNotAllowed;
 	}
 }

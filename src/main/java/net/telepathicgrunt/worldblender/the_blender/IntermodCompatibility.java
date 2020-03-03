@@ -15,7 +15,7 @@ public class IntermodCompatibility
 	private static ResourceLocation DD_BASIC_DUNGEON_RL = new ResourceLocation("dimdungeons:feature_basic_dungeon");
 	private static ResourceLocation DD_ADVANCED_DUNGEON_RL = new ResourceLocation("dimdungeons:feature_advanced_dungeon");
 	
-	public static void addDDDunegons() 
+	public static void addDDDungeons() 
 	{
 		
 		//add our feature to handle their dungeons
