@@ -37,6 +37,14 @@ public class WBConfig
 	    public static boolean allowModdedCarvers = true;
 	    public static boolean allowModdedSpawns = true;
 	    public static boolean allowModdedSurfaces = true;
+	    
+	    public static String blanketBlacklist = "ultra_amplified_dimension";
+	    public static String blacklistedFeatures = "";
+	    public static String blacklistedStructures = "";
+	    public static String blacklistedCarvers = "";
+	    public static String blacklistedSpawns = "";
+	    public static String blacklistedBiomeSurfaces = "";
+	    public static boolean resourceLocationDump = false;
 
 	    public static int uniqueBlocksNeeded = 216;
 	    public static String activationItem = "minecraft:nether_star";
@@ -62,6 +70,14 @@ public class WBConfig
 		    public final BooleanValue allowModdedCarvers;
 		    public final BooleanValue allowModdedSpawns;
 		    public final BooleanValue allowModdedSurfaces;
+
+		    public final ConfigValue<String> blanketBlacklist;
+		    public final ConfigValue<String> blacklistedFeatures;
+		    public final ConfigValue<String> blacklistedStructures;
+		    public final ConfigValue<String> blacklistedCarvers;
+		    public final ConfigValue<String> blacklistedSpawns;
+		    public final ConfigValue<String> blacklistedBiomeSurfaces;
+		    public final BooleanValue resourceLocationDump;
 
 		    public final IntValue uniqueBlocksNeeded;
 		    public final ConfigValue<String> activationItem;
@@ -208,8 +224,159 @@ public class WBConfig
 			                    .define("consumeChests", true);
 		            
 	            builder.pop();
-	            builder.push("Misc Options");
+	            
+	            builder.push("Blacklist Options");
+	            
+	            
+			    blanketBlacklist = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" This option can let you blacklist entire biomes or mods to\r\n"
+		                    		+" prevent any importing of any kind from them. \r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist a mod's biome, you would enter the resourcelocation\r\n"
+		                    		+" for the biome. That means you need to enter the mod's ID first,\r\n"
+		                    		+" then put a : (semicolon), and then the ID of the biome.\r\n"
+		                    		+" For example, to blacklist just vanilla's Ice Spike biome, you\r\n"
+		                    		+" would put in minecraft:ice_spike and nothing will be imported\r\n"
+		                    		+" from that specific biome.\r\n"
+		                    		+" \r\n"
+		                    		+" If you want to blacklist an entire mod itself so no importing\r\n"
+		                    		+" will happen for any of its biome, just enter the mod's ID alone.r\n"
+		                    		+" As default, Ultra Amplified Dimension is blacklisted because\r\n"
+		                    		+" its features are not setup for normal worldgen and will completely\r\n"
+		                    		+" destroy this dimension.\r\n"
+		                    		+" \r\n"
+		                    		+" NOTE: You can blacklist multiple things at a time. Just separate\r\n"
+		                    		+" each entry with a , (comma). Here's an example blacklisting a mod\r\n"
+		                    		+" and a vanilla biome at the same time: \r\n"
+		                    		+" \"ultra_amplified_dimension, minecraft:ice_spike\"\r\n")
+		                    .translation("world_blender.config.blacklist.blanketblacklist")
+		                    .define("blanketBlacklist", "ultra_amplified_dimension");
 
+	            
+			    blacklistedFeatures = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" Blacklist features by key terms, mod ID, or their resourcelocation\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist by key terms, just enter the term alone such as \"tree\"\r\n"
+		                    		+" and all features with tree in their name will not be imported.\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist by mod ID, just enter the mod ID with an * on the end such as\r\n"
+		                    		+" \"ultra_amplified_dimension*\" and all features from that mod will not be imported.\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist a single feature, enter the mod ID, then :, and then the \r\n"
+		                    		+" feature's name. For example, \"minecraft:icebergs\" will prevent vanilla's\r\n"
+		                    		+" icebergs from being imported but allow other mod's icebergs to be imported.\r\n"
+		                    		+" \r\n"
+		                    		+" NOTE: You can blacklist multiple things at a time. Just separate\r\n"
+		                    		+" each entry with a , (comma). Here's an example blacklisting all trees\r\n"
+		                    		+" and vanilla's icebergs: \r\n"
+		                    		+" \"tree, minecraft:iceberg\"\r\n")
+		                    .translation("world_blender.config.blacklist.blacklistedfeatures")
+		                    .define("blacklistedFeatures", "");
+
+	            
+			    blacklistedStructures = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" Blacklist structures by key terms, mod ID, or their resourcelocation\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist by key terms, just enter the term alone such as \"temple\"\r\n"
+		                    		+" and all features with temple in their name will not be imported.\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist by mod ID, just enter the mod ID with an * on the end such as\r\n"
+		                    		+" \"ultra_amplified_dimension*\" and all structures from that mod will not be imported.\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist a single feature, enter the mod ID, then :, and then the \r\n"
+		                    		+" feature's name. For example, \"minecraft:igloo\" will prevent vanilla's\r\n"
+		                    		+" igloos from being imported but allow other mod's igloos to be imported.\r\n"
+		                    		+" \r\n"
+		                    		+" NOTE: You can blacklist multiple things at a time. Just separate\r\n"
+		                    		+" each entry with a , (comma). Here's an example blacklisting all temples\r\n"
+		                    		+" and vanilla's igloos: \r\n"
+		                    		+" \"temple, minecraft:igloo\"\r\n")
+		                    .translation("world_blender.config.blacklist.blacklistedstructures")
+		                    .define("blacklistedStructures", "");
+
+	            
+			    blacklistedCarvers = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" Blacklist carvers by key terms, mod ID, or their resourcelocation\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist by key terms, just enter the term alone such as \"cave\"\r\n"
+		                    		+" and all carvers with cave in their name will not be imported if they\r\n"
+		                    		+" are registered with a name. Not many mods register their carvers sadly.\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist by mod ID, just enter the mod ID with an * on the end such as\r\n"
+		                    		+" \"ultra_amplified_dimension*\" and all carvers from that mod will not be imported.\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist a single feature, enter the mod ID, then :, and then the \r\n"
+		                    		+" feature's name. For example, \"minecraft:underwater_canyon\" will prevent \r\n"
+		                    		+" vanilla's underwater canyons (ravines) from being imported. For underwater\r\n"
+				                    +" caves, use \"minecraft:underwater_cave\" to stop them from being imported.\r\n"
+		                    		+" \r\n"
+		                    		+" NOTE: You can blacklist multiple things at a time. Just separate\r\n"
+		                    		+" each entry with a , (comma). Here's an example blacklisting all caves\r\n"
+		                    		+" and vanilla's underwater canyons: \r\n"
+		                    		+" \"cave, minecraft:underwater_canyon\"\r\n")
+		                    .translation("world_blender.config.blacklist.blacklistedcarvers")
+		                    .define("blacklistedCarvers", "");
+
+	            
+			    blacklistedSpawns = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" Blacklist natural spawning mobs by key terms,\r\n" 
+		                    		+" mod ID, or their resourcelocation\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist by key terms, just enter the term alone such as \"zombie\"\r\n"
+		                    		+" and all mobs with zombie in their name will not be imported.\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist by mod ID, just enter the mod ID with an * on the end such as\r\n"
+		                    		+" \"super_duper_mob_mod*\" and all mobs from that mod will not be imported.\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist a single mob, enter the mod ID, then :, and then the \r\n"
+		                    		+" mob's name. For example, \"minecraft:ghast\" will prevent \r\n"
+		                    		+" vanilla's ghast from being imported.\r\n"
+		                    		+" \r\n"
+		                    		+" NOTE: You can blacklist multiple things at a time. Just separate\r\n"
+		                    		+" each entry with a , (comma). Here's an example blacklisting all zombies\r\n"
+		                    		+" and vanilla's ghasts: \r\n"
+		                    		+" \"zombie, minecraft:ghast\"\r\n")
+		                    .translation("world_blender.config.blacklist.blacklistedspawns")
+		                    .define("blacklistedSpawns", "");
+	            
+			    
+			    blacklistedBiomeSurfaces = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" Blacklist surfaces by key terms, mod ID, or by block's resourcelocation\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist by key terms, just enter the term alone such as \"sand\"\r\n"
+		                    		+" and all biome surfaces that uses blocks with sand in its name will\r\n"
+		                    		+" not be imported. After all, sand is coarse and rough and gets everywhere!\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist by mod ID, just enter the mod ID with an * on the end such as\r\n"
+		                    		+" \"weird_biome_mod*\" and all biome surfaces from that mod will not be imported.\r\n"
+		                    		+" \r\n"
+		                    		+" To blacklist a block from being a surface, enter the mod ID, then :, and then the \r\n"
+		                    		+" block's name. For example, \"minecraft:mycelium\" will prevent any surfaces that uses\r\n"
+		                    		+" Mycelium blocks from being imported.\r\n"
+		                    		+" \r\n"
+		                    		+" NOTE: You can blacklist multiple things at a time. Just separate\r\n"
+		                    		+" each entry with a , (comma). Here's an example blacklisting all sand\r\n"
+		                    		+" surfaces and vanilla Mushroom Biome's Mycelium surface: \r\n"
+		                    		+" \"sand, minecraft:mycelium\"\r\n")
+		                    .translation("world_blender.config.blacklist.blacklistedbiomesurfaces")
+		                    .define("blacklistedBiomeSurfaces", "");
+
+			    
+			    resourceLocationDump = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" Dump all resource locations for all mods into a separate file. *under contruction*.\r\n")
+		                    .translation("world_blender.config.blacklist.resourcelocationdump")
+		                    .define("resourceLocationDump", false);
+			            
+	            builder.pop();
+	            
+//	            builder.push("Misc Options");
 //	            spawnEnderDragon = builder
 //			                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 //			                    		+" If true, the Enderdragon will spawn at world origin in the\r\n"
@@ -244,6 +411,14 @@ public class WBConfig
 	    	allowModdedCarvers = SERVER.allowModdedCarvers.get();
 	    	allowModdedSpawns = SERVER.allowModdedSpawns.get();
 	    	allowModdedSurfaces = SERVER.allowModdedSurfaces.get();
+	    
+	    	blanketBlacklist = SERVER.blanketBlacklist.get();
+	    	blacklistedFeatures = SERVER.blacklistedFeatures.get();
+	    	blacklistedStructures = SERVER.blacklistedStructures.get();
+	    	blacklistedCarvers = SERVER.blacklistedCarvers.get();
+	    	blacklistedSpawns = SERVER.blacklistedSpawns.get();
+	    	blacklistedBiomeSurfaces = SERVER.blacklistedBiomeSurfaces.get();
+	    	resourceLocationDump = SERVER.resourceLocationDump.get();
 	    	
 		    uniqueBlocksNeeded = SERVER.uniqueBlocksNeeded.get();
 	    	activationItem = SERVER.activationItem.get();

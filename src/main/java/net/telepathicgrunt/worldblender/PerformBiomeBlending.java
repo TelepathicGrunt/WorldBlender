@@ -82,6 +82,7 @@ public class PerformBiomeBlending
 		
 		
 		//////////Misc Features///////////////
+		//Add these only after we have finally gone through all biomes
 		
 		//add grass and flowers now so they are generated second to last
 		for (ConfiguredFeature<?, ?> grassyFlowerFeature : grassyFlowerList)
