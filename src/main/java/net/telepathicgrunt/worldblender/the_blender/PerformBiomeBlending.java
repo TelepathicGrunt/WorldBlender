@@ -1,4 +1,4 @@
-package net.telepathicgrunt.worldblender;
+package net.telepathicgrunt.worldblender.the_blender;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -38,7 +38,7 @@ public class WBConfig
 	    public static boolean allowModdedSpawns = true;
 	    public static boolean allowModdedSurfaces = true;
 	    
-	    public static String blanketBlacklist = "ultra_amplified_dimension";
+	    public static String blanketBlacklist = "ultra_amplified_dimension*";
 	    public static String blacklistedFeatures = "";
 	    public static String blacklistedStructures = "";
 	    public static String blacklistedCarvers = "";
@@ -231,7 +231,8 @@ public class WBConfig
 			    blanketBlacklist = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 		                    		+" This option can let you blacklist entire biomes or mods to\r\n"
-		                    		+" prevent any importing of any kind from them. \r\n"
+		                    		+" prevent any importing of any kind from them. You can also use\r\n"
+		                    		+" terms to ban any biome that contains the terms too.\r\n"
 		                    		+" \r\n"
 		                    		+" To blacklist a mod's biome, you would enter the resourcelocation\r\n"
 		                    		+" for the biome. That means you need to enter the mod's ID first,\r\n"
@@ -241,17 +242,21 @@ public class WBConfig
 		                    		+" from that specific biome.\r\n"
 		                    		+" \r\n"
 		                    		+" If you want to blacklist an entire mod itself so no importing\r\n"
-		                    		+" will happen for any of its biome, just enter the mod's ID alone.r\n"
+		                    		+" will happen for any of its biome, just enter the mod's ID and thenr\n"
+		                    		+" put an * at the end.r\n"
 		                    		+" As default, Ultra Amplified Dimension is blacklisted because\r\n"
 		                    		+" its features are not setup for normal worldgen and will completely\r\n"
 		                    		+" destroy this dimension.\r\n"
 		                    		+" \r\n"
+		                    		+" To blacklist by key terms, just enter the term alone such as \"ocean\"\r\n"
+		                    		+" and all biomes with ocean in their name will not be imported.\r\n"
+		                    		+" \r\n"
 		                    		+" NOTE: You can blacklist multiple things at a time. Just separate\r\n"
 		                    		+" each entry with a , (comma). Here's an example blacklisting a mod\r\n"
 		                    		+" and a vanilla biome at the same time: \r\n"
-		                    		+" \"ultra_amplified_dimension, minecraft:ice_spike\"\r\n")
+		                    		+" \"ultra_amplified_dimension*, minecraft:ice_spike\"\r\n")
 		                    .translation("world_blender.config.blacklist.blanketblacklist")
-		                    .define("blanketBlacklist", "ultra_amplified_dimension");
+		                    .define("blanketBlacklist", "ultra_amplified_dimension*");
 
 	            
 			    blacklistedFeatures = builder

@@ -1,4 +1,4 @@
-package net.telepathicgrunt.worldblender;
+package net.telepathicgrunt.worldblender.the_blender;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
