@@ -18,6 +18,10 @@ import net.minecraft.world.gen.carver.ConfiguredCarver;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
+import net.minecraft.world.gen.feature.MultipleWithChanceRandomFeatureConfig;
+import net.minecraft.world.gen.feature.SingleRandomFeature;
+import net.minecraft.world.gen.feature.TwoFeatureChoiceConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -119,12 +123,54 @@ public class PerformBiomeBlending
 				if (!WBBiomes.BLENDED_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, configuredFeature)))
 				{
 					//feature blacklisted
-					if(configuredFeature.config instanceof DecoratedFeatureConfig &&
-						ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((DecoratedFeatureConfig)configuredFeature.config).feature.feature.getRegistryName())) {
-						continue;
+					if(configuredFeature.config instanceof DecoratedFeatureConfig)
+					{
+						ConfiguredFeature<?, ?> insideFeature = ((DecoratedFeatureConfig)configuredFeature.config).feature;
+						
+						if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, insideFeature.feature.getRegistryName()))
+						{
+							continue;
+						}
+						
+						
+						//A bunch of edge cases that have to handled because features can hold other features.
+						//If a mod makes a custom feature to hold features, welp, we are screwed. Nothing we can do about it. 
+						if(insideFeature.feature == Feature.RANDOM_RANDOM_SELECTOR)
+						{
+							if(((MultipleWithChanceRandomFeatureConfig)insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.getRegistryName()))) 
+							{
+								continue;
+							}
+						}
+						
+						if(insideFeature.feature == Feature.RANDOM_SELECTOR)
+						{
+							if(((MultipleRandomFeatureConfig)insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.feature.getRegistryName()))) 
+							{
+								continue;
+							}
+						}
+						
+						if(insideFeature.feature == Feature.SIMPLE_RANDOM_SELECTOR)
+						{
+							if(((SingleRandomFeature)insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.getRegistryName()))) 
+							{
+								continue;
+							}
+						}
+						
+						if(insideFeature.feature == Feature.RANDOM_BOOLEAN_SELECTOR)
+						{
+							if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).featureFalse.feature.getRegistryName()) ||
+								ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).featureTrue.feature.getRegistryName())) 
+							{
+								continue;
+							}
+						}
 					}
 					
-					if(WBBiomes.VANILLA_TEMP_BIOME.getFeatures(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature))) {
+					if(WBBiomes.VANILLA_TEMP_BIOME.getFeatures(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature))) 
+					{
 						
 						if (WBConfig.SERVER.allowVanillaFeatures.get())
 						{

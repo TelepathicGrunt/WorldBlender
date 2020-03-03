@@ -41,9 +41,9 @@ public class ConfigBlacklisting
 	 * Splits the incoming string on commas, trims white spaces on end, turns inside whitespace to _, and lowercases entry.
 	 */
 	private static List<String> parseConfigAndAssignEntries(String configEntry) {
-		List<String> entriesArray = Arrays.asList(configEntry.split(","));
-		entriesArray.forEach(string -> string.trim().toLowerCase().replace(' ', '_'));
-		return entriesArray;
+		String[] entriesArray = configEntry.split(",");
+		Arrays.parallelSetAll(entriesArray, (i) -> entriesArray[i].trim().toLowerCase().replace(' ', '_'));
+		return Arrays.asList(entriesArray);
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class ConfigBlacklisting
 			return blacklistedEntry.substring(0, blacklistedEntry.length() - 1).equals(resourceLocationToCheck.getNamespace().toString());
 		}
 		//term specific ban
-		return resourceLocationToCheck.toString().contains(blacklistedEntry);
+		return resourceLocationToCheck.getPath().toString().contains(blacklistedEntry);
 	}
 	
 	
