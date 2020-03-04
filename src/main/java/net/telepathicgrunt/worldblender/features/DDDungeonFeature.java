@@ -48,11 +48,11 @@ public class DDDungeonFeature extends Feature<NoFeatureConfig>
 	private String corner[] = { "corner_1", "corner_2", "corner_3", "corner_4", "corner_5", "corner_6", "corner_7", "corner_8", "redstrap_3", "longcorner_1", "longcorner_2", "longcorner_3", "longcorner_4", "longcorner_5", "skullcorner", "mazenotfound_1" };
 	private String hallway[] = { "hallway_1", "hallway_2", "hallway_3", "hallway_4", "hallway_5", "hallway_6", "advice_room_3", "tempt_1", "redstrap_2", "extrahall_1", "extrahall_2", "extrahall_3", "coalhall_1", "moohall", "mazenotfound_3" };
 	private String threeway[] = { "threeway_1", "threeway_2", "threeway_3", "threeway_4", "threeway_5", "advice_room_2", "redstrap_4", "morethree_1", "morethree_2", "morethree_3", "tetris_1", "mazenotfound_2" };
-	private String fourway[] = { "fourway_1", "fourway_2", "fourway_3", "fourway_4", "fourway_5", "fourway_6", "fourway_7", "fourway_8", "fourway_9", "combat_1", "combat_1", "redstrap_1", "disco_1" };
+	private String fourway[] = { "fourway_1", "fourway_2", "fourway_3", "fourway_4", "fourway_5", "fourway_6", "fourway_7", "fourway_8", "fourway_9", "combat_1", "combat_1", "redstrap_1" };
 	private String hardrooms[] = { 
 			"swimmaze_1", 
 			"combat_2", "combat_3", "combat_4", "combat_5", 
-			"disco_2", "disco_3", "disco_4", 
+			"disco_3", 
 			"tetris_2", "tetris_3" , 
 			"tempt_2", "tempt_3", "tempt_4", 
 			"coalhall_3", "coalhall_4", "coalhall_5" , 
@@ -66,7 +66,6 @@ public class DDDungeonFeature extends Feature<NoFeatureConfig>
 			"keyroom_2", "keyroom_3", "keyroom_4",
 			"spawner_2", "spawner_3", "spawner_4", "spawner_5", "spawner_6"};
 	private String[] roomTypes[] = { entrance, end, corner, hallway, threeway, fourway, hardrooms};
-
 	
 	protected long seed;
 	protected OctavesNoiseGenerator noiseGen;
@@ -91,9 +90,9 @@ public class DDDungeonFeature extends Feature<NoFeatureConfig>
 	public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> changedBlock, Random rand, BlockPos position, NoFeatureConfig config)
 	{
 		//low chance of spawning
-		double noise = noiseGen.noiseAt((double)position.getX() * 0.019D, (double)position.getZ() * 0.019D, 0.0625D, 0.0625D);
+		double noise = noiseGen.noiseAt((double)position.getX() * 0.018D, (double)position.getZ() * 0.018D, 0.0625D, 0.0625D);
 		WorldBlender.LOGGER.warn(noise);
-		if (noise < 0.28f)
+		if (noise < 0.25f)
 		{
 			return false;
 		}
@@ -125,7 +124,7 @@ public class DDDungeonFeature extends Feature<NoFeatureConfig>
 		}
 
 		//sets the dungeon at 20 and then as the noise increase towards the center, the dungeons raise in height slightly
-		BlockPos finalPosition = new BlockPos(xChunk << 4, 20 + noise*8, zChunk << 4);
+		BlockPos finalPosition = new BlockPos(xChunk << 4, 20 + noise*5, zChunk << 4);
 		PlacementSettings placementsettings = (new PlacementSettings()).setMirror(Mirror.NONE).setRotation(Rotation.NONE).setIgnoreEntities(false).setChunk((ChunkPos) null);
 		placementsettings.setBoundingBox(placementsettings.getBoundingBox());
 		
@@ -134,19 +133,19 @@ public class DDDungeonFeature extends Feature<NoFeatureConfig>
 		{
 		    // west: rotate CCW and push +Z
 		    placementsettings.setRotation(Rotation.COUNTERCLOCKWISE_90);
-		    position = position.add(0, 0, template.getSize().getZ() - 1);
+		    finalPosition = finalPosition.add(0, 0, template.getSize().getZ() - 1);
 		}
 		else if (rot == Rotation.CLOCKWISE_90)
 		{
 		    // east rotate CW and push +X
 		    placementsettings.setRotation(Rotation.CLOCKWISE_90);
-		    position = position.add(template.getSize().getX() - 1, 0, 0);
+		    finalPosition = finalPosition.add(template.getSize().getX() - 1, 0, 0);
 		}
 		else if (rot == Rotation.CLOCKWISE_180)
 		{
 		    // south: rotate 180 and push both +X and +Z
 		    placementsettings.setRotation(Rotation.CLOCKWISE_180);
-		    position = position.add(template.getSize().getX() - 1, 0, template.getSize().getZ() - 1);
+		    finalPosition = finalPosition.add(template.getSize().getX() - 1, 0, template.getSize().getZ() - 1);
 		}
 		else
 		{
