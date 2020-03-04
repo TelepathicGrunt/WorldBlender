@@ -72,6 +72,7 @@ public class WBDragonManager
 	private int respawnStateTicks;
 	private EnderDragonEntity enderDragon;
 	private List<EnderCrystalEntity> crystals;
+	private boolean noCrystalAlive = false;
 
 
 	public WBDragonManager(ServerWorld serverWorld)
@@ -83,6 +84,7 @@ public class WBDragonManager
 		{
 			this.dragonUniqueId = savedData.getDragonUUID();
 			this.dragonKilled = savedData.isDragonKilled();
+			
 			this.previouslyKilled = savedData.isDragonPreviouslyKilled();
 			this.scanForLegacyFight = savedData.isScanForLegacyFight();
 			if (savedData.isDragonRespawning())
@@ -156,6 +158,7 @@ public class WBDragonManager
 	}
 
 
+	@SuppressWarnings("deprecation")
 	public void tick()
 	{
 		this.bossInfo.setVisible(!this.dragonKilled);
@@ -169,53 +172,71 @@ public class WBDragonManager
 		{
 			this.world.getChunkProvider().registerTicket(TicketType.DRAGON, new ChunkPos(0, 0), 9, Unit.INSTANCE);
 			boolean flag = this.isWorldOriginTicking();
-			if (this.scanForLegacyFight && flag)
+			if(flag)
 			{
-				this.generatePortal();
-				this.scanForLegacyFight = false;
-			}
-
-			if (this.respawnState != null)
-			{
-				if (this.crystals == null && flag)
+				//make sure the ID matches a real entity and grabs that dragon.
+				if(!this.dragonKilled && this.dragonUniqueId != null) 
 				{
-					this.respawnState = null;
+					this.enderDragon = (EnderDragonEntity) this.world.getEntityByUuid(this.dragonUniqueId);
+					if(this.enderDragon == null)
+					{
+						this.dragonUniqueId = null;
+						this.dragonKilled = true;
+					}
+				}
+				
+				
+				if (this.scanForLegacyFight)
+				{
+					this.generatePortal();
+					this.scanForLegacyFight = false;
+				}
+				
+	
+				if (this.respawnState != null)
+				{
+					if (this.crystals == null)
+					{
+						this.respawnState = null;
+						this.tryRespawnDragon();
+					}
+
+					if (this.crystals != null)
+					{
+						this.respawnState.process(this.world, this, this.crystals, this.respawnStateTicks++, this.exitPortalLocation);
+					}
+				}
+				else 
+				{
 					this.tryRespawnDragon();
 				}
 
-				this.respawnState.process(this.world, this, this.crystals, this.respawnStateTicks++, this.exitPortalLocation);
-			}
-
-			if (!this.dragonKilled)
-			{
-				if(flag)
+				if (!this.dragonKilled && this.enderDragon != null && !this.enderDragon.removed)
 				{
-					if ((this.dragonUniqueId == null || ++this.ticksSinceDragonSeen >= 1200))
+					if (++this.ticksSinceDragonSeen >= 1200)
 					{
 						this.findOrCreateDragon();
 						this.ticksSinceDragonSeen = 0;
 					}
-					else
+					else if(this.enderDragon != null)
 					{
 						dragonUpdate(this.enderDragon);
 					}
 
-					if (++this.ticksSinceCrystalsScanned >= 100)
+					if (++this.ticksSinceCrystalsScanned >= 100 && !this.noCrystalAlive)
 					{
 						this.findAliveCrystals();
 						this.ticksSinceCrystalsScanned = 0;
 					}
-				}
-			}
-			else
-			{
-				if(this.enderDragon != null)
-				{
-					if(!this.enderDragon.removed && this.enderDragon.getHealth() <= 0)
+					
+					if(this.enderDragon.getHealth() <= 0)
 					{
-						//this.enderDragon.onDeathUpdate();
+						this.enderDragon.dropExperience(250);
 					}
-					else if(this.enderDragon.removed)
+				}
+				else
+				{
+					if(this.enderDragon != null && this.enderDragon.removed) 
 					{
 						processDragonDeath(this.enderDragon);
 					}
@@ -258,6 +279,7 @@ public class WBDragonManager
 		{
 			EnderDragonEntity enderdragonentity = list.get(0);
 			this.dragonUniqueId = enderdragonentity.getUniqueID();
+			this.enderDragon = enderdragonentity;
 			LOGGER.info("Found that there's a dragon still alive ({})", (Object) enderdragonentity);
 			this.dragonKilled = false;
 			if (!flag)
@@ -265,6 +287,7 @@ public class WBDragonManager
 				LOGGER.info("But we didn't have a portal, let's remove it.");
 				enderdragonentity.remove();
 				this.dragonUniqueId = null;
+				this.enderDragon = null;
 			}
 		}
 
@@ -314,7 +337,7 @@ public class WBDragonManager
 					CriteriaTriggers.SUMMONED_ENTITY.trigger(serverplayerentity, enderdragonentity);
 				}
 			}
-			else
+			else if(doesRespawnCrystalExist() != null)
 			{
 				this.respawnState = preparingToSummonPillars;
 			}
@@ -450,20 +473,22 @@ public class WBDragonManager
 			this.aliveCrystals += this.world.getEntitiesWithinAABB(EnderCrystalEntity.class, endspikefeature$endspike.getTopBoundingBox()).size();
 		}
 
+		if(this.aliveCrystals == 0) this.noCrystalAlive = true;
+		
 		LOGGER.debug("Found {} end crystals still alive", (int) this.aliveCrystals);
 	}
 
 
 	public void processDragonDeath(EnderDragonEntity dragonEntity)
 	{
-		if (dragonEntity.getUniqueID().equals(this.dragonUniqueId))
+		if (dragonEntity == null || dragonEntity.getUniqueID().equals(this.dragonUniqueId))
 		{
 			this.bossInfo.setPercent(0.0F);
 			this.bossInfo.setVisible(false);
 			this.generatePortal(true);
 			if (!this.previouslyKilled)
 			{
-				this.world.setBlockState(this.world.getHeight(Heightmap.Type.MOTION_BLOCKING, EndPodiumFeature.END_PODIUM_LOCATION).add(0, 1, 0), Blocks.DRAGON_EGG.getDefaultState());
+				this.world.setBlockState(this.world.getHeight(Heightmap.Type.MOTION_BLOCKING, EndPodiumFeature.END_PODIUM_LOCATION), Blocks.DRAGON_EGG.getDefaultState());
 			}
 
 			this.previouslyKilled = true;
@@ -478,15 +503,13 @@ public class WBDragonManager
 		EndPodiumFeature endpodiumfeature = new EndPodiumFeature(p_186094_1_);
 		if (this.exitPortalLocation == null)
 		{
-			for (this.exitPortalLocation = this.world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndPodiumFeature.END_PODIUM_LOCATION).down(); 
+			for (this.exitPortalLocation = this.world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndPodiumFeature.END_PODIUM_LOCATION); 
 					this.world.getBlockState(this.exitPortalLocation).getBlock() == Blocks.BEDROCK && this.exitPortalLocation.getY() > this.world.getSeaLevel(); 
 					this.exitPortalLocation = this.exitPortalLocation.down())
 			{
 				;
 			}
 		}
-		
-		this.exitPortalLocation = this.exitPortalLocation.up();
 		endpodiumfeature.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).place(this.world, this.world.getChunkProvider().getChunkGenerator(), new Random(), this.exitPortalLocation);
 	}
 
@@ -518,42 +541,6 @@ public class WBDragonManager
 
 	}
 
-
-	public int getNumAliveCrystals()
-	{
-		return this.aliveCrystals;
-	}
-
-
-	public void onCrystalDestroyed(EnderCrystalEntity p_186090_1_, DamageSource p_186090_2_)
-	{
-		if (this.respawnState != null && this.crystals.contains(p_186090_1_))
-		{
-			LOGGER.debug("Aborting respawn sequence");
-			this.respawnState = null;
-			this.respawnStateTicks = 0;
-			this.resetSpikeCrystals();
-			this.generatePortal(true);
-		}
-		else
-		{
-			this.findAliveCrystals();
-			Entity entity = this.world.getEntityByUuid(this.dragonUniqueId);
-			if (entity instanceof EnderDragonEntity)
-			{
-				((EnderDragonEntity) entity).onCrystalDestroyed(p_186090_1_, new BlockPos(p_186090_1_), p_186090_2_);
-			}
-		}
-
-	}
-
-
-	public boolean hasPreviouslyKilledDragon()
-	{
-		return this.previouslyKilled;
-	}
-
-
 	public void tryRespawnDragon()
 	{
 		if (this.dragonKilled && this.respawnState == null)
@@ -576,24 +563,30 @@ public class WBDragonManager
 				blockpos = this.exitPortalLocation;
 			}
 
-			List<EnderCrystalEntity> list1 = Lists.newArrayList();
-			BlockPos blockpos1 = blockpos.up(1);
-
-			for (Direction direction : Direction.Plane.HORIZONTAL)
-			{
-				List<EnderCrystalEntity> list = this.world.getEntitiesWithinAABB(EnderCrystalEntity.class, new AxisAlignedBB(blockpos1.offset(direction, 2)));
-				if (list.isEmpty())
-				{
-					return;
-				}
-
-				list1.addAll(list);
-			}
-
+			List<EnderCrystalEntity> list1 = doesRespawnCrystalExist();
+			if(list1 == null) return;
+			
 			LOGGER.debug("Found all crystals, respawning dragon.");
 			this.respawnDragon(list1);
 		}
 
+	}
+	
+	private List<EnderCrystalEntity> doesRespawnCrystalExist() {
+		BlockPos blockpos1 = this.exitPortalLocation.up(1);
+		List<EnderCrystalEntity> list1 = Lists.newArrayList();
+
+		for (Direction direction : Direction.Plane.HORIZONTAL)
+		{
+			List<EnderCrystalEntity> list = this.world.getEntitiesWithinAABB(EnderCrystalEntity.class, new AxisAlignedBB(blockpos1.offset(direction, 2)));
+			if (list.isEmpty())
+			{
+				return null;
+			}
+
+			list1.addAll(list);
+		}
+		return list1;
 	}
 
 
@@ -640,15 +633,4 @@ public class WBDragonManager
 		}
 	}
 
-
-	public void addPlayer(ServerPlayerEntity player)
-	{
-		this.bossInfo.addPlayer(player);
-	}
-
-
-	public void removePlayer(ServerPlayerEntity player)
-	{
-		this.bossInfo.removePlayer(player);
-	}
 }

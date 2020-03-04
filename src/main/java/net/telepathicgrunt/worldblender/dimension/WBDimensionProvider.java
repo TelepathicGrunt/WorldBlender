@@ -47,11 +47,14 @@ public class WBDimensionProvider extends Dimension
 	
 	public void onWorldSave()
 	{
-		if(this.altarManager != null) 
-			altarManager.saveWBAltarData(this.world);
-		
-		if(this.dragonManager != null) 
-			dragonManager.saveWBDragonData(this.world);
+		if (this.world instanceof ServerWorld)
+		{
+			if(this.altarManager != null) 
+				altarManager.saveWBAltarData(this.world);
+			
+			if(this.dragonManager != null) 
+				dragonManager.saveWBDragonData(this.world);
+		}
 	}
 
 

@@ -74,7 +74,7 @@ public class WBWorldSavedData extends WorldSavedData
 		data.putInt("endAltarPositionX", endAltarPosition.getX());
 		data.putInt("endAltarPositionY", endAltarPosition.getY());
 		data.putInt("endAltarPositionZ", endAltarPosition.getZ());
-		data.putUniqueId("dragonUUID", dragonUUID);
+		if(dragonUUID != null) data.putUniqueId("dragonUUID", dragonUUID);
 		return data;
 	}
 

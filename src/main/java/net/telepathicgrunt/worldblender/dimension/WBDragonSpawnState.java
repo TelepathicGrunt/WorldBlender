@@ -51,13 +51,13 @@ public enum WBDragonSpawnState
 	},
 	SUMMONING_PILLARS
 	{
-		public void process(ServerWorld p_186079_1_, WBDragonManager p_186079_2_, List<EnderCrystalEntity> p_186079_3_, int p_186079_4_, BlockPos p_186079_5_)
+		public void process(ServerWorld world, WBDragonManager p_186079_2_, List<EnderCrystalEntity> p_186079_3_, int p_186079_4_, BlockPos p_186079_5_)
 		{
 			boolean flag = p_186079_4_ % 40 == 0;
 			boolean flag1 = p_186079_4_ % 40 == 39;
 			if (flag || flag1)
 			{
-				List<EndSpikeFeature.EndSpike> list = EndSpikeFeature.generateSpikes(p_186079_1_);
+				List<EndSpikeFeature.EndSpike> list = EndSpikeFeature.generateSpikes(world);
 				int j = p_186079_4_ / 40;
 				if (j < list.size())
 				{
@@ -73,12 +73,12 @@ public enum WBDragonSpawnState
 					{
 						for (BlockPos blockpos : BlockPos.getAllInBoxMutable(new BlockPos(endspikefeature$endspike.getCenterX() - 10, endspikefeature$endspike.getHeight() - 10, endspikefeature$endspike.getCenterZ() - 10), new BlockPos(endspikefeature$endspike.getCenterX() + 10, endspikefeature$endspike.getHeight() + 10, endspikefeature$endspike.getCenterZ() + 10)))
 						{
-							p_186079_1_.removeBlock(blockpos, false);
+							world.removeBlock(blockpos, false);
 						}
 
-						p_186079_1_.createExplosion((Entity) null, (double) ((float) endspikefeature$endspike.getCenterX() + 0.5F), (double) endspikefeature$endspike.getHeight(), (double) ((float) endspikefeature$endspike.getCenterZ() + 0.5F), 5.0F, Explosion.Mode.DESTROY);
+						world.createExplosion((Entity) null, (double) ((float) endspikefeature$endspike.getCenterX() + 0.5F), (double) endspikefeature$endspike.getHeight(), (double) ((float) endspikefeature$endspike.getCenterZ() + 0.5F), 5.0F, Explosion.Mode.DESTROY);
 						EndSpikeFeatureConfig endspikefeatureconfig = new EndSpikeFeatureConfig(true, ImmutableList.of(endspikefeature$endspike), new BlockPos(0, 128, 0));
-						Feature.END_SPIKE.withConfiguration(endspikefeatureconfig).place(p_186079_1_, p_186079_1_.getChunkProvider().getChunkGenerator(), new Random(), new BlockPos(endspikefeature$endspike.getCenterX(), 45, endspikefeature$endspike.getCenterZ()));
+						Feature.END_SPIKE.withConfiguration(endspikefeatureconfig).place(world, world.getChunkProvider().getChunkGenerator(), new Random(), new BlockPos(endspikefeature$endspike.getCenterX(), 45, endspikefeature$endspike.getCenterZ()));
 					}
 				}
 				else if (flag)

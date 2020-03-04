@@ -399,11 +399,16 @@ public class WBConfig
 			                    		+" If true, the Enderdragon will spawn at world origin in the\r\n"
 			                    		+" World Blender dimension and can respawn if you put back the\r\n"
 			                    		+" End Crystals on the podiums. Once killed, the podium's portal \r\n"
-			                    		+" will take you to the End where you can battle the End's Enderdragon \r\n"
+			                    		+" will take you to the End where you can battle the End's Enderdragon. \r\n"
+			                    		+" \r\n"
+			                    		+" And yes, you can respawn the EnderDragon by placing 4 End Crystals \r\n"
+			                    		+" on the edges of the Bedrock Podium. \r\n"
 			                    		+" \r\n"
 			                    		+" If set to false, the Enderdragon will not spawn.\r\n."
 			                    		+" NOTE: Once the Enderdragon is spawned, changing this to false"
-			                    		+" will not despawn the Enderdragon.\r\n")
+			                    		+" will not despawn the Enderdragon. Also, this option will not\r\n"
+			                    		+" work in the World Blender Worldtype due to how fight managers are \r\n"
+			                    		+" set up. It will only work for the dimension. \r\n")
 			                    .translation("world_blender.config.portal.spawnenderdragon")
 			                    .define("spawnEnderDragon", true);
 	            builder.pop();
