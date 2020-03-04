@@ -24,8 +24,6 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ·Reduced collision box of World Blender Portal so you have to go more into it to teleport rather than graze the surface of the block.
        
        
-
-       
     (V.1.1.0 Changes) (1.15.2 Minecraft)
            
 	Importing Features: 

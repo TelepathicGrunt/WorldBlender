@@ -70,6 +70,7 @@ public class WBDragonManager
 	private WBDragonSpawnState respawnState;
 	private boolean scanForLegacyFight = true;
 	private int respawnStateTicks;
+	private EnderDragonEntity enderDragon;
 	private List<EnderCrystalEntity> crystals;
 
 
@@ -187,16 +188,37 @@ public class WBDragonManager
 
 			if (!this.dragonKilled)
 			{
-				if ((this.dragonUniqueId == null || ++this.ticksSinceDragonSeen >= 1200) && flag)
+				if(flag)
 				{
-					this.findOrCreateDragon();
-					this.ticksSinceDragonSeen = 0;
-				}
+					if ((this.dragonUniqueId == null || ++this.ticksSinceDragonSeen >= 1200))
+					{
+						this.findOrCreateDragon();
+						this.ticksSinceDragonSeen = 0;
+					}
+					else
+					{
+						dragonUpdate(this.enderDragon);
+					}
 
-				if (++this.ticksSinceCrystalsScanned >= 100 && flag)
+					if (++this.ticksSinceCrystalsScanned >= 100)
+					{
+						this.findAliveCrystals();
+						this.ticksSinceCrystalsScanned = 0;
+					}
+				}
+			}
+			else
+			{
+				if(this.enderDragon != null)
 				{
-					this.findAliveCrystals();
-					this.ticksSinceCrystalsScanned = 0;
+					if(!this.enderDragon.removed && this.enderDragon.getHealth() <= 0)
+					{
+						this.enderDragon.onDeathUpdate();
+					}
+					else if(this.enderDragon.removed)
+					{
+						processDragonDeath(this.enderDragon);
+					}
 				}
 			}
 		}
@@ -266,6 +288,7 @@ public class WBDragonManager
 		{
 			LOGGER.debug("Haven't seen our dragon, but found another one to use.");
 			this.dragonUniqueId = list.get(0).getUniqueID();
+			this.enderDragon = list.get(0);
 		}
 
 	}
@@ -445,6 +468,7 @@ public class WBDragonManager
 
 			this.previouslyKilled = true;
 			this.dragonKilled = true;
+			this.enderDragon = null;
 		}
 
 	}
@@ -475,19 +499,20 @@ public class WBDragonManager
 		enderdragonentity.setLocationAndAngles(0.0D, 128.0D, 0.0D, this.world.rand.nextFloat() * 360.0F, 0.0F);
 		this.world.addEntity(enderdragonentity);
 		this.dragonUniqueId = enderdragonentity.getUniqueID();
+		this.enderDragon = enderdragonentity;
 		return enderdragonentity;
 	}
 
 
-	public void dragonUpdate(EnderDragonEntity p_186099_1_)
+	public void dragonUpdate(EnderDragonEntity dragon)
 	{
-		if (p_186099_1_.getUniqueID().equals(this.dragonUniqueId))
+		if (dragon.getUniqueID().equals(this.dragonUniqueId))
 		{
-			this.bossInfo.setPercent(p_186099_1_.getHealth() / p_186099_1_.getMaxHealth());
+			this.bossInfo.setPercent(dragon.getHealth() / dragon.getMaxHealth());
 			this.ticksSinceDragonSeen = 0;
-			if (p_186099_1_.hasCustomName())
+			if (dragon.hasCustomName())
 			{
-				this.bossInfo.setName(p_186099_1_.getDisplayName());
+				this.bossInfo.setName(dragon.getDisplayName());
 			}
 		}
 
