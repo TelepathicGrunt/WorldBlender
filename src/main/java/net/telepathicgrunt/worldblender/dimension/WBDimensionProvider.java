@@ -2,7 +2,6 @@ package net.telepathicgrunt.worldblender.dimension;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -42,26 +41,14 @@ public class WBDimensionProvider extends Dimension
 			this.lightBrightnessTable[i] = (float) i / 15F;
 		}
 
-		CompoundNBT compoundnbt = world.getWorldInfo().getDimensionData(typeIn);
-		this.altarManager = world instanceof ServerWorld ? new AltarManager((ServerWorld) world, compoundnbt.getCompound("AltarManager"), this) : null;
-
 		//		CompoundNBT compoundnbt = world.getWorldInfo().getDimensionData(typeIn);
 		//		this.dragonFightManager = world instanceof ServerWorld && WBConfig.spawnEnderDragon ? new DragonFightManager((ServerWorld) world, compoundnbt.getCompound("DragonFight"), this) : null;
 	}
-
-
-	/**
-	 * Called when the world is performing a save. Only used to save the state of the Dragon Boss fight in WorldProviderEnd
-	 * in Vanilla.
-	 */
+	
 	public void onWorldSave()
 	{
-		if (this.altarManager != null && world instanceof ServerWorld)
-		{
-			CompoundNBT compoundnbt = new CompoundNBT();
-			compoundnbt.put("AltarManager", this.altarManager.write());
-			this.world.getWorldInfo().setDimensionData(this.world.getDimension().getType(), compoundnbt);
-		}
+		WBWorldSavedData.get(this.world).setAltarState(true);
+		WBWorldSavedData.get(this.world).markDirty();
 	}
 
 
@@ -71,9 +58,16 @@ public class WBDimensionProvider extends Dimension
 	 */
 	public void tick()
 	{
-		if (this.altarManager != null && world instanceof ServerWorld)
+		if (world instanceof ServerWorld)
 		{
-			this.altarManager.tick();
+			if(this.altarManager == null) 
+			{
+				this.altarManager = world instanceof ServerWorld ? new AltarManager((ServerWorld) world, WBWorldSavedData.get((ServerWorld) world).getAltarState()) : null;
+			}
+			else
+			{
+				this.altarManager.tick();
+			}
 		}
 
 	}

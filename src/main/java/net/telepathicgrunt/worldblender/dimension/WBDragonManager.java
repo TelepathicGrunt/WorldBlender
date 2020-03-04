@@ -10,14 +10,14 @@ import net.minecraft.world.server.ServerWorld;
 import net.telepathicgrunt.worldblender.features.WBFeatures;
 
 
-public class AltarManager
+public class WBDragonManager
 {
 
 	private boolean altarMade = false;
 	private final ServerWorld world;
 
 
-	public AltarManager(ServerWorld serverWorld, boolean state)
+	public WBDragonManager(ServerWorld serverWorld, boolean state)
 	{
 		this.world = serverWorld;
 		this.altarMade = state;

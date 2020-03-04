@@ -11,11 +11,12 @@ import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.telepathicgrunt.worldblender.WorldBlender;
 
 
-@Mod.EventBusSubscriber(modid = WorldBlender.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = WorldBlender.MODID, bus = Bus.MOD)
 public class WBDimension {
 
 	public static final ModDimension WORLD_BLENDER_DIMENSION = new ModDimension() {
@@ -28,17 +29,12 @@ public class WBDimension {
     private static final ResourceLocation WORLD_BLENDER_DIMENSION_RL = new ResourceLocation(WorldBlender.MODID, "world_blender");
 	
     
-    //registers the dimension
-    @Mod.EventBusSubscriber(modid = WorldBlender.MODID)
-    private static class ForgeEvents {
-        @SubscribeEvent
-        public static void registerDimensions(RegisterDimensionsEvent event) {
-            if (DimensionType.byName(WORLD_BLENDER_DIMENSION_RL) == null) {
-                DimensionManager.registerDimension(WORLD_BLENDER_DIMENSION_RL, WORLD_BLENDER_DIMENSION, null, true);
-            }
+    public static void registerDimensions(RegisterDimensionsEvent event) {
+        if (DimensionType.byName(WORLD_BLENDER_DIMENSION_RL) == null) {
+            DimensionManager.registerDimension(WORLD_BLENDER_DIMENSION_RL, WORLD_BLENDER_DIMENSION, null, true);
         }
     }
-
+    
     @SubscribeEvent
     public static void registerModDimensions(RegistryEvent.Register<ModDimension> event) {
         RegUtil.generic(event.getRegistry()).add(WorldBlender.MODID, WORLD_BLENDER_DIMENSION);
