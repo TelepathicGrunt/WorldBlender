@@ -76,13 +76,16 @@ public class WBDimensionProvider extends Dimension
 			}
 			
 			//spawn the dragon only if config allows it and previous data on it has not been saved yet
-			if(this.dragonManager == null && (WBConfig.spawnEnderDragon || WBWorldSavedData.get((ServerWorld) world).isDragonDataSaved())) 
-			{
-				this.dragonManager = new WBDragonManager((ServerWorld) world);
-			}
-			else
+			if(this.dragonManager != null)
 			{
 				this.dragonManager.tick();
+			}
+			else 
+			{
+				if((WBConfig.spawnEnderDragon || WBWorldSavedData.get((ServerWorld) world).isDragonDataSaved())) 
+				{
+					this.dragonManager = new WBDragonManager((ServerWorld) world);
+				}
 			}
 		}
 

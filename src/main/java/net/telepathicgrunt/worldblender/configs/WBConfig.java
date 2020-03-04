@@ -50,7 +50,7 @@ public class WBConfig
 	    public static String activationItem = "minecraft:nether_star";
 	    public static boolean consumeChests = true;
 
-	    public static boolean spawnEnderDragon = true;
+	    public static boolean spawnEnderDragon = false;
 	    
 	    public static class ServerConfig
 	    {
@@ -410,7 +410,7 @@ public class WBConfig
 			                    		+" work in the World Blender Worldtype due to how fight managers are \r\n"
 			                    		+" set up. It will only work for the dimension. \r\n")
 			                    .translation("world_blender.config.portal.spawnenderdragon")
-			                    .define("spawnEnderDragon", true);
+			                    .define("spawnEnderDragon", false);
 	            builder.pop();
 	        }
 	            		

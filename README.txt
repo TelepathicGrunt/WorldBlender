@@ -11,7 +11,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
                
 	Importing Features: 
 ·Added dedicated support for DimDungeon mod!
-·Added option to spawn Enderdragon at world origin in this dimension! (Set to false by default in configs)
+·Added option to spawn Enderdragon at world origin in this dimension! (Set to false by default in configs as it is highly experimental)
  
 	Config: 
 ·Added the ability to blacklist mods, biomes, structures, features, carvers, entities, and surfaces from being import into World Blender.
