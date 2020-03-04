@@ -17,7 +17,7 @@ public final class MountainousBlendedBiome extends WBBiome
 	public MountainousBlendedBiome()
 	{
 		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(WBBiomes.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.RAIN).category(Biome.Category.NONE).depth(0.5F).scale(1.0F).temperature(1.85F).downfall(0.4F).waterColor(4159204).waterFogColor(329011).parent((String) null));
-		this.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, WBFeatures.WB_PORTAL_ALTAR.configure(IFeatureConfig.NO_FEATURE_CONFIG).createDecoratedFeature(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
+		//this.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, WBFeatures.WB_PORTAL_ALTAR.configure(IFeatureConfig.NO_FEATURE_CONFIG).createDecoratedFeature(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
 	}
 
 	/**

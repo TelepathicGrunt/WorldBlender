@@ -19,7 +19,9 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 	Teleportation: 
 ·Made World Blender Portal slightly less intense on the eyes.
 ·World Blender Portal now has the Dragon Immune, Impermeable, Portals, and Wither Immune tags.
- 
+       
+       
+
        
     (V.1.1.0 Changes) (1.15.2 Minecraft)
            

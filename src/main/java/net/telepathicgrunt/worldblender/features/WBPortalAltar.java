@@ -51,7 +51,7 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 			return false;
 		}
 		
-		BlockPos finalPosition = world.getHeight(Heightmap.Type.WORLD_SURFACE_WG, position);
+		BlockPos finalPosition = world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, position);
 		PlacementSettings placementsettings = (new PlacementSettings()).setMirror(Mirror.NONE).setRotation(Rotation.NONE).setIgnoreEntities(false).setChunk((ChunkPos) null);
 		template.addBlocksToWorld(world, finalPosition.add(-5, -2, -5), placementsettings);
 

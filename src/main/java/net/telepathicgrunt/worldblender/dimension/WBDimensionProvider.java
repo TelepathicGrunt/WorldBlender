@@ -2,6 +2,7 @@ package net.telepathicgrunt.worldblender.dimension;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -12,6 +13,7 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.ChunkGeneratorType;
 import net.minecraft.world.gen.OverworldChunkGenerator;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
@@ -24,6 +26,7 @@ import net.telepathicgrunt.worldblender.generation.WBBiomeProvider;
 public class WBDimensionProvider extends Dimension
 {
 	private final float[] colorsSunriseSunset = new float[4];
+	private AltarManager altarManager;
 
 
 	public WBDimensionProvider(World world, DimensionType typeIn)
@@ -39,8 +42,40 @@ public class WBDimensionProvider extends Dimension
 			this.lightBrightnessTable[i] = (float) i / 15F;
 		}
 
-//		CompoundNBT compoundnbt = world.getWorldInfo().getDimensionData(typeIn);
-//		this.dragonFightManager = world instanceof ServerWorld && WBConfig.spawnEnderDragon ? new DragonFightManager((ServerWorld) world, compoundnbt.getCompound("DragonFight"), this) : null;
+		CompoundNBT compoundnbt = world.getWorldInfo().getDimensionData(typeIn);
+		this.altarManager = world instanceof ServerWorld ? new AltarManager((ServerWorld) world, compoundnbt.getCompound("AltarManager"), this) : null;
+
+		//		CompoundNBT compoundnbt = world.getWorldInfo().getDimensionData(typeIn);
+		//		this.dragonFightManager = world instanceof ServerWorld && WBConfig.spawnEnderDragon ? new DragonFightManager((ServerWorld) world, compoundnbt.getCompound("DragonFight"), this) : null;
+	}
+
+
+	/**
+	 * Called when the world is performing a save. Only used to save the state of the Dragon Boss fight in WorldProviderEnd
+	 * in Vanilla.
+	 */
+	public void onWorldSave()
+	{
+		if (this.altarManager != null && world instanceof ServerWorld)
+		{
+			CompoundNBT compoundnbt = new CompoundNBT();
+			compoundnbt.put("AltarManager", this.altarManager.write());
+			this.world.getWorldInfo().setDimensionData(this.world.getDimension().getType(), compoundnbt);
+		}
+	}
+
+
+	/**
+	 * Called when the world is updating entities. Only used in WorldProviderEnd to update the DragonFightManager in
+	 * Vanilla.
+	 */
+	public void tick()
+	{
+		if (this.altarManager != null && world instanceof ServerWorld)
+		{
+			this.altarManager.tick();
+		}
+
 	}
 
 

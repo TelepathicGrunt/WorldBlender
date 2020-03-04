@@ -25,8 +25,8 @@ public class WBBiome extends Biome
 	@SuppressWarnings("deprecation")
 	public void decorate(GenerationStage.Decoration generationStage, ChunkGenerator<? extends GenerationSettings> generatorSettings, IWorld world, long seed, SharedSeedRandom random, BlockPos blockPos)
 	{
-		//skip feature gen for center 4 chunks in world except for snow and altar
-		if(blockPos.getX() < 17 && blockPos.getZ() < 17 && blockPos.getX() > -33 && blockPos.getZ() > -33 && generationStage != GenerationStage.Decoration.TOP_LAYER_MODIFICATION) return; 
+		//skip feature gen for center 6 chunks in world except for snow and altar
+		//if(blockPos.getX() < 17 && blockPos.getZ() < 17 && blockPos.getX() > -33 && blockPos.getZ() > -33 && generationStage != GenerationStage.Decoration.TOP_LAYER_MODIFICATION) return; 
 
 		int i = 0;
 		for (ConfiguredFeature<?, ?> configuredfeature : this.features.get(generationStage))

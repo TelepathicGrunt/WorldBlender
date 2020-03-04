@@ -17,7 +17,7 @@ public final class BlendedBiome extends WBBiome
 	public BlendedBiome()
 	{
 		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(WBBiomes.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.RAIN).category(Biome.Category.NONE).depth(0.122F).scale(0.1F).temperature(1.0F).downfall(0.4F).waterColor(4159204).waterFogColor(329011).parent((String) null));
-		this.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, WBFeatures.WB_PORTAL_ALTAR.configure(IFeatureConfig.NO_FEATURE_CONFIG).createDecoratedFeature(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
+		//this.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, WBFeatures.WB_PORTAL_ALTAR.configure(IFeatureConfig.NO_FEATURE_CONFIG).createDecoratedFeature(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
 	}
 
 	/**
