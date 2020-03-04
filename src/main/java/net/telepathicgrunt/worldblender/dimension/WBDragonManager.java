@@ -28,7 +28,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.EndPortalTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.CachedBlockInfo;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.Unit;
@@ -68,7 +67,7 @@ public class WBDragonManager
 	private UUID dragonUniqueId;
 	private BlockPos exitPortalLocation;
 	private WBDragonSpawnState respawnState;
-	private boolean scanForLegacyFight = true;
+	private boolean generatedInitialFight = false;
 	private int respawnStateTicks;
 	private EnderDragonEntity enderDragon;
 	private List<EnderCrystalEntity> crystals;
@@ -86,7 +85,7 @@ public class WBDragonManager
 			this.dragonKilled = savedData.isDragonKilled();
 			
 			this.previouslyKilled = savedData.isDragonPreviouslyKilled();
-			this.scanForLegacyFight = savedData.isScanForLegacyFight();
+			this.generatedInitialFight = savedData.isInitialFightGenerated();
 			if (savedData.isDragonRespawning())
 			{
 				this.respawnState = WBDragonSpawnState.START;
@@ -150,7 +149,7 @@ public class WBDragonManager
 		WBWorldSavedData.get(world).setDragonKilled(this.dragonKilled);
 		WBWorldSavedData.get(world).setDragonPreviouslyKilled(this.previouslyKilled);
 		WBWorldSavedData.get(world).setDragonRespawning(this.respawnState != null);
-		WBWorldSavedData.get(world).setScanForLegacyFight(this.scanForLegacyFight);
+		WBWorldSavedData.get(world).setGeneratedInitialFight(this.generatedInitialFight);
 		WBWorldSavedData.get(world).setDragonUUID(this.dragonUniqueId);
 		WBWorldSavedData.get(world).setEndAltarPosition(this.exitPortalLocation);
 		WBWorldSavedData.get(world).setDragonDataSaved(true);
@@ -182,14 +181,16 @@ public class WBDragonManager
 					{
 						this.dragonUniqueId = null;
 						this.dragonKilled = true;
+						saveWBDragonData(this.world);
 					}
 				}
 				
 				
-				if (this.scanForLegacyFight)
+				if (!this.generatedInitialFight)
 				{
-					this.generatePortal();
-					this.scanForLegacyFight = false;
+					this.generatePortalAndDragon();
+					this.generatedInitialFight = true;
+					saveWBDragonData(this.world);
 				}
 				
 	
@@ -239,6 +240,7 @@ public class WBDragonManager
 					if(this.enderDragon != null && this.enderDragon.removed) 
 					{
 						processDragonDeath(this.enderDragon);
+						saveWBDragonData(this.world);
 					}
 				}
 			}
@@ -251,18 +253,15 @@ public class WBDragonManager
 	}
 
 
-	private void generatePortal()
+	private void generatePortalAndDragon()
 	{
-		LOGGER.info("Scanning for legacy world dragon fight...");
 		boolean flag = this.worldContainsEndPortal();
 		if (flag)
 		{
-			LOGGER.info("Found that the dragon has been killed in this world already.");
 			this.previouslyKilled = true;
 		}
 		else
 		{
-			LOGGER.info("Found that the dragon has not yet been killed in this world.");
 			this.previouslyKilled = false;
 			if (this.findExitPortal() == null)
 			{
@@ -270,32 +269,13 @@ public class WBDragonManager
 			}
 		}
 
-		List<EnderDragonEntity> list = this.world.getDragons();
-		if (list.isEmpty())
-		{
-			this.dragonKilled = true;
-		}
-		else
-		{
-			EnderDragonEntity enderdragonentity = list.get(0);
-			this.dragonUniqueId = enderdragonentity.getUniqueID();
-			this.enderDragon = enderdragonentity;
-			LOGGER.info("Found that there's a dragon still alive ({})", (Object) enderdragonentity);
-			this.dragonKilled = false;
-			if (!flag)
-			{
-				LOGGER.info("But we didn't have a portal, let's remove it.");
-				enderdragonentity.remove();
-				this.dragonUniqueId = null;
-				this.enderDragon = null;
-			}
-		}
+		findOrCreateDragon();
+		this.dragonKilled = false;
 
 		if (!this.previouslyKilled && this.dragonKilled)
 		{
 			this.dragonKilled = false;
 		}
-
 	}
 
 

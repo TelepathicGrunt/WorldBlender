@@ -20,7 +20,7 @@ public class WBWorldSavedData extends WorldSavedData
 	private boolean dragonKilled;
 	private boolean dragonPreviouslyKilled;
 	private boolean dragonIsRespawning;
-	private boolean scanForLegacyFight;
+	private boolean generatedInitialFight;
 	private BlockPos endAltarPosition;
 	private UUID dragonUUID;
 
@@ -57,7 +57,7 @@ public class WBWorldSavedData extends WorldSavedData
 		dragonKilled = data.getBoolean("dragonKilled");
 		dragonPreviouslyKilled = data.getBoolean("dragonPreviouslyKilled");
 		dragonIsRespawning = data.getBoolean("dragonIsRespawning");
-		scanForLegacyFight = data.getBoolean("scanForLegacyFight");
+		generatedInitialFight = data.getBoolean("generatedInitialFight");
 		endAltarPosition = new BlockPos(data.getInt("endAltarPositionX"), data.getInt("endAltarPositionY"), data.getInt("endAltarPositionZ"));
 		dragonUUID = data.getUniqueId("dragonUUID");
 	}
@@ -70,7 +70,7 @@ public class WBWorldSavedData extends WorldSavedData
 		data.putBoolean("dragonKilled", dragonKilled);
 		data.putBoolean("dragonPreviouslyKilled", dragonPreviouslyKilled);
 		data.putBoolean("dragonIsRespawning", dragonIsRespawning);
-		data.putBoolean("scanForLegacyFight", scanForLegacyFight);
+		data.putBoolean("generatedInitialFight", generatedInitialFight);
 		data.putInt("endAltarPositionX", endAltarPosition.getX());
 		data.putInt("endAltarPositionY", endAltarPosition.getY());
 		data.putInt("endAltarPositionZ", endAltarPosition.getZ());
@@ -148,14 +148,14 @@ public class WBWorldSavedData extends WorldSavedData
 		this.endAltarPosition = endAltarPosition;
 	}
 
-	public boolean isScanForLegacyFight()
+	public boolean isInitialFightGenerated()
 	{
-		return scanForLegacyFight;
+		return generatedInitialFight;
 	}
 
-	public void setScanForLegacyFight(boolean scanForLegacyFight)
+	public void setGeneratedInitialFight(boolean generatedInitialFightIn)
 	{
-		this.scanForLegacyFight = scanForLegacyFight;
+		this.generatedInitialFight = generatedInitialFightIn;
 	}
 
 }
