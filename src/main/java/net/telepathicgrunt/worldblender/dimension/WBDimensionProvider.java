@@ -18,6 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
 import net.telepathicgrunt.worldblender.WorldBlender;
 import net.telepathicgrunt.worldblender.biome.biomes.surfacebuilder.BlendedSurfaceBuilder;
+import net.telepathicgrunt.worldblender.configs.WBConfig;
 import net.telepathicgrunt.worldblender.generation.WBBiomeProvider;
 
 
@@ -26,6 +27,7 @@ public class WBDimensionProvider extends Dimension
 {
 	private final float[] colorsSunriseSunset = new float[4];
 	private AltarManager altarManager;
+	private WBDragonManager dragonManager;
 
 
 	public WBDimensionProvider(World world, DimensionType typeIn)
@@ -40,15 +42,16 @@ public class WBDimensionProvider extends Dimension
 		{
 			this.lightBrightnessTable[i] = (float) i / 15F;
 		}
-
-		//		CompoundNBT compoundnbt = world.getWorldInfo().getDimensionData(typeIn);
-		//		this.dragonFightManager = world instanceof ServerWorld && WBConfig.spawnEnderDragon ? new DragonFightManager((ServerWorld) world, compoundnbt.getCompound("DragonFight"), this) : null;
 	}
+	
 	
 	public void onWorldSave()
 	{
-		WBWorldSavedData.get(this.world).setAltarState(true);
-		WBWorldSavedData.get(this.world).markDirty();
+		if(this.altarManager != null) 
+			altarManager.saveWBAltarData(this.world);
+		
+		if(this.dragonManager != null) 
+			dragonManager.saveWBDragonData(this.world);
 	}
 
 
@@ -62,11 +65,21 @@ public class WBDimensionProvider extends Dimension
 		{
 			if(this.altarManager == null) 
 			{
-				this.altarManager = world instanceof ServerWorld ? new AltarManager((ServerWorld) world, WBWorldSavedData.get((ServerWorld) world).getAltarState()) : null;
+				this.altarManager = new AltarManager((ServerWorld) world);
 			}
 			else
 			{
 				this.altarManager.tick();
+			}
+			
+			//spawn the dragon only if config allows it and previous data on it has not been saved yet
+			if(this.dragonManager == null && (WBConfig.spawnEnderDragon || WBWorldSavedData.get((ServerWorld) world).isDragonDataSaved())) 
+			{
+				this.dragonManager = new WBDragonManager((ServerWorld) world);
+			}
+			else
+			{
+				this.dragonManager.tick();
 			}
 		}
 

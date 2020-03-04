@@ -11,14 +11,17 @@ Welcome to the Github! If you are looking for the most recent stable version, th
                
 	Importing Features: 
 ·Added dedicated support for DimDungeon mod!
+·Added option to spawn Enderdragon at world origin in this dimension! (Set to false by default in configs)
  
 	Config: 
 ·Added the ability to blacklist mods, biomes, structures, features, carvers, entities, and surfaces from being import into World Blender.
 ·Added option to print out the resource location (IDs) into a file called resourceLocationDump.txt so you can target certain features or biomes to blacklist easier.
+·Added option to spawn Enderdragon or not at world origin. (false by default)
 
 	Teleportation: 
 ·Made World Blender Portal slightly less intense on the eyes.
 ·World Blender Portal now has the Dragon Immune, Impermeable, Portals, and Wither Immune tags.
+·Reduced collision box of World Blender Portal so you have to go more into it to teleport rather than graze the surface of the block.
        
        
 

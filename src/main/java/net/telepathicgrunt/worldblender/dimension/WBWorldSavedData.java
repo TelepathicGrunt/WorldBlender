@@ -1,6 +1,9 @@
 package net.telepathicgrunt.worldblender.dimension;
 
+import java.util.UUID;
+
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
@@ -12,8 +15,14 @@ public class WBWorldSavedData extends WorldSavedData
 {
 	private static final String ALTAR_DATA = WorldBlender.MODID + "AltarMade";
 	private static final WBWorldSavedData CLIENT_DUMMY = new WBWorldSavedData();
-	private static boolean altarMade;
-	private static boolean dragonKilled;
+	private boolean wbAltarMade;
+	private boolean dragonDataSaved;
+	private boolean dragonKilled;
+	private boolean dragonPreviouslyKilled;
+	private boolean dragonIsRespawning;
+	private boolean scanForLegacyFight;
+	private BlockPos endAltarPosition;
+	private UUID dragonUUID;
 
 	public WBWorldSavedData()
 	{
@@ -43,34 +52,110 @@ public class WBWorldSavedData extends WorldSavedData
 	@Override
 	public void read(CompoundNBT data)
 	{
-		altarMade = data.getBoolean("altarMade");
+		wbAltarMade = data.getBoolean("wbAltarMade");
+		dragonDataSaved = data.getBoolean("dragonDataSaved");
+		dragonKilled = data.getBoolean("dragonKilled");
+		dragonPreviouslyKilled = data.getBoolean("dragonPreviouslyKilled");
+		dragonIsRespawning = data.getBoolean("dragonIsRespawning");
+		scanForLegacyFight = data.getBoolean("scanForLegacyFight");
+		endAltarPosition = new BlockPos(data.getInt("endAltarPositionX"), data.getInt("endAltarPositionY"), data.getInt("endAltarPositionZ"));
+		dragonUUID = data.getUniqueId("dragonUUID");
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT data)
 	{
-		data.putBoolean("altarMade", altarMade);
+		data.putBoolean("wbAltarMade", wbAltarMade);
+		data.putBoolean("dragonDataSaved", dragonDataSaved);
+		data.putBoolean("dragonKilled", dragonKilled);
+		data.putBoolean("dragonPreviouslyKilled", dragonPreviouslyKilled);
+		data.putBoolean("dragonIsRespawning", dragonIsRespawning);
+		data.putBoolean("scanForLegacyFight", scanForLegacyFight);
+		data.putInt("endAltarPositionX", endAltarPosition.getX());
+		data.putInt("endAltarPositionY", endAltarPosition.getY());
+		data.putInt("endAltarPositionZ", endAltarPosition.getZ());
+		data.putUniqueId("dragonUUID", dragonUUID);
 		return data;
 	}
 
-	public void setAltarState(boolean state) 
+	public void setWBAltarState(boolean state) 
 	{
-		altarMade = state;
+		this.wbAltarMade = state;
 	}
 	
-	public boolean getAltarState() 
+	public boolean getWBAltarState() 
 	{
-		return WBWorldSavedData.altarMade;
+		return this.wbAltarMade;
 	}
 	
-	public static boolean isDragonKilled()
+	public boolean isDragonKilled()
 	{
-		return dragonKilled;
+		return this.dragonKilled;
 	}
 
-	public static void setDragonKilled(boolean dragonKilled)
+	public void setDragonKilled(boolean dragonKilled)
 	{
-		WBWorldSavedData.dragonKilled = dragonKilled;
+		this.dragonKilled = dragonKilled;
+	}
+
+	public UUID getDragonUUID()
+	{
+		return this.dragonUUID;
+	}
+
+	public void setDragonUUID(UUID dragonUUID)
+	{
+		this.dragonUUID = dragonUUID;
+	}
+
+	public boolean isDragonDataSaved()
+	{
+		return this.dragonDataSaved;
+	}
+
+	public void setDragonDataSaved(boolean dragonDataSaved)
+	{
+		this.dragonDataSaved = dragonDataSaved;
+	}
+
+	public boolean isDragonPreviouslyKilled()
+	{
+		return this.dragonPreviouslyKilled;
+	}
+
+	public void setDragonPreviouslyKilled(boolean dragonPreviouslyKilled)
+	{
+		this.dragonPreviouslyKilled = dragonPreviouslyKilled;
+	}
+
+	public boolean isDragonRespawning()
+	{
+		return this.dragonIsRespawning;
+	}
+
+	public void setDragonRespawning(boolean dragonIsRespawning)
+	{
+		this.dragonIsRespawning = dragonIsRespawning;
+	}
+
+	public BlockPos getEndAltarPosition()
+	{
+		return this.endAltarPosition;
+	}
+
+	public void setEndAltarPosition(BlockPos endAltarPosition)
+	{
+		this.endAltarPosition = endAltarPosition;
+	}
+
+	public boolean isScanForLegacyFight()
+	{
+		return scanForLegacyFight;
+	}
+
+	public void setScanForLegacyFight(boolean scanForLegacyFight)
+	{
+		this.scanForLegacyFight = scanForLegacyFight;
 	}
 
 }

@@ -20,6 +20,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
@@ -33,6 +34,8 @@ import net.telepathicgrunt.worldblender.dimension.WBDimension;
 
 public class WBPortalBlock extends ContainerBlock
 {
+	protected static final VoxelShape COLLISION_BOX = Block.makeCuboidShape(3.0D, 3.0D, 3.0D, 13.0D, 13.0D, 13.0D);
+	
 	protected WBPortalBlock()
 	{
 		super(Block.Properties.create(Material.PORTAL, MaterialColor.BLACK).doesNotBlockMovement().lightValue(6).hardnessAndResistance(-1.0F, 3600000.0F).noDrops());
@@ -52,7 +55,7 @@ public class WBPortalBlock extends ContainerBlock
 		{
 			WBPortalTileEntity wbtile = (WBPortalTileEntity) tileentity;
 
-			if (!world.isRemote && !wbtile.isCoolingDown() && !entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss() && VoxelShapes.compare(VoxelShapes.create(entity.getBoundingBox().offset((double) (-position.getX()), (double) (-position.getY()), (double) (-position.getZ()))), blockState.getShape(world, position), IBooleanFunction.AND))
+			if (!world.isRemote && !wbtile.isCoolingDown() && !entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss() && VoxelShapes.compare(VoxelShapes.create(entity.getBoundingBox().offset((double) (-position.getX()), (double) (-position.getY()), (double) (-position.getZ()))), COLLISION_BOX, IBooleanFunction.AND))
 			{
 				//gets the world in the destination dimension
 				MinecraftServer minecraftServer = entity.getServer(); // the server itself

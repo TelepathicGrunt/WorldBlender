@@ -1,6 +1,7 @@
 package net.telepathicgrunt.worldblender.dimension;
 
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
@@ -17,10 +18,10 @@ public class AltarManager
 	private final ServerWorld world;
 
 
-	public AltarManager(ServerWorld serverWorld, boolean state)
+	public AltarManager(ServerWorld serverWorld)
 	{
 		this.world = serverWorld;
-		this.altarMade = state;
+		this.altarMade = WBWorldSavedData.get(serverWorld).getWBAltarState();
 	}
 
 
@@ -62,5 +63,11 @@ public class AltarManager
 		}
 
 		return true;
+	}
+	
+	public void saveWBAltarData(World world) 
+	{
+		WBWorldSavedData.get(world).setWBAltarState(this.altarMade);
+		WBWorldSavedData.get(world).markDirty();
 	}
 }
