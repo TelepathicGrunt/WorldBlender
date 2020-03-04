@@ -23,7 +23,6 @@ import net.minecraft.world.gen.area.LazyArea;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.layer.Layer;
 import net.minecraft.world.gen.layer.ZoomLayer;
-import net.minecraft.world.gen.layer.traits.IAreaTransformer1;
 import net.telepathicgrunt.worldblender.biome.WBBiomes;
 import net.telepathicgrunt.worldblender.generation.layer.QuadBiomeLayer;
 
@@ -48,20 +47,7 @@ public class WBBiomeProvider extends BiomeProvider
 		this(world.getSeed(), world.getWorldInfo().getGenerator());
 		QuadBiomeLayer.setSeed(world.getSeed());
 	}
-
-
-	public static <T extends IArea, C extends IExtendedNoiseRandom<T>> IAreaFactory<T> repeat(long seed, IAreaTransformer1 parent, IAreaFactory<T> incomingArea, int count, LongFunction<C> contextFactory)
-	{
-		IAreaFactory<T> iareafactory = incomingArea;
-
-		for (int i = 0; i < count; ++i)
-		{
-			iareafactory = parent.apply(contextFactory.apply(seed + (long) i), iareafactory);
-		}
-		
-		return iareafactory;
-	}
-
+	
 
 	public static Layer buildOverworldProcedure(long seed, WorldType typeIn)
 	{
@@ -83,7 +69,8 @@ public class WBBiomeProvider extends BiomeProvider
 	}
 
 
-	public Set<Biome> getBiomesInArea(int centerX, int centerY, int centerZ, int sideLength)
+	@Override
+	public Set<Biome> func_225530_a_(int centerX, int centerY, int centerZ, int sideLength)
 	{
 		int i = centerX - sideLength >> 2;
 		int j = centerY - sideLength >> 2;
@@ -105,7 +92,7 @@ public class WBBiomeProvider extends BiomeProvider
 					int xPos = i + k2;
 					int yPos = j + l2;
 					int zPos = k + j2;
-					set.add(this.getBiomeForNoiseGen(xPos, yPos, zPos));
+					set.add(this.getNoiseBiome(xPos, yPos, zPos));
 				}
 			}
 		}
@@ -114,7 +101,8 @@ public class WBBiomeProvider extends BiomeProvider
 
 
 	@Nullable
-	public BlockPos locateBiome(int x, int z, int range, List<Biome> biomes, Random random)
+	@Override
+	public BlockPos func_225531_a_(int x, int y, int z, int range, List<Biome> biomes, Random random)
 	{
 		int i = x - range >> 2;
 		int j = z - range >> 2;
@@ -129,7 +117,7 @@ public class WBBiomeProvider extends BiomeProvider
 		{
 			int i2 = i + l1 % i1 << 2;
 			int j2 = j + l1 / i1 << 2;
-			if (biomes.contains(this.getBiomeForNoiseGen(i2, k1, j2)))
+			if (biomes.contains(this.getNoiseBiome(i2, k1, j2)))
 			{
 				if (blockpos == null || random.nextInt(k1 + 1) == 0)
 				{
@@ -144,11 +132,12 @@ public class WBBiomeProvider extends BiomeProvider
 	}
 
 
+	@Override
 	public boolean hasStructure(Structure<?> structureIn)
 	{
 		return this.hasStructureCache.computeIfAbsent(structureIn, (structure) ->
 		{
-			for (Biome biome : this.biomes)
+			for (Biome biome : this.field_226837_c_)
 			{
 				if (biome.hasStructure(structure))
 				{
@@ -161,11 +150,12 @@ public class WBBiomeProvider extends BiomeProvider
 	}
 
 
+	@Override
 	public Set<BlockState> getSurfaceBlocks()
 	{
 		if (this.topBlocksCache.isEmpty())
 		{
-			for (Biome biome : this.biomes)
+			for (Biome biome : this.field_226837_c_)
 			{
 				this.topBlocksCache.add(biome.getSurfaceBuilderConfig().getTop());
 			}
@@ -175,7 +165,8 @@ public class WBBiomeProvider extends BiomeProvider
 	}
 
 
-	public Biome getBiomeForNoiseGen(int x, int y, int z)
+	@Override
+	public Biome getNoiseBiome(int x, int y, int z)
 	{
 		return this.genBiomes.func_215738_a(x, z);
 	}

@@ -29,7 +29,7 @@ public class IntermodCompatibility
 				   !blendedBiome.getFeatures(GenerationStage.Decoration.UNDERGROUND_STRUCTURES).stream().anyMatch(alreadyAddedFeature -> alreadyAddedFeature.feature.getRegistryName().equals(WBFeatures.DD_DUNGEON_FEATURE.getRegistryName()))) 
 				{
 					blendedBiome.addFeature(GenerationStage.Decoration.UNDERGROUND_STRUCTURES, 
-							WBFeatures.DD_DUNGEON_FEATURE.configure(IFeatureConfig.NO_FEATURE_CONFIG).createDecoratedFeature(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
+							WBFeatures.DD_DUNGEON_FEATURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
 				}
 			}
 		}
@@ -37,7 +37,7 @@ public class IntermodCompatibility
 		//remove DD's dungeons here so we do not cause concurrent error if we were to remove it in the above loop 
 		WBBiomes.biomes.forEach(blendedBiome -> 
 			blendedBiome.addFeature(GenerationStage.Decoration.UNDERGROUND_STRUCTURES, 
-					WBFeatures.DD_DUNGEON_FEATURE.configure(IFeatureConfig.NO_FEATURE_CONFIG).createDecoratedFeature(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG))));
+					WBFeatures.DD_DUNGEON_FEATURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG))));
 		
 	}
 }

@@ -153,8 +153,8 @@ public class PerformBiomeBlending
 						
 						if(insideFeature.feature == Feature.RANDOM_BOOLEAN_SELECTOR)
 						{
-							if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).featureFalse.feature.getRegistryName()) ||
-								ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).featureTrue.feature.getRegistryName())) 
+							if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).field_227285_a_.feature.getRegistryName()) ||
+								ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).field_227286_b_.feature.getRegistryName())) 
 							{
 								continue;
 							}
@@ -167,7 +167,7 @@ public class PerformBiomeBlending
 						if (WBConfig.SERVER.allowVanillaFeatures.get())
 						{
 							if (configuredFeature.config instanceof DecoratedFeatureConfig &&
-								(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.field_227248_z_
+								(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_PATCH
 								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.SIMPLE_RANDOM_SELECTOR 
 								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_RANDOM_SELECTOR 
 								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.FLOWER 
@@ -198,7 +198,7 @@ public class PerformBiomeBlending
 					else if (WBConfig.SERVER.allowModdedFeatures.get())
 					{
 						if (configuredFeature.config instanceof DecoratedFeatureConfig &&
-							(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.field_227248_z_
+							(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_PATCH
 							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.SIMPLE_RANDOM_SELECTOR 
 							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_RANDOM_SELECTOR 
 							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.FLOWER 
@@ -253,7 +253,7 @@ public class PerformBiomeBlending
 					if (WBConfig.SERVER.allowVanillaStructures.get())
 					{
 						//add the structure version of the structure
-						WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addStructureFeature(new ConfiguredFeature(structure, biome.structures.get(structure))));
+						WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addStructure(new ConfiguredFeature(structure, biome.structures.get(structure))));
 						
 						//find the feature version of the structure in this biome and add it so it can spawn
 						for (Decoration stage : GenerationStage.Decoration.values())
@@ -271,7 +271,7 @@ public class PerformBiomeBlending
 				else if (WBConfig.SERVER.allowModdedStructures.get())
 				{
 					//add the structure version of the structure
-					WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addStructureFeature(new ConfiguredFeature(structure, biome.structures.get(structure))));
+					WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addStructure(new ConfiguredFeature(structure, biome.structures.get(structure))));
 				
 					//find the feature version of the structure in this biome and add it so it can spawn
 					for (Decoration stage : GenerationStage.Decoration.values())

@@ -213,7 +213,7 @@ public class WBDragonManager
 				{
 					if(!this.enderDragon.removed && this.enderDragon.getHealth() <= 0)
 					{
-						this.enderDragon.onDeathUpdate();
+						//this.enderDragon.onDeathUpdate();
 					}
 					else if(this.enderDragon.removed)
 					{
@@ -487,7 +487,7 @@ public class WBDragonManager
 		}
 		
 		this.exitPortalLocation = this.exitPortalLocation.up();
-		endpodiumfeature.configure(IFeatureConfig.NO_FEATURE_CONFIG).place(this.world, this.world.getChunkProvider().getChunkGenerator(), new Random(), this.exitPortalLocation);
+		endpodiumfeature.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).place(this.world, this.world.getChunkProvider().getChunkGenerator(), new Random(), this.exitPortalLocation);
 	}
 
 

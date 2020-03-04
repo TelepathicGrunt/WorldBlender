@@ -132,7 +132,7 @@ public class WBPortalSpawning
 						}
 						else
 						{
-							world.breakBlock(blockpos, true, event.getPlayer());
+							world.destroyBlock(blockpos, true, event.getPlayer());
 						}
 
 						//create portal but with cooldown so players can grab items before they get teleported

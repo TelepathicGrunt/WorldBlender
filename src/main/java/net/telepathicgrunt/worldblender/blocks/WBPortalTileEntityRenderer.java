@@ -32,12 +32,12 @@ public class WBPortalTileEntityRenderer extends TileEntityRenderer<WBPortalTileE
 
 
 	@Override
-	public void render(WBPortalTileEntity tileEntity, float p_225616_2_, MatrixStack modelMatrix, IRenderTypeBuffer renderBuffer, int p_225616_5_, int p_225616_6_)
+	public void render(WBPortalTileEntity tileEntity, float partialTicks, MatrixStack modelMatrix, IRenderTypeBuffer renderBuffer, int combinedLightIn, int combinedOverlayIn)
 	{
 		RANDOM.setSeed(31100L);
-		double distance = tileEntity.getPos().distanceSq(this.dispatcher.renderInfo.getProjectedView(), true);
+		double distance = tileEntity.getPos().distanceSq(this.renderDispatcher.renderInfo.getProjectedView(), true);
 		int passes = this.getPasses(distance);
-		Matrix4f matrix4f = modelMatrix.peek().getModel();
+		Matrix4f matrix4f = modelMatrix.getLast().getMatrix();
 		this.drawColor(tileEntity, 0.15F, matrix4f, renderBuffer.getBuffer(WB_RENDER_TYPE.get(0)));
 
 		for (int currentPass = 1; currentPass < passes; ++currentPass)
@@ -68,10 +68,10 @@ public class WBPortalTileEntityRenderer extends TileEntityRenderer<WBPortalTileE
 	{
 		if (tileEntity.shouldRenderFace(direction))
 		{
-			vertexBuilder.vertex(matrix4f, p_228884_4_, p_228884_6_, p_228884_8_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
-			vertexBuilder.vertex(matrix4f, p_228884_5_, p_228884_6_, p_228884_9_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
-			vertexBuilder.vertex(matrix4f, p_228884_5_, p_228884_7_, p_228884_10_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
-			vertexBuilder.vertex(matrix4f, p_228884_4_, p_228884_7_, p_228884_11_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
+			vertexBuilder.pos(matrix4f, p_228884_4_, p_228884_6_, p_228884_8_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
+			vertexBuilder.pos(matrix4f, p_228884_5_, p_228884_6_, p_228884_9_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
+			vertexBuilder.pos(matrix4f, p_228884_5_, p_228884_7_, p_228884_10_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
+			vertexBuilder.pos(matrix4f, p_228884_4_, p_228884_7_, p_228884_11_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
 		}
 	}
 
@@ -139,6 +139,6 @@ public class WBPortalTileEntityRenderer extends TileEntityRenderer<WBPortalTileE
 			renderstate$texturestate = new RenderState.TextureState(ADDITIVE_TEXTURE, false, false);
 		}
 
-		return RenderType.of("end_portal", DefaultVertexFormats.POSITION_COLOR, 7, 256, false, true, RenderType.State.builder().transparency(renderstate$transparencystate).texture(renderstate$texturestate).texturing(new RenderState.PortalTexturingState(layer)).fog(RenderState.BLACK_FOG).build(false));
+		return RenderType.makeType("end_portal", DefaultVertexFormats.POSITION_COLOR, 7, 256, false, true, RenderType.State.getBuilder().transparency(renderstate$transparencystate).texture(renderstate$texturestate).texturing(new RenderState.PortalTexturingState(layer)).fog(RenderState.BLACK_FOG).build(false));
 	}
 }

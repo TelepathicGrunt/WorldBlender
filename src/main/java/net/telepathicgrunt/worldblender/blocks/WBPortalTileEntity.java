@@ -65,7 +65,7 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 	        	 entity2.copyDataFromOld(entity);
 	        	 entity2.moveToBlockPosAndAngles(destPos, entity.rotationYaw, entity.rotationPitch);
 	        	 entity2.setMotion(entity.getMotion());
-	        	 destinationWorld.func_217460_e(entity2);
+	        	 destinationWorld.addFromAnotherDimension(entity2);
 	         }
 	         entity.remove(false);
 	         this.world.getProfiler().endSection();
