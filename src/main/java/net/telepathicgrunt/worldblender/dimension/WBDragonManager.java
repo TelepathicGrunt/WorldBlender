@@ -40,6 +40,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.EndPodiumFeature;
 import net.minecraft.world.gen.feature.EndSpikeFeature;
@@ -466,6 +467,36 @@ public class WBDragonManager
 			this.bossInfo.setPercent(0.0F);
 			this.bossInfo.setVisible(false);
 			this.generatePortal(true);
+			
+			ServerWorld endWorld = this.world.getServer().getWorld(DimensionType.THE_END);
+			BlockPos.Mutable blockPos = new BlockPos.Mutable(0,255,0);
+			
+			//looks to see if the end podium was created yet
+			while(blockPos.getY() > 0 && endWorld.getBlockState(blockPos) != Blocks.BEDROCK.getDefaultState())
+			{
+				blockPos.move(Direction.DOWN);
+			}
+			
+			//We had found that the portal was not made. Create out pillar to hold the podium so the obsidian platform wont break it
+			if(blockPos.getY() == 0)
+			{
+				for(int x = -3; x <= 3; x++)
+				{
+					for(int z = -3; z <= 3; z++)
+					{
+						for(int height = 0; height <= 35; height++)
+						{
+							if(x*x+z*z < 15)
+								endWorld.setBlockState(blockPos.add(x, 0, z), Blocks.OBSIDIAN.getDefaultState(), 3);
+							
+							blockPos.move(Direction.UP);
+						}
+						
+						blockPos.setPos(0, 40, 0);
+					}
+				}
+			}
+			
 			if (!this.previouslyKilled)
 			{
 				this.world.setBlockState(this.world.getHeight(Heightmap.Type.MOTION_BLOCKING, EndPodiumFeature.END_PODIUM_LOCATION), Blocks.DRAGON_EGG.getDefaultState());
@@ -528,16 +559,10 @@ public class WBDragonManager
 			BlockPos blockpos = this.exitPortalLocation;
 			if (blockpos == null)
 			{
-				LOGGER.debug("Tried to respawn, but need to find the portal first.");
 				BlockPattern.PatternHelper blockpattern$patternhelper = this.findExitPortal();
 				if (blockpattern$patternhelper == null)
 				{
-					LOGGER.debug("Couldn't find a portal, so we made one.");
 					this.generatePortal(true);
-				}
-				else
-				{
-					LOGGER.debug("Found the exit portal & temporarily using it.");
 				}
 
 				blockpos = this.exitPortalLocation;
@@ -546,7 +571,6 @@ public class WBDragonManager
 			List<EnderCrystalEntity> list1 = doesRespawnCrystalExist();
 			if(list1 == null) return;
 			
-			LOGGER.debug("Found all crystals, respawning dragon.");
 			this.respawnDragon(list1);
 		}
 

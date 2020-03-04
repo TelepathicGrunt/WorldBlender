@@ -71,9 +71,12 @@ public class WBWorldSavedData extends WorldSavedData
 		data.putBoolean("dragonPreviouslyKilled", dragonPreviouslyKilled);
 		data.putBoolean("dragonIsRespawning", dragonIsRespawning);
 		data.putBoolean("generatedInitialFight", generatedInitialFight);
-		data.putInt("endAltarPositionX", endAltarPosition.getX());
-		data.putInt("endAltarPositionY", endAltarPosition.getY());
-		data.putInt("endAltarPositionZ", endAltarPosition.getZ());
+		if(endAltarPosition != null)
+		{
+			data.putInt("endAltarPositionX", endAltarPosition.getX());
+			data.putInt("endAltarPositionY", endAltarPosition.getY());
+			data.putInt("endAltarPositionZ", endAltarPosition.getZ());
+		}
 		if(dragonUUID != null) data.putUniqueId("dragonUUID", dragonUUID);
 		return data;
 	}
