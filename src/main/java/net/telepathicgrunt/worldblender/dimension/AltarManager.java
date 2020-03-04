@@ -38,6 +38,7 @@ public class AltarManager
 		{
 			WBFeatures.WB_PORTAL_ALTAR.place(this.world, this.world.getChunkProvider().generator, this.world.rand, new BlockPos(0, 255, 0), IFeatureConfig.NO_FEATURE_CONFIG);
 			this.altarMade = true;
+			this.saveWBAltarData(this.world);
 		}
 	}
 
