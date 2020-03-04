@@ -42,7 +42,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 		configList.add(NETHERRACK_CONFIG);
 		configList.add(END_STONE_CONFIG);
 		
-		if (WBConfig.SERVER.allowVanillaSurfaces.get()) {
+		if (WBConfig.SERVER.allowVanillaSurfaces.get() && WBConfig.SERVER.allowVanillaBiomeImport.get()) {
 			configList.add(GRASS_DIRT_GRAVEL_CONFIG);
 			configList.add(PODZOL_DIRT_GRAVEL_CONFIG);
 			configList.add(RED_SAND_WHITE_TERRACOTTA_GRAVEL_CONFIG);
