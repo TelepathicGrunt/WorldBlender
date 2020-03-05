@@ -11,19 +11,21 @@ public final class BlendedBiome extends WBBiome
 {
 	public BlendedBiome()
 	{
-		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(WBBiomes.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.RAIN).category(Biome.Category.NONE).depth(0.122F).scale(0.1F).temperature(1.0F).downfall(0.4F).waterColor(4159204).waterFogColor(329011).parent((String) null));
+		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(WBBiomes.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.RAIN).category(Biome.Category.NONE).depth(0.128F).scale(0.1F).temperature(1.0F).downfall(0.4F).waterColor(4159204).waterFogColor(329011).parent((String) null));
 	}
 
 	/**
 	 * returns the chance a creature has to spawn.
 	 */
+	@Override
 	public float getSpawningChance()
 	{
 		return 0.35F;
 	}
 
+	@Override
 	@OnlyIn(Dist.CLIENT)
-	public int getSkyColor() {
+	public int getSkyColorByTemp(float currentTemperature) {
 		return 44525;
 	}
 }

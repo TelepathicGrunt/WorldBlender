@@ -154,13 +154,6 @@ public class WBBiomeProvider extends BiomeProvider
 		return this.genBiomes.func_215738_a(x, y);
 	}
 
-
-	public Biome getBiomeAtFactorFour(int factorFourX, int factorFourZ)
-	{
-		return this.genBiomes.func_215738_a(factorFourX, factorFourZ);
-	}
-
-
 	public Biome[] getBiomes(int x, int z, int width, int length, boolean cacheFlag)
 	{
 		return this.genBiomes.generateBiomes(x, z, width, length);

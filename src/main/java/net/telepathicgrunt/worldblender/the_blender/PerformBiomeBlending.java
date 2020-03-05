@@ -34,34 +34,37 @@ public class PerformBiomeBlending
 {
 	private static List<ConfiguredFeature<?>> grassyFlowerList = new ArrayList<ConfiguredFeature<?>>();
 	private static List<ConfiguredFeature<?>> bambooList = new ArrayList<ConfiguredFeature<?>>();
-	
+
+
 	public static void setupBiomes()
 	{
 		BlendedSurfaceBuilder.resetSurfaceList();
 		grassyFlowerList = new ArrayList<ConfiguredFeature<?>>();
 		bambooList = new ArrayList<ConfiguredFeature<?>>();
-		
+
 		for (Biome biome : ForgeRegistries.BIOMES.getValues())
 		{
 			//ignore our own biomes to speed things up and prevent possible duplications
-			if (WBBiomes.biomes.contains(biome)) 
+			if (WBBiomes.biomes.contains(biome))
 				continue;
-			
-			 // if the biome is a vanilla biome but config says no vanilla biome, skip this biome
-			if(biome.getRegistryName().getNamespace().equals("minecraft")) {
-				if(!WBConfig.allowVanillaBiomeImport)
+
+			// if the biome is a vanilla biome but config says no vanilla biome, skip this biome
+			if (biome.getRegistryName().getNamespace().equals("minecraft"))
+			{
+				if (!WBConfig.allowVanillaBiomeImport)
 					continue;
 			}
-			 // if the biome is a modded biome but config says no modded biome, skip this biome
-			else if(!WBConfig.allowModdedBiomeImport){
+			// if the biome is a modded biome but config says no modded biome, skip this biome
+			else if (!WBConfig.allowModdedBiomeImport)
+			{
 				continue;
 			}
-			
+
 			//blacklisted by blanket list
-			if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.BLANKET, biome.getRegistryName())) {
+			if (ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.BLANKET, biome.getRegistryName()))
+			{
 				continue;
 			}
-			
 
 			///////////FEATURES//////////////////
 			addBiomeFeatures(biome, bambooList, grassyFlowerList);
@@ -78,12 +81,10 @@ public class PerformBiomeBlending
 			////////////////////////SURFACE/////////////////////////
 			addBiomeSurfaceConfig(biome);
 		}
-		
-		
-		
+
 		//////////Misc Features///////////////
 		//Add these only after we have finally gone through all biomes
-		
+
 		//add grass and flowers now so they are generated second to last
 		for (ConfiguredFeature<?> grassyFlowerFeature : grassyFlowerList)
 		{
@@ -93,7 +94,7 @@ public class PerformBiomeBlending
 			}
 		}
 
-		if(!WBConfig.disallowLaggyVanillaFeatures)
+		if (!WBConfig.disallowLaggyVanillaFeatures)
 		{
 			//add bamboo so it is dead last
 			for (ConfiguredFeature<?> bambooFeature : bambooList)
@@ -106,6 +107,7 @@ public class PerformBiomeBlending
 		}
 	}
 
+
 	private static void addBiomeFeatures(Biome biome, List<ConfiguredFeature<?>> bambooList, List<ConfiguredFeature<?>> grassyFlowerList)
 	{
 		for (Decoration stage : GenerationStage.Decoration.values())
@@ -115,71 +117,64 @@ public class PerformBiomeBlending
 				if (!WBBiomes.BLENDED_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, configuredFeature)))
 				{
 					//feature blacklisted
-					if(configuredFeature.config instanceof DecoratedFeatureConfig)
+					if (configuredFeature.config instanceof DecoratedFeatureConfig)
 					{
-						ConfiguredFeature<?> insideFeature = ((DecoratedFeatureConfig)configuredFeature.config).feature;
-						
-						if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, insideFeature.feature.getRegistryName()))
+						ConfiguredFeature<?> insideFeature = ((DecoratedFeatureConfig) configuredFeature.config).feature;
+
+						if (ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, insideFeature.feature.getRegistryName()))
 						{
 							continue;
 						}
-						
-						
+
 						//A bunch of edge cases that have to handled because features can hold other features.
 						//If a mod makes a custom feature to hold features, welp, we are screwed. Nothing we can do about it. 
-						if(insideFeature.feature == Feature.RANDOM_RANDOM_SELECTOR)
+						if (insideFeature.feature == Feature.RANDOM_RANDOM_SELECTOR)
 						{
-							if(((MultipleWithChanceRandomFeatureConfig)insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.getRegistryName()))) 
+							if (((MultipleWithChanceRandomFeatureConfig) insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.getRegistryName())))
 							{
 								continue;
 							}
 						}
-						
-						if(insideFeature.feature == Feature.RANDOM_SELECTOR)
+
+						if (insideFeature.feature == Feature.RANDOM_SELECTOR)
 						{
-							if(((MultipleRandomFeatureConfig)insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.getRegistryName()))) 
+							if (((MultipleRandomFeatureConfig) insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.getRegistryName())))
 							{
 								continue;
 							}
 						}
-						
-						if(insideFeature.feature == Feature.SIMPLE_RANDOM_SELECTOR)
+
+						if (insideFeature.feature == Feature.SIMPLE_RANDOM_SELECTOR)
 						{
-							if(((SingleRandomFeature)insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.getRegistryName()))) 
+							if (((SingleRandomFeature) insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.getRegistryName())))
 							{
 								continue;
 							}
 						}
-						
-						if(insideFeature.feature == Feature.RANDOM_BOOLEAN_SELECTOR)
+
+						if (insideFeature.feature == Feature.RANDOM_BOOLEAN_SELECTOR)
 						{
-							if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).trueFeature.feature.getRegistryName()) ||
-								ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).falseFeature.feature.getRegistryName())) 
+							if (ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig) insideFeature.config).trueFeature.feature.getRegistryName()) || ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig) insideFeature.config).falseFeature.feature.getRegistryName()))
 							{
 								continue;
 							}
 						}
 					}
-					
-					if(WBBiomes.VANILLA_TEMP_BIOME.getFeatures(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature))) 
+
+					if (WBBiomes.VANILLA_TEMP_BIOME.getFeatures(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature)))
 					{
-						
+
 						if (WBConfig.SERVER.allowVanillaFeatures.get())
 						{
-							if (configuredFeature.config instanceof DecoratedFeatureConfig &&
-								(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.GRASS
-								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.SIMPLE_RANDOM_SELECTOR 
-								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_RANDOM_SELECTOR 
-								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.GENERAL_FOREST_FLOWER 
-								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.DECORATED_FLOWER))
+							if (configuredFeature.config instanceof DecoratedFeatureConfig && (((DecoratedFeatureConfig) configuredFeature.config).feature.feature == Feature.GRASS || ((DecoratedFeatureConfig) configuredFeature.config).feature.feature == Feature.SIMPLE_RANDOM_SELECTOR || ((DecoratedFeatureConfig) configuredFeature.config).feature.feature == Feature.RANDOM_RANDOM_SELECTOR || ((DecoratedFeatureConfig) configuredFeature.config).feature.feature == Feature.GENERAL_FOREST_FLOWER
+									|| ((DecoratedFeatureConfig) configuredFeature.config).feature.feature == Feature.DECORATED_FLOWER))
 							{
 								//add the grass and flowers later so trees have a chance to spawn
 								grassyFlowerList.add(configuredFeature);
 							}
 							else
 							{
-								if (configuredFeature.config instanceof DecoratedFeatureConfig &&
-									((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.BAMBOO)
+								if (configuredFeature.config instanceof DecoratedFeatureConfig && ((DecoratedFeatureConfig) configuredFeature.config).feature.feature == Feature.BAMBOO)
 								{
 									//MAKE BAMBOO GENERATE VERY LAST. SCREW BAMBOO
 									bambooList.add(configuredFeature);
@@ -187,7 +182,7 @@ public class PerformBiomeBlending
 								else
 								{
 									//if we have no laggy feature config on, then the feature must not be fire or lava in order to be added
-									if(!WBConfig.disallowLaggyVanillaFeatures || !VanillaFeatureGrouping.lavaAndFirefeatures.get(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature)))
+									if (!WBConfig.disallowLaggyVanillaFeatures || !VanillaFeatureGrouping.lavaAndFirefeatures.get(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature)))
 									{
 										WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
 									}
@@ -197,28 +192,20 @@ public class PerformBiomeBlending
 					}
 					else if (WBConfig.SERVER.allowModdedFeatures.get())
 					{
-						if (configuredFeature.config instanceof DecoratedFeatureConfig &&
-							(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.GRASS
-							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.SIMPLE_RANDOM_SELECTOR 
-							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_RANDOM_SELECTOR 
-							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.GENERAL_FOREST_FLOWER 
-							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.DECORATED_FLOWER))
+						if (configuredFeature.config instanceof DecoratedFeatureConfig && (((DecoratedFeatureConfig) configuredFeature.config).feature.feature == Feature.GRASS || ((DecoratedFeatureConfig) configuredFeature.config).feature.feature == Feature.SIMPLE_RANDOM_SELECTOR || ((DecoratedFeatureConfig) configuredFeature.config).feature.feature == Feature.RANDOM_RANDOM_SELECTOR || ((DecoratedFeatureConfig) configuredFeature.config).feature.feature == Feature.GENERAL_FOREST_FLOWER
+								|| ((DecoratedFeatureConfig) configuredFeature.config).feature.feature == Feature.DECORATED_FLOWER))
 						{
 							//add the grass and flowers later so trees have a chance to spawn
 							grassyFlowerList.add(configuredFeature);
 						}
 						else
 						{
-							if (configuredFeature.config instanceof DecoratedFeatureConfig &&
-								((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.BAMBOO)
+							if (configuredFeature.config instanceof DecoratedFeatureConfig && ((DecoratedFeatureConfig) configuredFeature.config).feature.feature == Feature.BAMBOO)
 							{
 								//MAKE BAMBOO GENERATE VERY LAST. SCREW BAMBOO
 								bambooList.add(configuredFeature);
 							}
-							else if (stage == Decoration.VEGETAL_DECORATION && 
-									(configuredFeature.config instanceof DecoratedFeatureConfig &&
-									((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_BOOLEAN_SELECTOR || 
-									((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_SELECTOR))
+							else if (stage == Decoration.VEGETAL_DECORATION && (configuredFeature.config instanceof DecoratedFeatureConfig && ((DecoratedFeatureConfig) configuredFeature.config).feature.feature == Feature.RANDOM_BOOLEAN_SELECTOR || ((DecoratedFeatureConfig) configuredFeature.config).feature.feature == Feature.RANDOM_SELECTOR))
 							{
 								//adds modded features that might be trees to front of array so they have priority
 								//over vanilla features.
@@ -243,41 +230,44 @@ public class PerformBiomeBlending
 			if (!WBBiomes.BLENDED_BIOME.structures.keySet().stream().anyMatch(struct -> struct == structure))
 			{
 				//blacklisted by structure list
-				if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.STRUCTURE, structure.getRegistryName())) {
+				if (ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.STRUCTURE, structure.getRegistryName()))
+				{
 					continue;
 				}
-				
+
 				if (WBBiomes.VANILLA_TEMP_BIOME.structures.keySet().stream().anyMatch(vanillaStructure -> vanillaStructure.getClass().equals(structure.getClass())))
 				{
 					if (WBConfig.SERVER.allowVanillaStructures.get())
 					{
 						//add the structure version of the structure
 						WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.structures.put(structure, biome.structures.get(structure)));
-						
+
 						//find the feature version of the structure in this biome and add it so it can spawn
 						for (Decoration stage : GenerationStage.Decoration.values())
 						{
 							for (ConfiguredFeature<?> configuredFeature : biome.getFeatures(stage))
 							{
-								if(configuredFeature.feature.getClass().equals(biome.structures.get(structure).getClass())) {
+								if (configuredFeature.feature.getClass().equals(biome.structures.get(structure).getClass()))
+								{
 									WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
 								}
 							}
 						}
 					}
-						
+
 				}
 				else if (WBConfig.SERVER.allowModdedStructures.get())
 				{
 					//add the structure version of the structure
 					WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.structures.put(structure, biome.structures.get(structure)));
-				
+
 					//find the feature version of the structure in this biome and add it so it can spawn
 					for (Decoration stage : GenerationStage.Decoration.values())
 					{
 						for (ConfiguredFeature<?> configuredFeature : biome.getFeatures(stage))
 						{
-							if(configuredFeature.feature.getClass().equals(biome.structures.get(structure).getClass())) {
+							if (configuredFeature.feature.getClass().equals(biome.structures.get(structure).getClass()))
+							{
 								WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
 							}
 						}
@@ -295,10 +285,11 @@ public class PerformBiomeBlending
 			for (ConfiguredCarver<?> carver : biome.getCarvers(carverStage))
 			{
 				//blacklisted by carver list
-				if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.CARVER, carver.carver.getRegistryName())) {
+				if (ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.CARVER, carver.carver.getRegistryName()))
+				{
 					continue;
 				}
-				
+
 				if (!WBBiomes.BLENDED_BIOME.getCarvers(carverStage).stream().anyMatch(config -> config.carver == carver.carver))
 				{
 					if (carver.carver.getRegistryName() != null && carver.carver.getRegistryName().getNamespace().equals("minecraft"))
@@ -323,10 +314,11 @@ public class PerformBiomeBlending
 			for (SpawnListEntry spawnEntry : biome.getSpawns(entityClass))
 			{
 				//blacklisted by natural spawn list
-				if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.SPAWN, spawnEntry.entityType.getRegistryName())) {
+				if (ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.SPAWN, spawnEntry.entityType.getRegistryName()))
+				{
 					continue;
 				}
-				
+
 				if (!WBBiomes.BLENDED_BIOME.getSpawns(entityClass).stream().anyMatch(spawn -> spawn.entityType == spawnEntry.entityType))
 				{
 					if (spawnEntry.entityType.getRegistryName() != null && spawnEntry.entityType.getRegistryName().getNamespace().equals("minecraft"))
@@ -356,15 +348,15 @@ public class PerformBiomeBlending
 		{
 			return;
 		}
-		
+
 		SurfaceBuilderConfig surfaceConfig = (SurfaceBuilderConfig) biome.getSurfaceBuilderConfig();
-		
+
 		//blacklisted by surface list. Checks top block
-		if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.SURFACE_BLOCK, surfaceConfig.getTop().getBlock().getRegistryName()))
+		if (ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.SURFACE_BLOCK, surfaceConfig.getTop().getBlock().getRegistryName()))
 		{
 			return;
 		}
-		
+
 		if (!((BlendedSurfaceBuilder) WBBiomes.FEATURE_SURFACE_BUILDER).containsConfig(surfaceConfig))
 		{
 			((BlendedSurfaceBuilder) WBBiomes.FEATURE_SURFACE_BUILDER).addConfig(surfaceConfig);
@@ -386,7 +378,13 @@ public class PerformBiomeBlending
 		}
 		catch (Exception e)
 		{
-			return false; //One of the features cannot be serialized which can only happen with custom modded features
+			//One of the features cannot be serialized which can only happen with custom modded features
+			//Check if the features are the same in a different way
+			if ((feature1.config instanceof DecoratedFeatureConfig && feature2.config instanceof DecoratedFeatureConfig) && 
+				((DecoratedFeatureConfig) feature1.config).feature.feature == ((DecoratedFeatureConfig) feature2.config).feature.feature)
+			{
+				return true;
+			}
 		}
 
 		return false;

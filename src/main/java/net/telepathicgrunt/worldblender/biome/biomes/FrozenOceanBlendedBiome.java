@@ -1,5 +1,6 @@
 package net.telepathicgrunt.worldblender.biome.biomes;
 
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
@@ -17,22 +18,25 @@ public final class FrozenOceanBlendedBiome extends WBBiome
 	/**
 	 * returns the chance a creature has to spawn.
 	 */
+	@Override
 	public float getSpawningChance()
 	{
 		return 0.35F;
 	}
 
 
+	@Override
 	@OnlyIn(Dist.CLIENT)
-	public int getSkyColor() {
+	public int getSkyColorByTemp(float currentTemperature) {
 		return 44525;
 	}
 
 	/*
 	 * set grass color
 	 */
+	@Override
 	@OnlyIn(Dist.CLIENT)
-	public int func_225528_a_(double p_225528_1_, double p_225528_3_)
+	public int getGrassColor(BlockPos pos) 
 	{
 		return 3730080;
 	}
@@ -41,8 +45,9 @@ public final class FrozenOceanBlendedBiome extends WBBiome
 	/*
 	 * set foliage/plant color
 	 */
+	@Override
 	@OnlyIn(Dist.CLIENT)
-	public int func_225527_a_()
+	public int getFoliageColor(BlockPos pos)
 	{
 		return 3397255;
 	}

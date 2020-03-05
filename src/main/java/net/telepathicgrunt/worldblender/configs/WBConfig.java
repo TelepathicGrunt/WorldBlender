@@ -38,7 +38,7 @@ public class WBConfig
 	    public static boolean allowModdedSpawns = true;
 	    public static boolean allowModdedSurfaces = true;
 	    
-	    public static String blanketBlacklist = "ultra_amplified_dimension*";
+	    public static String blanketBlacklist = "ultra_amplified_dimension*, biomesoplenty:dead_reef";
 	    public static String blacklistedFeatures = "";
 	    public static String blacklistedStructures = "";
 	    public static String blacklistedCarvers = "";
@@ -263,7 +263,8 @@ public class WBConfig
 		                    		+" put an * at the end.r\n"
 		                    		+" As default, Ultra Amplified Dimension is blacklisted because\r\n"
 		                    		+" its features are not setup for normal worldgen and will completely\r\n"
-		                    		+" destroy this dimension.\r\n"
+		                    		+" destroy this dimension. And Biome O' Plenty's Dead Reef is blacklisted\r\n"
+		                    		+" too so we don't import features from it that will place Dead Coral everwhere.\r\n"
 		                    		+" \r\n"
 		                    		+" To blacklist by key terms, just enter the term alone such as \"ocean\"\r\n"
 		                    		+" and all biomes with ocean in their name will not be imported.\r\n"
@@ -273,7 +274,7 @@ public class WBConfig
 		                    		+" and a vanilla biome at the same time: \r\n"
 		                    		+" \"ultra_amplified_dimension*, minecraft:ice_spike\"\r\n")
 		                    .translation("world_blender.config.blacklist.blanketblacklist")
-		                    .define("blanketBlacklist", "ultra_amplified_dimension*");
+		                    .define("blanketBlacklist", "ultra_amplified_dimension*, biomesoplenty:dead_reef");
 
 	            
 			    	blacklistedFeatures = builder

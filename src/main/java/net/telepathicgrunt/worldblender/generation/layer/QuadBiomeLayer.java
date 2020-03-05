@@ -23,17 +23,17 @@ public enum QuadBiomeLayer implements IAreaTransformer0
 
 	public int apply(INoiseRandom noise, int x, int z)
 	{
-		double perlinNoise = perlinGen.noiseAt((double) x * 0.1D, (double)z * 0.1D, false);
+		double perlinNoise = perlinGen.noiseAt((double) x * 0.04D, (double)z * 0.04D, false);
 		
 //		max = Math.max(max, perlinNoise);
 //		min = Math.min(min, perlinNoise);
-//		AllTheFeatures.LOGGER.log(Level.DEBUG, "Max: " + max +", Min: "+min + ", perlin: "+perlinNoise);
+//		WorldBlender.LOGGER.log(Level.DEBUG, "Max: " + max +", Min: "+min + ", perlin: "+perlinNoise);
 		
 		
-		if(perlinNoise > 0.53) {	
+		if(perlinNoise > 0.4) {	
 			return MOUNTAINOUS_BLENDED_BIOME_ID;
 		}
-		else if(perlinNoise > -0.58) {	
+		else if(perlinNoise > -0.6) {	
 			return BLENDED_BIOME_ID;
 		}
 		else {	
@@ -48,7 +48,7 @@ public enum QuadBiomeLayer implements IAreaTransformer0
 		if (perlinGen == null)
 		{
 			SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
-			perlinGen = new PerlinNoiseGenerator(sharedseedrandom, 0);
+			perlinGen = new PerlinNoiseGenerator(sharedseedrandom, 1);
 		}
 	}
 }
