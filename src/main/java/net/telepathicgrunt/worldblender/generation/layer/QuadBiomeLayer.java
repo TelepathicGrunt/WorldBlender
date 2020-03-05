@@ -48,7 +48,7 @@ public enum QuadBiomeLayer implements IAreaTransformer0
 		if (perlinGen == null)
 		{
 			SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
-			perlinGen = new PerlinNoiseGenerator(sharedseedrandom, 0, 0);
+			perlinGen = new PerlinNoiseGenerator(sharedseedrandom, 0);
 		}
 	}
 }

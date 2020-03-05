@@ -73,7 +73,7 @@ public class DDDungeonFeature extends Feature<NoFeatureConfig>
 	{
 		if (this.noiseGen == null)
 		{
-			this.noiseGen = new OctavesNoiseGenerator(new SharedSeedRandom(seed), 1, 0);
+			this.noiseGen = new OctavesNoiseGenerator(new SharedSeedRandom(seed), 1);
 		}
 
 		this.seed = seed;

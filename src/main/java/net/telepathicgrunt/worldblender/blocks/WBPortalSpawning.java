@@ -54,9 +54,9 @@ public class WBPortalSpawning
 		}
 
 		// Checks to see if player uses right click on a chest while crouching while holding nether star
-		if (event.getPlayer().isCrouching() && event.getPlayer().getHeldItemMainhand().getItem() == registry.getRaw(activationItem) && world.getBlockState(position).getBlock().getTags().contains(Tags.Blocks.CHESTS.getId()))
+		if (event.getPlayer().isSneaking() && event.getPlayer().getHeldItemMainhand().getItem() == registry.getRaw(activationItem) && world.getBlockState(position).getBlock().getTags().contains(Tags.Blocks.CHESTS.getId()))
 		{
-			BlockPos.Mutable cornerOffset = new BlockPos.Mutable(1, 1, 1);
+			BlockPos.MutableBlockPos cornerOffset = new BlockPos.MutableBlockPos(1, 1, 1);
 			boolean eightChestsFound = checkForValidChests(world, position, cornerOffset);
 
 			//8 chests found, time to check their inventory.
@@ -132,7 +132,7 @@ public class WBPortalSpawning
 						}
 						else
 						{
-							world.destroyBlock(blockpos, true, event.getPlayer());
+							world.destroyBlock(blockpos, true);
 						}
 
 						//create portal but with cooldown so players can grab items before they get teleported
@@ -183,7 +183,7 @@ public class WBPortalSpawning
 	 * Checks all 8 configurations that a 2x2 area of chests could be around incoming position. If 2x2 is all chests,
 	 * returns true and the offset blockpos will be set to that configeration's corner.
 	 */
-	private static boolean checkForValidChests(World world, BlockPos position, BlockPos.Mutable offset)
+	private static boolean checkForValidChests(World world, BlockPos position, BlockPos.MutableBlockPos offset)
 	{
 		boolean eightChestsFound = true;
 		for (; offset.getX() >= -1; offset.move(Direction.WEST, 2))

@@ -78,7 +78,7 @@ public enum WBDragonSpawnState
 
 						world.createExplosion((Entity) null, (double) ((float) endspikefeature$endspike.getCenterX() + 0.5F), (double) endspikefeature$endspike.getHeight(), (double) ((float) endspikefeature$endspike.getCenterZ() + 0.5F), 5.0F, Explosion.Mode.DESTROY);
 						EndSpikeFeatureConfig endspikefeatureconfig = new EndSpikeFeatureConfig(true, ImmutableList.of(endspikefeature$endspike), new BlockPos(0, 128, 0));
-						Feature.END_SPIKE.withConfiguration(endspikefeatureconfig).place(world, world.getChunkProvider().getChunkGenerator(), new Random(), new BlockPos(endspikefeature$endspike.getCenterX(), 45, endspikefeature$endspike.getCenterZ()));
+						Feature.END_SPIKE.place(world, world.getChunkProvider().getChunkGenerator(), new Random(), new BlockPos(endspikefeature$endspike.getCenterX(), 45, endspikefeature$endspike.getCenterZ()), endspikefeatureconfig);
 					}
 				}
 				else if (flag)
@@ -101,7 +101,7 @@ public enum WBDragonSpawnState
 				for (EnderCrystalEntity endercrystalentity : p_186079_3_)
 				{
 					endercrystalentity.setBeamTarget((BlockPos) null);
-					p_186079_1_.createExplosion(endercrystalentity, endercrystalentity.getPosX(), endercrystalentity.getPosY(), endercrystalentity.getPosZ(), 6.0F, Explosion.Mode.NONE);
+					p_186079_1_.createExplosion(endercrystalentity, endercrystalentity.posX, endercrystalentity.posY, endercrystalentity.posZ, 6.0F, Explosion.Mode.NONE);
 					endercrystalentity.remove();
 				}
 			}

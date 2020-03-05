@@ -36,6 +36,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.BossInfo;
+import net.minecraft.world.ServerBossInfo;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
@@ -46,7 +47,6 @@ import net.minecraft.world.gen.feature.EndPodiumFeature;
 import net.minecraft.world.gen.feature.EndSpikeFeature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.server.ChunkHolder;
-import net.minecraft.world.server.ServerBossInfo;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.server.TicketType;
 
@@ -469,7 +469,7 @@ public class WBDragonManager
 			this.generatePortal(true);
 			
 			ServerWorld endWorld = this.world.getServer().getWorld(DimensionType.THE_END);
-			BlockPos.Mutable blockPos = new BlockPos.Mutable(0,255,0);
+			BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos(0,255,0);
 			
 			//looks to see if the end podium was created yet
 			while(blockPos.getY() > 0 && endWorld.getBlockState(blockPos) != Blocks.BEDROCK.getDefaultState())
@@ -521,7 +521,7 @@ public class WBDragonManager
 				;
 			}
 		}
-		endpodiumfeature.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).place(this.world, this.world.getChunkProvider().getChunkGenerator(), new Random(), this.exitPortalLocation);
+		endpodiumfeature.place(this.world, this.world.getChunkProvider().getChunkGenerator(), new Random(), this.exitPortalLocation, IFeatureConfig.NO_FEATURE_CONFIG);
 	}
 
 

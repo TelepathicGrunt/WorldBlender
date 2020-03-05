@@ -1,4 +1,4 @@
-    Made for Minecraft v.1.15.2
+    Made for Minecraft v.1.14.4
     Created by TelepathicGrunt
 
 Welcome to the Github! If you are looking for the most recent stable version, then checkout the master branch! Branches dedicated to the latest version of Minecraft may be unstable or broken as I test and experiment so stick with the master branch instead.

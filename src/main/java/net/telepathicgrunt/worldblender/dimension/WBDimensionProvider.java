@@ -32,7 +32,7 @@ public class WBDimensionProvider extends Dimension
 
 	public WBDimensionProvider(World world, DimensionType typeIn)
 	{
-		super(world, typeIn, 15F);
+		super(world, typeIn);
 
 		/**
 		 * Creates the light to brightness table. It changes how light levels looks to the players but does not change the

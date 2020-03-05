@@ -32,14 +32,14 @@ import net.telepathicgrunt.worldblender.configs.WBConfig;
 
 public class PerformBiomeBlending
 {
-	private static List<ConfiguredFeature<?, ?>> grassyFlowerList = new ArrayList<ConfiguredFeature<?, ?>>();
-	private static List<ConfiguredFeature<?, ?>> bambooList = new ArrayList<ConfiguredFeature<?, ?>>();
+	private static List<ConfiguredFeature<?>> grassyFlowerList = new ArrayList<ConfiguredFeature<?>>();
+	private static List<ConfiguredFeature<?>> bambooList = new ArrayList<ConfiguredFeature<?>>();
 	
 	public static void setupBiomes()
 	{
 		BlendedSurfaceBuilder.resetSurfaceList();
-		grassyFlowerList = new ArrayList<ConfiguredFeature<?, ?>>();
-		bambooList = new ArrayList<ConfiguredFeature<?, ?>>();
+		grassyFlowerList = new ArrayList<ConfiguredFeature<?>>();
+		bambooList = new ArrayList<ConfiguredFeature<?>>();
 		
 		for (Biome biome : ForgeRegistries.BIOMES.getValues())
 		{
@@ -85,7 +85,7 @@ public class PerformBiomeBlending
 		//Add these only after we have finally gone through all biomes
 		
 		//add grass and flowers now so they are generated second to last
-		for (ConfiguredFeature<?, ?> grassyFlowerFeature : grassyFlowerList)
+		for (ConfiguredFeature<?> grassyFlowerFeature : grassyFlowerList)
 		{
 			if (!WBBiomes.BLENDED_BIOME.getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, grassyFlowerFeature)))
 			{
@@ -96,7 +96,7 @@ public class PerformBiomeBlending
 		if(!WBConfig.disallowLaggyVanillaFeatures)
 		{
 			//add bamboo so it is dead last
-			for (ConfiguredFeature<?, ?> bambooFeature : bambooList)
+			for (ConfiguredFeature<?> bambooFeature : bambooList)
 			{
 				if (!WBBiomes.BLENDED_BIOME.getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, bambooFeature)))
 				{
@@ -106,18 +106,18 @@ public class PerformBiomeBlending
 		}
 	}
 
-	private static void addBiomeFeatures(Biome biome, List<ConfiguredFeature<?, ?>> bambooList, List<ConfiguredFeature<?, ?>> grassyFlowerList)
+	private static void addBiomeFeatures(Biome biome, List<ConfiguredFeature<?>> bambooList, List<ConfiguredFeature<?>> grassyFlowerList)
 	{
 		for (Decoration stage : GenerationStage.Decoration.values())
 		{
-			for (ConfiguredFeature<?, ?> configuredFeature : biome.getFeatures(stage))
+			for (ConfiguredFeature<?> configuredFeature : biome.getFeatures(stage))
 			{
 				if (!WBBiomes.BLENDED_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, configuredFeature)))
 				{
 					//feature blacklisted
 					if(configuredFeature.config instanceof DecoratedFeatureConfig)
 					{
-						ConfiguredFeature<?, ?> insideFeature = ((DecoratedFeatureConfig)configuredFeature.config).feature;
+						ConfiguredFeature<?> insideFeature = ((DecoratedFeatureConfig)configuredFeature.config).feature;
 						
 						if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, insideFeature.feature.getRegistryName()))
 						{
@@ -137,7 +137,7 @@ public class PerformBiomeBlending
 						
 						if(insideFeature.feature == Feature.RANDOM_SELECTOR)
 						{
-							if(((MultipleRandomFeatureConfig)insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.feature.getRegistryName()))) 
+							if(((MultipleRandomFeatureConfig)insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.getRegistryName()))) 
 							{
 								continue;
 							}
@@ -153,8 +153,8 @@ public class PerformBiomeBlending
 						
 						if(insideFeature.feature == Feature.RANDOM_BOOLEAN_SELECTOR)
 						{
-							if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).field_227285_a_.feature.getRegistryName()) ||
-								ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).field_227286_b_.feature.getRegistryName())) 
+							if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).trueFeature.feature.getRegistryName()) ||
+								ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).falseFeature.feature.getRegistryName())) 
 							{
 								continue;
 							}
@@ -167,10 +167,10 @@ public class PerformBiomeBlending
 						if (WBConfig.SERVER.allowVanillaFeatures.get())
 						{
 							if (configuredFeature.config instanceof DecoratedFeatureConfig &&
-								(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_PATCH
+								(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.GRASS
 								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.SIMPLE_RANDOM_SELECTOR 
 								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_RANDOM_SELECTOR 
-								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.FLOWER 
+								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.GENERAL_FOREST_FLOWER 
 								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.DECORATED_FLOWER))
 							{
 								//add the grass and flowers later so trees have a chance to spawn
@@ -198,10 +198,10 @@ public class PerformBiomeBlending
 					else if (WBConfig.SERVER.allowModdedFeatures.get())
 					{
 						if (configuredFeature.config instanceof DecoratedFeatureConfig &&
-							(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_PATCH
+							(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.GRASS
 							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.SIMPLE_RANDOM_SELECTOR 
 							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_RANDOM_SELECTOR 
-							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.FLOWER 
+							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.GENERAL_FOREST_FLOWER 
 							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.DECORATED_FLOWER))
 						{
 							//add the grass and flowers later so trees have a chance to spawn
@@ -236,7 +236,6 @@ public class PerformBiomeBlending
 	}
 
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void addBiomeStructures(Biome biome)
 	{
 		for (Structure<?> structure : biome.structures.keySet())
@@ -253,12 +252,12 @@ public class PerformBiomeBlending
 					if (WBConfig.SERVER.allowVanillaStructures.get())
 					{
 						//add the structure version of the structure
-						WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addStructure(new ConfiguredFeature(structure, biome.structures.get(structure))));
+						WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.structures.put(structure, biome.structures.get(structure)));
 						
 						//find the feature version of the structure in this biome and add it so it can spawn
 						for (Decoration stage : GenerationStage.Decoration.values())
 						{
-							for (ConfiguredFeature<?, ?> configuredFeature : biome.getFeatures(stage))
+							for (ConfiguredFeature<?> configuredFeature : biome.getFeatures(stage))
 							{
 								if(configuredFeature.feature.getClass().equals(biome.structures.get(structure).getClass())) {
 									WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
@@ -271,12 +270,12 @@ public class PerformBiomeBlending
 				else if (WBConfig.SERVER.allowModdedStructures.get())
 				{
 					//add the structure version of the structure
-					WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addStructure(new ConfiguredFeature(structure, biome.structures.get(structure))));
+					WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.structures.put(structure, biome.structures.get(structure)));
 				
 					//find the feature version of the structure in this biome and add it so it can spawn
 					for (Decoration stage : GenerationStage.Decoration.values())
 					{
-						for (ConfiguredFeature<?, ?> configuredFeature : biome.getFeatures(stage))
+						for (ConfiguredFeature<?> configuredFeature : biome.getFeatures(stage))
 						{
 							if(configuredFeature.feature.getClass().equals(biome.structures.get(structure).getClass())) {
 								WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
@@ -373,7 +372,7 @@ public class PerformBiomeBlending
 	}
 
 
-	private static boolean serializeAndCompareFeature(ConfiguredFeature<?, ?> feature1, ConfiguredFeature<?, ?> feature2)
+	private static boolean serializeAndCompareFeature(ConfiguredFeature<?> feature1, ConfiguredFeature<?> feature2)
 	{
 		try
 		{

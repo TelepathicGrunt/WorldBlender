@@ -17,6 +17,6 @@ public class ClientEvents
 
 	public static void onClientSetup(FMLClientSetupEvent event)
 	{
-		ClientRegistry.bindTileEntityRenderer(WBBlocks.WORLD_BLENDER_PORTAL_TILE.get(), WBPortalTileEntityRenderer::new);
+		ClientRegistry.bindTileEntitySpecialRenderer(WBBlocks.WORLD_BLENDER_PORTAL_TILE.get().create().getClass(), new WBPortalTileEntityRenderer());
 	}
 }

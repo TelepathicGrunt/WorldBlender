@@ -117,7 +117,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 	
 	public static void setPerlinSeed(long seed){
 		if(perlinGen == null) {
-			perlinGen = new PerlinNoiseGenerator(new SharedSeedRandom(seed), 0, 1);
+			perlinGen = new PerlinNoiseGenerator(new SharedSeedRandom(seed), 1);
 			perlinSeed = seed;
 		}
 	}

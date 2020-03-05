@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[30,)" #mandatory
+loaderVersion="[28,)" #mandatory
 
 [[mods]] #mandatory
 modId="world_blender" #mandatory

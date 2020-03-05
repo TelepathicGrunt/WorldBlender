@@ -118,7 +118,7 @@ public class WBPortalBlock extends ContainerBlock
 	 */
 	public ActionResultType onUse(BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult rayTrace)
 	{
-		if(playerEntity.isCrouching() && ((WBPortalTileEntity)world.getTileEntity(blockPos)).isRemoveable()) 
+		if(playerEntity.isSneaking() && ((WBPortalTileEntity)world.getTileEntity(blockPos)).isRemoveable()) 
 		{
 			if (world.isRemote)
 			{
