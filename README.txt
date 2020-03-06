@@ -7,6 +7,12 @@ Welcome to the Github! If you are looking for the most recent stable version, th
        | World Blender changelog |
            
        
+    (V.1.2.1 Changes) (1.15.2 Minecraft)
+               
+  	Block: 
+·Fixed bug where portal block that are player-made cannot be removed by crouch right-clicking with empty hand.
+     
+     
     (V.1.2.0 Changes) (1.15.2 Minecraft)
                
 	Importing Features: 

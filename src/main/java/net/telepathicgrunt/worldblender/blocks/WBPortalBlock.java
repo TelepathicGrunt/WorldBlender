@@ -116,7 +116,7 @@ public class WBPortalBlock extends ContainerBlock
 	/**
 	 * Turns this portal blocks to air when right clicked while crouching
 	 */
-	public ActionResultType onUse(BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult rayTrace)
+	public ActionResultType onBlockActivated(BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult rayTrace)
 	{
 		if(playerEntity.isCrouching() && ((WBPortalTileEntity)world.getTileEntity(blockPos)).isRemoveable()) 
 		{
