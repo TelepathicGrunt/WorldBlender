@@ -91,7 +91,7 @@ public class DDDungeonFeature extends Feature<NoFeatureConfig>
 	{
 		//low chance of spawning
 		double noise = noiseGen.noiseAt((double)position.getX() * 0.018D, (double)position.getZ() * 0.018D, 0.0625D, 0.0625D);
-		WorldBlender.LOGGER.warn(noise);
+		//WorldBlender.LOGGER.warn(noise);
 		if (noise < 0.25f)
 		{
 			return false;

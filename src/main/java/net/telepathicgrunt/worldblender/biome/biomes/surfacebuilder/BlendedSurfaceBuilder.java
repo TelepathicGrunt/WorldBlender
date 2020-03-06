@@ -15,6 +15,7 @@ import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.PerlinNoiseGenerator;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
+import net.telepathicgrunt.worldblender.WorldBlender;
 import net.telepathicgrunt.worldblender.configs.WBConfig;
 import net.telepathicgrunt.worldblender.the_blender.ConfigBlacklisting;
 
@@ -83,7 +84,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 		
 		//list checking
 //		for(int i = 0; i<configList.size(); i++) {
-//			AllTheFeatures.LOGGER.log(Level.INFO, i+": top "+configList.get(i).getTop().getBlock().getRegistryName().getPath()+": middle "+configList.get(i).getUnder().getBlock().getRegistryName().getPath()+": bottom "+configList.get(i).getUnderWaterMaterial().getBlock().getRegistryName().getPath());
+//			WorldBlender.LOGGER.log(Level.INFO, i+": top "+configList.get(i).getTop().getBlock().getRegistryName().getPath()+": middle "+configList.get(i).getUnder().getBlock().getRegistryName().getPath()+": bottom "+configList.get(i).getUnderWaterMaterial().getBlock().getRegistryName().getPath());
 //		}
 		
 		int chosenConfigIndex = 2; // Grass surface

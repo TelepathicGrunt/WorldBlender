@@ -14,7 +14,10 @@ Welcome to the Github! If you are looking for the most recent stable version, th
      
     Config: 
 ·End Spikes (Obsidian pillars) will now not be removed when turning off vanilla features config as it is needed for the Enderdragon and is a good way to visually mark world origin.
-     
+      
+    Misc: 
+·Removed the log spam caused by World Blender when Dimension Dungeons is generating in the dimension.
+
      
     (V.1.2.0 Changes) (1.15.2 Minecraft)
                
