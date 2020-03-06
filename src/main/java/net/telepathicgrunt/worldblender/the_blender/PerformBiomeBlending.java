@@ -58,7 +58,7 @@ public class PerformBiomeBlending
 			}
 			
 			//blacklisted by blanket list
-			if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.BLANKET, biome.getRegistryName())) {
+			if(ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.BLANKET, biome.getRegistryName())) {
 				continue;
 			}
 			
@@ -119,7 +119,7 @@ public class PerformBiomeBlending
 					{
 						ConfiguredFeature<?, ?> insideFeature = ((DecoratedFeatureConfig)configuredFeature.config).feature;
 						
-						if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, insideFeature.feature.getRegistryName()))
+						if(ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, insideFeature.feature.getRegistryName()))
 						{
 							continue;
 						}
@@ -129,7 +129,7 @@ public class PerformBiomeBlending
 						//If a mod makes a custom feature to hold features, welp, we are screwed. Nothing we can do about it. 
 						if(insideFeature.feature == Feature.RANDOM_RANDOM_SELECTOR)
 						{
-							if(((MultipleWithChanceRandomFeatureConfig)insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.getRegistryName()))) 
+							if(((MultipleWithChanceRandomFeatureConfig)insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.getRegistryName()))) 
 							{
 								continue;
 							}
@@ -137,7 +137,7 @@ public class PerformBiomeBlending
 						
 						if(insideFeature.feature == Feature.RANDOM_SELECTOR)
 						{
-							if(((MultipleRandomFeatureConfig)insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.feature.getRegistryName()))) 
+							if(((MultipleRandomFeatureConfig)insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.feature.getRegistryName()))) 
 							{
 								continue;
 							}
@@ -145,7 +145,7 @@ public class PerformBiomeBlending
 						
 						if(insideFeature.feature == Feature.SIMPLE_RANDOM_SELECTOR)
 						{
-							if(((SingleRandomFeature)insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.getRegistryName()))) 
+							if(((SingleRandomFeature)insideFeature.config).features.stream().anyMatch(buriedFeature -> ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, buriedFeature.feature.getRegistryName()))) 
 							{
 								continue;
 							}
@@ -153,8 +153,8 @@ public class PerformBiomeBlending
 						
 						if(insideFeature.feature == Feature.RANDOM_BOOLEAN_SELECTOR)
 						{
-							if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).field_227285_a_.feature.getRegistryName()) ||
-								ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).field_227286_b_.feature.getRegistryName())) 
+							if(ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).field_227285_a_.feature.getRegistryName()) ||
+								ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, ((TwoFeatureChoiceConfig)insideFeature.config).field_227286_b_.feature.getRegistryName())) 
 							{
 								continue;
 							}
@@ -244,7 +244,7 @@ public class PerformBiomeBlending
 			if (!WBBiomes.BLENDED_BIOME.structures.keySet().stream().anyMatch(struct -> struct == structure))
 			{
 				//blacklisted by structure list
-				if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.STRUCTURE, structure.getRegistryName())) {
+				if(ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.STRUCTURE, structure.getRegistryName())) {
 					continue;
 				}
 				
@@ -298,7 +298,7 @@ public class PerformBiomeBlending
 			for (ConfiguredCarver<?> carver : biome.getCarvers(carverStage))
 			{
 				//blacklisted by carver list
-				if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.CARVER, carver.carver.getRegistryName())) {
+				if(ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.CARVER, carver.carver.getRegistryName())) {
 					continue;
 				}
 				
@@ -326,7 +326,7 @@ public class PerformBiomeBlending
 			for (SpawnListEntry spawnEntry : biome.getSpawns(entityClass))
 			{
 				//blacklisted by natural spawn list
-				if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.SPAWN, spawnEntry.entityType.getRegistryName())) {
+				if(ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.SPAWN, spawnEntry.entityType.getRegistryName())) {
 					continue;
 				}
 				
@@ -363,7 +363,7 @@ public class PerformBiomeBlending
 		SurfaceBuilderConfig surfaceConfig = (SurfaceBuilderConfig) biome.getSurfaceBuilderConfig();
 		
 		//blacklisted by surface list. Checks top block
-		if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.SURFACE_BLOCK, surfaceConfig.getTop().getBlock().getRegistryName()))
+		if(ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.SURFACE_BLOCK, surfaceConfig.getTop().getBlock().getRegistryName()))
 		{
 			return;
 		}

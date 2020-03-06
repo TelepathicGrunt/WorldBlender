@@ -18,6 +18,8 @@ import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.telepathicgrunt.worldblender.biome.WBBiomes;
+import net.telepathicgrunt.worldblender.the_blender.ConfigBlacklisting;
+import net.telepathicgrunt.worldblender.the_blender.ConfigBlacklisting.BlacklistType;
 
 public class TerraForgedCompatibility
 {
@@ -50,7 +52,7 @@ public class TerraForgedCompatibility
 		for(Feature<?> feature : ForgeRegistries.FEATURES)
 		{                             
 			//find terraforge trees
-			if(terraFeaturesRL.contains(feature.getRegistryName()))
+			if(terraFeaturesRL.contains(feature.getRegistryName()) && !ConfigBlacklisting.isResourceLocationBlacklisted(BlacklistType.FEATURE, feature.getRegistryName()))
 			{
 				//add it to our biomes with vanilla tree placement
 				for(Biome blendedBiome : WBBiomes.biomes)

@@ -75,7 +75,7 @@ public class ConfigBlacklisting
 	
 	
 	
-	public static boolean isBiomeNotAllowed(BlacklistType type, ResourceLocation biomeRL) 
+	public static boolean isResourceLocationBlacklisted(BlacklistType type, ResourceLocation biomeRL) 
 	{
 		List<String> listToUse;
 		

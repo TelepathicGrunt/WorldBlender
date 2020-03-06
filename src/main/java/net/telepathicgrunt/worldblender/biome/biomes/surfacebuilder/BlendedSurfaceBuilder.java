@@ -56,7 +56,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 		
 		//remove the surfaces that we disallow through blacklist but keep nether/end road
 		for(int i = configList.size()-1; i > 1; i--) {
-			if(ConfigBlacklisting.isBiomeNotAllowed(ConfigBlacklisting.BlacklistType.SURFACE_BLOCK, configList.get(i).getTop().getBlock().getRegistryName()))
+			if(ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.SURFACE_BLOCK, configList.get(i).getTop().getBlock().getRegistryName()))
 			{
 				configList.remove(i);
 			}
