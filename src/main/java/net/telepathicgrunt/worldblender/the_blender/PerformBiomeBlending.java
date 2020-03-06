@@ -18,7 +18,6 @@ import net.minecraft.world.gen.carver.ConfiguredCarver;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleWithChanceRandomFeatureConfig;
 import net.minecraft.world.gen.feature.SingleRandomFeature;
