@@ -11,6 +11,8 @@ Welcome to the Github! If you are looking for the most recent stable version, th
                
 	Importing Features: 
 ·Added dedicated support for DimDungeon mod!
+
+	Dimension: 
 ·Added option to spawn Enderdragon at world origin in this dimension! (Set to false by default in configs as it is highly experimental)
  
 	Config: 
@@ -19,9 +21,9 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ·Added option to spawn Enderdragon or not at world origin. (false by default)
 
 	Teleportation: 
-·Made World Blender Portal slightly less intense on the eyes.
+·Made World Blender Portal slightly less intense on the eyes add just a tad less laggy.
 ·World Blender Portal now has the Dragon Immune, Impermeable, Portals, and Wither Immune tags.
-·Reduced collision box of World Blender Portal so you have to go more into it to teleport rather than graze the surface of the block.
+·Slightly reduced collision box of World Blender Portal so you have to go more into it to teleport rather than graze the surface of the block.
        
        
     (V.1.1.0 Changes) (1.15.2 Minecraft)

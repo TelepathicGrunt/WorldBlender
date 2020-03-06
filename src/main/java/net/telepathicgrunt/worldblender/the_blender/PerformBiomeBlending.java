@@ -387,7 +387,14 @@ public class PerformBiomeBlending
 		}
 		catch (Exception e)
 		{
-			return false; //One of the features cannot be serialized which can only happen with custom modded features
+			//One of the features cannot be serialized which can only happen with custom modded features
+			//Check if the features are the same feature even though the placement or config for the feature might be different. 
+			//This is the best way we can remove duplicate modded features as best as we can. (I think)
+			if ((feature1.config instanceof DecoratedFeatureConfig && feature2.config instanceof DecoratedFeatureConfig) && 
+				((DecoratedFeatureConfig) feature1.config).feature.feature == ((DecoratedFeatureConfig) feature2.config).feature.feature)
+			{
+				return true;
+			}
 		}
 
 		return false;

@@ -27,7 +27,8 @@ import net.telepathicgrunt.worldblender.dimension.WBDimension;
 
 public class WBPortalAltar extends Feature<NoFeatureConfig>
 {
-
+	private static PlacementSettings placementSettings = (new PlacementSettings()).setMirror(Mirror.NONE).setRotation(Rotation.NONE).setIgnoreEntities(false).setChunk((ChunkPos) null);
+	
 	public WBPortalAltar(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactory)
 	{
 		super(configFactory);
@@ -52,8 +53,7 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 		}
 		
 		BlockPos finalPosition = world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, position);
-		PlacementSettings placementsettings = (new PlacementSettings()).setMirror(Mirror.NONE).setRotation(Rotation.NONE).setIgnoreEntities(false).setChunk((ChunkPos) null);
-		template.addBlocksToWorld(world, finalPosition.add(-5, -2, -5), placementsettings);
+		template.addBlocksToWorld(world, finalPosition.add(-5, -2, -5), placementSettings);
 
 		//make portal block unremoveable in altar
 		if(world.getTileEntity(finalPosition) != null && world.getTileEntity(finalPosition) instanceof WBPortalTileEntity)
