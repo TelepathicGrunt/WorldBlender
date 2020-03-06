@@ -29,7 +29,7 @@ archivesBaseName = 'world_blender'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: 'snapshot', version: '20200304-1.15.1'
+    mappings channel: 'snapshot', version: '20200306-1.15.1'
     
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -84,7 +84,12 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.15.2-31.1.18'
-	runtimeOnly fg.deobf("ignored:terraforged-1.15.2:0.0.1")
+    //implementation "com.terraforged:terraforged-1.15.2:0.0.1"
+	runtimeOnly fg.deobf("ignored:terraforged:0.0.1")
+	runtimeOnly fg.deobf("ignored:dimdungeons:1.0.4")
+	
+	
+	//runtimeOnly fg.deobf("ignored:modname-1.15.2:x.x.x")
 }
 
 // Process resources on build
