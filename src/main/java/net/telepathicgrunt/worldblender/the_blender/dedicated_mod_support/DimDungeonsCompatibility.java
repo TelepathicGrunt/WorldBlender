@@ -1,4 +1,4 @@
-package net.telepathicgrunt.worldblender.the_blender;
+package net.telepathicgrunt.worldblender.the_blender.dedicated_mod_support;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import net.minecraft.world.gen.placement.Placement;
 import net.telepathicgrunt.worldblender.biome.WBBiomes;
 import net.telepathicgrunt.worldblender.features.WBFeatures;
 
-public class IntermodCompatibility
+public class DimDungeonsCompatibility
 {
 	private static ResourceLocation DD_BASIC_DUNGEON_RL = new ResourceLocation("dimdungeons:feature_basic_dungeon");
 	private static ResourceLocation DD_ADVANCED_DUNGEON_RL = new ResourceLocation("dimdungeons:feature_advanced_dungeon");
@@ -44,22 +44,5 @@ public class IntermodCompatibility
 				}
 			}
 		}
-	}
-	public static void addTerraForgedTrees() 
-	{
-		
-		//add our feature to handle their dungeons
-		for(Biome blendedBiome : WBBiomes.biomes)
-		{
-			blendedBiome.addFeature(GenerationStage.Decoration.UNDERGROUND_STRUCTURES, 
-					WBFeatures.DD_DUNGEON_FEATURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
-		
-		}
-		
-		//remove DD's dungeons here so we do not cause concurrent error if we were to remove it in the above loop 
-		WBBiomes.biomes.forEach(blendedBiome -> 
-			blendedBiome.addFeature(GenerationStage.Decoration.UNDERGROUND_STRUCTURES, 
-					WBFeatures.DD_DUNGEON_FEATURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG))));
-		
 	}
 }

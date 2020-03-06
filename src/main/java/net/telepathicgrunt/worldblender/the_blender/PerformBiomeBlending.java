@@ -18,6 +18,7 @@ import net.minecraft.world.gen.carver.ConfiguredCarver;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleWithChanceRandomFeatureConfig;
 import net.minecraft.world.gen.feature.SingleRandomFeature;
@@ -260,7 +261,9 @@ public class PerformBiomeBlending
 						{
 							for (ConfiguredFeature<?, ?> configuredFeature : biome.getFeatures(stage))
 							{
-								if(configuredFeature.feature.getClass().equals(biome.structures.get(structure).getClass())) {
+								if(configuredFeature.config instanceof DecoratedFeatureConfig && 
+								((DecoratedFeatureConfig)configuredFeature.config).feature.feature.getClass().equals(structure.getClass())) 
+								{
 									WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
 								}
 							}

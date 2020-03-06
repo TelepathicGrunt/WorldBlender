@@ -11,6 +11,8 @@ Welcome to the Github! If you are looking for the most recent stable version, th
                
 	Importing Features: 
 ·Added dedicated support for DimDungeon mod!
+·Added dedicated support for TerraForged mod!
+·Fixed bug where Ocean Monuments would never spawn.
 
 	Dimension: 
 ·Added option to spawn Enderdragon at world origin in this dimension! (Set to false by default in configs as it is highly experimental)

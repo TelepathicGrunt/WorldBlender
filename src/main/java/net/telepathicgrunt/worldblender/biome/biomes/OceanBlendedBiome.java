@@ -11,7 +11,7 @@ public final class OceanBlendedBiome extends WBBiome
 {
 	public OceanBlendedBiome()
 	{
-		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(WBBiomes.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.RAIN).category(Biome.Category.NONE).depth(-1.0F).scale(0.2F).temperature(0.7F).downfall(0.4F).waterColor(4237029).waterFogColor(335155).parent((String) null));
+		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(WBBiomes.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.RAIN).category(Biome.Category.OCEAN).depth(-1.0F).scale(0.2F).temperature(0.7F).downfall(0.4F).waterColor(4237029).waterFogColor(335155).parent((String) null));
 	}
 
 	/**

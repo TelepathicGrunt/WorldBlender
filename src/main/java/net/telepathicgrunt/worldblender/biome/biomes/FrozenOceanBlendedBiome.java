@@ -11,7 +11,7 @@ public final class FrozenOceanBlendedBiome extends WBBiome
 {
 	public FrozenOceanBlendedBiome()
 	{
-		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(WBBiomes.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.SNOW).category(Biome.Category.NONE).depth(-1.4F).scale(0.2F).temperature(0.0F).downfall(0.4F).waterColor(4249573).waterFogColor(406594).parent((String) null));
+		super((new Builder()).surfaceBuilder(new ConfiguredSurfaceBuilder<>(WBBiomes.FEATURE_SURFACE_BUILDER, SurfaceBuilder.AIR_CONFIG)).precipitation(Biome.RainType.SNOW).category(Biome.Category.OCEAN).depth(-1.4F).scale(0.2F).temperature(0.0F).downfall(0.4F).waterColor(4249573).waterFogColor(406594).parent((String) null));
 	}
 
 	/**
