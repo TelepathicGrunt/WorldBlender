@@ -12,6 +12,9 @@ Welcome to the Github! If you are looking for the most recent stable version, th
   	Block: 
 ·Fixed bug where portal block that are player-made cannot be removed by crouch right-clicking with empty hand.
      
+    Config: 
+·End Spikes (Obsidian pillars) will now not be removed when turning off vanilla features config as it is needed for the Enderdragon and is a good way to visually mark world origin.
+     
      
     (V.1.2.0 Changes) (1.15.2 Minecraft)
                
