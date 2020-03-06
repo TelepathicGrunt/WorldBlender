@@ -1,5 +1,7 @@
 package net.telepathicgrunt.worldblender.the_blender;
 
+import java.util.List;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
@@ -21,17 +23,37 @@ public class IntermodCompatibility
 		//add our feature to handle their dungeons
 		for(Biome blendedBiome : WBBiomes.biomes)
 		{
-			for (ConfiguredFeature<?, ?> configuredFeature : blendedBiome.getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES))
+			List<ConfiguredFeature<?, ?>> cflist = blendedBiome.getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES);
+			for (int i = cflist.size() - 1; i >= 0; i--)
 			{
-				//only add our DD feature if the biome contains the actual mod's feature and our biome doesn't have our version yet
-				if(configuredFeature.feature.getRegistryName().equals(DD_BASIC_DUNGEON_RL) ||
-				   configuredFeature.feature.getRegistryName().equals(DD_ADVANCED_DUNGEON_RL) &&
-				   !blendedBiome.getFeatures(GenerationStage.Decoration.UNDERGROUND_STRUCTURES).stream().anyMatch(alreadyAddedFeature -> alreadyAddedFeature.feature.getRegistryName().equals(WBFeatures.DD_DUNGEON_FEATURE.getRegistryName()))) 
+				//only add our DD feature if the biome contains the actual mod's feature
+				if(cflist.get(i).feature.getRegistryName().equals(DD_BASIC_DUNGEON_RL) ||
+				   cflist.get(i).feature.getRegistryName().equals(DD_ADVANCED_DUNGEON_RL)) 
 				{
-					blendedBiome.addFeature(GenerationStage.Decoration.UNDERGROUND_STRUCTURES, 
-							WBFeatures.DD_DUNGEON_FEATURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
+					//remove DD's dungeon since it wont spawn normally in our biome
+					blendedBiome.features.get(GenerationStage.Decoration.SURFACE_STRUCTURES).remove(cflist.get(i));
+					
+					//adds our DD dungeon feature if it isn't added yet
+					if(!blendedBiome.getFeatures(GenerationStage.Decoration.UNDERGROUND_STRUCTURES).stream().anyMatch(alreadyAddedFeature -> alreadyAddedFeature.feature.getRegistryName().equals(WBFeatures.DD_DUNGEON_FEATURE.getRegistryName()))) 
+					{
+						
+						//add our dungeon instead
+						blendedBiome.addFeature(GenerationStage.Decoration.UNDERGROUND_STRUCTURES, 
+								WBFeatures.DD_DUNGEON_FEATURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
+					}
 				}
 			}
+		}
+	}
+	public static void addTerraForgedTrees() 
+	{
+		
+		//add our feature to handle their dungeons
+		for(Biome blendedBiome : WBBiomes.biomes)
+		{
+			blendedBiome.addFeature(GenerationStage.Decoration.UNDERGROUND_STRUCTURES, 
+					WBFeatures.DD_DUNGEON_FEATURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
+		
 		}
 		
 		//remove DD's dungeons here so we do not cause concurrent error if we were to remove it in the above loop 
