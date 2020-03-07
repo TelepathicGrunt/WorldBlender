@@ -19,7 +19,7 @@ repositories {
 	}
 }
 
-version = '1.15.2-1.2.1'
+version = '1.15.2-1.2.2'
 group = 'net.telepathicgrunt.worldblender' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'world_blender'
 

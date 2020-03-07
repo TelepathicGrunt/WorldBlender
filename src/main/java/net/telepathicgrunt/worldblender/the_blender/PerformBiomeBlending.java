@@ -216,9 +216,9 @@ public class PerformBiomeBlending
 								bambooList.add(configuredFeature);
 							}
 							else if (stage == Decoration.VEGETAL_DECORATION && 
-									(configuredFeature.config instanceof DecoratedFeatureConfig &&
-									((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_BOOLEAN_SELECTOR || 
-									((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_SELECTOR))
+									(configuredFeature.config instanceof DecoratedFeatureConfig && 
+									(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_BOOLEAN_SELECTOR || 
+									 ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_SELECTOR)))
 							{
 								//adds modded features that might be trees to front of array so they have priority
 								//over vanilla features.
