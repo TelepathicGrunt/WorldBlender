@@ -273,7 +273,7 @@ public class PerformBiomeBlending
 							for (ConfiguredFeature<?, ?> configuredFeature : biome.getFeatures(stage))
 							{
 								if(configuredFeature.config instanceof DecoratedFeatureConfig && 
-								((DecoratedFeatureConfig)configuredFeature.config).feature.feature.getClass().equals(structure.getClass())) 
+								   ((DecoratedFeatureConfig)configuredFeature.config).feature.feature.getClass().equals(structure.getClass())) 
 								{
 									WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
 								}
