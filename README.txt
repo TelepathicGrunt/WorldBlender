@@ -10,13 +10,13 @@ Welcome to the Github! If you are looking for the most recent stable version, th
     Make end spike be added to all WB biomes and removed only if config specifies its resource location.
     Make End Podium be able to be removed by config if resource location is specified.
     Make End Podium remain if End Spike is gone.
-    fix trees spawning when turning off vanilla features
     
        
     (V.1.2.2 Changes) (1.15.2 Minecraft)
                   
 	Importing Features: 
 ·Fixed a crash with importing from a certain biome with a certain feature. (dunno which mod it was causing crash but the fix made the crash go away when bach testing mods lol)
+·Fixed some vanilla trees being sneaky and still spawning when turning off vanilla features config.  
  
        
     (V.1.2.1 Changes) (1.15.2 Minecraft)
