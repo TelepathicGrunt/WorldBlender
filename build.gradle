@@ -14,9 +14,6 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 repositories {
-    maven {
-        url "https://maven.tterrag.com/"
-    }
 	flatDir {
 		dirs 'deps'
 	}

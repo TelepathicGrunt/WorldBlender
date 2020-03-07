@@ -6,6 +6,11 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ------------------------------------------------
        | World Blender changelog |
            
+    TODO:
+    Make end spike be added to all WB biomes and removed only if config specifies its resource location.
+    Make End Podium be able to be removed by config if resource location is specified.
+    Make End Podium remain if End Spike is gone.
+    
        
     (V.1.2.1 Changes) (1.15.2 Minecraft)
                
