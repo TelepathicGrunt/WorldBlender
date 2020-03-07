@@ -10,7 +10,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
     (V.1.2.2 Changes) (1.15.2 Minecraft)
                   
 	Importing Features: 
-·Fixed a crash with importing from a certain biome with a certain feature. (dunno which mod it was causing crash but the fix made the crash go away when bach testing mods lol)
+·Fixed a crash with importing from a certain biome with a certain feature.
 ·Fixed some vanilla trees being sneaky and still spawning when turning off vanilla features config.  
      
     Config: 
