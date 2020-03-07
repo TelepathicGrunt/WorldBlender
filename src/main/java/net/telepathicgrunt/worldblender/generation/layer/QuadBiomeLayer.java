@@ -21,9 +21,10 @@ public enum QuadBiomeLayer implements IAreaTransformer0
 //	private double max = -100000;
 //	private double min = 100000;
 
+	@Override
 	public int apply(INoiseRandom noise, int x, int z)
 	{
-		double perlinNoise = perlinGen.noiseAt((double) x * 0.1D, (double)z * 0.1D, false);
+		double perlinNoise = perlinGen.noiseAt(x * 0.1D, z * 0.1D, false);
 		
 //		max = Math.max(max, perlinNoise);
 //		min = Math.min(min, perlinNoise);

@@ -22,6 +22,7 @@ public class WBBiome extends Biome
 	}
 
 
+	@Override
 	@SuppressWarnings("deprecation")
 	public void decorate(GenerationStage.Decoration generationStage, ChunkGenerator<? extends GenerationSettings> generatorSettings, IWorld world, long seed, SharedSeedRandom random, BlockPos blockPos)
 	{

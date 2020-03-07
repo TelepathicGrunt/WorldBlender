@@ -456,7 +456,7 @@ public class WBDragonManager
 
 		if(this.aliveCrystals == 0) this.noCrystalAlive = true;
 		
-		LOGGER.debug("Found {} end crystals still alive", (int) this.aliveCrystals);
+		LOGGER.debug("Found {} end crystals still alive", this.aliveCrystals);
 	}
 
 

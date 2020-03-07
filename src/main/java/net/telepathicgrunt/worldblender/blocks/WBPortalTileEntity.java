@@ -157,6 +157,7 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 	}
 
 
+	@Override
 	@OnlyIn(Dist.CLIENT)
 	public double getMaxRenderDistanceSquared()
 	{
@@ -168,6 +169,7 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 	 * Retrieves packet to send to the client whenever this Tile Entity is resynced via World.notifyBlockUpdate. For modded
 	 * TE's, this packet comes back to you clientside in {@link #onDataPacket}
 	 */
+	@Override
 	@Nullable
 	public SUpdateTileEntityPacket getUpdatePacket()
 	{
@@ -186,6 +188,7 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 	 * Get an NBT compound to sync to the client with SPacketChunkData, used for initial loading of the chunk or when many
 	 * blocks change at once. This compound comes back to you clientside in {@link handleUpdateTag}
 	 */
+	@Override
 	public CompoundNBT getUpdateTag()
 	{
 		return this.write(new CompoundNBT());

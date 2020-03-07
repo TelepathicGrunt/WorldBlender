@@ -35,6 +35,7 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 	}
 	
 
+	@Override
 	public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> changedBlock, Random rand, BlockPos position, NoFeatureConfig config)
 	{
 		//only world origin chunk allows generation

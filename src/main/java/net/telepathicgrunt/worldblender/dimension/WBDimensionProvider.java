@@ -40,11 +40,12 @@ public class WBDimensionProvider extends Dimension
 		 */
 		for (int i = 0; i <= 15; ++i)
 		{
-			this.lightBrightnessTable[i] = (float) i / 15F;
+			this.lightBrightnessTable[i] = i / 15F;
 		}
 	}
 	
 	
+	@Override
 	public void onWorldSave()
 	{
 		if (this.world instanceof ServerWorld)
@@ -62,6 +63,7 @@ public class WBDimensionProvider extends Dimension
 	 * Called when the world is updating entities. Only used in WorldProviderEnd to update the DragonFightManager in
 	 * Vanilla.
 	 */
+	@Override
 	public void tick()
 	{
 		if (world instanceof ServerWorld)
@@ -82,7 +84,7 @@ public class WBDimensionProvider extends Dimension
 			}
 			else 
 			{
-				if((WBConfig.spawnEnderDragon || WBWorldSavedData.get((ServerWorld) world).isDragonDataSaved())) 
+				if((WBConfig.spawnEnderDragon || WBWorldSavedData.get(world).isDragonDataSaved())) 
 				{
 					this.dragonManager = new WBDragonManager((ServerWorld) world);
 				}
@@ -164,6 +166,7 @@ public class WBDimensionProvider extends Dimension
 	/**
 	 * Returns array with sunrise/sunset colors
 	 */
+	@Override
 	@Nullable
 	@OnlyIn(Dist.CLIENT)
 	public float[] calcSunriseSunsetColors(float celestialAngle, float partialTicks)
@@ -187,6 +190,7 @@ public class WBDimensionProvider extends Dimension
 	}
 
 
+	@Override
 	@OnlyIn(Dist.CLIENT)
 	public boolean isSkyColored()
 	{
@@ -197,6 +201,7 @@ public class WBDimensionProvider extends Dimension
 	/**
 	 * the y level at which clouds are rendered.
 	 */
+	@Override
 	@OnlyIn(Dist.CLIENT)
 	public float getCloudHeight()
 	{
@@ -247,7 +252,7 @@ public class WBDimensionProvider extends Dimension
 	@Override
 	public float calculateCelestialAngle(long worldTime, float partialTicks)
 	{
-		double fractionComponent = MathHelper.frac((double) worldTime / 24000.0D - 0.25D);
+		double fractionComponent = MathHelper.frac(worldTime / 24000.0D - 0.25D);
 		double d1 = 0.5D - Math.cos(fractionComponent * Math.PI) / 2.0D;
 		return (float) (fractionComponent * 2.0D + d1) / 3.0F;
 	}

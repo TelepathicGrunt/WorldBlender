@@ -17,12 +17,14 @@ public final class FrozenOceanBlendedBiome extends WBBiome
 	/**
 	 * returns the chance a creature has to spawn.
 	 */
+	@Override
 	public float getSpawningChance()
 	{
 		return 0.35F;
 	}
 
 
+	@Override
 	@OnlyIn(Dist.CLIENT)
 	public int getSkyColor() {
 		return 44525;

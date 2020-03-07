@@ -19,6 +19,7 @@ public enum WBDragonSpawnState
 {
 	START
 	{
+		@Override
 		public void process(ServerWorld p_186079_1_, WBDragonManager p_186079_2_, List<EnderCrystalEntity> p_186079_3_, int p_186079_4_, BlockPos p_186079_5_)
 		{
 			BlockPos blockpos = new BlockPos(0, 128, 0);
@@ -33,6 +34,7 @@ public enum WBDragonSpawnState
 	},
 	PREPARING_TO_SUMMON_PILLARS
 	{
+		@Override
 		public void process(ServerWorld p_186079_1_, WBDragonManager p_186079_2_, List<EnderCrystalEntity> p_186079_3_, int p_186079_4_, BlockPos p_186079_5_)
 		{
 			if (p_186079_4_ < 100)
@@ -51,6 +53,7 @@ public enum WBDragonSpawnState
 	},
 	SUMMONING_PILLARS
 	{
+		@Override
 		public void process(ServerWorld world, WBDragonManager p_186079_2_, List<EnderCrystalEntity> p_186079_3_, int p_186079_4_, BlockPos p_186079_5_)
 		{
 			boolean flag = p_186079_4_ % 40 == 0;
@@ -76,7 +79,7 @@ public enum WBDragonSpawnState
 							world.removeBlock(blockpos, false);
 						}
 
-						world.createExplosion((Entity) null, (double) ((float) endspikefeature$endspike.getCenterX() + 0.5F), (double) endspikefeature$endspike.getHeight(), (double) ((float) endspikefeature$endspike.getCenterZ() + 0.5F), 5.0F, Explosion.Mode.DESTROY);
+						world.createExplosion((Entity) null, endspikefeature$endspike.getCenterX() + 0.5F, endspikefeature$endspike.getHeight(), endspikefeature$endspike.getCenterZ() + 0.5F, 5.0F, Explosion.Mode.DESTROY);
 						EndSpikeFeatureConfig endspikefeatureconfig = new EndSpikeFeatureConfig(true, ImmutableList.of(endspikefeature$endspike), new BlockPos(0, 128, 0));
 						Feature.END_SPIKE.withConfiguration(endspikefeatureconfig).place(world, world.getChunkProvider().getChunkGenerator(), new Random(), new BlockPos(endspikefeature$endspike.getCenterX(), 45, endspikefeature$endspike.getCenterZ()));
 					}
@@ -91,6 +94,7 @@ public enum WBDragonSpawnState
 	},
 	SUMMONING_DRAGON
 	{
+		@Override
 		public void process(ServerWorld p_186079_1_, WBDragonManager p_186079_2_, List<EnderCrystalEntity> p_186079_3_, int p_186079_4_, BlockPos p_186079_5_)
 		{
 			if (p_186079_4_ >= 100)
@@ -125,6 +129,7 @@ public enum WBDragonSpawnState
 	},
 	END
 	{
+		@Override
 		public void process(ServerWorld p_186079_1_, WBDragonManager p_186079_2_, List<EnderCrystalEntity> p_186079_3_, int p_186079_4_, BlockPos p_186079_5_)
 		{
 		}

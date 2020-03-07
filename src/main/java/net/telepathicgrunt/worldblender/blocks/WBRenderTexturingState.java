@@ -26,9 +26,9 @@ public class WBRenderTexturingState
 				RenderSystem.loadIdentity();
 				RenderSystem.translatef(0.5F, 0.5F, 0.0F);
 				RenderSystem.scalef(0.5F, 0.5F, 1.0F);
-				RenderSystem.translatef(17.0F / (float) layerIndex, (2.0F + (float) layerIndex / 1.5F) * ((float) (Util.milliTime() % 100000L) / 100000.0F), 0.0F);
-				RenderSystem.rotatef(((float) (layerIndex * layerIndex) * 4321.0F + (float) layerIndex * 9.0F) * 2.0F, 0.0F, 0.0F, 1.0F);
-				RenderSystem.scalef(4.5F - (float) layerIndex / 4.0F, 4.5F - (float) layerIndex / 4.0F, 1.0F);
+				RenderSystem.translatef(17.0F / layerIndex, (2.0F + layerIndex / 1.5F) * (Util.milliTime() % 100000L / 100000.0F), 0.0F);
+				RenderSystem.rotatef((layerIndex * layerIndex * 4321.0F + layerIndex * 9.0F) * 2.0F, 0.0F, 0.0F, 1.0F);
+				RenderSystem.scalef(4.5F - layerIndex / 4.0F, 4.5F - layerIndex / 4.0F, 1.0F);
 				RenderSystem.mulTextureByProjModelView();
 				RenderSystem.matrixMode(5888);
 				RenderSystem.setupEndPortalTexGen();
@@ -43,6 +43,7 @@ public class WBRenderTexturingState
 		}
 
 
+		@Override
 		public int hashCode()
 		{
 			return Integer.hashCode(this.iteration);

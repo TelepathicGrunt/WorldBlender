@@ -42,12 +42,14 @@ public class WBPortalBlock extends ContainerBlock
 	}
 
 
+	@Override
 	public TileEntity createNewTileEntity(IBlockReader blockReader)
 	{
 		return new WBPortalTileEntity();
 	}
 
 
+	@Override
 	public void onEntityCollision(BlockState blockState, World world, BlockPos position, Entity entity)
 	{
 		TileEntity tileentity = world.getTileEntity(position);
@@ -55,7 +57,7 @@ public class WBPortalBlock extends ContainerBlock
 		{
 			WBPortalTileEntity wbtile = (WBPortalTileEntity) tileentity;
 
-			if (!world.isRemote && !wbtile.isCoolingDown() && !entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss() && VoxelShapes.compare(VoxelShapes.create(entity.getBoundingBox().offset((double) (-position.getX()), (double) (-position.getY()), (double) (-position.getZ()))), COLLISION_BOX, IBooleanFunction.AND))
+			if (!world.isRemote && !wbtile.isCoolingDown() && !entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss() && VoxelShapes.compare(VoxelShapes.create(entity.getBoundingBox().offset((-position.getX()), (-position.getY()), (-position.getZ()))), COLLISION_BOX, IBooleanFunction.AND))
 			{
 				//gets the world in the destination dimension
 				MinecraftServer minecraftServer = entity.getServer(); // the server itself
@@ -116,6 +118,7 @@ public class WBPortalBlock extends ContainerBlock
 	/**
 	 * Turns this portal blocks to air when right clicked while crouching
 	 */
+	@Override
 	public ActionResultType onBlockActivated(BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult rayTrace)
 	{
 		if(playerEntity.isCrouching() && ((WBPortalTileEntity)world.getTileEntity(blockPos)).isRemoveable()) 
@@ -142,6 +145,7 @@ public class WBPortalBlock extends ContainerBlock
 	/**
 	 * Shows particles around this block
 	 */
+	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState blockState, World world, BlockPos position, Random random)
 	{
@@ -153,9 +157,9 @@ public class WBPortalBlock extends ContainerBlock
 				double xPos = (double) position.getX() + (double) random.nextFloat();
 				double yPos = (double) position.getY() + (double) random.nextFloat();
 				double zPos = (double) position.getZ() + (double) random.nextFloat();
-				double xVelocity = ((double) random.nextFloat() - 0.5D) * 0.08D;
-				double yVelocity = ((double) random.nextFloat() - 0.5D) * 0.13D;
-				double zVelocity = ((double) random.nextFloat() - 0.5D) * 0.08D;
+				double xVelocity = (random.nextFloat() - 0.5D) * 0.08D;
+				double yVelocity = (random.nextFloat() - 0.5D) * 0.13D;
+				double zVelocity = (random.nextFloat() - 0.5D) * 0.08D;
 
 				world.addParticle(ParticleTypes.END_ROD, xPos, yPos, zPos, xVelocity, yVelocity, zVelocity);
 			}
@@ -174,15 +178,16 @@ public class WBPortalBlock extends ContainerBlock
 				double xPos = (double) position.getX() + (double) random.nextFloat();
 				double yPos = (double) position.getY() + (double) random.nextFloat();
 				double zPos = (double) position.getZ() + (double) random.nextFloat();
-				double xVelocity = ((double) random.nextFloat() - 0.5D) * 0.08D;
-				double yVelocity = ((double) random.nextFloat() - 0.5D) * 0.13D;
-				double zVelocity = ((double) random.nextFloat() - 0.5D) * 0.08D;
+				double xVelocity = (random.nextFloat() - 0.5D) * 0.08D;
+				double yVelocity = (random.nextFloat() - 0.5D) * 0.13D;
+				double zVelocity = (random.nextFloat() - 0.5D) * 0.08D;
 
 				world.addParticle(ParticleTypes.END_ROD, xPos, yPos, zPos, xVelocity, yVelocity, zVelocity);
 			}
 		}
 	}
 
+	@Override
 	public ItemStack getItem(IBlockReader p_185473_1_, BlockPos p_185473_2_, BlockState p_185473_3_)
 	{
 		return ItemStack.EMPTY;
