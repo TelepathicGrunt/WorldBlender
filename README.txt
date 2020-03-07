@@ -6,18 +6,16 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ------------------------------------------------
        | World Blender changelog |
            
-    TODO:
-    Make end spike be added to all WB biomes and removed only if config specifies its resource location.
-    Make End Podium be able to be removed by config if resource location is specified.
-    Make End Podium remain if End Spike is gone.
-    
-       
+           
     (V.1.2.2 Changes) (1.15.2 Minecraft)
                   
 	Importing Features: 
 ·Fixed a crash with importing from a certain biome with a certain feature. (dunno which mod it was causing crash but the fix made the crash go away when bach testing mods lol)
 ·Fixed some vanilla trees being sneaky and still spawning when turning off vanilla features config.  
- 
+     
+    Config: 
+·End Spikes and End Podium can only be turned off now by putting their resource location into the feature blacklist due to them being needed for Enderdragon fights. Basically, this is to reduce the chance of people accidentally turning them off when turning off other features and if they really don't want the spike or podium, they have to explicitly tell the game to not spawn it.
+       
        
     (V.1.2.1 Changes) (1.15.2 Minecraft)
                

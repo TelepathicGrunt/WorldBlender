@@ -30,6 +30,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.CachedBlockInfo;
 import net.minecraft.util.Direction;
 import net.minecraft.util.EntityPredicates;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Unit;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -49,6 +50,8 @@ import net.minecraft.world.server.ChunkHolder;
 import net.minecraft.world.server.ServerBossInfo;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.server.TicketType;
+import net.telepathicgrunt.worldblender.the_blender.ConfigBlacklisting;
+import net.telepathicgrunt.worldblender.the_blender.ConfigBlacklisting.BlacklistType;
 
 
 public class WBDragonManager
@@ -511,6 +514,10 @@ public class WBDragonManager
 
 	private void generatePortal(boolean p_186094_1_)
 	{
+		//will not generate end podium if it is directly blacklisted
+		if(ConfigBlacklisting.isResourceLocationBlacklisted(BlacklistType.FEATURE, new ResourceLocation("minecraft:end_podium")))
+			return;
+		
 		EndPodiumFeature endpodiumfeature = new EndPodiumFeature(p_186094_1_);
 		if (this.exitPortalLocation == null)
 		{
