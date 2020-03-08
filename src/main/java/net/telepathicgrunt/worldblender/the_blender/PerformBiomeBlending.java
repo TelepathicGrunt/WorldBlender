@@ -101,7 +101,7 @@ public class PerformBiomeBlending
 		}
 
 		
-		if(!WBConfig.disallowLaggyFeatures)
+		if(!WBConfig.disallowLaggyFeatures && FeatureGrouping.bambooFound)
 		{
 			//add bamboo so it is dead last
 			WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.BAMBOO.withConfiguration(new ProbabilityConfig(0.2F)).withPlacement(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED.configure(new TopSolidWithNoiseConfig(160, 80.0D, 0.3D, Heightmap.Type.WORLD_SURFACE_WG)))));
@@ -123,7 +123,7 @@ public class PerformBiomeBlending
 			{
 				if (!WBBiomes.BLENDED_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> FeatureGrouping.serializeAndCompareFeature(addedConfigFeature, configuredFeature)))
 				{
-					//feature blacklisted
+					/////////Check feature blacklist from config
 					if(configuredFeature.config instanceof DecoratedFeatureConfig)
 					{
 						ConfiguredFeature<?, ?> insideFeature = ((DecoratedFeatureConfig)configuredFeature.config).feature;
@@ -170,6 +170,11 @@ public class PerformBiomeBlending
 						}
 					}
 					
+					
+					
+					////begin adding features//////
+					
+					//check if feature is already added
 					if(WBBiomes.VANILLA_TEMP_BIOME.getFeatures(stage).stream().anyMatch(vanillaConfigFeature -> FeatureGrouping.serializeAndCompareFeature(vanillaConfigFeature, configuredFeature))) 
 					{
 						
@@ -205,8 +210,9 @@ public class PerformBiomeBlending
 						{
 							continue;
 						}
-						//adds modded features that might be trees to front of
-						//feature list so they have priority over vanilla features.
+						
+						//adds modded features that might be trees to front of feature list so 
+						//they have priority over all vanilla features in same generation stage.
 						else if(FeatureGrouping.checksAndAddLargePlantFeatures(stage, configuredFeature))
 						{
 							WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.features.get(stage).add(0, configuredFeature));
@@ -219,7 +225,11 @@ public class PerformBiomeBlending
 							if (!(configuredFeature.config instanceof DecoratedFeatureConfig &&
 								 ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.BAMBOO))
 							{
-								WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
+								//if we have no laggy feature config on, then the feature must not be fire, lava, bamboo, etc in order to be added
+								if(!WBConfig.disallowLaggyFeatures && FeatureGrouping.isLaggyFeature(stage, configuredFeature))
+								{
+									WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
+								}
 							}
 						}
 					}

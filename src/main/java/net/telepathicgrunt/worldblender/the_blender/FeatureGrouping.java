@@ -50,8 +50,10 @@ public class FeatureGrouping
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////
-	
+
+	private static final List<String> BAMBOO_FEATURE_KEYWORDS = Arrays.asList("bamboo");
 	private static final List<String> LAGGY_FEATURE_KEYWORDS = Arrays.asList("lava","fire","bamboo","sugar_cane");
+	public static boolean bambooFound = false;
 	
 	/**
 	 * tries to find if the feature is bamboo, sugar cane, lava, or 
@@ -71,6 +73,9 @@ public class FeatureGrouping
 				for(ConfiguredFeature<?, ?> nestedConfiguredFeature : ((MultipleWithChanceRandomFeatureConfig)decoratedConfig.feature.config).features)
 				{
 					rl = nestedConfiguredFeature.feature.getRegistryName();
+					if(keywordFound(rl.getPath(), BAMBOO_FEATURE_KEYWORDS))
+						bambooFound = true;
+					
 					if(keywordFound(rl.getPath(), LAGGY_FEATURE_KEYWORDS))
 						return true;
 				}
@@ -80,6 +85,9 @@ public class FeatureGrouping
 				for(ConfiguredRandomFeatureList<?> nestedConfiguredFeature : ((MultipleRandomFeatureConfig)decoratedConfig.feature.config).features)
 				{
 					rl = nestedConfiguredFeature.feature.feature.getRegistryName();
+					if(keywordFound(rl.getPath(), BAMBOO_FEATURE_KEYWORDS))
+						bambooFound = true;
+					
 					if(keywordFound(rl.getPath(), LAGGY_FEATURE_KEYWORDS))
 						return true;
 				}
@@ -89,6 +97,9 @@ public class FeatureGrouping
 				for(ConfiguredFeature<?, ?> nestedConfiguredFeature : ((SingleRandomFeature)decoratedConfig.feature.config).features)
 				{
 					rl = nestedConfiguredFeature.feature.getRegistryName();
+					if(keywordFound(rl.getPath(), BAMBOO_FEATURE_KEYWORDS))
+						bambooFound = true;
+					
 					if(keywordFound(rl.getPath(), LAGGY_FEATURE_KEYWORDS))
 						return true;
 				}
@@ -96,10 +107,16 @@ public class FeatureGrouping
 			else if(decoratedConfig.feature.feature == Feature.RANDOM_BOOLEAN_SELECTOR)
 			{
 				rl = ((TwoFeatureChoiceConfig)decoratedConfig.feature.config).field_227285_a_.feature.getRegistryName();
+				if(keywordFound(rl.getPath(), BAMBOO_FEATURE_KEYWORDS))
+					bambooFound = true;
+				
 				if(keywordFound(rl.getPath(), LAGGY_FEATURE_KEYWORDS))
 					return true;
 				
 				rl = ((TwoFeatureChoiceConfig)decoratedConfig.feature.config).field_227286_b_.feature.getRegistryName();
+				if(keywordFound(rl.getPath(), BAMBOO_FEATURE_KEYWORDS))
+					bambooFound = true;
+				
 				if(keywordFound(rl.getPath(), LAGGY_FEATURE_KEYWORDS))
 					return true;
 			}
@@ -122,6 +139,9 @@ public class FeatureGrouping
 			}
 
 			//checks rl of non-nested feature's block or itself
+			if(keywordFound(rl.getPath(), BAMBOO_FEATURE_KEYWORDS))
+				bambooFound = true;
+			
 			if(rl != null && keywordFound(rl.getPath(), LAGGY_FEATURE_KEYWORDS))
 				return true;
 			
