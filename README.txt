@@ -14,7 +14,10 @@ Welcome to the Github! If you are looking for the most recent stable version, th
         
     Config: 
 ·Changed config entry of disableLaggyVanillaFeatures to disableLaggyFeatures as it will now attempt to detect other mod's bamboo, sugar cane, lava, and fire based features and prevent their generation.  
-       
+          
+    Misc: 
+·Optimized a bit in backend to use less memory.
+  
            
     (V.1.2.2 Changes) (1.15.2 Minecraft)
                   

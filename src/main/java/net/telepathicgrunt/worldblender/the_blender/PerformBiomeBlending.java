@@ -1,13 +1,8 @@
 package net.telepathicgrunt.worldblender.the_blender;
 
-import java.util.Map;
-
 import com.google.common.collect.ImmutableList;
-import com.mojang.datafixers.Dynamic;
 
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
@@ -42,6 +37,7 @@ public class PerformBiomeBlending
 {
 	public static void setupBiomes()
 	{
+		FeatureGrouping.setupFeatureMaps();
 		BlendedSurfaceBuilder.resetSurfaceList();
 		
 		//add end spike directly to all biomes if not directly blacklisted. Turning off vanilla features will not prevent end spikes from spawning due to them marking the world origin nicely
@@ -97,7 +93,7 @@ public class PerformBiomeBlending
 		{
 			for (ConfiguredFeature<?, ?> grassyFlowerFeature : FeatureGrouping.SMALL_PLANT_MAP.get(stage))
 			{
-				if (!WBBiomes.BLENDED_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, grassyFlowerFeature)))
+				if (!WBBiomes.BLENDED_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> FeatureGrouping.serializeAndCompareFeature(addedConfigFeature, grassyFlowerFeature)))
 				{
 					WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, grassyFlowerFeature));
 				}
@@ -111,6 +107,12 @@ public class PerformBiomeBlending
 			WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.BAMBOO.withConfiguration(new ProbabilityConfig(0.2F)).withPlacement(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED.configure(new TopSolidWithNoiseConfig(160, 80.0D, 0.3D, Heightmap.Type.WORLD_SURFACE_WG)))));
 			//Feature.BAMBOO.withConfiguration(new ProbabilityConfig(0.0F)).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(16)) // low bamboo chance
 		}
+		
+		
+		
+		//free up memory when we are done.
+		FeatureGrouping.clearFeatureMaps();
+		WBBiomes.VANILLA_TEMP_BIOME = null;
 	}
 
 	private static void addBiomeFeatures(Biome biome)
@@ -119,7 +121,7 @@ public class PerformBiomeBlending
 		{
 			for (ConfiguredFeature<?, ?> configuredFeature : biome.getFeatures(stage))
 			{
-				if (!WBBiomes.BLENDED_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, configuredFeature)))
+				if (!WBBiomes.BLENDED_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> FeatureGrouping.serializeAndCompareFeature(addedConfigFeature, configuredFeature)))
 				{
 					//feature blacklisted
 					if(configuredFeature.config instanceof DecoratedFeatureConfig)
@@ -168,7 +170,7 @@ public class PerformBiomeBlending
 						}
 					}
 					
-					if(WBBiomes.VANILLA_TEMP_BIOME.getFeatures(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature))) 
+					if(WBBiomes.VANILLA_TEMP_BIOME.getFeatures(stage).stream().anyMatch(vanillaConfigFeature -> FeatureGrouping.serializeAndCompareFeature(vanillaConfigFeature, configuredFeature))) 
 					{
 						
 						if (WBConfig.SERVER.allowVanillaFeatures.get())
@@ -363,33 +365,5 @@ public class PerformBiomeBlending
 		{
 			((BlendedSurfaceBuilder) WBBiomes.FEATURE_SURFACE_BUILDER).addConfig(surfaceConfig);
 		}
-	}
-
-
-	private static boolean serializeAndCompareFeature(ConfiguredFeature<?, ?> feature1, ConfiguredFeature<?, ?> feature2)
-	{
-		try
-		{
-			Map<Dynamic<INBT>, Dynamic<INBT>> feature1Map = feature1.serialize(NBTDynamicOps.INSTANCE).getMapValues().get();
-			Map<Dynamic<INBT>, Dynamic<INBT>> feature2Map = feature2.serialize(NBTDynamicOps.INSTANCE).getMapValues().get();
-
-			if (feature1Map != null && feature2Map != null)
-			{
-				return feature1Map.equals(feature2Map);
-			}
-		}
-		catch (Exception e)
-		{
-			//One of the features cannot be serialized which can only happen with custom modded features
-			//Check if the features are the same feature even though the placement or config for the feature might be different. 
-			//This is the best way we can remove duplicate modded features as best as we can. (I think)
-			if ((feature1.config instanceof DecoratedFeatureConfig && feature2.config instanceof DecoratedFeatureConfig) && 
-				((DecoratedFeatureConfig) feature1.config).feature.feature == ((DecoratedFeatureConfig) feature2.config).feature.feature)
-			{
-				return true;
-			}
-		}
-
-		return false;
 	}
 }

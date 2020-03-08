@@ -1,5 +1,6 @@
 package net.telepathicgrunt.worldblender.the_blender;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,10 @@ import java.util.Random;
 import org.apache.logging.log4j.Level;
 
 import com.google.common.collect.Maps;
+import com.mojang.datafixers.Dynamic;
 
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.GenerationStage;
@@ -30,7 +34,29 @@ import net.telepathicgrunt.worldblender.WorldBlender;
 
 public class FeatureGrouping
 {
+	public static void setupFeatureMaps() 
+	{
+		for(GenerationStage.Decoration stage : GenerationStage.Decoration.values())
+		{
+			SMALL_PLANT_MAP.put(stage, new ArrayList<ConfiguredFeature<?,?>>());
+			LARGE_PLANT_MAP.put(stage, new ArrayList<ConfiguredFeature<?,?>>());
+		}
+	}
+	
+	public static void clearFeatureMaps() 
+	{
+		SMALL_PLANT_MAP.clear();
+		LARGE_PLANT_MAP.clear();
+	}
+	
+	/////////////////////////////////////////////////////////////////////////////////////
+	
 	private static final List<String> LAGGY_FEATURE_KEYWORDS = Arrays.asList("lava","fire","bamboo","sugar_cane");
+	
+	/**
+	 * tries to find if the feature is bamboo, sugar cane, lava, or 
+	 * fire and return true if it is due to them being laggy
+	 */
 	public static boolean isLaggyFeature(GenerationStage.Decoration stage, ConfiguredFeature<?, ?> configuredFeature) 
 	{
 		if(configuredFeature.config instanceof DecoratedFeatureConfig)
@@ -120,6 +146,13 @@ public class FeatureGrouping
 	 */
 	public static boolean checksAndAddSmallPlantFeatures(GenerationStage.Decoration stage, ConfiguredFeature<?, ?> configuredFeature) 
 	{
+		//if small plant is already added, skip it
+		if(SMALL_PLANT_MAP.get(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature)))
+		{
+			return false;
+		}
+		
+		
 		if(configuredFeature.feature instanceof DecoratedFlowerFeature)
 		{
 			//is flower already, add it to map
@@ -173,6 +206,12 @@ public class FeatureGrouping
 	 */
 	public static boolean checksAndAddLargePlantFeatures(GenerationStage.Decoration stage, ConfiguredFeature<?, ?> configuredFeature) 
 	{
+		//if large plant is already added, skip it
+		if(LARGE_PLANT_MAP.get(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature)))
+		{
+			return false;
+		}
+		
 		if(configuredFeature.config instanceof DecoratedFeatureConfig)
 		{
 			DecoratedFeatureConfig decoratedConfig = (DecoratedFeatureConfig)configuredFeature.config;
@@ -250,7 +289,7 @@ public class FeatureGrouping
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////
-	
+	//UTILS
 	
 	
 	/**
@@ -266,6 +305,37 @@ public class FeatureGrouping
 			}
 		}
 		
+		return false;
+	}
+	
+	/**
+	 * Will serialize (if possible) both features and check if they are the same feature.
+	 * If cannot serialize, compare the feature itself to see if it is the same
+	 */
+	public static boolean serializeAndCompareFeature(ConfiguredFeature<?, ?> feature1, ConfiguredFeature<?, ?> feature2)
+	{
+		try
+		{
+			Map<Dynamic<INBT>, Dynamic<INBT>> feature1Map = feature1.serialize(NBTDynamicOps.INSTANCE).getMapValues().get();
+			Map<Dynamic<INBT>, Dynamic<INBT>> feature2Map = feature2.serialize(NBTDynamicOps.INSTANCE).getMapValues().get();
+
+			if (feature1Map != null && feature2Map != null)
+			{
+				return feature1Map.equals(feature2Map);
+			}
+		}
+		catch (Exception e)
+		{
+			//One of the features cannot be serialized which can only happen with custom modded features
+			//Check if the features are the same feature even though the placement or config for the feature might be different. 
+			//This is the best way we can remove duplicate modded features as best as we can. (I think)
+			if ((feature1.config instanceof DecoratedFeatureConfig && feature2.config instanceof DecoratedFeatureConfig) && 
+				((DecoratedFeatureConfig) feature1.config).feature.feature == ((DecoratedFeatureConfig) feature2.config).feature.feature)
+			{
+				return true;
+			}
+		}
+
 		return false;
 	}
 }
