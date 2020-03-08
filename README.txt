@@ -7,6 +7,15 @@ Welcome to the Github! If you are looking for the most recent stable version, th
        | World Blender changelog |
            
            
+    (V.1.2.3 Changes) (1.15.2 Minecraft)
+                    
+	Importing Features: 
+·        
+        
+    Config: 
+·Changed config entry of disableLaggyVanillaFeatures to disableLaggyFeatures as it will now attempt to detect other mod's bamboo, sugar cane, lava, and fire based features and prevent their generation.  
+       
+           
     (V.1.2.2 Changes) (1.15.2 Minecraft)
                   
 	Importing Features: 
