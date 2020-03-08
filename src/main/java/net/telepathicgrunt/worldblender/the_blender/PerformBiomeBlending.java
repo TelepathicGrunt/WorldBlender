@@ -112,8 +112,11 @@ public class PerformBiomeBlending
 	{
 		for (Decoration stage : GenerationStage.Decoration.values())
 		{
-			for (ConfiguredFeature<?> configuredFeature : biome.getFeatures(stage))
+			List<ConfiguredFeature<?>> configuredFeatureList = biome.getFeatures(stage);
+			
+			for (int i = 0; i < configuredFeatureList.size(); i++)
 			{
+				ConfiguredFeature<?> configuredFeature = configuredFeatureList.get(i);
 				if (!WBBiomes.BLENDED_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, configuredFeature)))
 				{
 					//feature blacklisted

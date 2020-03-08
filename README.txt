@@ -7,8 +7,17 @@ Welcome to the Github! If you are looking for the most recent stable version, th
        | World Blender changelog |
            
        
-    (V.1.2.0 Changes) (1.15.2 Minecraft)
-               
+    (V.1.2.1 Changes) (1.14.4 Minecraft)
+                
+	Misc: 
+·Fixed crash at startup when trying to use this mod with Quark. However, most of Quark's stuff aren't actually tied to biomes or registries so you won't find their caves in the blended world. Sorry. Their mod is not made to be mod compatible.
+       
+       
+    (V.1.2.0 Changes) (1.14.4 Minecraft)
+      	
+    Major: 
+·Backported to 1.14.4
+  
 	Importing Features: 
 ·Added dedicated support for DimDungeon mod!
 ·Added option to spawn Enderdragon at world origin in this dimension! (Set to false by default in configs as it is highly experimental)

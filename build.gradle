@@ -22,7 +22,7 @@ repositories {
 //	}
 }
 
-version = '1.14.4-1.2.0'
+version = '1.14.4-1.2.1'
 group = 'net.telepathicgrunt.worldblender' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'world_blender'
 
@@ -84,7 +84,7 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.14.4-28.2.3'
-	//runtimeOnly fg.deobf("ignored:modname-1.15.2:x.x.x")
+	//runtimeOnly fg.deobf("ignored:autoreglib:1.4.0")
 }
 
 // Process resources on build
