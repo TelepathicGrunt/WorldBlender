@@ -1,7 +1,5 @@
 package net.telepathicgrunt.worldblender.the_blender;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
@@ -17,6 +15,7 @@ import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.GenerationStage.Carving;
 import net.minecraft.world.gen.GenerationStage.Decoration;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.carver.ConfiguredCarver;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
@@ -24,11 +23,13 @@ import net.minecraft.world.gen.feature.EndSpikeFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleWithChanceRandomFeatureConfig;
+import net.minecraft.world.gen.feature.ProbabilityConfig;
 import net.minecraft.world.gen.feature.SingleRandomFeature;
 import net.minecraft.world.gen.feature.TwoFeatureChoiceConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.world.gen.placement.TopSolidWithNoiseConfig;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.telepathicgrunt.worldblender.biome.WBBiomes;
@@ -39,14 +40,9 @@ import net.telepathicgrunt.worldblender.the_blender.ConfigBlacklisting.Blacklist
 
 public class PerformBiomeBlending
 {
-	private static List<ConfiguredFeature<?, ?>> grassyFlowerList = new ArrayList<ConfiguredFeature<?, ?>>();
-	private static List<ConfiguredFeature<?, ?>> bambooList = new ArrayList<ConfiguredFeature<?, ?>>();
-	
 	public static void setupBiomes()
 	{
 		BlendedSurfaceBuilder.resetSurfaceList();
-		grassyFlowerList = new ArrayList<ConfiguredFeature<?, ?>>();
-		bambooList = new ArrayList<ConfiguredFeature<?, ?>>();
 		
 		//add end spike directly to all biomes if not directly blacklisted. Turning off vanilla features will not prevent end spikes from spawning due to them marking the world origin nicely
 		if(!ConfigBlacklisting.isResourceLocationBlacklisted(BlacklistType.FEATURE, new ResourceLocation("minecraft:end_spike")))
@@ -76,7 +72,7 @@ public class PerformBiomeBlending
 			
 
 			///////////FEATURES//////////////////
-			addBiomeFeatures(biome, bambooList, grassyFlowerList);
+			addBiomeFeatures(biome);
 
 			//////////////////////STRUCTURES////////////////////////
 			addBiomeStructures(biome);
@@ -96,29 +92,28 @@ public class PerformBiomeBlending
 		//////////Misc Features///////////////
 		//Add these only after we have finally gone through all biomes
 		
-		//add grass and flowers now so they are generated second to last
-		for (ConfiguredFeature<?, ?> grassyFlowerFeature : grassyFlowerList)
+		//add grass, flower, and other small plants now so they are generated second to last
+		for(GenerationStage.Decoration stage : GenerationStage.Decoration.values())
 		{
-			if (!WBBiomes.BLENDED_BIOME.getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, grassyFlowerFeature)))
+			for (ConfiguredFeature<?, ?> grassyFlowerFeature : FeatureGrouping.SMALL_PLANT_MAP.get(stage))
 			{
-				WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, grassyFlowerFeature));
-			}
-		}
-
-		if(!WBConfig.disallowLaggyVanillaFeatures)
-		{
-			//add bamboo so it is dead last
-			for (ConfiguredFeature<?, ?> bambooFeature : bambooList)
-			{
-				if (!WBBiomes.BLENDED_BIOME.getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, bambooFeature)))
+				if (!WBBiomes.BLENDED_BIOME.getFeatures(stage).stream().anyMatch(addedConfigFeature -> serializeAndCompareFeature(addedConfigFeature, grassyFlowerFeature)))
 				{
-					WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, bambooFeature));
+					WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, grassyFlowerFeature));
 				}
 			}
 		}
+
+		
+		if(!WBConfig.disallowLaggyFeatures)
+		{
+			//add bamboo so it is dead last
+			WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.BAMBOO.withConfiguration(new ProbabilityConfig(0.2F)).withPlacement(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED.configure(new TopSolidWithNoiseConfig(160, 80.0D, 0.3D, Heightmap.Type.WORLD_SURFACE_WG)))));
+			//Feature.BAMBOO.withConfiguration(new ProbabilityConfig(0.0F)).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(16)) // low bamboo chance
+		}
 	}
 
-	private static void addBiomeFeatures(Biome biome, List<ConfiguredFeature<?, ?>> bambooList, List<ConfiguredFeature<?, ?>> grassyFlowerList)
+	private static void addBiomeFeatures(Biome biome)
 	{
 		for (Decoration stage : GenerationStage.Decoration.values())
 		{
@@ -178,65 +173,49 @@ public class PerformBiomeBlending
 						
 						if (WBConfig.SERVER.allowVanillaFeatures.get())
 						{
-							if (configuredFeature.config instanceof DecoratedFeatureConfig &&
-								(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_PATCH
-								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.SIMPLE_RANDOM_SELECTOR 
-								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_RANDOM_SELECTOR 
-								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.FLOWER 
-								|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.DECORATED_FLOWER))
+							//add the vanilla grass and flowers to a map so we can add them 
+							//later to the feature list so trees have a chance to spawn
+							if(FeatureGrouping.checksAndAddSmallPlantFeatures(stage, configuredFeature))
 							{
-								//add the grass and flowers later so trees have a chance to spawn
-								grassyFlowerList.add(configuredFeature);
+								continue;
 							}
-							else
+								
+							
+							//cannot be a bamboo feature as we will place them dead last in the feature
+							//list so they don't overwhelm other features or cause as many bamboo breaking
+							//because it got cut off
+							if (!(configuredFeature.config instanceof DecoratedFeatureConfig &&
+								 ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.BAMBOO))
 							{
-								if (configuredFeature.config instanceof DecoratedFeatureConfig &&
-									((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.BAMBOO)
+								//if we have no laggy feature config on, then the feature must not be fire, lava, bamboo, etc in order to be added
+								if(!WBConfig.disallowLaggyFeatures && FeatureGrouping.isLaggyFeature(stage, configuredFeature))
 								{
-									//MAKE BAMBOO GENERATE VERY LAST. SCREW BAMBOO
-									bambooList.add(configuredFeature);
-								}
-								else
-								{
-									//if we have no laggy feature config on, then the feature must not be fire or lava in order to be added
-									if(!WBConfig.disallowLaggyVanillaFeatures || !VanillaFeatureGrouping.lavaAndFirefeatures.get(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature)))
-									{
-										WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
-									}
+									WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
 								}
 							}
 						}
 					}
 					else if (WBConfig.SERVER.allowModdedFeatures.get())
 					{
-						if (configuredFeature.config instanceof DecoratedFeatureConfig &&
-							(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_PATCH
-							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.SIMPLE_RANDOM_SELECTOR 
-							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_RANDOM_SELECTOR 
-							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.FLOWER 
-							|| ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.DECORATED_FLOWER))
+						//add the vanilla grass and flowers to a map so we can add them 
+						//later to the feature list so trees have a chance to spawn
+						if(FeatureGrouping.checksAndAddSmallPlantFeatures(stage, configuredFeature))
 						{
-							//add the grass and flowers later so trees have a chance to spawn
-							grassyFlowerList.add(configuredFeature);
+							continue;
+						}
+						//adds modded features that might be trees to front of
+						//feature list so they have priority over vanilla features.
+						else if(FeatureGrouping.checksAndAddLargePlantFeatures(stage, configuredFeature))
+						{
+							WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.features.get(stage).add(0, configuredFeature));
 						}
 						else
 						{
-							if (configuredFeature.config instanceof DecoratedFeatureConfig &&
-								((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.BAMBOO)
-							{
-								//MAKE BAMBOO GENERATE VERY LAST. SCREW BAMBOO
-								bambooList.add(configuredFeature);
-							}
-							else if (stage == Decoration.VEGETAL_DECORATION && 
-									(configuredFeature.config instanceof DecoratedFeatureConfig && 
-									(((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_BOOLEAN_SELECTOR || 
-									 ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.RANDOM_SELECTOR)))
-							{
-								//adds modded features that might be trees to front of array so they have priority
-								//over vanilla features.
-								WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.features.get(stage).add(0, configuredFeature));
-							}
-							else
+							//cannot be a bamboo feature as we will place them dead last in the feature
+							//list so they don't overwhelm other features or cause as many bamboo breaking
+							//because it got cut off
+							if (!(configuredFeature.config instanceof DecoratedFeatureConfig &&
+								 ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.BAMBOO))
 							{
 								WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
 							}

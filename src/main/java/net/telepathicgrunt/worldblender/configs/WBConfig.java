@@ -24,13 +24,13 @@ public class WBConfig
 	    }
 	    public static boolean allowVanillaBiomeImport = true;
 	    public static boolean allowModdedBiomeImport = true;
+	    public static boolean disallowLaggyFeatures = true;
 
 	    public static boolean allowVanillaFeatures = true;
 	    public static boolean allowVanillaStructures = true;
 	    public static boolean allowVanillaCarvers = true;
 	    public static boolean allowVanillaSpawns = true;
 	    public static boolean allowVanillaSurfaces = true;
-	    public static boolean disallowLaggyVanillaFeatures = false;
 	    
 	    public static boolean allowModdedFeatures = true;
 	    public static boolean allowModdedStructures = true;
@@ -57,13 +57,13 @@ public class WBConfig
 
 		    public final BooleanValue allowVanillaBiomeImport;
 		    public final BooleanValue allowModdedBiomeImport;
+		    public final BooleanValue disallowLaggyFeatures;
 	    	
 		    public final BooleanValue allowVanillaFeatures;
 		    public final BooleanValue allowVanillaStructures;
 		    public final BooleanValue allowVanillaCarvers;
 		    public final BooleanValue allowVanillaSpawns;
 		    public final BooleanValue allowVanillaSurfaces;
-		    public final BooleanValue disallowLaggyVanillaFeatures;
 		    
 		    public final BooleanValue allowModdedFeatures;
 		    public final BooleanValue allowModdedStructures;
@@ -88,6 +88,20 @@ public class WBConfig
 	        ServerConfig(ForgeConfigSpec.Builder builder) 
 	        {
 
+	            builder.push("Optimization Options");
+
+	            disallowLaggyFeatures = builder
+	                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+	                    		+" Will make vanilla bamboo, lava, and fire features and will try to \r\n"
+	                    		+" make modded bamboo, lava, and fire features not spawn at all\r\n"
+	                    		+" in order to help reduce lag in the world due to bamboo\r\n"
+	                    		+" breaking like crazy or fire spreading rapidly.\r\n"
+	                    		+" \r\n"
+	                    		+" If all else fail, do /gamerule doFireTick false to reduce fire lag.\r\n")
+	                    .translation("world_blender.config.vanilla.disallowlaggyvanillafeatures")
+	                    .define("disallowLaggyVanillaFeatures", true);
+	            
+	            builder.pop();
 	            
 	            builder.push("Vanilla Options");
 	        	
@@ -130,14 +144,6 @@ public class WBConfig
 		                    		+" Decides if the dimension imports surfaces like desert's sand, giant tree taiga's podzol, etc.\r\n")
 		                    .translation("world_blender.config.vanilla.allowvanillasurfaces")
 		                    .define("allowVanillaSurfaces", true);
-	
-		            disallowLaggyVanillaFeatures = builder
-		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
-		                    		+" Will make vanilla bamboo, lava, and fire features not spawn\r\n"
-		                    		+" in order to help reduce lag in the world due to bamboo\r\n"
-		                    		+" breaking like crazy or fire spreading rapidly.\r\n")
-		                    .translation("world_blender.config.vanilla.disallowlaggyvanillafeatures")
-		                    .define("disallowLaggyVanillaFeatures", true);
 	            
 	            builder.pop();
 	            
@@ -430,7 +436,7 @@ public class WBConfig
 	    	allowVanillaCarvers = SERVER.allowVanillaCarvers.get();
 	    	allowVanillaSpawns = SERVER.allowVanillaSpawns.get();
 	    	allowVanillaSurfaces = SERVER.allowVanillaSurfaces.get();
-	    	disallowLaggyVanillaFeatures = SERVER.disallowLaggyVanillaFeatures.get();
+	    	disallowLaggyFeatures = SERVER.disallowLaggyFeatures.get();
 	    	
 	    	allowModdedFeatures = SERVER.allowModdedFeatures.get();
 	    	allowModdedStructures = SERVER.allowModdedStructures.get();
