@@ -414,7 +414,7 @@ public class WBConfig
 			                    		+" And yes, you can respawn the EnderDragon by placing 4 End Crystals \r\n"
 			                    		+" on the edges of the Bedrock Podium. \r\n"
 			                    		+" \r\n"
-			                    		+" If set to false, the Enderdragon will not spawn.\r\n."
+			                    		+" If set to false, the Enderdragon will not spawn.\r\n"
 			                    		+" NOTE: Once the Enderdragon is spawned, changing this to false"
 			                    		+" will not despawn the Enderdragon. Also, this option will not\r\n"
 			                    		+" work in the World Blender Worldtype due to how fight managers are \r\n"

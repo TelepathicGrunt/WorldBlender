@@ -56,8 +56,6 @@ import net.telepathicgrunt.worldblender.the_blender.ConfigBlacklisting.Blacklist
 
 public class WBDragonManager
 {
-
-	private static final Logger LOGGER = LogManager.getLogger();
 	private static final Predicate<Entity> VALID_PLAYER = EntityPredicates.IS_ALIVE.and(EntityPredicates.withinRange(0.0D, 128.0D, 0.0D, 192.0D));
 	private final ServerBossInfo bossInfo = (ServerBossInfo) (new ServerBossInfo(new TranslationTextComponent("entity.minecraft.ender_dragon"), BossInfo.Color.PINK, BossInfo.Overlay.PROGRESS)).setPlayEndBossMusic(true).setCreateFog(true);
 	private final ServerWorld world;
@@ -288,12 +286,12 @@ public class WBDragonManager
 		List<EnderDragonEntity> list = this.world.getDragons();
 		if (list.isEmpty())
 		{
-			LOGGER.debug("Haven't seen the dragon, respawning it");
+			//LOGGER.debug("Haven't seen the dragon, respawning it");
 			this.createNewDragon();
 		}
 		else
 		{
-			LOGGER.debug("Haven't seen our dragon, but found another one to use.");
+			//LOGGER.debug("Haven't seen our dragon, but found another one to use.");
 			this.dragonUniqueId = list.get(0).getUniqueID();
 			this.enderDragon = list.get(0);
 		}
@@ -459,7 +457,7 @@ public class WBDragonManager
 
 		if(this.aliveCrystals == 0) this.noCrystalAlive = true;
 		
-		LOGGER.debug("Found {} end crystals still alive", this.aliveCrystals);
+		//LOGGER.debug("Found {} end crystals still alive", this.aliveCrystals);
 	}
 
 
@@ -512,13 +510,13 @@ public class WBDragonManager
 
 	}
 
-	private void generatePortal(boolean p_186094_1_)
+	private void generatePortal(boolean portalActive)
 	{
 		//will not generate end podium if it is directly blacklisted
 		if(ConfigBlacklisting.isResourceLocationBlacklisted(BlacklistType.FEATURE, new ResourceLocation("minecraft:end_podium")))
 			return;
 		
-		EndPodiumFeature endpodiumfeature = new EndPodiumFeature(p_186094_1_);
+		EndPodiumFeature endpodiumfeature = new EndPodiumFeature(portalActive);
 		if (this.exitPortalLocation == null)
 		{
 			for (this.exitPortalLocation = this.world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndPodiumFeature.END_PODIUM_LOCATION); 
