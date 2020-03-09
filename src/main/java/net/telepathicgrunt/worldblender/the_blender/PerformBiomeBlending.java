@@ -52,19 +52,16 @@ public class PerformBiomeBlending
 				continue;
 			
 			 // if the biome is a vanilla biome but config says no vanilla biome, skip this biome
-			if(biome.getRegistryName().getNamespace().equals("minecraft")) {
-				if(!WBConfig.allowVanillaBiomeImport)
-					continue;
-			}
-			 // if the biome is a modded biome but config says no modded biome, skip this biome
-			else if(!WBConfig.allowModdedBiomeImport){
+			else if(biome.getRegistryName().getNamespace().equals("minecraft") && !WBConfig.allowVanillaBiomeImport) 
 				continue;
-			}
+			
+			 // if the biome is a modded biome but config says no modded biome, skip this biome
+			else if(!WBConfig.allowModdedBiomeImport)
+				continue;
 			
 			//blacklisted by blanket list
-			if(ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.BLANKET, biome.getRegistryName())) {
+			else if(ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.BLANKET, biome.getRegistryName())) 
 				continue;
-			}
 			
 
 			///////////FEATURES//////////////////
@@ -187,18 +184,12 @@ public class PerformBiomeBlending
 								continue;
 							}
 								
-							
-							//cannot be a bamboo feature as we will place them dead last in the feature
-							//list so they don't overwhelm other features or cause as many bamboo breaking
-							//because it got cut off
-							if (!(configuredFeature.config instanceof DecoratedFeatureConfig &&
+							//if we have no laggy feature config on, then the feature must not be fire, lava, bamboo, etc in order to be added
+							if((!FeatureGrouping.isLaggyFeature(stage, configuredFeature) || !WBConfig.disallowLaggyFeatures) &&
+								!(configuredFeature.config instanceof DecoratedFeatureConfig &&
 								 ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.BAMBOO))
 							{
-								//if we have no laggy feature config on, then the feature must not be fire, lava, bamboo, etc in order to be added
-								if(!WBConfig.disallowLaggyFeatures && FeatureGrouping.isLaggyFeature(stage, configuredFeature))
-								{
-									WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
-								}
+								WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
 							}
 						}
 					}
@@ -222,14 +213,12 @@ public class PerformBiomeBlending
 							//cannot be a bamboo feature as we will place them dead last in the feature
 							//list so they don't overwhelm other features or cause as many bamboo breaking
 							//because it got cut off
-							if (!(configuredFeature.config instanceof DecoratedFeatureConfig &&
+							//if we have no laggy feature config on, then the feature must not be fire, lava, bamboo, etc in order to be added
+							if((!FeatureGrouping.isLaggyFeature(stage, configuredFeature) || !WBConfig.disallowLaggyFeatures) &&
+								!(configuredFeature.config instanceof DecoratedFeatureConfig &&
 								 ((DecoratedFeatureConfig)configuredFeature.config).feature.feature == Feature.BAMBOO))
 							{
-								//if we have no laggy feature config on, then the feature must not be fire, lava, bamboo, etc in order to be added
-								if(!WBConfig.disallowLaggyFeatures && FeatureGrouping.isLaggyFeature(stage, configuredFeature))
-								{
-									WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
-								}
+								WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
 							}
 						}
 					}

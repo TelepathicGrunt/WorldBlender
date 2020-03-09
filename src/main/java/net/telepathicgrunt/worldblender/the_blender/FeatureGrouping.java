@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.apache.logging.log4j.Level;
-
 import com.google.common.collect.Maps;
 import com.mojang.datafixers.Dynamic;
 
@@ -29,7 +27,6 @@ import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleWithChanceRandomFeatureConfig;
 import net.minecraft.world.gen.feature.SingleRandomFeature;
 import net.minecraft.world.gen.feature.TwoFeatureChoiceConfig;
-import net.telepathicgrunt.worldblender.WorldBlender;
 
 
 public class FeatureGrouping
@@ -40,6 +37,7 @@ public class FeatureGrouping
 		{
 			SMALL_PLANT_MAP.put(stage, new ArrayList<ConfiguredFeature<?,?>>());
 			LARGE_PLANT_MAP.put(stage, new ArrayList<ConfiguredFeature<?,?>>());
+			bambooFound = false;
 		}
 	}
 	
@@ -129,6 +127,10 @@ public class FeatureGrouping
 			{
 				rl = ((BlockWithContextConfig)decoratedConfig.feature.config).toPlace.getBlock().getRegistryName();
 			}
+			else if(decoratedConfig.feature.feature == Feature.RANDOM_PATCH)
+			{
+				rl = ((BlockClusterFeatureConfig)decoratedConfig.feature.config).stateProvider.getBlockState(new Random(0), BlockPos.ZERO).getBlock().getRegistryName();
+			}
 			else if(decoratedConfig.feature.feature == Feature.SPRING_FEATURE)
 			{
 				rl = ((LiquidsConfig)decoratedConfig.feature.config).state.getBlockState().getBlock().getBlock().getRegistryName();
@@ -146,9 +148,16 @@ public class FeatureGrouping
 				return true;
 			
 		}
-		else if(!(configuredFeature.feature instanceof DecoratedFlowerFeature))
+		else
 		{
-			WorldBlender.LOGGER.log(Level.INFO, "Error with trying to detect laggy features: "+ configuredFeature.feature.getRegistryName().toString());
+			ResourceLocation rl = configuredFeature.feature.getRegistryName();
+
+			//checks rl of non-nested feature's block or itself
+			if(keywordFound(rl.getPath(), BAMBOO_FEATURE_KEYWORDS))
+				bambooFound = true;
+			
+			if(rl != null && keywordFound(rl.getPath(), LAGGY_FEATURE_KEYWORDS))
+				return true;
 		}
 		
 		return false;
@@ -205,7 +214,12 @@ public class FeatureGrouping
 		}
 		else
 		{
-			WorldBlender.LOGGER.log(Level.INFO, "Error with trying to detect plant: "+ configuredFeature.feature.getRegistryName().toString());
+			ResourceLocation rl = configuredFeature.feature.getRegistryName();
+			if(rl != null && keywordFound(rl.getPath(), SMALL_PLANT_KEYWORDS))
+			{
+				SMALL_PLANT_MAP.get(stage).add(configuredFeature);
+				return true;
+			}
 		}
 		
 		
@@ -285,7 +299,9 @@ public class FeatureGrouping
 		}
 		else
 		{
-			WorldBlender.LOGGER.log(Level.INFO, "Error with trying to detect trees: "+ configuredFeature.feature.getRegistryName().toString());
+			ResourceLocation rl = configuredFeature.feature.getRegistryName();
+			if(addFeatureToLargePlantMap(rl, configuredFeature,stage))
+				return true;
 		}
 		
 		return false;
