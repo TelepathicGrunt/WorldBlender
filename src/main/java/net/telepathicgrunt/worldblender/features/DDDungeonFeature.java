@@ -198,7 +198,7 @@ public class DDDungeonFeature extends Feature<NoFeatureConfig>
 			}
 		}
 
-		WorldBlender.LOGGER.log(Level.WARN, "dimdungeons's "+roomName+" built at " + finalPosition.getX() + ", " + finalPosition.getY() + ", " + finalPosition.getZ());
+		//WorldBlender.LOGGER.log(Level.WARN, "dimdungeons's "+roomName+" built at " + finalPosition.getX() + ", " + finalPosition.getY() + ", " + finalPosition.getZ());
 		return true;
 	}
 

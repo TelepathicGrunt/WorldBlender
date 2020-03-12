@@ -15,6 +15,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
           
     Misc: 
 ·Updated to use v0.0.3 TerraForged
+·Removed some log spam caused by my mod with Dimensional Dungeons.
 ·Optimized a bit in backend to use less memory.
   
            
