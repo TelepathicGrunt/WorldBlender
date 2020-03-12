@@ -11,8 +11,10 @@ Welcome to the Github! If you are looking for the most recent stable version, th
            
     Config: 
 ·Changed config entry of disableLaggyVanillaFeatures to disableLaggyFeatures as it will now attempt to detect other mod's bamboo, sugar cane, lava, and fire based features and prevent their generation.  
+·TerraForged and Dimensional Dungeons is now able to be filtered by more configs that should've be able to filter them.
           
     Misc: 
+·Updated to use v0.0.3 TerraForged
 ·Optimized a bit in backend to use less memory.
   
            

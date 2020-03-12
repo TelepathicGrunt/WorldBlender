@@ -18,6 +18,7 @@ import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.telepathicgrunt.worldblender.biome.WBBiomes;
+import net.telepathicgrunt.worldblender.configs.WBConfig;
 import net.telepathicgrunt.worldblender.the_blender.ConfigBlacklisting;
 import net.telepathicgrunt.worldblender.the_blender.ConfigBlacklisting.BlacklistType;
 
@@ -49,6 +50,11 @@ public class TerraForgedCompatibility
 	                                 
 	public static void addTerraForgedtrees() 
 	{                                 
+		if(!WBConfig.allowModdedFeatures || ConfigBlacklisting.isResourceLocationBlacklisted(BlacklistType.BLANKET, new ResourceLocation("terraforged:_")))
+		{
+			return;
+		}
+		
 		for(Feature<?> feature : ForgeRegistries.FEATURES)
 		{                             
 			//find terraforge trees

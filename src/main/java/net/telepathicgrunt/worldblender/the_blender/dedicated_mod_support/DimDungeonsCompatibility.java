@@ -17,10 +17,12 @@ public class DimDungeonsCompatibility
 {
 	private static ResourceLocation DD_BASIC_DUNGEON_RL = new ResourceLocation("dimdungeons:feature_basic_dungeon");
 	private static ResourceLocation DD_ADVANCED_DUNGEON_RL = new ResourceLocation("dimdungeons:feature_advanced_dungeon");
+	public static boolean allowedBasic = false;
+	public static boolean allowedAdvanced = false;
 	
 	public static void addDDDungeons() 
 	{
-		
+		//loop through WB biomes only and check if DD's dungeons was imported
 		//add our feature to handle their dungeons
 		for(Biome blendedBiome : WBBiomes.biomes)
 		{
@@ -33,9 +35,12 @@ public class DimDungeonsCompatibility
 				else 
 					continue;
 				
-				//only add our DD feature if the biome contains the actual mod's feature
-				if(decoratedFeatureConfig.feature.feature.getRegistryName().equals(DD_BASIC_DUNGEON_RL) ||
-				   decoratedFeatureConfig.feature.feature.getRegistryName().equals(DD_ADVANCED_DUNGEON_RL)) 
+				
+				ResourceLocation rl = decoratedFeatureConfig.feature.feature.getRegistryName();
+				
+				//only add our DD feature if the dungeon dimension biome contains the actual mod's feature
+				if(rl.equals(DD_BASIC_DUNGEON_RL) ||
+				    rl.equals(DD_ADVANCED_DUNGEON_RL)) 
 				{
 					//remove DD's dungeon since it wont spawn normally in our biome
 					blendedBiome.features.get(GenerationStage.Decoration.SURFACE_STRUCTURES).remove(cflist.get(i));
@@ -47,6 +52,15 @@ public class DimDungeonsCompatibility
 						//add our dungeon instead
 						blendedBiome.addFeature(GenerationStage.Decoration.UNDERGROUND_STRUCTURES, 
 								WBFeatures.DD_DUNGEON_FEATURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
+					}
+					
+					if(rl.equals(DD_BASIC_DUNGEON_RL))
+					{
+						allowedBasic = true;
+					}
+					else if(rl.equals(DD_ADVANCED_DUNGEON_RL))
+					{
+						allowedAdvanced = true;
 					}
 				}
 			}

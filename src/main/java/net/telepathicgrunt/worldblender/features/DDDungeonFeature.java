@@ -37,6 +37,7 @@ import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.server.ServerWorld;
 import net.telepathicgrunt.worldblender.WorldBlender;
+import net.telepathicgrunt.worldblender.the_blender.dedicated_mod_support.DimDungeonsCompatibility;
 
 
 // Source is Dimension Dungeon's features :
@@ -103,14 +104,35 @@ public class DDDungeonFeature extends Feature<NoFeatureConfig>
 		String roomName;
 
 		//Creates checker pattern of 4 ways rooms with a random room in the other spots
-		if(xChunk % 2 == zChunk % 2)
+		if(DimDungeonsCompatibility.allowedBasic && DimDungeonsCompatibility.allowedAdvanced)
 		{
-			//picks only a 4 way room
-			roomName = fourway[rand.nextInt(fourway.length)];
+			if(xChunk % 2 == zChunk % 2)
+			{
+				//picks only a 4 way basic room
+				roomName = fourway[rand.nextInt(fourway.length)];
+			}
+			else {
+				//picks a random basic/advanced room
+				String[] roomGroup = roomTypes[rand.nextInt(roomTypes.length)];
+				roomName = roomGroup[rand.nextInt(roomGroup.length)];
+			}
+		}
+		else if(DimDungeonsCompatibility.allowedBasic)
+		{
+			if(xChunk % 2 == zChunk % 2)
+			{
+				//picks only a 4 way basic room
+				roomName = fourway[rand.nextInt(fourway.length)];
+			}
+			else {
+				//picks a random basic room
+				String[] roomGroup = roomTypes[rand.nextInt(roomTypes.length-1)];
+				roomName = roomGroup[rand.nextInt(roomGroup.length)];
+			}
 		}
 		else {
-			//picks a random room that can be any room
-			String[] roomGroup = roomTypes[rand.nextInt(roomTypes.length)];
+			//picks a random advanced room
+			String[] roomGroup = roomTypes[6];
 			roomName = roomGroup[rand.nextInt(roomGroup.length)];
 		}
 		
