@@ -1,0 +1,110 @@
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.imgur.com/HLLklJ6.png" alt="The banner logo for World Blender with a picture of the crazy landscape behind the title." width="999" height="370" /></p>
+<h2 style="text-align: center;"><span style="font-size: 40px; text-align: center; color: #009b7c;"><strong>CURRENTLY FOR 1.15.2 &amp; 1.14.4 MC</strong></span></h2>
+<p>&nbsp;</p>
+<p style="text-align: center;"><strong><span style="color: #ff0000;">Recent News: </span></strong><strong>Just released a bug fix for potential crashes. Sorry about that.</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>______________________________________________________________________________</strong></p>
+<p>&nbsp;</p>
+<h2 style="color: #009b7c;"><strong>WHAT IS WORLD BLENDER?</strong></h2>
+<p><span style="font-size: 14px;">&nbsp;</span></p>
+<p><span style="font-size: 14px;">&nbsp; &nbsp;World Blender is a dimension filled with every single biome's features, structures, natural spawns, carvers (caves), and terrain surfaces shoved in! Even modded features and structures will be added to the dimension! However, some mods have hardcoded their features or structures to only spawn in their own dimensions or biomes but I will try and work out alternatives methods to get their stuff in this awesome dimension! But sometimes, those feature uses a config option to determine what dimension their stuff spawns in so if a mod's feature or structure is not spawning in World Blender's dimension, then take a look at the mod's config options first. If you still can't get it to spawn in the dimension, let me know so I can take a look and add it to my list of mods to try and be compatible with if it is possible. :)</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14px;">&nbsp; &nbsp;Inside the dimension, you will find massive webs of different kinds of surfaces all filled to the brim with trees, grass, and structures. But take notice of the Nether surface path that has End surfaces on each side. That Nether path is the main walkway through the dimension as no other surfaces can interrupt that pathway. So follow that red road and explore the insanity of the world! Also, if you got modded ores mod on, all the ores will be added as well as long as they are able to spawn in Stone! And lastly, the biomes will have imported every mob's spawn entry so there's no telling what will spawn! Though animals seem to not spawn very often due to all the trees and plants covering all the Grass Blocks so you may have to burn down some forests or blacklist many plant features in the config to increase animal spawning.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14px;">&nbsp; &nbsp;Currently as of right now, here are the list of 1.15.2 mods that does work with the latest 1.15.2 version of World Blender. Let me know if another mod works with World Blender and I'll add it to this list!</span></p>
+<p>&nbsp;</p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/terraforged">-TerraForged</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/dimensional-dungeons">-Dimensional Dungeons</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/gaia-dimension">-Gaia Dimension</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/atmospheric">-Atmospheric</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/bloomful/files/2902881">-Bloomful</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/traverse-legacy-continued">-Traverse: Legacy Continued</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/extended-mushrooms">-Extended Mushrooms</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/swamp-expansion">-Swamp Expansion</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/aquaculture">-Aquaculture 2</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/janoeo">-JANOEO</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/forbidden-arcanus">-Forbidden and Arcanus</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/buzzier-bees">-Buzzier Bees</a>&nbsp;</p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/blue-power">-Blue Power</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/valhelsia-structures">-Valhelsia Structures</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/biomes-o-plenty">-Biomes O' Plenty</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/good-nights-sleep">-Good Night's Sleep</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/moolands">-Moolands</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/fruit-trees">-Fruit Trees</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/premium-wood">-Premium Wood&nbsp;</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/resynth">-Resynth</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/waddles/files/2870515">-Waddles</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/more-creepers-mod/files/2887605">-Not Enough Creepers</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/naturally-spawning-vex">-Naturally Spawning Vex</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/spruce-willis-the-xmas-tree">-Spruce Willis the Xmas Tree</a></p>
+<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/lycanites-mobs">-Lycanites Mobs</a> (Can only import some of the mobs)</p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/hunterillager">-HunterIllager</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/beesourceful">-BeeSourceful</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/silents-gems">-Silent's Gems</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/mystical-agriculture">-Mystical Agriculture</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/underground-materials">-Underground Materials</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/c-o-m-b-a-t">-Concept Of Magic Battle And Technology</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/underground-materials">-Underground Materials</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/sulfur-and-potassium-make-more-gunpowder">-Sulfur And Potassium - More Gunpowder</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/almost-all-the-ores">-Almost all the Ores</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/ores-above-diamonds">-Ores Above Diamonds</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/lucky-ores">-Lucky Ores</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/aliketools/files/2887477">-AlikeTools</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/extra-enrichments">-Extra Enrichments</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/peanut-mod">-Peanut!</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/rock-candy">-Rock Candy</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/xl-food-mod">-XL Food Mod</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/mutant-beasts">-Mutant Beasts</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/hunterillager">-HunterIllager</a></p>
+<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/bountiful">-Bountiful</a> (The Bounty Board only generates in Vanilla Villages so allow Villages to spawn in the dimension to get the Bounty Board)</p>
+<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/simple-farming">-Simple Farming</a>&nbsp;(You need to go into the world's save folder, open serverconfig, and allow World Blender's dimension in Simple Farming's config file)</p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/snow-under-trees/files/2844915">-Snow Under Trees</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/the-bumblezone-forge">-The Bumblezone (Forge)</a></p>
+<p><span style="font-size: 14px;">&nbsp;</span></p>
+<p><span style="font-size: 14px;"><strong>&nbsp; &nbsp; Also, be sure to check out the images page for several screenshots of what the world looks like! And yes, you can use this mod in a modpack or download and modify the source code. It is all under MIT License so you can do whatever you want!</strong></span></p>
+<p>&nbsp;&nbsp;</p>
+<p><strong>______________________________________________________________________________</strong></p>
+<p>&nbsp;</p>
+<h2 style="color: #009b7c;"><strong>HOW DO I ENTER THIS WORLD?</strong></h2>
+<p>&nbsp;</p>
+<p><span style="font-size: 14px;">&nbsp; &nbsp; To enter this highly, overpowered and broken dimension, you have to prove that you had traveled quite a lot and that you are in the endgame by placing 8 chests in a 2x2x2 area and then filling every single slot in those chests with at least 1 unique block item! (Items without block forms and duplicate block slots will be ignored and stacks of one block will not count as extra) Then when you are done, hold a Nether Star in your hand and right click any of the chests while crouching to create the portal that will consume your chests and blocks inside as a sacrifice! If this is too much to do,<strong> you can easily reduce the number of unique blocks required or what activation item is needed to make the portal by going into the config file.</strong> But once the portal is made, just walk into the portal after it has cooled down (not red anymore) and you'll enter the dimension with a new portal block at your feet to let you exit easily!</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14px;">&nbsp; &nbsp;If you create the portal in a bad spot, you can right click the portal blocks while crouching and holding no items to vaporize the portal. Also in this crazy dimension, you can always leave it by heading to world origin as there will be quartz altar with an unbreakable portal block to always allow you to escape (unless another feature destroys the altar... I'll see about preventing that in a future version). The portal will always place you back to the Overworld when leaving the dimension so keep that in mind! And also, the portal can teleport any entity or dropped item but only one at a time and it will have a cooldown phase.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14px;">&nbsp; &nbsp;With commands active, you can enter the dimension faster by doing this command<strong style="font-size: 14px;"> /execute in world_blender:world_blender run tp ~ 70 ~</strong>. And I highly recommend you to do <strong style="font-size: 14px;"> /gamerule doFireTick false</strong> so that fire does not go crazy rampant in this dimension and cause a bit of lag! </span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14px;">&nbsp; &nbsp;Also, if you want to have the Overworld be replaced with this blended world, that is also an option! Just turn on the World Blender worldtype. For server owners,&nbsp;add "<strong>use-modded-worldtype=world-blender</strong>" as a new entry in your server.properties file to use this worldtype when making a new world.</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p style="text-align: left;"><strong>______________________________________________________________________________</strong></p>
+<p>&nbsp;</p>
+<h2 style="color: #009b7c;"><strong>HOW CAN I CONFIGURE THIS MOD?</strong></h2>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14px;">&nbsp; &nbsp;This mod has 24 configs options total to allow you to customize this mod. The options are:</span></p>
+<p><span style="font-size: 16px;">&nbsp;</span></p>
+<p><span style="font-size: 16px;"><strong>-turn on or off importing vanilla or mod's features, structures, carvers, surfaces, and natural mob spawns. </strong></span></p>
+<p><span style="font-size: 16px;"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 16px;"><strong>-disable vanilla bamboo, fire, and lava features from spawning to help reduce lag. </strong></span></p>
+<p><span style="font-size: 16px;"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 16px;"><strong>-blacklist certain mod's or vanilla features, structures, carvers, surfaces, and natural mob spawns by using keywords, using the resource location (ID) of the thing itself, or using the resource location of the mod itself.</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 16px;"><strong>-print out all resource locations of everything registered to help you with making a blacklist easily.</strong></span></p>
+<p><span style="font-size: 16px;"><strong>&nbsp; &nbsp;</strong></span></p>
+<p><span style="font-size: 16px;"><strong>-change how much unique blocks is needed to make the portal, what activation item is needed, and whether the portal should drop the chests and its contents instead of consuming it.</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 16px;"><strong>-spawn the Enderdragon at world origin in the dimension! (Set to off by default as I want people to explore this dimension safely without worrying about the dragon guarding the custom altar at world origin that lets you escape the dimension easily at anytime)</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14px;">&nbsp; &nbsp;The config file has more info on each of the options. Got more ideas or suggestions? Leave a comment below and I'll see if it can be done. The config file is located in the config folder outside of the world save folders. <strong>Any changes you do to the config requires a complete restart with Minecraft due to how it imports stuff from vanilla and other mod's biomes.</strong></span></p>
+<p><span style="font-size: 14px;">&nbsp;</span></p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><strong>______________________________________________________________________________</strong></p>
+<p style="text-align: center;"><em>For the list of changes in this mod, click the Source tab and check out README.txt file.</em></p>
+<p style="text-align: center;"><em>This helps me keep track of what I had done so far.&nbsp;</em></p>
+<p style="text-align: center;">&nbsp;</p>
+<p>&nbsp;</p>
+<p style="color: #009b7c;"><strong>*If you find an issue, glitch, or have a suggestion about my mod, let me know! But if you don't have a GitHub account to report in the Issue tab above, just comment what the problem is below and I'll try and get back to you ASAP! :)&nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 24px; color: #ff9900;"><strong>Discord Link for my channel about my mods! :&nbsp;<a class="anchor-3Z-8Bb anchorUnderlineOnHover-2ESHQB" style="font-size: 24px; color: #ff9900;" tabindex="0" title="https://discord.gg/4eHptfV" role="button" href="https://discord.gg/4eHptfV" target="_blank" rel="noopener noreferrer">https://discord.gg/4eHptfV</a></strong></span></p>
+<p><span style="font-size: 24px; color: #333399;"><strong>&nbsp;</strong></span></p>

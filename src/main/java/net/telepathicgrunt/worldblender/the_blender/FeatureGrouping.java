@@ -71,10 +71,10 @@ public class FeatureGrouping
 				for(ConfiguredFeature<?, ?> nestedConfiguredFeature : ((MultipleWithChanceRandomFeatureConfig)decoratedConfig.feature.config).features)
 				{
 					rl = nestedConfiguredFeature.feature.getRegistryName();
-					if(keywordFound(rl.getPath(), BAMBOO_FEATURE_KEYWORDS))
+					if(keywordFoundInPath(rl, BAMBOO_FEATURE_KEYWORDS))
 						bambooFound = true;
 					
-					if(keywordFound(rl.getPath(), LAGGY_FEATURE_KEYWORDS))
+					if(keywordFoundInPath(rl, LAGGY_FEATURE_KEYWORDS))
 						return true;
 				}
 			}
@@ -83,10 +83,10 @@ public class FeatureGrouping
 				for(ConfiguredRandomFeatureList<?> nestedConfiguredFeature : ((MultipleRandomFeatureConfig)decoratedConfig.feature.config).features)
 				{
 					rl = nestedConfiguredFeature.feature.feature.getRegistryName();
-					if(keywordFound(rl.getPath(), BAMBOO_FEATURE_KEYWORDS))
+					if(keywordFoundInPath(rl, BAMBOO_FEATURE_KEYWORDS))
 						bambooFound = true;
 					
-					if(keywordFound(rl.getPath(), LAGGY_FEATURE_KEYWORDS))
+					if(keywordFoundInPath(rl, LAGGY_FEATURE_KEYWORDS))
 						return true;
 				}
 			}
@@ -95,27 +95,27 @@ public class FeatureGrouping
 				for(ConfiguredFeature<?, ?> nestedConfiguredFeature : ((SingleRandomFeature)decoratedConfig.feature.config).features)
 				{
 					rl = nestedConfiguredFeature.feature.getRegistryName();
-					if(keywordFound(rl.getPath(), BAMBOO_FEATURE_KEYWORDS))
+					if(keywordFoundInPath(rl, BAMBOO_FEATURE_KEYWORDS))
 						bambooFound = true;
 					
-					if(keywordFound(rl.getPath(), LAGGY_FEATURE_KEYWORDS))
+					if(keywordFoundInPath(rl, LAGGY_FEATURE_KEYWORDS))
 						return true;
 				}
 			}
 			else if(decoratedConfig.feature.feature == Feature.RANDOM_BOOLEAN_SELECTOR)
 			{
 				rl = ((TwoFeatureChoiceConfig)decoratedConfig.feature.config).field_227285_a_.feature.getRegistryName();
-				if(keywordFound(rl.getPath(), BAMBOO_FEATURE_KEYWORDS))
+				if(keywordFoundInPath(rl, BAMBOO_FEATURE_KEYWORDS))
 					bambooFound = true;
 				
-				if(keywordFound(rl.getPath(), LAGGY_FEATURE_KEYWORDS))
+				if(keywordFoundInPath(rl, LAGGY_FEATURE_KEYWORDS))
 					return true;
 				
 				rl = ((TwoFeatureChoiceConfig)decoratedConfig.feature.config).field_227286_b_.feature.getRegistryName();
-				if(keywordFound(rl.getPath(), BAMBOO_FEATURE_KEYWORDS))
+				if(keywordFoundInPath(rl, BAMBOO_FEATURE_KEYWORDS))
 					bambooFound = true;
 				
-				if(keywordFound(rl.getPath(), LAGGY_FEATURE_KEYWORDS))
+				if(keywordFoundInPath(rl, LAGGY_FEATURE_KEYWORDS))
 					return true;
 			}
 			//end of edge cases with nested features
@@ -141,10 +141,10 @@ public class FeatureGrouping
 			}
 
 			//checks rl of non-nested feature's block or itself
-			if(keywordFound(rl.getPath(), BAMBOO_FEATURE_KEYWORDS))
+			if(keywordFoundInPath(rl, BAMBOO_FEATURE_KEYWORDS))
 				bambooFound = true;
 			
-			if(rl != null && keywordFound(rl.getPath(), LAGGY_FEATURE_KEYWORDS))
+			if(keywordFoundInPath(rl, LAGGY_FEATURE_KEYWORDS))
 				return true;
 			
 		}
@@ -153,10 +153,10 @@ public class FeatureGrouping
 			ResourceLocation rl = configuredFeature.feature.getRegistryName();
 
 			//checks rl of non-nested feature's block or itself
-			if(keywordFound(rl.getPath(), BAMBOO_FEATURE_KEYWORDS))
+			if(keywordFoundInPath(rl, BAMBOO_FEATURE_KEYWORDS))
 				bambooFound = true;
 			
-			if(rl != null && keywordFound(rl.getPath(), LAGGY_FEATURE_KEYWORDS))
+			if(keywordFoundInPath(rl, LAGGY_FEATURE_KEYWORDS))
 				return true;
 		}
 		
@@ -204,7 +204,7 @@ public class FeatureGrouping
 			else if(decoratedConfig.feature.feature == Feature.RANDOM_PATCH)
 			{
 				rl = ((BlockClusterFeatureConfig)decoratedConfig.feature.config).stateProvider.getBlockState(new Random(0), BlockPos.ZERO).getBlock().getRegistryName();
-				if(rl != null && keywordFound(rl.getPath(), SMALL_PLANT_KEYWORDS))
+				if(keywordFoundInPath(rl, SMALL_PLANT_KEYWORDS))
 				{
 					SMALL_PLANT_MAP.get(stage).add(configuredFeature);
 					return true;
@@ -215,7 +215,7 @@ public class FeatureGrouping
 		else
 		{
 			ResourceLocation rl = configuredFeature.feature.getRegistryName();
-			if(rl != null && keywordFound(rl.getPath(), SMALL_PLANT_KEYWORDS))
+			if(keywordFoundInPath(rl, SMALL_PLANT_KEYWORDS))
 			{
 				SMALL_PLANT_MAP.get(stage).add(configuredFeature);
 				return true;
@@ -312,13 +312,10 @@ public class FeatureGrouping
 	 */
 	private static boolean addFeatureToLargePlantMap(ResourceLocation rl, ConfiguredFeature<?,?> configuredFeature, GenerationStage.Decoration stage) 
 	{
-		if(rl != null) 
+		if(keywordFoundInPath(rl, LARGE_PLANT_KEYWORDS))
 		{
-			if(keywordFound(rl.getPath(), LARGE_PLANT_KEYWORDS))
-			{
-				LARGE_PLANT_MAP.get(stage).add(configuredFeature);
-				return true;
-			}
+			LARGE_PLANT_MAP.get(stage).add(configuredFeature);
+			return true;
 		}
 		
 		return false;
@@ -329,15 +326,19 @@ public class FeatureGrouping
 	
 	
 	/**
-	 * Takes the feature's path/name and checks if it contains a keyword from a list anywhere in it.
+	 * Takes the feature's ResourceLocation and checks if the path contains a keyword from a list anywhere in it.
 	 */
-	private static boolean keywordFound(String featurePath, List<String> keywordList) 
+	private static boolean keywordFoundInPath(ResourceLocation featureRL, List<String> keywordList) 
 	{
-		for(String keyword : keywordList)
+		if(featureRL != null)
 		{
-			if(featurePath.contains(keyword))
+			String path = featureRL.getPath();
+			for(String keyword : keywordList)
 			{
-				return true;
+				if(path.contains(keyword))
+				{
+					return true;
+				}
 			}
 		}
 		
