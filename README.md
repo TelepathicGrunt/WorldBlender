@@ -100,7 +100,7 @@
 <p><span style="font-size: 14px;">&nbsp;</span></p>
 <p>&nbsp;</p>
 <p style="text-align: center;"><strong>______________________________________________________________________________</strong></p>
-<p style="text-align: center;"><em>For the list of changes in this mod, click the Source tab and check out README.txt file.</em></p>
+<p style="text-align: center;"><em>For the list of changes in this mod, click the Source tab and check out CHANGELOG.md file.</em></p>
 <p style="text-align: center;"><em>This helps me keep track of what I had done so far.&nbsp;</em></p>
 <p style="text-align: center;">&nbsp;</p>
 <p>&nbsp;</p>
