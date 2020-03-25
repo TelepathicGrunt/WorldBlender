@@ -1,7 +1,10 @@
 package net.telepathicgrunt.worldblender.the_blender;
 
+import java.util.Set;
+
 import com.google.common.collect.ImmutableList;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -78,8 +81,9 @@ public class PerformBiomeBlending
 
 			////////////////////////SURFACE/////////////////////////
 			addBiomeSurfaceConfig(biome);
+			
+			
 		}
-		
 		
 		
 		//////////Misc Features///////////////
@@ -103,6 +107,19 @@ public class PerformBiomeBlending
 			//add bamboo so it is dead last
 			WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.BAMBOO.withConfiguration(new ProbabilityConfig(0.2F)).withPlacement(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED.configure(new TopSolidWithNoiseConfig(160, 80.0D, 0.3D, Heightmap.Type.WORLD_SURFACE_WG)))));
 			//Feature.BAMBOO.withConfiguration(new ProbabilityConfig(0.0F)).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(16)) // low bamboo chance
+		}
+		
+		
+
+		//Makes carvers be able to carve any underground blocks including netherrack, end stone, and modded blocks
+		Set<Block> allBlocksToCarve = BlendedSurfaceBuilder.blocksToCarve();
+		for (Carving carverStage : GenerationStage.Carving.values())
+		{
+			for (ConfiguredCarver<?> carver : WBBiomes.BLENDED_BIOME.getCarvers(carverStage))
+			{
+//				allBlocksToCarve.addAll(carver.carver.carvableBlocks);
+//				carver.carver.carvableBlocks = allBlocksToCarve;
+			}
 		}
 		
 		
@@ -360,9 +377,9 @@ public class PerformBiomeBlending
 			return;
 		}
 		
-		if (!((BlendedSurfaceBuilder) WBBiomes.FEATURE_SURFACE_BUILDER).containsConfig(surfaceConfig))
+		if (!((BlendedSurfaceBuilder) WBBiomes.BLENDED_SURFACE_BUILDER).containsConfig(surfaceConfig))
 		{
-			((BlendedSurfaceBuilder) WBBiomes.FEATURE_SURFACE_BUILDER).addConfig(surfaceConfig);
+			((BlendedSurfaceBuilder) WBBiomes.BLENDED_SURFACE_BUILDER).addConfig(surfaceConfig);
 		}
 	}
 }

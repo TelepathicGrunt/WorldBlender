@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -20,6 +21,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.telepathicgrunt.worldblender.biome.WBBiomes;
@@ -117,8 +119,14 @@ public class WorldBlender
 		@SubscribeEvent
 		public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
 		{
-			//registers all my modified biomes
+			//registers all my features
 			WBFeatures.registerFeatures(event);
+		}
+		
+		@SubscribeEvent
+		public static void registerSurfaceBuilder(final RegistryEvent.Register<SurfaceBuilder<?>> event)
+		{
+			register(ForgeRegistries.SURFACE_BUILDERS, WBBiomes.BLENDED_SURFACE_BUILDER, "blended_surface_builder");
 		}
 	}
 

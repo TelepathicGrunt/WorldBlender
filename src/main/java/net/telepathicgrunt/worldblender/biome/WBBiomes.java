@@ -25,7 +25,7 @@ public class WBBiomes {
 	//list of all biomes we registered
 	public static Set<Biome> biomes = new HashSet<Biome>();
 	
-	public static final SurfaceBuilder<SurfaceBuilderConfig> FEATURE_SURFACE_BUILDER = new BlendedSurfaceBuilder(SurfaceBuilderConfig::deserialize);
+	public static final SurfaceBuilder<SurfaceBuilderConfig> BLENDED_SURFACE_BUILDER = new BlendedSurfaceBuilder(SurfaceBuilderConfig::deserialize);
 
 	//biome instances
 	public static Biome BLENDED_BIOME = new BlendedBiome();

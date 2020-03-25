@@ -7,6 +7,17 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
 
   
+## (V.1.2.5 Changes) (1.15.2 Minecraft)
+  
+##### Config: 
+-Added config option to allow whether to let carvers carve through more kinds of blocks or not.
+
+##### Surfaces:
+-Nether, End, and certain modded biome surfaces will now replace all stone in that spot instead of being limited to just the top surface so that mods who's ores and stuff needs certain blocks super low can still generate. (like a mod who's Nether based Ores only spawns when Netherrack is below Y = 30 will now generate as Netherrack will generate for that entire column of blocks instead of just the very surface)  
+
+-All Vanilla carvers and most if not all modded carvers should now be able to carve through Netherrack, End Stone, and other modded blocks that will fully replace Stone underground.
+
+  
 ## (V.1.2.4 Changes) (1.15.2 Minecraft)
  
 ##### Misc: 

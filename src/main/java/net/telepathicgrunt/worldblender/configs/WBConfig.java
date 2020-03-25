@@ -51,6 +51,7 @@ public class WBConfig
 	    public static boolean consumeChests = true;
 
 	    public static boolean spawnEnderDragon = false;
+	    public static boolean vanillaCarversCanCarveMoreBlocks = true;
 	    
 	    public static class ServerConfig
 	    {
@@ -84,6 +85,7 @@ public class WBConfig
 		    public final BooleanValue consumeChests;
 		    
 		    public final BooleanValue spawnEnderDragon;
+		    public final BooleanValue vanillaCarversCanCarveMoreBlocks;
 		    
 	        ServerConfig(ForgeConfigSpec.Builder builder) 
 	        {
@@ -365,12 +367,16 @@ public class WBConfig
 		                    		+" mob's name. For example, \"minecraft:ghast\" will prevent \r\n"
 		                    		+" vanilla's ghast from being imported.\r\n"
 		                    		+" \r\n"
+		                    		+" As default, The Midnight's Night Stag is blacklisted because\r\n"
+		                    		+" trying to spawn that mob outside The Mindnight's dimension will\r\n"
+		                    		+" cause the world to hang forever.\r\n"
+		                    		+" \r\n"
 		                    		+" NOTE: You can blacklist multiple things at a time. Just separate\r\n"
 		                    		+" each entry with a , (comma). Here's an example blacklisting all zombies\r\n"
 		                    		+" and vanilla's ghasts: \r\n"
 		                    		+" \"zombie, minecraft:ghast\"\r\n")
 		                    .translation("world_blender.config.blacklist.blacklistedspawns")
-		                    .define("blacklistedSpawns", "");
+		                    .define("blacklistedSpawns", "midnight:nightstag");
 	            
 			    
 			    	blacklistedBiomeSurfaces = builder
@@ -404,23 +410,33 @@ public class WBConfig
 	            builder.pop();
 	            
 	            builder.push("Misc Options");
-	            spawnEnderDragon = builder
-			                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
-			                    		+" If true, the Enderdragon will spawn at world origin in the\r\n"
-			                    		+" World Blender dimension and can respawn if you put back the\r\n"
-			                    		+" End Crystals on the podiums. Once killed, the podium's portal \r\n"
-			                    		+" will take you to the End where you can battle the End's Enderdragon. \r\n"
-			                    		+" \r\n"
-			                    		+" And yes, you can respawn the EnderDragon by placing 4 End Crystals \r\n"
-			                    		+" on the edges of the Bedrock Podium. \r\n"
-			                    		+" \r\n"
-			                    		+" If set to false, the Enderdragon will not spawn.\r\n"
-			                    		+" NOTE: Once the Enderdragon is spawned, changing this to false"
-			                    		+" will not despawn the Enderdragon. Also, this option will not\r\n"
-			                    		+" work in the World Blender Worldtype due to how fight managers are \r\n"
-			                    		+" set up. It will only work for the dimension. \r\n")
-			                    .translation("world_blender.config.portal.spawnenderdragon")
-			                    .define("spawnEnderDragon", false);
+		            spawnEnderDragon = builder
+				                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+				                    		+" If true, the Enderdragon will spawn at world origin in the\r\n"
+				                    		+" World Blender dimension and can respawn if you put back the\r\n"
+				                    		+" End Crystals on the podiums. Once killed, the podium's portal \r\n"
+				                    		+" will take you to the End where you can battle the End's Enderdragon. \r\n"
+				                    		+" \r\n"
+				                    		+" And yes, you can respawn the EnderDragon by placing 4 End Crystals \r\n"
+				                    		+" on the edges of the Bedrock Podium. \r\n"
+				                    		+" \r\n"
+				                    		+" If set to false, the Enderdragon will not spawn.\r\n"
+				                    		+" NOTE: Once the Enderdragon is spawned, changing this to false"
+				                    		+" will not despawn the Enderdragon. Also, this option will not\r\n"
+				                    		+" work in the World Blender Worldtype due to how fight managers are \r\n"
+				                    		+" set up. It will only work for the dimension. \r\n")
+				                    .translation("world_blender.config.misc.spawnenderdragon")
+				                    .define("spawnEnderDragon", false);
+		            
+		            vanillaCarversCanCarveMoreBlocks = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" If true, Vanilla Carvers (caves and ravines) can now carve out\r\n"
+		                    		+" Netherrack, End Stone, and some modded blocks as well.\r\n"
+		                    		+" \r\n"
+		                    		+" If turned off, you might see Vanilla caves and stuff gets cutoff \r\n"
+		                    		+" by a wall of End Stone, Netherrack, or modded blocks. \r\n")
+		                    .translation("world_blender.config.misc.vanillaCarversCanCarveMoreBlocks")
+		                    .define("vanillaCarversCanCarveMoreBlocks", true);
 	            builder.pop();
 	        }
 	            		
@@ -457,5 +473,6 @@ public class WBConfig
 	    	consumeChests = SERVER.consumeChests.get();
 
 	    	spawnEnderDragon = SERVER.spawnEnderDragon.get();
+	    	vanillaCarversCanCarveMoreBlocks = SERVER.vanillaCarversCanCarveMoreBlocks.get();
 	    }
 }
