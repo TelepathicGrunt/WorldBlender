@@ -7,8 +7,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
 
-import org.apache.logging.log4j.Level;
-
 import com.mojang.datafixers.Dynamic;
 
 import net.minecraft.block.Block;
@@ -23,7 +21,6 @@ import net.minecraft.world.gen.PerlinNoiseGenerator;
 import net.minecraft.world.gen.carver.WorldCarver;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
-import net.telepathicgrunt.worldblender.WorldBlender;
 import net.telepathicgrunt.worldblender.configs.WBConfig;
 import net.telepathicgrunt.worldblender.the_blender.ConfigBlacklisting;
 
@@ -165,6 +162,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 	private static List<SurfaceBuilderConfig> configList;
 	private static PerlinNoiseGenerator perlinGen;
 	public static long perlinSeed;
+	private static double baseScale;
 //	private double max = -100000;
 //	private double min = 100000;
 	
@@ -184,7 +182,6 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 	}
 
 	private int weightedIndex(int x, int z) {
-		int listSize = configList.size();
 		
 		//list checking
 //		for(int i = 0; i<configList.size(); i++) {
@@ -192,32 +189,33 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 //		}
 		
 		int chosenConfigIndex = 2; // Grass surface
+		double noiseScale = WBConfig.surfaceScale;
 		
-		for(int configIndex = 0; configIndex < listSize; configIndex++) {
+		for(int configIndex = 0; configIndex < configList.size(); configIndex++) {
 			if(configIndex == 0) {
-				if(Math.abs(perlinGen.noiseAt(x/240D, z/240D, true)) < 0.035D) {
+				if(Math.abs(perlinGen.noiseAt(x / noiseScale, z / noiseScale, true)) < 0.035D) {
 					chosenConfigIndex = 0; // nether pathway
 					break;
 				}
 			}
 			else if(configIndex == 1) {
-				if(Math.abs(perlinGen.noiseAt(x/240D, z/240D, true)) < 0.06D) {
+				if(Math.abs(perlinGen.noiseAt(x / noiseScale, z / noiseScale, true)) < 0.06D) {
 					chosenConfigIndex = 1; // end border on nether path. Uses same scale as nether path.
 					break;
 				}
 			}
 			else {
-				double offset = 200D*configIndex;
-				double scaling = 200D+configIndex*4D;
-				double threshold = 0.6D/listSize+Math.min(configIndex/150D, 0.125D);
-				if(Math.abs(perlinGen.noiseAt((x+offset)/scaling, (z+offset)/scaling, true)) < threshold) {
+				double offset = 200D * configIndex;
+				double scaling = 200D + configIndex*4D;
+				double threshold = baseScale + Math.min(configIndex/150D, 0.125D);
+				if(Math.abs(perlinGen.noiseAt((x + offset) / scaling, (z+offset) / scaling, true)) < threshold) {
 					chosenConfigIndex = configIndex; // all other surfaces with scale offset and threshold decreasing as index gets closer to 0.
 					break;
 				}
 			}
 		}
 		
-		return Math.min(chosenConfigIndex, listSize-1); //no index out of bounds
+		return Math.min(chosenConfigIndex, configList.size()-1); //no index out of bounds errors by locking to last config in list
 	}
 
 	public static void resetSurfaceList() {
@@ -246,6 +244,8 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 				configList.remove(i);
 			}
 		}
+		
+		baseScale = 0.6D/configList.size();
 	}
 
 	

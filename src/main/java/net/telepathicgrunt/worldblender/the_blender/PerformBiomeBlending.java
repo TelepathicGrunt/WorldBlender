@@ -19,6 +19,7 @@ import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
 import net.minecraft.world.gen.feature.EndSpikeFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleWithChanceRandomFeatureConfig;
 import net.minecraft.world.gen.feature.ProbabilityConfig;
@@ -33,6 +34,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.telepathicgrunt.worldblender.biome.WBBiomes;
 import net.telepathicgrunt.worldblender.biome.biomes.surfacebuilder.BlendedSurfaceBuilder;
 import net.telepathicgrunt.worldblender.configs.WBConfig;
+import net.telepathicgrunt.worldblender.features.WBFeatures;
 import net.telepathicgrunt.worldblender.the_blender.ConfigBlacklisting.BlacklistType;
 
 
@@ -81,8 +83,6 @@ public class PerformBiomeBlending
 
 			////////////////////////SURFACE/////////////////////////
 			addBiomeSurfaceConfig(biome);
-			
-			
 		}
 		
 		
@@ -106,7 +106,6 @@ public class PerformBiomeBlending
 		{
 			//add bamboo so it is dead last
 			WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.BAMBOO.withConfiguration(new ProbabilityConfig(0.2F)).withPlacement(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED.configure(new TopSolidWithNoiseConfig(160, 80.0D, 0.3D, Heightmap.Type.WORLD_SURFACE_WG)))));
-			//Feature.BAMBOO.withConfiguration(new ProbabilityConfig(0.0F)).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(16)) // low bamboo chance
 		}
 		
 		
@@ -121,7 +120,12 @@ public class PerformBiomeBlending
 				carver.carver.carvableBlocks = allBlocksToCarve;
 			}
 		}
-		
+
+		//add this last so that this can contain other local modification feature's liquids/falling blocks better
+		if(ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, new ResourceLocation("world_blender:no_floating_liquids_or_falling_blocks")))
+		{
+			WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(Decoration.LOCAL_MODIFICATIONS, WBFeatures.NO_FLOATING_LIQUIDS_OR_FALLING_BLOCKS.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG))));
+		}
 		
 		
 		//free up memory when we are done.

@@ -12,6 +12,10 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ##### Config: 
 -Added config option to allow whether to let carvers carve through more kinds of blocks or not.
 
+-Added an option to let users be able to change the scaling of the surfaces to be bigger or smaller.
+
+-Added two options to let users enable/disable placing Terracotta under blocks that can fall or surround floating liquids that could flow everywhere. 
+
 ##### Surfaces:
 -Nether, End, and certain modded biome surfaces will now replace all stone in that spot instead of being limited to just the top surface so that mods who's ores and stuff needs certain blocks super low can still generate. (like a mod who's Nether based Ores only spawns when Netherrack is below Y = 30 will now generate as Netherrack will generate for that entire column of blocks instead of just the very surface)  
 
@@ -22,6 +26,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
  
 ##### Misc: 
 -Fixed crashing due to me forgetting to do a null check if a mod's feature isn't registered to the Forge registry.
+  
   
 ## (V.1.2.3 Changes) (1.15.2 Minecraft)
  

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 import net.minecraftforge.fml.common.Mod;
 
@@ -22,9 +23,12 @@ public class WBConfig
 	        SERVER_SPEC = specPair.getRight();
 	        SERVER = specPair.getLeft();
 	    }
+	    
 	    public static boolean allowVanillaBiomeImport = true;
 	    public static boolean allowModdedBiomeImport = true;
 	    public static boolean disallowLaggyFeatures = true;
+	    public static boolean preventFallingBlocks = true;
+	    public static boolean containFloatingLiquids = true;
 
 	    public static boolean allowVanillaFeatures = true;
 	    public static boolean allowVanillaStructures = true;
@@ -50,15 +54,21 @@ public class WBConfig
 	    public static String activationItem = "minecraft:nether_star";
 	    public static boolean consumeChests = true;
 
+	    public static double surfaceScale = 240D;
 	    public static boolean spawnEnderDragon = false;
 	    public static boolean vanillaCarversCanCarveMoreBlocks = true;
 	    
 	    public static class ServerConfig
 	    {
+		    public final DoubleValue surfaceScale;
+		    public final BooleanValue spawnEnderDragon;
+		    public final BooleanValue vanillaCarversCanCarveMoreBlocks;
 
 		    public final BooleanValue allowVanillaBiomeImport;
 		    public final BooleanValue allowModdedBiomeImport;
 		    public final BooleanValue disallowLaggyFeatures;
+		    public final BooleanValue preventFallingBlocks;
+		    public final BooleanValue containFloatingLiquids;
 	    	
 		    public final BooleanValue allowVanillaFeatures;
 		    public final BooleanValue allowVanillaStructures;
@@ -84,24 +94,76 @@ public class WBConfig
 		    public final ConfigValue<String> activationItem;
 		    public final BooleanValue consumeChests;
 		    
-		    public final BooleanValue spawnEnderDragon;
-		    public final BooleanValue vanillaCarversCanCarveMoreBlocks;
-		    
 	        ServerConfig(ForgeConfigSpec.Builder builder) 
 	        {
 
+	            builder.push("Misc Options");
+	            
+	            	surfaceScale = builder
+				                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+				                    		+" The size of the different kinds of surfaces. Higher numbers means\r\n"
+				                    		+" each surface will be larger but might make some surfaces harder to"
+				                    		+" find. Lower numbers means the surfaces are smaller but could become"
+				                    		+" too chaotic or small for some features to spawn on.\r\n")
+				                    .translation("world_blender.config.misc.surfacescale")
+				                    .defineInRange("surfaceScale", 240D, 1D, 100000D);
+	            
+		            spawnEnderDragon = builder
+				                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+				                    		+" If true, the Enderdragon will spawn at world origin in the\r\n"
+				                    		+" World Blender dimension and can respawn if you put back the\r\n"
+				                    		+" End Crystals on the podiums. Once killed, the podium's portal \r\n"
+				                    		+" will take you to the End where you can battle the End's Enderdragon. \r\n"
+				                    		+" \r\n"
+				                    		+" And yes, you can respawn the EnderDragon by placing 4 End Crystals \r\n"
+				                    		+" on the edges of the Bedrock Podium. \r\n"
+				                    		+" \r\n"
+				                    		+" If set to false, the Enderdragon will not spawn.\r\n"
+				                    		+" NOTE: Once the Enderdragon is spawned, changing this to false"
+				                    		+" will not despawn the Enderdragon. Also, this option will not\r\n"
+				                    		+" work in the World Blender Worldtype due to how fight managers are \r\n"
+				                    		+" set up. It will only work for the dimension. \r\n")
+				                    .translation("world_blender.config.misc.spawnenderdragon")
+				                    .define("spawnEnderDragon", false);
+		            
+		            vanillaCarversCanCarveMoreBlocks = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" If true, Vanilla Carvers (caves and ravines) can now carve out\r\n"
+		                    		+" Netherrack, End Stone, and some modded blocks as well.\r\n"
+		                    		+" \r\n"
+		                    		+" If turned off, you might see Vanilla caves and stuff gets cutoff \r\n"
+		                    		+" by a wall of End Stone, Netherrack, or modded blocks. \r\n")
+		                    .translation("world_blender.config.misc.vanillaCarversCanCarveMoreBlocks")
+		                    .define("vanillaCarversCanCarveMoreBlocks", true);
+		            
+	            builder.pop();
+	            
 	            builder.push("Optimization Options");
 
-	            disallowLaggyFeatures = builder
-	                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
-	                    		+" Will make vanilla bamboo, lava, and fire features and will try to \r\n"
-	                    		+" make modded bamboo, lava, and fire features not spawn at all\r\n"
-	                    		+" in order to help reduce lag in the world due to bamboo\r\n"
-	                    		+" breaking like crazy or fire spreading rapidly.\r\n"
-	                    		+" \r\n"
-	                    		+" If all else fail, do /gamerule doFireTick false to reduce fire lag.\r\n")
-	                    .translation("world_blender.config.vanilla.disallowlaggyvanillafeatures")
-	                    .define("disallowLaggyVanillaFeatures", true);
+		            disallowLaggyFeatures = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" Will make vanilla bamboo, lava, and fire features and will try to \r\n"
+		                    		+" make modded bamboo, lava, and fire features not spawn at all\r\n"
+		                    		+" in order to help reduce lag in the world due to bamboo\r\n"
+		                    		+" breaking like crazy or fire spreading rapidly.\r\n"
+		                    		+" \r\n"
+		                    		+" If all else fail, do /gamerule doFireTick false to reduce fire lag.\r\n")
+		                    .translation("world_blender.config.optimization.disallowlaggyvanillafeatures")
+		                    .define("disallowLaggyVanillaFeatures", true);
+
+		            preventFallingBlocks = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" Will try its best to place Terracotta blocks under all floating \r\n"
+		                    		+" blocks to prevent lag when falling blocks begins to fall.\r\n")
+		                    .translation("world_blender.config.optimization.preventfallingblocks")
+		                    .define("preventFallingBlocks", true);
+		            
+		            containFloatingLiquids = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" This will also place Terracotta next to fluids to try and prevent"
+		                    		+" them from floating and then flowing downward like crazy.\r\n")
+		                    .translation("world_blender.config.optimization.containfloatingliquids")
+		                    .define("containFloatingLiquids", true);
 	            
 	            builder.pop();
 	            
@@ -157,37 +219,37 @@ public class WBConfig
 	                    		+" Note: If the other vanilla stuff options are set to true and you\r\n"
 	                    		+" this option set to true as well, then vanilla stuff can still\r\n"
 	                    		+" get imported if a modded biome has vanilla stuff in it.\r\n")
-	                    .translation("world_blender.config.vanilla.allowmoddedbiomeimport")
+	                    .translation("world_blender.config.modded.allowmoddedbiomeimport")
 	                    .define("allowModdedBiomeImport", true);
 
 	            	allowModdedFeatures = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 		                    		+" Decides if the dimension imports features like trees, plants, ores, etc.\r\n")
-		                    .translation("world_blender.config.vanilla.allowmoddedfeatures")
+		                    .translation("world_blender.config.modded.allowmoddedfeatures")
 		                    .define("allowModdedFeatures", true);
 	
 	            	allowModdedStructures = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 		                    		+" Decides if the dimension imports structures like temples, villages, etc.\r\n")
-		                    .translation("world_blender.config.vanilla.allowmoddedstructures")
+		                    .translation("world_blender.config.modded.allowmoddedstructures")
 		                    .define("allowModdedStructures", true);
 	
 		            allowModdedCarvers = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 		                    		+" Decides if the dimension imports carvers like caves, ravines, etc.\r\n")
-		                    .translation("world_blender.config.vanilla.allowmoddedcarvers")
+		                    .translation("world_blender.config.modded.allowmoddedcarvers")
 		                    .define("allowModdedCarvers", true);
 	
 		            allowModdedSpawns = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 		                    		+" Decides if the dimension imports natural mob spawns like zombies, cows, etc.\r\n")
-		                    .translation("world_blender.config.vanilla.allowmoddedspawns")
+		                    .translation("world_blender.config.modded.allowmoddedspawns")
 		                    .define("allowModdedSpawns", true);
 	
 		            allowModdedSurfaces = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 		                    		+" Decides if the dimension imports surfaces like desert's sand, giant tree taiga's podzol, etc.\r\n")
-		                    .translation("world_blender.config.vanilla.allowmoddedsurfaces")
+		                    .translation("world_blender.config.modded.allowmoddedsurfaces")
 		                    .define("allowModdedSurfaces", true);
 		            
 	            builder.pop();
@@ -408,42 +470,20 @@ public class WBConfig
 
 
 	            builder.pop();
-	            
-	            builder.push("Misc Options");
-		            spawnEnderDragon = builder
-				                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
-				                    		+" If true, the Enderdragon will spawn at world origin in the\r\n"
-				                    		+" World Blender dimension and can respawn if you put back the\r\n"
-				                    		+" End Crystals on the podiums. Once killed, the podium's portal \r\n"
-				                    		+" will take you to the End where you can battle the End's Enderdragon. \r\n"
-				                    		+" \r\n"
-				                    		+" And yes, you can respawn the EnderDragon by placing 4 End Crystals \r\n"
-				                    		+" on the edges of the Bedrock Podium. \r\n"
-				                    		+" \r\n"
-				                    		+" If set to false, the Enderdragon will not spawn.\r\n"
-				                    		+" NOTE: Once the Enderdragon is spawned, changing this to false"
-				                    		+" will not despawn the Enderdragon. Also, this option will not\r\n"
-				                    		+" work in the World Blender Worldtype due to how fight managers are \r\n"
-				                    		+" set up. It will only work for the dimension. \r\n")
-				                    .translation("world_blender.config.misc.spawnenderdragon")
-				                    .define("spawnEnderDragon", false);
-		            
-		            vanillaCarversCanCarveMoreBlocks = builder
-		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
-		                    		+" If true, Vanilla Carvers (caves and ravines) can now carve out\r\n"
-		                    		+" Netherrack, End Stone, and some modded blocks as well.\r\n"
-		                    		+" \r\n"
-		                    		+" If turned off, you might see Vanilla caves and stuff gets cutoff \r\n"
-		                    		+" by a wall of End Stone, Netherrack, or modded blocks. \r\n")
-		                    .translation("world_blender.config.misc.vanillaCarversCanCarveMoreBlocks")
-		                    .define("vanillaCarversCanCarveMoreBlocks", true);
-	            builder.pop();
 	        }
 	            		
 	    } 
 	    
 	    public static void refreshServer()
 	    {
+	    	surfaceScale = SERVER.surfaceScale.get();
+	    	spawnEnderDragon = SERVER.spawnEnderDragon.get();
+	    	vanillaCarversCanCarveMoreBlocks = SERVER.vanillaCarversCanCarveMoreBlocks.get();
+
+	    	disallowLaggyFeatures = SERVER.disallowLaggyFeatures.get();
+	    	preventFallingBlocks = SERVER.preventFallingBlocks.get();
+	    	containFloatingLiquids = SERVER.containFloatingLiquids.get();
+	    	
 	    	allowVanillaBiomeImport = SERVER.allowVanillaBiomeImport.get();
 	    	allowModdedBiomeImport = SERVER.allowModdedBiomeImport.get();
 	    	
@@ -452,7 +492,6 @@ public class WBConfig
 	    	allowVanillaCarvers = SERVER.allowVanillaCarvers.get();
 	    	allowVanillaSpawns = SERVER.allowVanillaSpawns.get();
 	    	allowVanillaSurfaces = SERVER.allowVanillaSurfaces.get();
-	    	disallowLaggyFeatures = SERVER.disallowLaggyFeatures.get();
 	    	
 	    	allowModdedFeatures = SERVER.allowModdedFeatures.get();
 	    	allowModdedStructures = SERVER.allowModdedStructures.get();
@@ -471,8 +510,5 @@ public class WBConfig
 		    uniqueBlocksNeeded = SERVER.uniqueBlocksNeeded.get();
 	    	activationItem = SERVER.activationItem.get();
 	    	consumeChests = SERVER.consumeChests.get();
-
-	    	spawnEnderDragon = SERVER.spawnEnderDragon.get();
-	    	vanillaCarversCanCarveMoreBlocks = SERVER.vanillaCarversCanCarveMoreBlocks.get();
 	    }
 }
