@@ -117,8 +117,8 @@ public class PerformBiomeBlending
 		{
 			for (ConfiguredCarver<?> carver : WBBiomes.BLENDED_BIOME.getCarvers(carverStage))
 			{
-//				allBlocksToCarve.addAll(carver.carver.carvableBlocks);
-//				carver.carver.carvableBlocks = allBlocksToCarve;
+				allBlocksToCarve.addAll(carver.carver.carvableBlocks);
+				carver.carver.carvableBlocks = allBlocksToCarve;
 			}
 		}
 		

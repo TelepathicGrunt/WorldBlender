@@ -31,6 +31,7 @@ public class AltarManager
 	}
 
 
+	@SuppressWarnings("resource")
 	public void tick()
 	{
 		boolean flag = this.isWorldOriginTicking();

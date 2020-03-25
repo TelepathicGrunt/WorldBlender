@@ -31,6 +31,7 @@ import net.telepathicgrunt.worldblender.configs.WBConfig;
 @Mod.EventBusSubscriber(modid = WorldBlender.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class WBPortalSpawning
 {
+	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void BlockRightClickEvent(PlayerInteractEvent.RightClickBlock event)
 	{

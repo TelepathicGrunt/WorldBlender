@@ -49,6 +49,7 @@ public class WBPortalBlock extends ContainerBlock
 	}
 
 
+	@SuppressWarnings("resource")
 	@Override
 	public void onEntityCollision(BlockState blockState, World world, BlockPos position, Entity entity)
 	{

@@ -254,7 +254,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 	{
 		Set<Block> carvableBlocks = new HashSet<Block>();
 
-	//	carvableBlocks.addAll(WorldCarver.CANYON.carvableBlocks);
+		carvableBlocks.addAll(WorldCarver.CANYON.carvableBlocks);
 		carvableBlocks.add(Blocks.NETHERRACK);
 		carvableBlocks.add(Blocks.END_STONE);
 		

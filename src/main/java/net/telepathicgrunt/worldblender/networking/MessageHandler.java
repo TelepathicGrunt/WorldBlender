@@ -87,6 +87,7 @@ public class MessageHandler
 			public static void handle(final UpdateTECooldownPacket pkt, final Supplier<NetworkEvent.Context> ctx)
 			{
 				Minecraft.getInstance().deferTask(() -> {
+					@SuppressWarnings("resource")
 					WBPortalTileEntity te = (WBPortalTileEntity)Minecraft.getInstance().world.getTileEntity(pkt.pos);
 					te.setCoolDown(pkt.cooldown);
 				});
