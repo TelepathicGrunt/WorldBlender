@@ -62,7 +62,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 		BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
 		int depth = -1;
 		int maxNoiseDepth = (int) (noise / 3.0D + 3.0D + random.nextDouble() * 0.25D);
-		WorldBlender.LOGGER.log(Level.DEBUG, "Max Noise depth: "+maxNoiseDepth);
+		//WorldBlender.LOGGER.log(Level.DEBUG, "Max Noise depth: "+maxNoiseDepth);
 		int xInChunk = x & 15;
 		int zInChunk = z & 15;
 

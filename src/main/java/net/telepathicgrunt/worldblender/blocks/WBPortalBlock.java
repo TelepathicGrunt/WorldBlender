@@ -34,6 +34,7 @@ import net.telepathicgrunt.worldblender.dimension.WBDimension;
 
 public class WBPortalBlock extends ContainerBlock
 {
+	
 	protected static final VoxelShape COLLISION_BOX = Block.makeCuboidShape(2.0D, 2.0D, 2.0D, 14.0D, 14.0D, 14.0D);
 	
 	protected WBPortalBlock()
