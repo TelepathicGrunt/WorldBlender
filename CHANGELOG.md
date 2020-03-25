@@ -7,7 +7,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
 
   
-## (V.1.2.5 Changes) (1.15.2 Minecraft)
+## (V.1.3.0 Changes) (1.15.2 Minecraft)
   
 ##### Config: 
 -Added config option to allow whether to let carvers carve through more kinds of blocks or not.

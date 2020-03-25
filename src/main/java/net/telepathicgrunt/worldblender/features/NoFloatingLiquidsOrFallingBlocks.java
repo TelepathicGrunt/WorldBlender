@@ -131,7 +131,7 @@ public class NoFloatingLiquidsOrFallingBlocks extends Feature<NoFeatureConfig>
 						preventfalling(world, mutable, lastBlockstate);
 						
 						//if neighboring block is a liquid block, place a solid block next to it
-						liquidContaining(world, mutable);
+						liquidContaining(world, mutable, lastBlockstate);
 					}
 					else if(currentBlockstate.getMaterial() == Material.WATER || currentBlockstate.getMaterial() == Material.LAVA)
 					{
@@ -153,7 +153,7 @@ public class NoFloatingLiquidsOrFallingBlocks extends Feature<NoFeatureConfig>
 	{
 		if(!WBConfig.preventFallingBlocks) return;
 		
-		if((lastBlockstate.getBlock() instanceof FallingBlock || !lastBlockstate.getFluidState().isEmpty()))
+		if(lastBlockstate.getBlock() instanceof FallingBlock)
 		{
 			@SuppressWarnings("deprecation")
 			MaterialColor targetMaterial = lastBlockstate.getMaterialColor(world, mutable);
@@ -168,22 +168,34 @@ public class NoFloatingLiquidsOrFallingBlocks extends Feature<NoFeatureConfig>
 		}
 	}
 	
-	private static void liquidContaining(IWorld world, BlockPos.Mutable mutable)
+	private static void liquidContaining(IWorld world, BlockPos.Mutable mutable, BlockState lastBlockstate)
 	{
 		if(!WBConfig.containFloatingLiquids) return;
 		
 		boolean touchingLiquid = false;
 		BlockState neighboringBlockstate = null;
 		
-		for(Direction face : Direction.Plane.HORIZONTAL)
+
+		//if above is liquid, we need to contain it
+		if(!lastBlockstate.getFluidState().isEmpty())
 		{
-			neighboringBlockstate = world.getBlockState(mutable.offset(face));
-			if(!neighboringBlockstate.getFluidState().isEmpty())
+			touchingLiquid = true;
+			neighboringBlockstate = lastBlockstate;
+		}
+		//if side is liquid, we need to contain it
+		else
+		{
+			for(Direction face : Direction.Plane.HORIZONTAL)
 			{
-				touchingLiquid = true;
-				break;
+				neighboringBlockstate = world.getBlockState(mutable.offset(face));
+				if(!neighboringBlockstate.getFluidState().isEmpty())
+				{
+					touchingLiquid = true;
+					break;
+				}
 			}
 		}
+		
 		
 		if(touchingLiquid)
 		{

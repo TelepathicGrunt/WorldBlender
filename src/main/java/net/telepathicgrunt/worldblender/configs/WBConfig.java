@@ -153,15 +153,18 @@ public class WBConfig
 
 		            preventFallingBlocks = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
-		                    		+" Will try its best to place Terracotta blocks under all floating \r\n"
-		                    		+" blocks to prevent lag when falling blocks begins to fall.\r\n")
+		                    		+" Will try its best to place Terracotta blocks under all floating\r\n"
+		                    		+" fallable blocks to prevent lag when the blocks begins to fall.\r\n")
 		                    .translation("world_blender.config.optimization.preventfallingblocks")
 		                    .define("preventFallingBlocks", true);
 		            
 		            containFloatingLiquids = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
-		                    		+" This will also place Terracotta next to fluids to try and prevent"
-		                    		+" them from floating and then flowing downward like crazy.\r\n")
+		                    		+" This will also place Terracotta next to fluids to try and prevent.\r\n"
+		                    		+" them from floating and then flowing downward like crazy.\r\n"
+		                    		+" \r\n"
+		                    		+" It isn't perfect but it does do mostly a good job with how\r\n"
+		                    		+" messy and chaotic having all features and carvers together is.\r\n")
 		                    .translation("world_blender.config.optimization.containfloatingliquids")
 		                    .define("containFloatingLiquids", true);
 	            

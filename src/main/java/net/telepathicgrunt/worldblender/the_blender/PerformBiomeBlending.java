@@ -122,7 +122,7 @@ public class PerformBiomeBlending
 		}
 
 		//add this last so that this can contain other local modification feature's liquids/falling blocks better
-		if(ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, new ResourceLocation("world_blender:no_floating_liquids_or_falling_blocks")))
+		if(!ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, new ResourceLocation("world_blender:no_floating_liquids_or_falling_blocks")))
 		{
 			WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(Decoration.LOCAL_MODIFICATIONS, WBFeatures.NO_FLOATING_LIQUIDS_OR_FALLING_BLOCKS.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG))));
 		}
