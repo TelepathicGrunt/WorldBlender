@@ -2,7 +2,9 @@
 <h2 style="text-align: center;"><span style="font-size: 40px; text-align: center; color: #009b7c;"><strong>CURRENTLY FOR 1.15.2 &amp; 1.14.4 MC</strong></span></h2>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p style="text-align: center;"><em><span style="font-size: 14px; color: #b00000; text-decoration: underline;"><strong>Recent 1.15.2 News:</strong></span><span style="font-size: 14px;"><b><strong>&nbsp;Added some new config options to try and help against the lag!</strong></b></span></em></p>
+<p style="text-align: center;"><em><span style="font-size: 14px; color: #b00000; text-decoration: underline;"><strong>Recent 1.15.2 News:</strong></span><span style="font-size: 14px;"><b><strong>&nbsp;Fixed server/multiplayer crash with portal creation and entering.</strong></b></span></em></p>
+<p style="text-align: center;"><em><span style="font-size: 14px;"><b><strong>This mod should now work on servers! Give it a try and let me know any issues!</strong></b></span></em></p>
+<p style="text-align: center;"><em><span style="font-size: 14px;"><b><strong>Added some new config options to try and help against the lag!</strong></b></span></em></p>
 <p style="text-align: center;"><em><span style="font-size: 14px;"><b><strong>&nbsp;Checkout the changelog for more details and other changes. :)</strong></b></span></em></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -35,10 +37,9 @@
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/gaia-dimension">-Gaia Dimension</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/geolosys">-Geolosys</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/good-nights-sleep">-Good Night's Sleep</a></p>
-<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/hunterillager">-HunterIllager</a></p>
-<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/janoeo">-JANOEO</a></p>
+<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/hunterillager">-HunterIllager</a>(Can crash during worldgen due to a Vanilla bug. The bug report is called MC-173067 on bugs.mojang.com and I upvoted it to help it be seen by Mojang!)</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/lucky-ores">-Lucky Ores</a></p>
-<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/lycanites-mobs">-Lycanites Mobs</a> (Can only import some of the mobs)</p>
+<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/lycanites-mobs">-Lycanites Mobs</a> (Can import some of the mobs but this mod greatly increases lag time in the world when imported. Best to blacklist this mod for now in World Blender's config.)</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/metal-bushes">-Metal Bushes</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/moolands">-Moolands</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/mutant-beasts">-Mutant Beasts</a></p>
@@ -113,4 +114,5 @@
 <p style="color: #009b7c;"><strong>*If you find an issue, glitch, or have a suggestion about my mod, let me know! But if you don't have a GitHub account to report in the Issue tab above, just comment what the problem is below and I'll try and get back to you ASAP! :)&nbsp;</strong></p>
 <p>&nbsp;</p>
 <p><span style="font-size: 24px; color: #ff9900;"><strong>Discord Link for my channel about my mods! :&nbsp;<a class="anchor-3Z-8Bb anchorUnderlineOnHover-2ESHQB" style="font-size: 24px; color: #ff9900;" tabindex="0" title="https://discord.gg/4eHptfV" role="button" href="https://discord.gg/4eHptfV" target="_blank" rel="noopener noreferrer">https://discord.gg/4eHptfV</a></strong></span></p>
-<p><span style="font-size: 24px; color: #333399;"><strong>&nbsp;</strong></span></p>
+<h3><span style="font-size: 24px; color: #333399;"><strong>&nbsp;<br /><span style="font-size: 12px;">Checkout this guy's mod spotlight of World Blender where if you go to 4:22, you can see a great example of how chaotic the world becomes when tons of mods are used together with World Blender! :D</span></strong></span></h3>
+<p><iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/K7RGwpzFVyM?wmode=transparent" height="358" width="638"></iframe></p>
