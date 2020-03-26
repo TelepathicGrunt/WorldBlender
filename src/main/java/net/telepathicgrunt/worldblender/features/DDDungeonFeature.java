@@ -70,7 +70,7 @@ public class DDDungeonFeature extends Feature<NoFeatureConfig>
 	
 	protected long seed;
 	protected OctavesNoiseGenerator noiseGen;
-	public void setSeed(long seed)
+	private void setSeed(long seed)
 	{
 		if (this.noiseGen == null)
 		{
@@ -91,8 +91,11 @@ public class DDDungeonFeature extends Feature<NoFeatureConfig>
 	@Override
 	public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> changedBlock, Random rand, BlockPos position, NoFeatureConfig config)
 	{
+		setSeed(world.getSeed());
+		
 		//low chance of spawning
 		double noise = noiseGen.noiseAt(position.getX() * 0.018D, position.getZ() * 0.018D, 0.0625D, 0.0625D);
+		
 		//WorldBlender.LOGGER.warn(noise);
 		if (noise < 0.25f)
 		{
