@@ -15,6 +15,8 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 
 -The animation on the Portal Block should now play seamlessly for 99.99999% of the time.
 
+-Trying something in backend to make sure the Portal Altar always has the Portal block. Altar should also be made faster now.
+
 ##### Config: 
 
 -The disallowLaggyFeatures config entry will now stop Good Night Sleep's Nether Spread feature from spawning because that feature can generate fire which then can cause an out of control fire lag. (Also does a bit more deeper checks for lava/fire in certain kinds of nested features to disallow them if a mod adds it)

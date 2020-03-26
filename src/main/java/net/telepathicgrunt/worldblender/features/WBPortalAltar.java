@@ -5,6 +5,7 @@ import java.util.function.Function;
 
 import com.mojang.datafixers.Dynamic;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
@@ -21,6 +22,7 @@ import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.server.ServerWorld;
 import net.telepathicgrunt.worldblender.WorldBlender;
+import net.telepathicgrunt.worldblender.blocks.WBBlocks;
 import net.telepathicgrunt.worldblender.blocks.WBPortalTileEntity;
 import net.telepathicgrunt.worldblender.dimension.WBDimension;
 
@@ -54,26 +56,14 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 		}
 		
 		BlockPos finalPosition = world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, position);
+		world.setBlockState(finalPosition, Blocks.AIR.getDefaultState(), 3);
 		template.addBlocksToWorld(world, finalPosition.add(-5, -2, -5), placementSettings);
+		world.setBlockState(finalPosition, WBBlocks.WORLD_BLENDER_PORTAL.get().getDefaultState(), 3); //extra check to make sure portal is placed
 
 		//make portal block unremoveable in altar
 		if(world.getTileEntity(finalPosition) != null && world.getTileEntity(finalPosition) instanceof WBPortalTileEntity)
 			((WBPortalTileEntity)world.getTileEntity(finalPosition)).makeNotRemoveable();
 		
-		//adds extra block so End Portal frame is placed slightly higher on top
-//		if(WBConfig.spawnEnderDragon)
-//		{
-//			world.setBlockState(finalPosition.up(4), Blocks.QUARTZ_BLOCK.getDefaultState(), 3);
-//			
-//			//loads up all chunks for enderdragon manager so it can spawn portal right away
-//			for(int x = -8; x <= 8; x++)
-//			{
-//				for(int z = -8; z <= 8; z++)
-//				{
-//					world.getChunk(x, z);
-//				}
-//			}
-//		}
 		
 		return true;
 

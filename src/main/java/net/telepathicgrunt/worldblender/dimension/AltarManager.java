@@ -34,21 +34,24 @@ public class AltarManager
 	@SuppressWarnings("resource")
 	public void tick()
 	{
-		boolean flag = this.isWorldOriginTicking();
-		if (!this.altarMade && flag)
+		if (!this.altarMade)
 		{
-			WBFeatures.WB_PORTAL_ALTAR.place(this.world, this.world.getChunkProvider().generator, this.world.rand, new BlockPos(0, 255, 0), IFeatureConfig.NO_FEATURE_CONFIG);
-			this.altarMade = true;
-			this.saveWBAltarData(this.world);
+			boolean flag = this.isWorldOriginTicking();
+			if(flag)
+			{
+				WBFeatures.WB_PORTAL_ALTAR.place(this.world, this.world.getChunkProvider().generator, this.world.rand, new BlockPos(0, 255, 0), IFeatureConfig.NO_FEATURE_CONFIG);
+				this.altarMade = true;
+				this.saveWBAltarData(this.world);
+			}
 		}
 	}
 
 
 	private boolean isWorldOriginTicking()
 	{
-		for (int x = -1; x <= 1; ++x)
+		for (int x = -1; x <= 0; ++x)
 		{
-			for (int z = -1; z <= 1; ++z)
+			for (int z = -1; z <= 0; ++z)
 			{
 				IChunk ichunk = this.world.getChunk(x, z, ChunkStatus.FULL, false);
 				if (!(ichunk instanceof Chunk))
