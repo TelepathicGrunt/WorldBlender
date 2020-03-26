@@ -56,8 +56,9 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 		}
 		
 		BlockPos finalPosition = world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, position);
-		world.setBlockState(finalPosition, Blocks.AIR.getDefaultState(), 3);
+		world.setBlockState(finalPosition.down(), Blocks.AIR.getDefaultState(), 3);
 		template.addBlocksToWorld(world, finalPosition.add(-5, -2, -5), placementSettings);
+		finalPosition = finalPosition.down();
 		world.setBlockState(finalPosition, WBBlocks.WORLD_BLENDER_PORTAL.get().getDefaultState(), 3); //extra check to make sure portal is placed
 
 		//make portal block unremoveable in altar

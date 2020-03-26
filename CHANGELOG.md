@@ -15,7 +15,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 
 -The animation on the Portal Block should now play seamlessly for 99.99999% of the time.
 
--Trying something in backend to make sure the Portal Altar always has the Portal block. Altar should also be made faster now.
+-Altar is made much faster now and I am trying something in backend to make sure the Portal Altar always has the Portal block.
 
 ##### Config: 
 
