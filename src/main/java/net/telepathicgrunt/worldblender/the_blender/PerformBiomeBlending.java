@@ -267,6 +267,7 @@ public class PerformBiomeBlending
 					{
 						//add the structure version of the structure
 						WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addStructure(new ConfiguredFeature(structure, biome.structures.get(structure))));
+						boolean finishedFeaturePortion = false;
 						
 						//find the feature version of the structure in this biome and add it so it can spawn
 						for (Decoration stage : GenerationStage.Decoration.values())
@@ -276,9 +277,17 @@ public class PerformBiomeBlending
 								if(configuredFeature.config instanceof DecoratedFeatureConfig && 
 								   ((DecoratedFeatureConfig)configuredFeature.config).feature.feature.getClass().equals(structure.getClass())) 
 								{
-									WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
+									if(!WBBiomes.BLENDED_BIOME.features.get(stage).stream().anyMatch(addedFeature -> FeatureGrouping.serializeAndCompareFeature(addedFeature, configuredFeature)))
+									{
+										WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
+									}
+									
+									finishedFeaturePortion = true;
+									break;
 								}
 							}
+							
+							if(finishedFeaturePortion) break;
 						}
 					}
 						
@@ -287,16 +296,26 @@ public class PerformBiomeBlending
 				{
 					//add the structure version of the structure
 					WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addStructure(new ConfiguredFeature(structure, biome.structures.get(structure))));
-				
+					boolean finishedFeaturePortion = false;
+					
 					//find the feature version of the structure in this biome and add it so it can spawn
 					for (Decoration stage : GenerationStage.Decoration.values())
 					{
 						for (ConfiguredFeature<?, ?> configuredFeature : biome.getFeatures(stage))
 						{
 							if(configuredFeature.feature.getClass().equals(biome.structures.get(structure).getClass())) {
-								WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
+
+								if(!WBBiomes.BLENDED_BIOME.features.get(stage).stream().anyMatch(addedFeature -> FeatureGrouping.serializeAndCompareFeature(addedFeature, configuredFeature)))
+								{
+									WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(stage, configuredFeature));
+								}
+								
+								finishedFeaturePortion = true;
+								break;
 							}
 						}
+						
+						if(finishedFeaturePortion) break;
 					}
 				}
 			}

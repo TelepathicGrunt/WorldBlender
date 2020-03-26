@@ -25,7 +25,9 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.LiquidsConfig;
 import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleWithChanceRandomFeatureConfig;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.SingleRandomFeature;
+import net.minecraft.world.gen.feature.SphereReplaceConfig;
 import net.minecraft.world.gen.feature.TwoFeatureChoiceConfig;
 
 
@@ -136,6 +138,14 @@ public class FeatureGrouping
 			{
 				rl = ((LiquidsConfig)decoratedConfig.feature.config).state.getBlockState().getBlock().getBlock().getRegistryName();
 			}
+			else if(decoratedConfig.feature.feature == Feature.ORE)
+			{
+				rl = ((OreFeatureConfig)decoratedConfig.feature.config).state.getBlockState().getBlock().getBlock().getRegistryName();
+			}
+			else if(decoratedConfig.feature.feature == Feature.DISK)
+			{
+				rl = ((SphereReplaceConfig)decoratedConfig.feature.config).state.getBlockState().getBlock().getBlock().getRegistryName();
+			}
 			else
 			{
 				rl = decoratedConfig.feature.feature.getRegistryName();
@@ -145,7 +155,7 @@ public class FeatureGrouping
 			if(keywordFoundInPath(rl, BAMBOO_FEATURE_KEYWORDS))
 				bambooFound = true;
 			
-			if(keywordFoundInPath(rl, LAGGY_FEATURE_KEYWORDS) || rl == GNS_NETHER_SPREAD)
+			if(keywordFoundInPath(rl, LAGGY_FEATURE_KEYWORDS) || (rl != null && rl.equals(GNS_NETHER_SPREAD)))
 				return true;
 			
 		}

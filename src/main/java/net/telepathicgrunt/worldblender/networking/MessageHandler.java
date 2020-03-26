@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import net.telepathicgrunt.worldblender.WorldBlender;
 import net.telepathicgrunt.worldblender.blocks.WBPortalTileEntity;
@@ -45,7 +46,7 @@ public class MessageHandler
 
 		public static void sendToClient(BlockPos pos, float cooldown)
 		{
-			MessageHandler.DEFAULT_CHANNEL.sendToServer(new UpdateTECooldownPacket(pos, cooldown));
+			MessageHandler.DEFAULT_CHANNEL.send(PacketDistributor.ALL.noArg(), new UpdateTECooldownPacket(pos, cooldown));
 		}
 
 

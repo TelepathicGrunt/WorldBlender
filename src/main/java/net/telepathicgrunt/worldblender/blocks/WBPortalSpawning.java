@@ -38,8 +38,8 @@ public class WBPortalSpawning
 		World world = event.getWorld();
 		BlockPos position = event.getPos();
 		
-		//cannot create portals in WB world type
-		if(world.getWorldType() == WorldBlender.WBWorldType) {
+		//cannot create portals in WB world type nor run this code on client
+		if(world.isRemote || world.getWorldType() == WorldBlender.WBWorldType) {
 			return;
 		}
 

@@ -104,7 +104,7 @@ public class NoFloatingLiquidsOrFallingBlocks extends Feature<NoFeatureConfig>
 	@Override
 	public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> changedBlock, Random rand, BlockPos position, NoFeatureConfig config)
 	{
-		//this feature is turned off.
+		//this feature is completely turned off.
 		if(!WBConfig.preventFallingBlocks && !WBConfig.containFloatingLiquids)
 			return false;
 		
@@ -117,7 +117,7 @@ public class NoFloatingLiquidsOrFallingBlocks extends Feature<NoFeatureConfig>
 			for(int z = 0; z < 16; z++)
 			{
 				mutable = new BlockPos.Mutable(position.getX() + x, 0, position.getZ() + z);
-				mutable.move(Direction.UP, world.getHeight(Heightmap.Type.WORLD_SURFACE_WG, mutable.getX(), mutable.getZ()));
+				mutable.move(Direction.UP, Math.max(world.getHeight(Heightmap.Type.WORLD_SURFACE, mutable.getX(), mutable.getZ()), world.getSeaLevel()));
 				
 				//checks the column downward
 				for(; mutable.getY() >= 0; mutable.move(Direction.DOWN))
@@ -149,6 +149,12 @@ public class NoFloatingLiquidsOrFallingBlocks extends Feature<NoFeatureConfig>
 
 	}
 
+	/**
+	 * Will place Terracotta block at mutable position if above block is a FallingBlock
+	 * @param world - world we are in
+	 * @param mutable - current position
+	 * @param lastBlockstate - must be the above blockstate when passed in
+	 */
 	private static void preventfalling(IWorld world, BlockPos.Mutable mutable, BlockState lastBlockstate)
 	{
 		if(!WBConfig.preventFallingBlocks) return;
@@ -168,6 +174,13 @@ public class NoFloatingLiquidsOrFallingBlocks extends Feature<NoFeatureConfig>
 		}
 	}
 	
+	
+	/**
+	 * Will place terracotta block at mutable position if above, north, west, east, or south is a liquid block
+	 * @param world - world we are in
+	 * @param mutable - current position
+	 * @param lastBlockstate - must be the above blockstate when passed in
+	 */
 	private static void liquidContaining(IWorld world, BlockPos.Mutable mutable, BlockState lastBlockstate)
 	{
 		if(!WBConfig.containFloatingLiquids) return;

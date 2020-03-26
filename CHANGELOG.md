@@ -9,13 +9,24 @@ Welcome to the Github! If you are looking for the most recent stable version, th
   
 ## (V.1.3.1 Changes) (1.15.2 Minecraft)
   
+##### Portal: 
+
+-Fixed bug where portal creation and teleporting breaks when in multiplayer/servers. No more crashes should occur from this now.  
+
+-The animation on the Portal Block should now play seamlessly for 99.99999% of the time.
+
 ##### Config: 
 
--disallowLaggyFeatures config entry will now stop Good Night Sleep's Nether Spread feature from spawning as that feature can generate fire which can cause out of control fire lag. 
+-The disallowLaggyFeatures config entry will now stop Good Night Sleep's Nether Spread feature from spawning because that feature can generate fire which then can cause an out of control fire lag. (Also does a bit more deeper checks for lava/fire in certain kinds of nested features to disallow them if a mod adds it)
+
+-Improved the containFloatingLiquids config entry so it now contains water much better when the water is floating in midair and is exposed to the sky. 
   
 ##### Structures:
 
+-Fixed Desert Temples, Jungle Temples, and Strongholds from having missing Chests and fixed Strongholds from missing Silverfish Spawner in Portal Room.
+
 -Fixed what in theory could be a rare potential crash with this mod trying to be compatible with Dimensional Dungeons.
+
 
 ## (V.1.3.0 Changes) (1.15.2 Minecraft)
   
