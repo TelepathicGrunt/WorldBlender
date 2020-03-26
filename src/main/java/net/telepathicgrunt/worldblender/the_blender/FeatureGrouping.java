@@ -51,6 +51,7 @@ public class FeatureGrouping
 
 	private static final List<String> BAMBOO_FEATURE_KEYWORDS = Arrays.asList("bamboo");
 	private static final List<String> LAGGY_FEATURE_KEYWORDS = Arrays.asList("lava","fire","bamboo","sugar_cane");
+	private static final ResourceLocation GNS_NETHER_SPREAD = new ResourceLocation("goodnightsleep:nether_splash");
 	public static boolean bambooFound = false;
 	
 	/**
@@ -144,7 +145,7 @@ public class FeatureGrouping
 			if(keywordFoundInPath(rl, BAMBOO_FEATURE_KEYWORDS))
 				bambooFound = true;
 			
-			if(keywordFoundInPath(rl, LAGGY_FEATURE_KEYWORDS))
+			if(keywordFoundInPath(rl, LAGGY_FEATURE_KEYWORDS) || rl == GNS_NETHER_SPREAD)
 				return true;
 			
 		}

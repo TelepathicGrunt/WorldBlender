@@ -7,6 +7,12 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
 
   
+## (V.1.3.1 Changes) (1.15.2 Minecraft)
+  
+##### Config: 
+
+-disallowLaggyFeatures config entry will now stop Good Night Sleep's Nether Spread feature from spawning as that feature can generate fire which can cause out of control fire lag. 
+  
 ## (V.1.3.0 Changes) (1.15.2 Minecraft)
   
 ##### Config: 
