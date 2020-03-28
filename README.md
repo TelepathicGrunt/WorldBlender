@@ -32,6 +32,7 @@
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/dimensional-dungeons">-Dimensional Dungeons</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/extended-mushrooms">-Extended Mushrooms</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/extra-enrichments">-Extra Enrichments</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/explorercraft-worldexpansion/files/2912601">-Explorercraft</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/forbidden-arcanus">-Forbidden and Arcanus</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/fruit-trees">-Fruit Trees</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/gaia-dimension">-Gaia Dimension</a></p>
@@ -114,5 +115,5 @@
 <p style="color: #009b7c;"><strong>*If you find an issue, glitch, or have a suggestion about my mod, let me know! But if you don't have a GitHub account to report in the Issue tab above, just comment what the problem is below and I'll try and get back to you ASAP! :)&nbsp;</strong></p>
 <p>&nbsp;</p>
 <p><span style="font-size: 24px; color: #ff9900;"><strong>Discord Link for my channel about my mods! :&nbsp;<a class="anchor-3Z-8Bb anchorUnderlineOnHover-2ESHQB" style="font-size: 24px; color: #ff9900;" tabindex="0" title="https://discord.gg/4eHptfV" role="button" href="https://discord.gg/4eHptfV" target="_blank" rel="noopener noreferrer">https://discord.gg/4eHptfV</a></strong></span></p>
-<h3><span style="font-size: 24px; color: #333399;"><strong>&nbsp;<br /><span style="font-size: 12px;">Checkout this guy's mod spotlight of World Blender where if you go to 4:22, you can see a great example of how chaotic the world becomes when tons of mods are used together with World Blender! :D</span></strong></span></h3>
-<p><iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/K7RGwpzFVyM?wmode=transparent" height="358" width="638"></iframe></p>
+<h3><span style="font-size: 24px; color: #333399;"><strong>&nbsp;<br /><span style="font-size: 12px;">Checkout this guy's mod spotlight of World Blender where if you go to 4:07, you can see a great example of how chaotic the world becomes when tons of mods are used together with World Blender! :D</span></strong></span></h3>
+<p><iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/mvJQ9S89dMQ?wmode=transparent" height="358" width="638"></iframe></p>

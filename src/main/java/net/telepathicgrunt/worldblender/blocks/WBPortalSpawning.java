@@ -152,11 +152,11 @@ public class WBPortalSpawning
 					{
 						String msg = "§eWorld Blender: §fThere are not enough unique block items in the chests. (stacks or duplicates are ignored) You need §c" + WBConfig.uniqueBlocksNeeded + "§f block items to make the portal but there is only §a" + uniqueBlocksSet.size() + "§f unique block items right now.";
 						
-						if(invalidItemSet.size() != 0) 
+						if(invalidItemSet.size() > 1) 
 						{
 							//collect the items names into a list of strings
 							List<String> invalidItemString = new ArrayList<String>();
-							invalidItemSet.remove(Items.AIR); //We dont need to list air
+							invalidItemSet.remove(Items.AIR); //We don't need to list air
 							invalidItemSet.stream().forEach(item -> invalidItemString.add(item.getName().getString()));
 							msg += "§f Also, here is a list of non-block items that were found and should be removed: §6" + String.join(", ", invalidItemString);
 						}

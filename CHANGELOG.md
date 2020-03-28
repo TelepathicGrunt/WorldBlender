@@ -7,6 +7,12 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
 
   
+## (V.1.3.2 Changes) (1.15.2 Minecraft)
+  
+##### Portal: 
+
+-When making the portal with not enough blocks, the invalid item part of the error message will not appear if there is no items in the chests anymore.
+  
 ## (V.1.3.1 Changes) (1.15.2 Minecraft)
   
 ##### Portal: 
