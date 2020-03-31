@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Level;
 
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
@@ -16,11 +17,18 @@ import net.telepathicgrunt.worldblender.the_blender.ResourceLocationPrinting;
 import net.telepathicgrunt.worldblender.the_blender.dedicated_mod_support.DimDungeonsCompatibility;
 import net.telepathicgrunt.worldblender.the_blender.dedicated_mod_support.TerraForgedCompatibility;
 
+@SuppressWarnings("deprecation")
 @Mod.EventBusSubscriber(modid = WorldBlender.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CommonModBusEventHandler
 {
+	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void latestCommonSetup(FMLLoadCompleteEvent event)
+	{
+		DeferredWorkQueue.runLater(CommonModBusEventHandler::beginSetup);
+	}
+	
+	public static void beginSetup() 
 	{
 		ConfigBlacklisting.setupBlackLists();
 		PerformBiomeBlending.setupBiomes();
@@ -41,7 +49,6 @@ public class CommonModBusEventHandler
 		{
 			ResourceLocationPrinting.printAllResourceLocations();
 		}
-		
 	}
 	
 	/**

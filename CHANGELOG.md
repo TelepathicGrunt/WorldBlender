@@ -7,11 +7,17 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
 
   
+## (V.1.3.3 Changes) (1.15.2 Minecraft)
+  
+##### Misc: 
+
+-Quick fix to patch a crash at startup due to me forgetting to do deferredtask........
+  
 ## (V.1.3.2 Changes) (1.15.2 Minecraft)
   
 ##### Misc: 
 
--fixed issue where mod would crash at startup when running in certain other foreign languages.
+-Fixed issue where mod would crash at startup when running in certain other foreign languages.
 
 ##### Portal: 
 
