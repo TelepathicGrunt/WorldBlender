@@ -7,6 +7,7 @@ import java.util.Set;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.event.RegistryEvent;
@@ -39,17 +40,17 @@ public class WBBiomes {
 
    	    IForgeRegistry<Biome> registry = event.getRegistry();
 
-		initBiome(registry, BLENDED_BIOME, "Blended Biome", BiomeType.DESERT, Type.RARE);
-		initBiome(registry, MOUNTAINOUS_BLENDED_BIOME, "Mountain Blended Biome", BiomeType.WARM, Type.RARE);
-		initBiome(registry, OCEAN_BLENDED_BIOME, "Ocean Blended Biome", BiomeType.COOL, Type.RARE);
-		initBiome(registry, FROZEN_OCEAN_BLENDED_BIOME, "Frozen Ocean Blended Biome", BiomeType.ICY, Type.RARE);
+		initBiome(registry, BLENDED_BIOME, "blended_biome", BiomeType.DESERT, Type.RARE);
+		initBiome(registry, MOUNTAINOUS_BLENDED_BIOME, "mountain_blended_biome", BiomeType.WARM, Type.RARE);
+		initBiome(registry, OCEAN_BLENDED_BIOME, "ocean_blended_biome", BiomeType.COOL, Type.RARE);
+		initBiome(registry, FROZEN_OCEAN_BLENDED_BIOME, "frozen_ocean_blended_biome", BiomeType.ICY, Type.RARE);
 	}
 
 
 	//adds biome to registry with their type to the registry and to the biome dictionary
 	private static Biome initBiome(IForgeRegistry<Biome> registry, Biome biome, String name, BiomeType biomeType, Type... types) {
 		WorldBlender.register(registry, biome, name);
-		//BiomeDictionary.addTypes(biome, types);
+		BiomeDictionary.addTypes(biome, types);
 		biomes.add(biome);
 		return biome;
 	}

@@ -9,9 +9,19 @@ Welcome to the Github! If you are looking for the most recent stable version, th
   
 ## (V.1.3.2 Changes) (1.15.2 Minecraft)
   
+##### Misc: 
+
+-fixed issue where mod would crash at startup when running in certain other foreign languages.
+
 ##### Portal: 
 
+-Added a new config option to let players specify certain blocks that must be present in the chests in order to make the portal. Can be used to significantly decrease the number of blocks needed but still maintain balance.
+
+-Teleporting to the other dimension will now place an air block above the newly placed portal so you no longer can get trapped in a tree and stuff.
+
 -When making the portal with not enough blocks, the invalid item part of the error message will not appear if there is no items in the chests anymore.
+
+-Added support for offhand. You now can hold the activation item in your offhand to make the portal.
   
 ## (V.1.3.1 Changes) (1.15.2 Minecraft)
   

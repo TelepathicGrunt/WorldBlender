@@ -177,13 +177,6 @@ public class WBPortalTileEntity extends TileEntity implements ITickableTileEntit
 	}
 	
 
-//	@Override
-//	public void onLoad() {
-//		if (world.isRemote) {
-//			//TutorialMod.network.sendToServer(new PacketRequestUpdatePedestal(this));
-//		}
-//	}
-
 	/**
 	 * Get an NBT compound to sync to the client with SPacketChunkData, used for initial loading of the chunk or when many
 	 * blocks change at once. This compound comes back to you clientside in {@link handleUpdateTag}

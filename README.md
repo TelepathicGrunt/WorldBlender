@@ -80,7 +80,7 @@
 <p>&nbsp;</p>
 <p><span style="font-size: 14px;">&nbsp; &nbsp;If you create the portal in a bad spot, you can right click the portal blocks while crouching and holding no items to vaporize the portal. Also in this crazy dimension, you can always leave it by heading to world origin as there will be quartz altar with an unbreakable portal block to always allow you to escape (unless another feature destroys the altar... I'll see about preventing that in a future version). The portal will always place you back to the Overworld when leaving the dimension so keep that in mind! And also, the portal can teleport any entity or dropped item but only one at a time and it will have a cooldown phase.</span></p>
 <p>&nbsp;</p>
-<p><span style="font-size: 14px;">&nbsp; &nbsp;With commands active, you can enter the dimension faster by doing this command<strong style="font-size: 14px;"> /execute in world_blender:world_blender run tp ~ 70 ~</strong>. And I highly recommend you to do <strong style="font-size: 14px;"> /gamerule doFireTick false</strong> so that fire does not go crazy rampant in this dimension and cause a bit of lag! </span></p>
+<p><span style="font-size: 14px;">&nbsp; &nbsp;With commands active, you can enter the dimension faster by doing this command<strong style="font-size: 14px;"> /execute in world_blender:world_blender run tp ~ 70 ~</strong>. And by default, features that contain lava or fire will not be imported so they do not create out of control fire spreading. You can turn off this config so fire features gets imported but if you do, I highly recommend you to do <strong style="font-size: 14px;"> /gamerule doFireTick false</strong> so that fire does not go crazy rampant in this dimension and cause quite a bit of lag! </span></p>
 <p>&nbsp;</p>
 <p><span style="font-size: 14px;">&nbsp; &nbsp;Also, if you want to have the Overworld be replaced with this blended world, that is also an option! Just turn on the World Blender worldtype. For server owners,&nbsp;add "<strong>use-modded-worldtype=world-blender</strong>" as a new entry in your server.properties file to use this worldtype when making a new world.</span></p>
 <p>&nbsp;</p>
@@ -90,19 +90,23 @@
 <h2 style="color: #009b7c;"><strong>HOW CAN I CONFIGURE THIS MOD?</strong></h2>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p><span style="font-size: 14px;">&nbsp; &nbsp;This mod has 24 configs options total to allow you to customize this mod. The options are:</span></p>
+<p><span style="font-size: 14px;">&nbsp; &nbsp;This mod has 29 configs options total to allow you to customize this mod. The options are:</span></p>
 <p><span style="font-size: 16px;">&nbsp;</span></p>
 <p><span style="font-size: 16px;"><strong>-turn on or off importing vanilla or mod's features, structures, carvers, surfaces, and natural mob spawns. </strong></span></p>
 <p><span style="font-size: 16px;"><strong>&nbsp;</strong></span></p>
-<p><span style="font-size: 16px;"><strong>-disable vanilla bamboo, fire, and lava features from spawning to help reduce lag. </strong></span></p>
+<p><span style="font-size: 16px;"><strong>-disable bamboo, fire, and lava features from spawning to help reduce lag.</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 16px;"><strong>-surround floating liquid with solid blocks and placing solid blocks under blocks that can fall. This helps reduce lag from liquid flowing or blocks falling.</strong></span></p>
 <p><span style="font-size: 16px;"><strong>&nbsp;</strong></span></p>
 <p><span style="font-size: 16px;"><strong>-blacklist certain mod's or vanilla features, structures, carvers, surfaces, and natural mob spawns by using keywords, using the resource location (ID) of the thing itself, or using the resource location of the mod itself.</strong></span></p>
 <p>&nbsp;</p>
 <p><span style="font-size: 16px;"><strong>-print out all resource locations of everything registered to help you with making a blacklist easily.</strong></span></p>
 <p><span style="font-size: 16px;"><strong>&nbsp; &nbsp;</strong></span></p>
-<p><span style="font-size: 16px;"><strong>-change how much unique blocks is needed to make the portal, what activation item is needed, and whether the portal should drop the chests and its contents instead of consuming it.</strong></span></p>
+<p><span style="font-size: 16px;"><strong>-change how much unique blocks is needed to make the portal, specify required blocks that needs to be in the chests, what activation item is needed, and whether the portal should drop the chests and its contents instead of consuming it.</strong></span></p>
 <p>&nbsp;</p>
-<p><span style="font-size: 16px;"><strong>-spawn the Enderdragon at world origin in the dimension! (Set to off by default as I want people to explore this dimension safely without worrying about the dragon guarding the custom altar at world origin that lets you escape the dimension easily at anytime)</strong></span></p>
+<p><span style="font-size: 16px;"><strong>-how thick the surface bands are and whether vanilla ravine and cave carvers can carve through modded blocks, Netherrack, and End Stone underground.</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 16px;"><strong>-spawn the Enderdragon at world origin in the dimension! (Set to off by default as I want people to explore this dimension safely without worrying about the dragon guarding the custom altar at world origin. That way you always have an easy escape from the dimension at anytime)</strong></span></p>
 <p>&nbsp;</p>
 <p><span style="font-size: 14px;">&nbsp; &nbsp;The config file has more info on each of the options. Got more ideas or suggestions? Leave a comment below and I'll see if it can be done. The config file is located in the config folder outside of the world save folders. <strong>Any changes you do to the config requires a complete restart with Minecraft due to how it imports stuff from vanilla and other mod's biomes.</strong></span></p>
 <p><span style="font-size: 14px;">&nbsp;</span></p>

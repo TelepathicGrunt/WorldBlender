@@ -105,6 +105,9 @@ public class WBPortalBlock extends ContainerBlock
 					//there is no portal block and then makes it be in cooldown
 					if (destinationWorld.getWorld().dimension.getType() == WBDimension.worldblender())
 					{
+						destinationWorld.setBlockState(destPos, Blocks.AIR.getDefaultState());
+						destinationWorld.setBlockState(destPos.up(), Blocks.AIR.getDefaultState());
+						
 						destinationWorld.setBlockState(destPos, WBBlocks.WORLD_BLENDER_PORTAL.get().getDefaultState());
 						WBPortalTileEntity wbtile2 = (WBPortalTileEntity) destinationWorld.getTileEntity(destPos);
 						wbtile2.triggerCooldown();

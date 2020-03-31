@@ -26,6 +26,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.telepathicgrunt.worldblender.biome.WBBiomes;
 import net.telepathicgrunt.worldblender.blocks.WBBlocks;
+import net.telepathicgrunt.worldblender.blocks.WBPortalSpawning;
 import net.telepathicgrunt.worldblender.configs.WBConfig;
 import net.telepathicgrunt.worldblender.features.WBFeatures;
 import net.telepathicgrunt.worldblender.networking.MessageHandler;
@@ -95,6 +96,7 @@ public class WorldBlender
 		//registers the worldtype used for this mod so we can select that worldtype
 		WBWorldType = new WBWorldType();
 		MessageHandler.init();
+		WBPortalSpawning.generateRequiredBlockList(WBConfig.requiredBlocksInChests);
 	}
 	
 	public void modConfig(final ModConfig.ModConfigEvent event)
@@ -136,7 +138,7 @@ public class WorldBlender
 	 */
 	public static <T extends IForgeRegistryEntry<T>> T register(IForgeRegistry<T> registry, T entry, String registryKey)
 	{
-		entry.setRegistryName(new ResourceLocation(MODID, registryKey.toLowerCase().replace(' ', '_')));
+		entry.setRegistryName(new ResourceLocation(MODID, registryKey));
 		registry.register(entry);
 		return entry;
 	}

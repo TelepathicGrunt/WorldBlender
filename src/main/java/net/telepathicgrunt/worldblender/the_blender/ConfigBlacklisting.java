@@ -2,6 +2,7 @@ package net.telepathicgrunt.worldblender.the_blender;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import net.minecraft.util.ResourceLocation;
 import net.telepathicgrunt.worldblender.configs.WBConfig;
@@ -42,7 +43,7 @@ public class ConfigBlacklisting
 	 */
 	private static List<String> parseConfigAndAssignEntries(String configEntry) {
 		String[] entriesArray = configEntry.split(",");
-		Arrays.parallelSetAll(entriesArray, (i) -> entriesArray[i].trim().toLowerCase().replace(' ', '_'));
+		Arrays.parallelSetAll(entriesArray, (i) -> entriesArray[i].trim().toLowerCase(Locale.ROOT).replace(' ', '_'));
 		return Arrays.asList(entriesArray);
 	}
 	

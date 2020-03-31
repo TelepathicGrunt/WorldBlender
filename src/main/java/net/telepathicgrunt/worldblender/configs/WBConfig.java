@@ -52,6 +52,7 @@ public class WBConfig
 
 	    public static int uniqueBlocksNeeded = 216;
 	    public static String activationItem = "minecraft:nether_star";
+	    public static String requiredBlocksInChests = "";
 	    public static boolean consumeChests = true;
 
 	    public static double surfaceScale = 240D;
@@ -92,6 +93,7 @@ public class WBConfig
 
 		    public final IntValue uniqueBlocksNeeded;
 		    public final ConfigValue<String> activationItem;
+		    public final ConfigValue<String> requiredBlocksInChests;
 		    public final BooleanValue consumeChests;
 		    
 	        ServerConfig(ForgeConfigSpec.Builder builder) 
@@ -286,6 +288,22 @@ public class WBConfig
 			                    		+" portal block at world origin in World Blender dimension.\r\n")
 			                    .translation("world_blender.config.portal.activationitem")
 			                    .define("activationItem", "minecraft:nether_star");
+
+		            requiredBlocksInChests = builder
+			                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+			                    		+" You can specify what specific blocks are required to be in\r\n"
+			                    		+" the chests to make the portal. Format is the block's resourcelocations\r\n"
+			                    		+" with each block separated by a comma. Example:\r\n"
+			                    		+" \"minecraft:dirt, minecraft:sand, minecraft:stone\"\r\n"
+			                    		+" \r\n"
+			                    		+ "If you specify 1 required block but the portal needs 3 blocks,\r\n"
+			                    		+" players will need to place that one required block and any two \r\n"
+			                    		+" other blocks into the chests.\r\n"
+			                    		+" \r\n"
+			                    		+" If you specify 4 required blocks but the portal needs 2 unique blocks,\r\n"
+			                    		+" then players only needs to add any 2 of the 4 blocks to make the portal.\r\n")
+			                    .translation("world_blender.config.portal.requiredblocksinchests")
+			                    .define("requiredBlocksInChests", "");
 			            
 		            consumeChests = builder
 			                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
@@ -512,6 +530,7 @@ public class WBConfig
 	    	
 		    uniqueBlocksNeeded = SERVER.uniqueBlocksNeeded.get();
 	    	activationItem = SERVER.activationItem.get();
+	    	requiredBlocksInChests = SERVER.requiredBlocksInChests.get();
 	    	consumeChests = SERVER.consumeChests.get();
 	    }
 }
