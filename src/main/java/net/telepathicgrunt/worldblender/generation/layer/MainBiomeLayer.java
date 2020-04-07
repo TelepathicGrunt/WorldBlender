@@ -9,11 +9,12 @@ import net.telepathicgrunt.worldblender.biome.WBBiomes;
 
 
 @SuppressWarnings("deprecation")
-public enum QuadBiomeLayer implements IAreaTransformer0
+public enum MainBiomeLayer implements IAreaTransformer0
 {
 	INSTANCE;
 
 	private static final int BLENDED_BIOME_ID = Registry.BIOME.getId(WBBiomes.BLENDED_BIOME);
+	private static final int COLD_HILLS_BLENDED_BIOME_ID = Registry.BIOME.getId(WBBiomes.COLD_HILLS_BLENDED_BIOME);
 	private static final int MOUNTAINOUS_BLENDED_BIOME_ID = Registry.BIOME.getId(WBBiomes.MOUNTAINOUS_BLENDED_BIOME);
 	private static final int OCEAN_BLENDED_BIOME_ID = Registry.BIOME.getId(WBBiomes.OCEAN_BLENDED_BIOME);
 	private static final int FROZEN_OCEAN_BLENDED_BIOME_ID = Registry.BIOME.getId(WBBiomes.FROZEN_OCEAN_BLENDED_BIOME);
@@ -25,6 +26,7 @@ public enum QuadBiomeLayer implements IAreaTransformer0
 	public int apply(INoiseRandom noise, int x, int z)
 	{
 		double perlinNoise = perlinGen.noiseAt(x * 0.1D, z * 0.1D, false);
+		double perlinNoise2 = perlinGen.noiseAt(x * 0.12D + 1000, z * 0.12D + 1000, false);
 		
 //		max = Math.max(max, perlinNoise);
 //		min = Math.min(min, perlinNoise);
@@ -35,7 +37,12 @@ public enum QuadBiomeLayer implements IAreaTransformer0
 			return MOUNTAINOUS_BLENDED_BIOME_ID;
 		}
 		else if(perlinNoise > -0.58) {	
-			return BLENDED_BIOME_ID;
+			if(perlinNoise2 < -0.5) {	
+				return COLD_HILLS_BLENDED_BIOME_ID;
+			}
+			else {
+				return BLENDED_BIOME_ID;
+			}
 		}
 		else {	
 			return noise.random(100)/800D + perlinNoise%0.4D > -0.2D ? OCEAN_BLENDED_BIOME_ID : FROZEN_OCEAN_BLENDED_BIOME_ID;
