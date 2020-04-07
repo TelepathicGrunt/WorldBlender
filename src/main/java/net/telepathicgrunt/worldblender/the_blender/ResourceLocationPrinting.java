@@ -33,8 +33,6 @@ public class ResourceLocationPrinting
 	{
 		try(PrintStream printStream = new PrintStream("resourceLocationDump.txt")) 
 		{ 
-			printStream.println("World Blender Dimension ID : " + WBDimension.worldblender().getId()); 
-			
 			printOutSection(printStream, ForgeRegistries.BIOMES, "BIOMES", registryEdgeCases.OTHER);
 
 			printStream.println(""); 
