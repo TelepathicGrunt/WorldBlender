@@ -9,10 +9,6 @@ Welcome to the Github! If you are looking for the most recent stable version, th
   
 ## (V.1.3.4 Changes) (1.15.2 Minecraft)
   
-##### Config: 
-
--ResourceLocationDump config entry now also includes World Blender's dimension ID at top of the resource list file that it makes.
-   
 ##### Biomes: 
 
 -Added a new cold hilly land biome so features/mobs that needs cold temperature to spawn can spawn on this freezing land biome.
