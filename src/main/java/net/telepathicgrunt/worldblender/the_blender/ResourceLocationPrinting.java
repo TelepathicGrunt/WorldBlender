@@ -10,6 +10,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.telepathicgrunt.worldblender.WorldBlender;
+import net.telepathicgrunt.worldblender.dimension.WBDimension;
 
 public class ResourceLocationPrinting
 {
@@ -32,6 +33,8 @@ public class ResourceLocationPrinting
 	{
 		try(PrintStream printStream = new PrintStream("resourceLocationDump.txt")) 
 		{ 
+			printStream.println("World Blender Dimension ID : " + WBDimension.worldblender().getId()); 
+			
 			printOutSection(printStream, ForgeRegistries.BIOMES, "BIOMES", registryEdgeCases.OTHER);
 
 			printStream.println(""); 

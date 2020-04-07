@@ -14,6 +14,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.telepathicgrunt.worldblender.WorldBlender;
 import net.telepathicgrunt.worldblender.biome.biomes.BlendedBiome;
+import net.telepathicgrunt.worldblender.biome.biomes.ColdHillsBlendedBiome;
 import net.telepathicgrunt.worldblender.biome.biomes.FrozenOceanBlendedBiome;
 import net.telepathicgrunt.worldblender.biome.biomes.MountainousBlendedBiome;
 import net.telepathicgrunt.worldblender.biome.biomes.OceanBlendedBiome;
@@ -30,6 +31,7 @@ public class WBBiomes {
 
 	//biome instances
 	public static Biome BLENDED_BIOME = new BlendedBiome();
+	public static Biome COLD_HILLS_BLENDED_BIOME = new ColdHillsBlendedBiome();
 	public static Biome MOUNTAINOUS_BLENDED_BIOME = new MountainousBlendedBiome();
 	public static Biome OCEAN_BLENDED_BIOME = new OceanBlendedBiome();
 	public static Biome FROZEN_OCEAN_BLENDED_BIOME = new FrozenOceanBlendedBiome();
@@ -41,6 +43,7 @@ public class WBBiomes {
    	    IForgeRegistry<Biome> registry = event.getRegistry();
 
 		initBiome(registry, BLENDED_BIOME, "blended_biome", BiomeType.DESERT, Type.RARE);
+		initBiome(registry, COLD_HILLS_BLENDED_BIOME, "cold_hills_blended_biome", BiomeType.COOL, Type.RARE);
 		initBiome(registry, MOUNTAINOUS_BLENDED_BIOME, "mountain_blended_biome", BiomeType.WARM, Type.RARE);
 		initBiome(registry, OCEAN_BLENDED_BIOME, "ocean_blended_biome", BiomeType.COOL, Type.RARE);
 		initBiome(registry, FROZEN_OCEAN_BLENDED_BIOME, "frozen_ocean_blended_biome", BiomeType.ICY, Type.RARE);
