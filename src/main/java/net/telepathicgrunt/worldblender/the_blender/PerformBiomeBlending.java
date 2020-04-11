@@ -111,13 +111,16 @@ public class PerformBiomeBlending
 		
 
 		//Makes carvers be able to carve any underground blocks including netherrack, end stone, and modded blocks
-		Set<Block> allBlocksToCarve = BlendedSurfaceBuilder.blocksToCarve();
-		for (Carving carverStage : GenerationStage.Carving.values())
+		if(WBConfig.carversCanCarveMoreBlocks) 
 		{
-			for (ConfiguredCarver<?> carver : WBBiomes.BLENDED_BIOME.getCarvers(carverStage))
+			Set<Block> allBlocksToCarve = BlendedSurfaceBuilder.blocksToCarve();
+			for (Carving carverStage : GenerationStage.Carving.values())
 			{
-				allBlocksToCarve.addAll(carver.carver.carvableBlocks);
-				carver.carver.carvableBlocks = allBlocksToCarve;
+				for (ConfiguredCarver<?> carver : WBBiomes.BLENDED_BIOME.getCarvers(carverStage))
+				{
+					allBlocksToCarve.addAll(carver.carver.carvableBlocks);
+					carver.carver.carvableBlocks = allBlocksToCarve;
+				}
 			}
 		}
 

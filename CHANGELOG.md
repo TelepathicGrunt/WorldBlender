@@ -9,6 +9,10 @@ Welcome to the Github! If you are looking for the most recent stable version, th
   
 ## (V.1.3.4 Changes) (1.15.2 Minecraft)
   
+##### Config: 
+
+-The carversCanCarveMoreBlocks config entry now actually works and now can turn off adding extra blocks to the carver's list of blocks that they can carve away.
+
 ##### Biomes: 
 
 -Added a new cold hilly land biome so features/mobs that needs cold temperature to spawn can spawn on this freezing land biome.

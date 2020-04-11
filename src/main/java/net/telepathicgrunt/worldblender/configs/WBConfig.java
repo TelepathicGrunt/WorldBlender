@@ -57,13 +57,13 @@ public class WBConfig
 
 	    public static double surfaceScale = 240D;
 	    public static boolean spawnEnderDragon = false;
-	    public static boolean vanillaCarversCanCarveMoreBlocks = true;
+	    public static boolean carversCanCarveMoreBlocks = true;
 	    
 	    public static class ServerConfig
 	    {
 		    public final DoubleValue surfaceScale;
 		    public final BooleanValue spawnEnderDragon;
-		    public final BooleanValue vanillaCarversCanCarveMoreBlocks;
+		    public final BooleanValue carversCanCarveMoreBlocks;
 
 		    public final BooleanValue allowVanillaBiomeImport;
 		    public final BooleanValue allowModdedBiomeImport;
@@ -128,15 +128,15 @@ public class WBConfig
 				                    .translation("world_blender.config.misc.spawnenderdragon")
 				                    .define("spawnEnderDragon", false);
 		            
-		            vanillaCarversCanCarveMoreBlocks = builder
+		            carversCanCarveMoreBlocks = builder
 		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
-		                    		+" If true, Vanilla Carvers (caves and ravines) can now carve out\r\n"
-		                    		+" Netherrack, End Stone, and some modded blocks as well.\r\n"
+		                    		+" If true, carvers (mainly vanilla caves and ravines) can now carve\r\n"
+		                    		+" out Netherrack, End Stone, and some modded blocks as well.\r\n"
 		                    		+" \r\n"
 		                    		+" If turned off, you might see Vanilla caves and stuff gets cutoff \r\n"
 		                    		+" by a wall of End Stone, Netherrack, or modded blocks. \r\n")
-		                    .translation("world_blender.config.misc.vanillaCarversCanCarveMoreBlocks")
-		                    .define("vanillaCarversCanCarveMoreBlocks", true);
+		                    .translation("world_blender.config.misc.carversCanCarveMoreBlocks")
+		                    .define("carversCanCarveMoreBlocks", true);
 		            
 	            builder.pop();
 	            
@@ -499,7 +499,7 @@ public class WBConfig
 	    {
 	    	surfaceScale = SERVER.surfaceScale.get();
 	    	spawnEnderDragon = SERVER.spawnEnderDragon.get();
-	    	vanillaCarversCanCarveMoreBlocks = SERVER.vanillaCarversCanCarveMoreBlocks.get();
+	    	carversCanCarveMoreBlocks = SERVER.carversCanCarveMoreBlocks.get();
 
 	    	disallowLaggyFeatures = SERVER.disallowLaggyFeatures.get();
 	    	preventFallingBlocks = SERVER.preventFallingBlocks.get();
