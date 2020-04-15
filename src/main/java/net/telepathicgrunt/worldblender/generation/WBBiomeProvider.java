@@ -70,7 +70,7 @@ public class WBBiomeProvider extends BiomeProvider
 
 
 	@Override
-	public Set<Biome> func_225530_a_(int centerX, int centerY, int centerZ, int sideLength)
+	public Set<Biome> getBiomes(int centerX, int centerY, int centerZ, int sideLength)
 	{
 		int i = centerX - sideLength >> 2;
 		int j = centerY - sideLength >> 2;
@@ -137,7 +137,7 @@ public class WBBiomeProvider extends BiomeProvider
 	{
 		return this.hasStructureCache.computeIfAbsent(structureIn, (structure) ->
 		{
-			for (Biome biome : this.field_226837_c_)
+			for (Biome biome : this.biomes)
 			{
 				if (biome.hasStructure(structure))
 				{
@@ -155,7 +155,7 @@ public class WBBiomeProvider extends BiomeProvider
 	{
 		if (this.topBlocksCache.isEmpty())
 		{
-			for (Biome biome : this.field_226837_c_)
+			for (Biome biome : this.biomes)
 			{
 				this.topBlocksCache.add(biome.getSurfaceBuilderConfig().getTop());
 			}

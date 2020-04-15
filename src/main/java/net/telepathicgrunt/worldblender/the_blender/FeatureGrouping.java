@@ -124,7 +124,7 @@ public class FeatureGrouping
 			//end of edge cases with nested features
 			else if(decoratedConfig.feature.feature == Feature.LAKE)
 			{
-				rl = ((BlockStateFeatureConfig)decoratedConfig.feature.config).field_227270_a_.getBlock().getRegistryName();
+				rl = ((BlockStateFeatureConfig)decoratedConfig.feature.config).state.getBlock().getRegistryName();
 			}
 			else if(decoratedConfig.feature.feature == Feature.SIMPLE_BLOCK)
 			{
