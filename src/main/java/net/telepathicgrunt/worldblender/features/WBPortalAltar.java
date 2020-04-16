@@ -5,7 +5,10 @@ import java.util.function.Function;
 
 import com.mojang.datafixers.Dynamic;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.material.Material;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
@@ -55,10 +58,18 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 			return false;
 		}
 		
-		BlockPos finalPosition = world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, position);
+		BlockPos.Mutable finalPosition = new BlockPos.Mutable(world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, position));
+		
+		//go past trees to world surface
+		BlockState blockState = world.getBlockState(finalPosition);
+		while(finalPosition.getY() > 12 && (!blockState.isSolid() || blockState.getMaterial() == Material.WOOD)) {
+			finalPosition.move(Direction.DOWN);
+			blockState = world.getBlockState(finalPosition);
+		}
+		
 		world.setBlockState(finalPosition.down(), Blocks.AIR.getDefaultState(), 3);
 		template.addBlocksToWorld(world, finalPosition.add(-5, -2, -5), placementSettings);
-		finalPosition = finalPosition.down();
+		finalPosition.move(Direction.DOWN);
 		world.setBlockState(finalPosition, WBBlocks.WORLD_BLENDER_PORTAL.get().getDefaultState(), 3); //extra check to make sure portal is placed
 
 		//make portal block unremoveable in altar

@@ -26,7 +26,7 @@ public enum MainBiomeLayer implements IAreaTransformer0
 	public int apply(INoiseRandom noise, int x, int z)
 	{
 		double perlinNoise = perlinGen.noiseAt(x * 0.1D, z * 0.1D, false);
-		double perlinNoise2 = perlinGen.noiseAt(x * 0.12D + 1000, z * 0.12D + 1000, false);
+		double perlinNoise2 = perlinGen.noiseAt(x * 0.08D + 1000, z * 0.08D + 1000, false);
 		
 //		max = Math.max(max, perlinNoise);
 //		min = Math.min(min, perlinNoise);
@@ -37,7 +37,7 @@ public enum MainBiomeLayer implements IAreaTransformer0
 			return MOUNTAINOUS_BLENDED_BIOME_ID;
 		}
 		else if(perlinNoise > -0.58) {	
-			if(perlinNoise2 < -0.5) {	
+			if(perlinNoise2 < -0.75) {	
 				return COLD_HILLS_BLENDED_BIOME_ID;
 			}
 			else {

@@ -17,6 +17,9 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 
 -Added a new cold hilly land biome so features/mobs that needs cold temperature to spawn can spawn on this freezing land biome.
 
+##### Structures: 
+
+-Portal Altar should now bypass trees and generate more often on the actual terrain surface.
 
 ## (V.1.3.3 Changes) (1.15.2 Minecraft)
   
