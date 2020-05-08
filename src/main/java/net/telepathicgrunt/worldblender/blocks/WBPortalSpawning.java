@@ -12,7 +12,9 @@ import org.apache.logging.log4j.Level;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.util.Direction;
@@ -219,7 +221,7 @@ public class WBPortalSpawning
 							//collect the items names into a list of strings
 							List<String> invalidItemString = new ArrayList<String>();
 							invalidItemSet.remove(Items.AIR); //We don't need to list air
-							invalidItemSet.stream().forEach(item -> invalidItemString.add(item.getName().getString()));
+							invalidItemSet.stream().forEach(item -> invalidItemString.add(item.getDisplayName(new ItemStack(item)).getString()));
 							msg += "§f Also, here is a list of non-block items that were found and should be removed: §6" + String.join(", ", invalidItemString);
 						}
 
@@ -228,13 +230,12 @@ public class WBPortalSpawning
 							//collect the items names into a list of strings
 							List<String> duplicateSlotString = new ArrayList<String>();
 							duplicateBlockSlotSet.remove(Items.AIR); //We dont need to list air
-							duplicateBlockSlotSet.stream().forEach(blockitem -> duplicateSlotString.add(blockitem.getName().getString()));
+							duplicateBlockSlotSet.stream().forEach(blockitem -> duplicateSlotString.add(blockitem.getDisplayName(new ItemStack(blockitem)).getString()));
 							msg += "§f There are some slots that contains the same blocks and should be removed. These blocks are: §6" + String.join(", ", duplicateSlotString);
 						}
 						
 						WorldBlender.LOGGER.log(Level.INFO, msg);
-						ITextComponent message = new StringTextComponent(msg);
-						event.getPlayer().sendMessage(message);
+						((ServerPlayerEntity)event.getPlayer()).sendMessage(new StringTextComponent(msg));
 					}
 				}
 			}

@@ -9,6 +9,10 @@ Welcome to the Github! If you are looking for the most recent stable version, th
   
 ## (V.1.3.4 Changes) (1.15.2 Minecraft)
   
+##### Misc: 
+
+-Fixed crash on server when trying to make the portal but there are either non-block items or duplicate items in the chests.
+
 ##### Config: 
 
 -The carversCanCarveMoreBlocks config entry now actually works and now can turn off adding extra blocks to the carver's list of blocks that they can carve away.
