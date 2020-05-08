@@ -2,10 +2,8 @@
 <h2 style="text-align: center;"><span style="font-size: 40px; text-align: center; color: #009b7c;"><strong>CURRENTLY FOR 1.15.2 &amp; 1.14.4 MC</strong></span></h2>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p style="text-align: center;"><em><span style="font-size: 14px; color: #b00000; text-decoration: underline;"><strong>Recent 1.15.2 News:</strong></span><span style="font-size: 14px;"><b><strong>&nbsp;Fixed server/multiplayer crash with portal creation and entering.</strong></b></span></em></p>
-<p style="text-align: center;"><em><span style="font-size: 14px;"><b><strong>This mod should now work on servers! Give it a try and let me know any issues!</strong></b></span></em></p>
-<p style="text-align: center;"><em><span style="font-size: 14px;"><b><strong>Added some new config options to try and help against the lag!</strong></b></span></em></p>
-<p style="text-align: center;"><em><span style="font-size: 14px;"><b><strong>&nbsp;Checkout the changelog for more details and other changes. :)</strong></b></span></em></p>
+<p style="text-align: center;"><em><span style="font-size: 14px; color: #b00000; text-decoration: underline;"><strong>Recent 1.15.2 News:</strong></span><span style="font-size: 14px;"><b><strong>&nbsp;Fixed a crash on servers. </strong></b></span></em></p>
+<p style="text-align: center;"><em><span style="font-size: 14px;"><b><strong>Sorry about that!</strong></b></span></em></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><strong>______________________________________________________________________________</strong></p>
