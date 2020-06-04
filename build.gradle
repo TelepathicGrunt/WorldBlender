@@ -82,9 +82,8 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.15.2-31.1.27'
     
-	implementation fg.deobf("com.terraforged:terraforged-1.15.2:0.0.9")
-	runtimeOnly fg.deobf("ignored:dimdungeons:1.0.4")
-	runtimeOnly fg.deobf("ignored:worleycaves-1.15.2:1.6.0")
+	implementation fg.deobf("com.terraforged:terraforged-1.15.2:0.0.14")
+	runtimeOnly fg.deobf("ignored:dimdungeons:1.0.6")
 	
 	//runtimeOnly fg.deobf("ignored:modname-1.15.2:x.x.x")
 }
