@@ -12,6 +12,7 @@ import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.telepathicgrunt.worldblender.biome.WBBiomes;
 import net.telepathicgrunt.worldblender.features.WBFeatures;
+import net.telepathicgrunt.worldblender.the_blender.ConfigBlacklisting;
 
 public class DimDungeonsCompatibility
 {
@@ -21,49 +22,33 @@ public class DimDungeonsCompatibility
     public static boolean allowedAdvanced = false;
 
     public static void addDDDungeons() {
+
+	if (!ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, DD_BASIC_DUNGEON_RL)) {
+	    allowedBasic = true;
+	}
+	if (!ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, DD_ADVANCED_DUNGEON_RL)) {
+	    allowedAdvanced = true;
+	}
+
+
 	// loop through WB biomes only and check if DD's dungeons was imported
 	// add our feature to handle their dungeons
 	for (Biome blendedBiome : WBBiomes.biomes) {
+
+	    // add our dungeon
+	    blendedBiome.addFeature(GenerationStage.Decoration.UNDERGROUND_STRUCTURES, WBFeatures.DD_DUNGEON_FEATURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
+
+	    // Remove DD's dungeon from the biome to prevent log spam
 	    List<ConfiguredFeature<?, ?>> cflist = blendedBiome.getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES);
 	    for (int i = cflist.size() - 1; i >= 0; i--) {
-		DecoratedFeatureConfig decoratedFeatureConfig;
-		if (cflist.get(i).config instanceof DecoratedFeatureConfig)
-		    decoratedFeatureConfig = (DecoratedFeatureConfig) cflist.get(i).config;
-		else
-		    continue;
+		if (cflist.get(i).config instanceof DecoratedFeatureConfig) {
 
-
-		ResourceLocation rl = decoratedFeatureConfig.feature.feature.getRegistryName();
-
-		// only add our DD feature if the dungeon dimension biome contains the actual mod's feature
-		if (rl.equals(DD_BASIC_DUNGEON_RL) || rl.equals(DD_ADVANCED_DUNGEON_RL)) {
-		    // remove DD's dungeon since it wont spawn normally in our biome
-		    blendedBiome.features.get(GenerationStage.Decoration.SURFACE_STRUCTURES).remove(cflist.get(i));
-
-
-		    boolean foundDDFeature = false;
-
-		    // adds our DD dungeon feature if it isn't added yet and DD's original dungeon was added to the WB biome
-		    for (ConfiguredFeature<?, ?> cf : blendedBiome.getFeatures(GenerationStage.Decoration.UNDERGROUND_STRUCTURES)) {
-			if (cf.config instanceof DecoratedFeatureConfig) {
-			    ResourceLocation featureRL = ((DecoratedFeatureConfig) cf.config).feature.feature.getRegistryName();
-
-			    if (featureRL != null && featureRL.equals(WBFeatures.DD_DUNGEON_FEATURE.getRegistryName())) {
-				foundDDFeature = true;
-			    }
-			}
-		    }
-
-		    if (foundDDFeature) {
-			// add our dungeon instead
-			blendedBiome.addFeature(GenerationStage.Decoration.UNDERGROUND_STRUCTURES, WBFeatures.DD_DUNGEON_FEATURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
-		    }
-
-		    if (rl.equals(DD_BASIC_DUNGEON_RL)) {
-			allowedBasic = true;
-		    }
-		    else if (rl.equals(DD_ADVANCED_DUNGEON_RL)) {
-			allowedAdvanced = true;
+		    // only add our DD feature if the dungeon dimension biome contains the actual mod's feature
+		    ResourceLocation rl = ((DecoratedFeatureConfig) cflist.get(i).config).feature.feature.getRegistryName();
+		    if (rl != null && (rl.equals(DD_BASIC_DUNGEON_RL) || rl.equals(DD_ADVANCED_DUNGEON_RL))) {
+			
+			// remove DD's dungeon since it wont spawn normally in our biome
+			blendedBiome.features.get(GenerationStage.Decoration.SURFACE_STRUCTURES).remove(cflist.get(i));
 		    }
 		}
 	    }
