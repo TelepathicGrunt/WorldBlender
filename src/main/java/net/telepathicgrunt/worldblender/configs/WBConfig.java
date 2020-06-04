@@ -29,6 +29,7 @@ public class WBConfig
 	    public static boolean disallowLaggyFeatures = true;
 	    public static boolean preventFallingBlocks = true;
 	    public static boolean containFloatingLiquids = true;
+	    public static boolean preventLavaTouchingWater = true;
 
 	    public static boolean allowVanillaFeatures = true;
 	    public static boolean allowVanillaStructures = true;
@@ -70,6 +71,7 @@ public class WBConfig
 		    public final BooleanValue disallowLaggyFeatures;
 		    public final BooleanValue preventFallingBlocks;
 		    public final BooleanValue containFloatingLiquids;
+		    public final BooleanValue preventLavaTouchingWater;
 	    	
 		    public final BooleanValue allowVanillaFeatures;
 		    public final BooleanValue allowVanillaStructures;
@@ -101,7 +103,7 @@ public class WBConfig
 
 	            builder.push("Misc Options");
 	            
-	            	surfaceScale = builder
+	            	   surfaceScale = builder
 				                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
 				                    		+" The size of the different kinds of surfaces. Higher numbers means\r\n"
 				                    		+" each surface will be larger but might make some surfaces harder to"
@@ -169,6 +171,13 @@ public class WBConfig
 		                    		+" messy and chaotic having all features and carvers together is.\r\n")
 		                    .translation("world_blender.config.optimization.containfloatingliquids")
 		                    .define("containFloatingLiquids", true);
+		            
+		            preventLavaTouchingWater = builder
+		                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+		                    		+" Will place Obsidian to separate lava tagged fluids \r\n"
+		                    		+" from water tagged fluids underground.\r\n")
+		                    .translation("world_blender.config.optimization.preventlavatouchingwater")
+		                    .define("preventLavaTouchingWater", true);
 	            
 	            builder.pop();
 	            
@@ -504,6 +513,7 @@ public class WBConfig
 	    	disallowLaggyFeatures = SERVER.disallowLaggyFeatures.get();
 	    	preventFallingBlocks = SERVER.preventFallingBlocks.get();
 	    	containFloatingLiquids = SERVER.containFloatingLiquids.get();
+	    	preventLavaTouchingWater = SERVER.preventLavaTouchingWater.get();
 	    	
 	    	allowVanillaBiomeImport = SERVER.allowVanillaBiomeImport.get();
 	    	allowModdedBiomeImport = SERVER.allowModdedBiomeImport.get();

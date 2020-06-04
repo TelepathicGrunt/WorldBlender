@@ -76,7 +76,7 @@ public class ConfigBlacklisting
 	
 	
 	
-	public static boolean isResourceLocationBlacklisted(BlacklistType type, ResourceLocation biomeRL) 
+	public static boolean isResourceLocationBlacklisted(BlacklistType type, ResourceLocation incomingRL) 
 	{
 		List<String> listToUse;
 		
@@ -111,7 +111,7 @@ public class ConfigBlacklisting
 		}
 				
 		
-		boolean isNotAllowed = listToUse.stream().anyMatch(banEntry -> matchFound(banEntry, biomeRL));
+		boolean isNotAllowed = listToUse.stream().anyMatch(banEntry -> matchFound(banEntry, incomingRL));
 		return isNotAllowed;
 	}
 	

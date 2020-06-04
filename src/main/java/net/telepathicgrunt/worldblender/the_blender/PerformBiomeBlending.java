@@ -117,6 +117,9 @@ public class PerformBiomeBlending
 	if (!ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, new ResourceLocation("world_blender:no_floating_liquids_or_falling_blocks"))) {
 	    WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(Decoration.LOCAL_MODIFICATIONS, WBFeatures.NO_FLOATING_LIQUIDS_OR_FALLING_BLOCKS.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG))));
 	}
+	if (!ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, new ResourceLocation("world_blender:separate_lava_and_water"))) {
+	    WBBiomes.biomes.forEach(blendedBiome -> blendedBiome.addFeature(Decoration.LOCAL_MODIFICATIONS, WBFeatures.SEPARATE_LAVA_AND_WATER.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG))));
+	}
 
 
 	// free up memory when we are done.

@@ -18,16 +18,18 @@ public class DimDungeonsCompatibility
 {
     private static ResourceLocation DD_BASIC_DUNGEON_RL = new ResourceLocation("dimdungeons:feature_basic_dungeon");
     private static ResourceLocation DD_ADVANCED_DUNGEON_RL = new ResourceLocation("dimdungeons:feature_advanced_dungeon");
-    public static boolean allowedBasic = false;
-    public static boolean allowedAdvanced = false;
+    public static boolean allowedBasic = true;
+    public static boolean allowedAdvanced = true;
 
     public static void addDDDungeons() {
 
-	if (!ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, DD_BASIC_DUNGEON_RL)) {
-	    allowedBasic = true;
+	if (ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, DD_BASIC_DUNGEON_RL) ||
+		ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.BLANKET, DD_BASIC_DUNGEON_RL)) {
+	    allowedBasic = false;
 	}
-	if (!ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, DD_ADVANCED_DUNGEON_RL)) {
-	    allowedAdvanced = true;
+	if (ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, DD_ADVANCED_DUNGEON_RL) ||
+		ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.BLANKET, DD_ADVANCED_DUNGEON_RL)) {
+	    allowedAdvanced = false;
 	}
 
 
@@ -35,8 +37,9 @@ public class DimDungeonsCompatibility
 	// add our feature to handle their dungeons
 	for (Biome blendedBiome : WBBiomes.biomes) {
 
-	    // add our dungeon
-	    blendedBiome.addFeature(GenerationStage.Decoration.UNDERGROUND_STRUCTURES, WBFeatures.DD_DUNGEON_FEATURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
+	    // add our dungeon if allowed
+	    if(allowedBasic || allowedAdvanced)
+		blendedBiome.addFeature(GenerationStage.Decoration.UNDERGROUND_STRUCTURES, WBFeatures.DD_DUNGEON_FEATURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
 
 	    // Remove DD's dungeon from the biome to prevent log spam
 	    List<ConfiguredFeature<?, ?>> cflist = blendedBiome.getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES);

@@ -15,6 +15,12 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 
 -Updated backend so World Blender can import any new feature that Terraforged adds in the future.
 
+-Fixed bug where Dimensional Dungeons's doorways would get waterlogged with water if the area already had water before the dungeon was placed.
+
+##### Config: 
+
+-Added option to make World Blender place Obsidian to separate lava tagged fluids from water tagged fluids underground.
+
 ##### Surfaces:
 
 -Fixed crash when mods uses a unique surfacebuilder that uses a config that doesn't extend SurfaceBuilderConfig class.
