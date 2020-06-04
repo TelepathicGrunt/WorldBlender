@@ -1,9 +1,9 @@
 <p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.imgur.com/HLLklJ6.png" alt="The banner logo for World Blender with a picture of the crazy landscape behind the title." width="999" height="370" /></p>
 <h2 style="text-align: center;"><span style="font-size: 40px; text-align: center; color: #009b7c;"><strong>CURRENTLY FOR 1.15.2 &amp; 1.14.4 MC</strong></span></h2>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
-<p style="text-align: center;"><em><span style="font-size: 14px; color: #b00000; text-decoration: underline;"><strong>Recent 1.15.2 News:</strong></span><span style="font-size: 14px;"><b><strong>&nbsp;Fixed a crash on servers. </strong></b></span></em></p>
-<p style="text-align: center;"><em><span style="font-size: 14px;"><b><strong>Sorry about that!</strong></b></span></em></p>
+<p style="text-align: center;"><em><span style="font-size: 14px; color: #b00000; text-decoration: underline;"><strong>Recent 1.15.2 News:</strong></span><span style="font-size: 14px;"><b><strong>&nbsp;Fixed crashes when </strong></b></span></em></p>
+<p style="text-align: center;"><em><span style="font-size: 14px;"><b><strong>using mods that didn't register their features</strong></b></span></em></p>
+<p style="text-align: center;"><em><span style="font-size: 14px;"><b><strong>correctly or uses unique Surface Builders for biomes.&nbsp;</strong></b></span></em></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><strong>______________________________________________________________________________</strong></p>
@@ -15,59 +15,92 @@
 <p><span style="font-size: 14px;">&nbsp; &nbsp;Inside the dimension, you will find massive webs of different kinds of surfaces all filled to the brim with trees, grass, and structures. But take notice of the Nether surface path that has End surfaces on each side. That Nether path is the main walkway through the dimension as no other surfaces can interrupt that pathway. So follow that red road and explore the insanity of the world! Also, if you got modded ores mod on, all the ores will be added as well as long as they are able to spawn in Stone! And lastly, the biomes will have imported every mob's spawn entry so there's no telling what will spawn! Though animals seem to not spawn very often due to all the trees and plants covering all the Grass Blocks so you may have to burn down some forests or blacklist many plant features in the config to increase animal spawning.</span></p>
 <p>&nbsp;</p>
 <p><span style="font-size: 14px;">&nbsp; &nbsp;Currently as of right now, here is the alphabetical list of 1.15.2 mods that does work with the latest 1.15.2 version of World Blender. Let me know if another mod works with World Blender and I'll add it to this list!</span></p>
-<p>&nbsp;</p>
+<p style="font-size: 14px;">&nbsp;<br /><strong>COMPATIBLE MODS LIST:</strong></p>
+<div class="spoiler">
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/aliketools/files/2887477">-AlikeTools</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/almost-all-the-ores">-Almost all the Ores</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/aquaculture">-Aquaculture 2</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/atmospheric">-Atmospheric</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/autumnity">-Autumnity</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/basic-nether-ores">-Basic Nether Ores</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/beesourceful">-BeeSourceful</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/better-default-biomes">-BetterDefaultBiomes</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/biomes-o-plenty">-Biomes O' Plenty</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/bloomful/files/2902881">-Bloomful</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/blue-power">-Blue Power</a></p>
 <p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/bountiful">-Bountiful</a> (The Bounty Board only generates in Vanilla Villages so allow Villages to spawn in the dimension to get the Bounty Board)</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/buzzier-bees">-Buzzier Bees</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/coffeecheese">-CoffeeCat's CheeseMod</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/c-o-m-b-a-t">-Concept Of Magic Battle And Technology</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/crocmod">-CrocMod</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/dimensional-dungeons">-Dimensional Dungeons</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/dynamic-world">-Dynamic World</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/end-reborn">-End: Reborn</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/energeticsheep">-EnergeticSheep</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/extended-mushrooms">-Extended Mushrooms</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/extra-enrichments">-Extra Enrichments</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/explorercraft-worldexpansion/files/2912601">-Explorercraft</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/farm-adventure">-Farm Adventure</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/forbidden-arcanus">-Forbidden and Arcanus</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/fruit-trees">-Fruit Trees</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/gaia-dimension">-Gaia Dimension</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/gems-and-crystals">-Gems and Crystals Mod</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/geolosys">-Geolosys</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/good-nights-sleep">-Good Night's Sleep</a></p>
-<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/hunterillager">-HunterIllager</a>(Can crash during worldgen due to a Vanilla bug. The bug report is called MC-173067 on bugs.mojang.com and I upvoted it to help it be seen by Mojang!)</p>
+<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/grand-life">-Grand Life</a> (Note: This mod will replace all Stone with Sandstone which could prevent many other features from spawning. Their features are not registered as of right now so there's no way to blacklist their Sandstone placing feature)</p>
+<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/hunterillager">-HunterIllager</a> (Can crash during worldgen due to a Vanilla bug. The bug will be fixed in 1.16 as according to MC-173067 bug report on bugs.mojang.com!)</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/lucky-ores">-Lucky Ores</a></p>
 <p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/lycanites-mobs">-Lycanites Mobs</a> (Can import some of the mobs but this mod greatly increases lag time in the world when imported. Best to blacklist this mod for now in World Blender's config.)</p>
+<p style="font-size: 14px;"><a href="https://www.curseforge.com/minecraft/mc-mods/magic-dimencions">-Magic Dimensions</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/metal-bushes">-Metal Bushes</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/ma-astral">-Miner Arcana Presents Astral</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/moolands">-Moolands</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/more-dogs">-More Dogs</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/mutant-beasts">-Mutant Beasts</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/mystical-agriculture">-Mystical Agriculture</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/naturally-spawning-vex">-Naturally Spawning Vex</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/nethercraft-classic">-Nethercraft Classic</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/more-creepers-mod/files/2887605">-Not Enough Creepers</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/oh-the-biomes-youll-go">-Oh The Biomes You'll Go</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/ores-above-diamonds">-Ores Above Diamonds</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/ores-and-metals">-Ores and Metals Mod</a></p>
+<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/pams-harvestcraft-2-trees">-Pam's HavestCraft 2 - Trees</a> (Go into the world's save folder and open up pam's config in the world. Then add "world_blender:world_blender" to the dimension whitelist)</p>
+<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/pams-harvestcraft-2-crops">-Pam's HavestCraft 2 - Crops</a> (Go into the world's save folder and open up pam's config in the world. Then add "world_blender:world_blender" to the dimension whitelist)</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/peanut-mod">-Peanut!</a></p>
+<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/pokecube-aoi">-Pokecube AIO</a>&nbsp;(I can't get Pokemon mobs to spawn themselves but this could just be that I didn't setup Pokecube correctly. Let me know if you can get the mobs to spawn in World Blender dimension)</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/premium-wood">-Premium Wood&nbsp;</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/productivebees#c5">-Productive Bees</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/project-vibrant-journeys/files/2945813">-Project: Vibrant Journeys</a></p>
+<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/quark">-Quark </a>(The caves and patches of material like Glowcelium doesn't seem to get imported. The other stuff such as stalagmites and mobs does)&nbsp;</p>
+<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/rare-ice">-Rare Ice (Forge/Fabric)</a> (Needs Ice, Blue Ice, or Packed Ice to be spawning in the world already for Rare Ice to generate. Just don't blacklist all the other icy features if you want Rare Ice in World Blender!)</p>
+<p style="font-size: 14px;"><a href="https://www.curseforge.com/minecraft/mc-mods/rats">-Rats</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/red-pandas">-Red Pandas</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/repurposed-structures">-Repurposed Structures&nbsp;</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/resynth">-Resynth</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/rock-candy">-Rock Candy</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/silents-gems">-Silent's Gems</a></p>
 <p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/simple-farming">-Simple Farming</a>&nbsp;(You need to go into the world's save folder, open serverconfig, and allow World Blender's dimension in Simple Farming's config file)</p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/simply-tea">-Simply Tea!</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/snow-under-trees/files/2844915">-Snow Under Trees</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/spidermod">-SpiderMod</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/spruce-willis-the-xmas-tree">-Spruce Willis the Xmas Tree</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/sulfur-and-potassium-make-more-gunpowder">-Sulfur And Potassium - More Gunpowder</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/swamp-expansion">-Swamp Expansion</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/terraforged">-TerraForged</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/the-bumblezone-forge">-The Bumblezone (Forge)</a></p>
 <p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/the-midnight">-The Midnight</a> (You must blacklist the Night Stag or else the world will hang forever. Add&nbsp;"midnight:nightstag" to the blacklistedSpawns entry in World Blender's config)</p>
+<p style="font-size: 14px;"><a href="https://www.curseforge.com/minecraft/mc-mods/tirphycraft">-Tirphycraft</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/traverse-legacy-continued">-Traverse: Legacy Continued</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/underground-materials">-Underground Materials</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/upgrade-aquatic">-Upgrade Aquatic</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/valhelsia-structures">-Valhelsia Structures</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/venture">-Venture</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/vulcanite">-Vulcanite</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/waddles/files/2870515">-Waddles</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/xl-food-mod">-XL Food Mod</a></p>
-<p><span style="font-size: 14px;">&nbsp;</span></p>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 <p><span style="font-size: 14px;"><strong>&nbsp; &nbsp; Also, be sure to check out the images page for several screenshots of what the world looks like! And yes, you can use this mod in a modpack or download and modify the source code. It is all under MIT License so you can do whatever you want!</strong></span></p>
 <p>&nbsp;&nbsp;</p>
 <p><strong>______________________________________________________________________________</strong></p>
@@ -95,6 +128,8 @@
 <p><span style="font-size: 16px;"><strong>-disable bamboo, fire, and lava features from spawning to help reduce lag.</strong></span></p>
 <p>&nbsp;</p>
 <p><span style="font-size: 16px;"><strong>-surround floating liquid with solid blocks and placing solid blocks under blocks that can fall. This helps reduce lag from liquid flowing or blocks falling.</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 16px;"><strong>-place Obsidian blocks to separate lava tagged fluids from water tagged fluids underground.</strong></span></p>
 <p><span style="font-size: 16px;"><strong>&nbsp;</strong></span></p>
 <p><span style="font-size: 16px;"><strong>-blacklist certain mod's or vanilla features, structures, carvers, surfaces, and natural mob spawns by using keywords, using the resource location (ID) of the thing itself, or using the resource location of the mod itself.</strong></span></p>
 <p>&nbsp;</p>
