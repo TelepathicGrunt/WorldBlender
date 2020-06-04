@@ -21,47 +21,48 @@ import net.telepathicgrunt.worldblender.the_blender.dedicated_mod_support.TerraF
 @Mod.EventBusSubscriber(modid = WorldBlender.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CommonModBusEventHandler
 {
-	
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public static void latestCommonSetup(FMLLoadCompleteEvent event)
-	{
-		DeferredWorkQueue.runLater(CommonModBusEventHandler::beginSetup);
-	}
-	
-	public static void beginSetup() 
-	{
-		ConfigBlacklisting.setupBlackLists();
-		PerformBiomeBlending.setupBiomes();
-		
 
-		try
-		{
-			runIfModIsLoaded("dimdungeons", () -> () -> DimDungeonsCompatibility.addDDDungeons());
-			runIfModIsLoaded("terraforged", () -> () -> TerraForgedCompatibility.addTerraForgedtrees());
-		}
-		catch (Exception e)
-		{
-			WorldBlender.LOGGER.log(Level.INFO, "ERROR: Tried calling another mod's code when mod isn't present!!!");
-			e.printStackTrace();
-		}
-		
-		if(WBConfig.resourceLocationDump)
-		{
-			ResourceLocationPrinting.printAllResourceLocations();
-		}
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void latestCommonSetup(FMLLoadCompleteEvent event) {
+	DeferredWorkQueue.runLater(CommonModBusEventHandler::beginSetup);
+    }
+
+
+    public static void beginSetup() {
+	ConfigBlacklisting.setupBlackLists();
+	PerformBiomeBlending.setupBiomes();
+
+
+	try {
+	    runIfModIsLoaded("dimdungeons", () -> () -> DimDungeonsCompatibility.addDDDungeons());
+	}
+	catch (Exception e) {
+	    WorldBlender.LOGGER.log(Level.INFO, "ERROR: Failed to setup compatibility with Dimensional Dungeons. Their dungeons will not spawn in World Blender's dimension now. Please let the developer of World Blender know about this!");
+	    e.printStackTrace();
 	}
 	
-	/**
-	 * Hack to make Java not load the class beforehand when we don't have the mod installed.
-	 * Basically: 
-	 * 
-	 * "java only loads the method body in 2 cases
-	 * when it runs
-	 * or when it needs to run the class verifier"
-	 * 
-	 * So by double wrapping, we prevent Java from loading a class with calls to a mod that isn't present
-	 */
-	public static void runIfModIsLoaded(String modid, Callable<Runnable> toRun) throws Exception{
-		if(ModList.get().isLoaded(modid)) toRun.call().run();
+	try {
+	    runIfModIsLoaded("terraforged", () -> () -> TerraForgedCompatibility.addTerraForgedtrees());
 	}
+	catch (Exception e) {
+	    WorldBlender.LOGGER.log(Level.INFO, "ERROR: Failed to setup compatibility with Terraforged. Their trees and stuff will not spawn in World Blender's dimension now. Please let the developer of World Blender know about this!");
+	    e.printStackTrace();
+	}
+
+	if (WBConfig.resourceLocationDump) {
+	    ResourceLocationPrinting.printAllResourceLocations();
+	}
+    }
+
+
+    /**
+     * Hack to make Java not load the class beforehand when we don't have the mod installed. Basically:
+     * 
+     * "java only loads the method body in 2 cases when it runs or when it needs to run the class verifier"
+     * 
+     * So by double wrapping, we prevent Java from loading a class with calls to a mod that isn't present
+     */
+    public static void runIfModIsLoaded(String modid, Callable<Runnable> toRun) throws Exception {
+	if (ModList.get().isLoaded(modid)) toRun.call().run();
+    }
 }

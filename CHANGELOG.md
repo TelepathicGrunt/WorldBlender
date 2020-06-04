@@ -13,6 +13,8 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 
 -Fixed crash when mods uses a unique surfacebuilder that uses a config that doesn't extend SurfaceBuilderConfig class.
 
+-Fixed mod compatibility breaking with Dimensional Dungeons and Terraforged if the user adds another mod that didn't properly registered their features.
+
 ## (V.1.3.4 Changes) (1.15.2 Minecraft)
   
 ##### Misc: 
