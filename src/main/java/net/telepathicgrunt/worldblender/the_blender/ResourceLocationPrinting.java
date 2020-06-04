@@ -10,7 +10,6 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.telepathicgrunt.worldblender.WorldBlender;
-import net.telepathicgrunt.worldblender.dimension.WBDimension;
 
 public class ResourceLocationPrinting
 {
