@@ -7,6 +7,12 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
 
   
+## (V.1.3.6 Changes) (1.15.2 Minecraft)
+  
+##### Mod Compatibility:
+ 
+-Added data files to allow compat with Pokecube
+  
 ## (V.1.3.5 Changes) (1.15.2 Minecraft)
   
 ##### Mod Compatibility:
