@@ -42,7 +42,7 @@ public class WBWorldSavedData extends WorldSavedData
 			return CLIENT_DUMMY;
 		}
 		
-		ServerWorld wbWorld = ((ServerWorld)world).getServer().getWorld(WBDimension.worldblender());
+		ServerWorld wbWorld = ((ServerWorld)world).getServer().getWorld(WBDimensionRegistration.worldblender());
 		DimensionSavedDataManager storage = wbWorld.getSavedData();
 		return storage.getOrCreate(WBWorldSavedData::new, ALTAR_DATA);
 	}

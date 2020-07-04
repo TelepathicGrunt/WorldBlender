@@ -59,12 +59,14 @@ public class WBConfig
 	    public static double surfaceScale = 240D;
 	    public static boolean spawnEnderDragon = false;
 	    public static boolean carversCanCarveMoreBlocks = true;
+	    public static boolean doesMapCursorSpin = true;
 	    
 	    public static class ServerConfig
 	    {
 		    public final DoubleValue surfaceScale;
 		    public final BooleanValue spawnEnderDragon;
 		    public final BooleanValue carversCanCarveMoreBlocks;
+		    public final BooleanValue doesMapCursorSpin;
 
 		    public final BooleanValue allowVanillaBiomeImport;
 		    public final BooleanValue allowModdedBiomeImport;
@@ -139,6 +141,13 @@ public class WBConfig
 		                    		+" by a wall of End Stone, Netherrack, or modded blocks. \r\n")
 		                    .translation("world_blender.config.misc.carversCanCarveMoreBlocks")
 		                    .define("carversCanCarveMoreBlocks", true);
+		            
+
+		            doesMapCursorSpin = builder
+				                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+				                    		+" Makes the map cursor spin when in World Blender Dimension.\r\n")
+				                    .translation("world_blender.config.misc.doesmapcursorspin")
+				                    .define("doesMapCursorSpin", true);
 		            
 	            builder.pop();
 	            
@@ -509,6 +518,7 @@ public class WBConfig
 	    	surfaceScale = SERVER.surfaceScale.get();
 	    	spawnEnderDragon = SERVER.spawnEnderDragon.get();
 	    	carversCanCarveMoreBlocks = SERVER.carversCanCarveMoreBlocks.get();
+	    	doesMapCursorSpin = SERVER.doesMapCursorSpin.get();
 
 	    	disallowLaggyFeatures = SERVER.disallowLaggyFeatures.get();
 	    	preventFallingBlocks = SERVER.preventFallingBlocks.get();

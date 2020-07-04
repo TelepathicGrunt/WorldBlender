@@ -27,7 +27,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.telepathicgrunt.worldblender.WorldBlender;
 import net.telepathicgrunt.worldblender.blocks.WBBlocks;
 import net.telepathicgrunt.worldblender.blocks.WBPortalTileEntity;
-import net.telepathicgrunt.worldblender.dimension.WBDimension;
+import net.telepathicgrunt.worldblender.dimension.WBDimensionRegistration;
 
 
 public class WBPortalAltar extends Feature<NoFeatureConfig>
@@ -44,7 +44,7 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 	public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> changedBlock, Random rand, BlockPos position, NoFeatureConfig config)
 	{
 		//only world origin chunk allows generation
-		if (world.getDimension().getType() != WBDimension.worldblender() || position.getX() >> 4 != 0 || position.getZ() >> 4 != 0)
+		if (world.getDimension().getType() != WBDimensionRegistration.worldblender() || position.getX() >> 4 != 0 || position.getZ() >> 4 != 0)
 		{
 			return false;
 		}

@@ -29,7 +29,7 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.telepathicgrunt.worldblender.dimension.WBDimension;
+import net.telepathicgrunt.worldblender.dimension.WBDimensionRegistration;
 
 
 public class WBPortalBlock extends ContainerBlock
@@ -63,7 +63,7 @@ public class WBPortalBlock extends ContainerBlock
 			{
 				//gets the world in the destination dimension
 				MinecraftServer minecraftServer = entity.getServer(); // the server itself
-				ServerWorld destinationWorld = minecraftServer.getWorld(world.dimension.getType() == WBDimension.worldblender() ? DimensionType.OVERWORLD : WBDimension.worldblender());
+				ServerWorld destinationWorld = minecraftServer.getWorld(world.dimension.getType() == WBDimensionRegistration.worldblender() ? DimensionType.OVERWORLD : WBDimensionRegistration.worldblender());
 				ServerWorld originalWorld = minecraftServer.getWorld(entity.dimension);
 
 				BlockPos destPos = null;
@@ -103,7 +103,7 @@ public class WBPortalBlock extends ContainerBlock
 
 					//places a portal block in World Blender so player can escape if
 					//there is no portal block and then makes it be in cooldown
-					if (destinationWorld.getWorld().dimension.getType() == WBDimension.worldblender())
+					if (destinationWorld.getWorld().dimension.getType() == WBDimensionRegistration.worldblender())
 					{
 						destinationWorld.setBlockState(destPos, Blocks.AIR.getDefaultState());
 						destinationWorld.setBlockState(destPos.up(), Blocks.AIR.getDefaultState());

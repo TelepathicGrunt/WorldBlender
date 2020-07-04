@@ -36,7 +36,7 @@ public final class MountainousBlendedBiome extends WBBiome
 	@OnlyIn(Dist.CLIENT)
 	public int func_225528_a_(double p_225528_1_, double p_225528_3_)
 	{
-		return 6029101;
+		return 5701411;
 	}
 
 
