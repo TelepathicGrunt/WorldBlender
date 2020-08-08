@@ -7,13 +7,11 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
 
   
-## (V.1.3.8 Changes) (1.15.2 Minecraft)
+## (V.1.3.7 Changes) (1.15.2 Minecraft)
   
 ##### Compat:
  
 -Tried fixing crash with Mcreator due to Mcreator modifying entity spawn stuff.
-  
-## (V.1.3.7 Changes) (1.15.2 Minecraft)
   
 ##### Dimension:
  
