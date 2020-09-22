@@ -29,29 +29,29 @@ public class CommonModBusEventHandler
 
 
     public static void beginSetup() {
-	ConfigBlacklisting.setupBlackLists();
-	PerformBiomeBlending.setupBiomes();
+		ConfigBlacklisting.setupBlackLists();
+		PerformBiomeBlending.setupBiomes();
 
 
-	try {
-	    runIfModIsLoaded("dimdungeons", () -> () -> DimDungeonsCompatibility.addDDDungeons());
-	}
-	catch (Exception e) {
-	    WorldBlender.LOGGER.log(Level.INFO, "ERROR: Failed to setup compatibility with Dimensional Dungeons. Their dungeons will not spawn in World Blender's dimension now. Please let the developer of World Blender know about this!");
-	    e.printStackTrace();
-	}
-	
-	try {
-	    runIfModIsLoaded("terraforged", () -> () -> TerraForgedCompatibility.addTerraForgedtrees());
-	}
-	catch (Exception e) {
-	    WorldBlender.LOGGER.log(Level.INFO, "ERROR: Failed to setup compatibility with Terraforged. Their trees and stuff will not spawn in World Blender's dimension now. Please let the developer of World Blender know about this!");
-	    e.printStackTrace();
-	}
+		try {
+			runIfModIsLoaded("dimdungeons", () -> () -> DimDungeonsCompatibility.addDDDungeons());
+		}
+		catch (Exception e) {
+			WorldBlender.LOGGER.log(Level.INFO, "ERROR: Failed to setup compatibility with Dimensional Dungeons. Their dungeons will not spawn in World Blender's dimension now. Please let the developer of World Blender know about this!");
+			e.printStackTrace();
+		}
 
-	if (WBConfig.resourceLocationDump) {
-	    ResourceLocationPrinting.printAllResourceLocations();
-	}
+		try {
+			runIfModIsLoaded("terraforged", () -> () -> TerraForgedCompatibility.addTerraForgedtrees());
+		}
+		catch (Exception e) {
+			WorldBlender.LOGGER.log(Level.INFO, "ERROR: Failed to setup compatibility with Terraforged. Their trees and stuff will not spawn in World Blender's dimension now. Please let the developer of World Blender know about this!");
+			e.printStackTrace();
+		}
+
+		if (WBConfig.resourceLocationDump) {
+			ResourceLocationPrinting.printAllResourceLocations();
+		}
     }
 
 
@@ -63,6 +63,6 @@ public class CommonModBusEventHandler
      * So by double wrapping, we prevent Java from loading a class with calls to a mod that isn't present
      */
     public static void runIfModIsLoaded(String modid, Callable<Runnable> toRun) throws Exception {
-	if (ModList.get().isLoaded(modid)) toRun.call().run();
+		if (ModList.get().isLoaded(modid)) toRun.call().run();
     }
 }
