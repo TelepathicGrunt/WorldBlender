@@ -1,0 +1,26 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.telepathicgrunt.world_blender.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "BiomeLayerSamplerAccessor",
+    "BlockEntityRenderDispatcherInvoker",
+    "CarverAccessor",
+    "ConfiguredCarverAccessor",
+    "DimensionTypeAccessor",
+    "EnderDragonFightMixin",
+    "GenerationSettingsAccessor",
+    "GoVoteMixin",
+    "MinecraftServerMixin",
+    "RenderPhaseAccessor",
+    "ServerWorldMixin",
+    "SpawnSettingsAccessor",
+    "WeightedBlockStateProviderMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

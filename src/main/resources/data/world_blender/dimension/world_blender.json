@@ -1,0 +1,11 @@
+{
+  "type": "world_blender:world_blender",
+  "generator": {
+    "biome_source": {
+      "type": "world_blender:biome_source"
+    },
+    "type": "minecraft:noise",
+    "settings": "minecraft:overworld",
+    "seed": 0
+  }
+}

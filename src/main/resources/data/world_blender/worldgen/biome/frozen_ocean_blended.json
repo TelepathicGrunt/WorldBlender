@@ -1,0 +1,59 @@
+{
+  "effects": {
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "additions_sound": {
+      "sound": "minecraft:ambient.soul_sand_valley.additions",
+      "tick_chance": 0.0011
+    },
+    "music": {
+      "sound": "minecraft:music.nether.soul_sand_valley",
+      "min_delay": 22000,
+      "max_delay": 44000,
+      "replace_current_music": false
+    },
+    "ambient_sound": "minecraft:ambient.soul_sand_valley.loop",
+    "sky_color": 44525,
+    "foliage_color": 3397255,
+    "grass_color": 3730080,
+    "fog_color": 12638463,
+    "water_color": 4113120,
+    "water_fog_color": 6539229
+  },
+  "surface_builder": "world_blender:blended_surface_builder",
+  "carvers": {},
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ],
+  "starts": [],
+  "spawners": {
+    "monster": [],
+    "creature": [],
+    "ambient": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "creature_spawn_probability": 0.35,
+  "spawn_costs": {},
+  "player_spawn_friendly": true,
+  "precipitation": "snow",
+  "temperature": 0.0,
+  "downfall": 0.4,
+  "category": "none",
+  "depth": -1.4,
+  "scale": 0.2
+}
