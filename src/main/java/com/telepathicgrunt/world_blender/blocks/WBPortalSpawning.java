@@ -5,8 +5,8 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.entity.TileEntity;
+import net.minecraft.block.entity.TileEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
@@ -16,7 +16,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 public class WBPortalSpawning
 {
-	protected static final Object2BooleanMap<BlockEntityType<?>> VALID_CHEST_BLOCKS_ENTITY_TYPES = new Object2BooleanArrayMap<>();
+	protected static final Object2BooleanMap<TileEntityType<?>> VALID_CHEST_BLOCKS_ENTITY_TYPES = new Object2BooleanArrayMap<>();
 	private static final List<Block> REQUIRED_PORTAL_BLOCKS = new ArrayList<>();
 	private static final List<String> INVALID_IDS = new ArrayList<>();
 
@@ -47,9 +47,9 @@ public class WBPortalSpawning
 		{
 			if(rlString.isEmpty()) continue;
 			
-			if(Registry.BLOCK.containsId(new Identifier(rlString)))
+			if(Registry.BLOCK.containsId(new ResourceLocation(rlString)))
 			{
-				REQUIRED_PORTAL_BLOCKS.add(Registry.BLOCK.get(new Identifier(rlString)));
+				REQUIRED_PORTAL_BLOCKS.add(Registry.BLOCK.get(new ResourceLocation(rlString)));
 			}
 			else
 			{
@@ -58,7 +58,7 @@ public class WBPortalSpawning
 		}
 
 		//find all entity types that are most likely chests
-		for(BlockEntityType<?> blockEntityType : Registry.BLOCK_ENTITY_TYPE)
+		for(TileEntityType<?> blockEntityType : Registry.BLOCK_ENTITY_TYPE)
 		{
 			WBPortalSpawning.VALID_CHEST_BLOCKS_ENTITY_TYPES.put(
 					blockEntityType,
@@ -74,13 +74,13 @@ public class WBPortalSpawning
 		BlockPos position = new BlockPos(hitResult.getPos());
 
 		// Checks to see if player uses right click on a chest while crouching while holding nether star
-		BlockEntity blockEntity = world.getBlockEntity(position);
+		TileEntity blockEntity = world.getTileEntity(position);
 		if (player.isInSneakingPose() &&
 				blockEntity != null &&
 				WBPortalSpawning.VALID_CHEST_BLOCKS_ENTITY_TYPES.getOrDefault(blockEntity.getType(), false))
 		{
 			//checks to make sure the activation item is a real item before doing the rest of the checks
-			Identifier activationItem = new Identifier(WorldBlender.WB_CONFIG.WBPortalConfig.activationItem);
+			ResourceLocation activationItem = new ResourceLocation(WorldBlender.WBPortalConfig.activationItem.get());
 			if (!Registry.ITEM.containsId(activationItem))
 			{
 				WorldBlender.LOGGER.log(Level.INFO, "World Blender: Warning, the activation item set in the config does not exist. Please make sure it is a valid resource location to a real item as the portal cannot be created now.");
@@ -107,7 +107,7 @@ public class WBPortalSpawning
 
 				for (BlockPos blockpos : BlockPos.iterate(position, position.add(cornerOffset)))
 				{
-					BlockEntity chestTileEntity = world.getBlockEntity(blockpos);
+					TileEntity chestTileEntity = world.getTileEntity(blockpos);
 					if(chestTileEntity != null &&
 							WBPortalSpawning.VALID_CHEST_BLOCKS_ENTITY_TYPES.getOrDefault(blockEntity.getType(), false))
 					{
@@ -146,14 +146,14 @@ public class WBPortalSpawning
 				boolean isMissingRequiredBlocks = false;
 
 				//all unique blocks in chests must be a part of the require blocks list
-				if(WorldBlender.WB_CONFIG.WBPortalConfig.uniqueBlocksNeeded <= REQUIRED_PORTAL_BLOCKS.size())
+				if(WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get() <= REQUIRED_PORTAL_BLOCKS.size())
 				{
 					for(Item blockItem : uniqueBlocksSet)
 					{
 						listOfRequireBlocksNotFound.remove(Block.getBlockFromItem(blockItem));
 					}
 
-					if(WorldBlender.WB_CONFIG.WBPortalConfig.uniqueBlocksNeeded > REQUIRED_PORTAL_BLOCKS.size() - listOfRequireBlocksNotFound.size())
+					if(WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get() > REQUIRED_PORTAL_BLOCKS.size() - listOfRequireBlocksNotFound.size())
 					{
 						isMissingRequiredBlocks = true;
 					}
@@ -175,8 +175,8 @@ public class WBPortalSpawning
 				//warn player that they do not have enough required blocks for the portal
 				if(isMissingRequiredBlocks)
 				{
-					WorldBlender.LOGGER.log(Level.INFO, "World Blender: There are not enough required blocks in the chests. Please add the needed required blocks and then add any other unique blocks until you have "+WorldBlender.WB_CONFIG.WBPortalConfig.uniqueBlocksNeeded+" unique blocks. The require blocks specified in the config are " + REQUIRED_PORTAL_BLOCKS.stream().map(entry -> Registry.BLOCK.getId(entry).toString()).collect(Collectors.joining(", ")));
-					Text message = new LiteralText("§eWorld Blender: §fThere are not enough required blocks in the chests. Please add the needed required blocks and then add any other unique blocks until you have §c"+WorldBlender.WB_CONFIG.WBPortalConfig.uniqueBlocksNeeded+"§f unique blocks. The require blocks specified in the config are §6" + REQUIRED_PORTAL_BLOCKS.stream().map(entry -> Registry.BLOCK.getId(entry).toString()).collect(Collectors.joining(", ")));
+					WorldBlender.LOGGER.log(Level.INFO, "World Blender: There are not enough required blocks in the chests. Please add the needed required blocks and then add any other unique blocks until you have "+WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get()+" unique blocks. The require blocks specified in the config are " + REQUIRED_PORTAL_BLOCKS.stream().map(entry -> Registry.BLOCK.getId(entry).toString()).collect(Collectors.joining(", ")));
+					Text message = new LiteralText("§eWorld Blender: §fThere are not enough required blocks in the chests. Please add the needed required blocks and then add any other unique blocks until you have §c"+WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get()+"§f unique blocks. The require blocks specified in the config are §6" + REQUIRED_PORTAL_BLOCKS.stream().map(entry -> Registry.BLOCK.getId(entry).toString()).collect(Collectors.joining(", ")));
 					player.sendMessage(message, false);
 					return ActionResult.FAIL;
 				}
@@ -185,15 +185,15 @@ public class WBPortalSpawning
 
 				invalidItemSet.remove(Items.AIR); //We don't need to list air
 				if (invalidItemSet.size() == 0 &&
-						uniqueBlocksSet.size() >= WorldBlender.WB_CONFIG.WBPortalConfig.uniqueBlocksNeeded)
+						uniqueBlocksSet.size() >= WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get())
 				{
 					//enough unique blocks were found and no items are in chest. Make portal now
 					for (BlockPos blockpos : BlockPos.iterate(position, position.add(cornerOffset)))
 					{
 						//consume chest and contents if config says so
-						if (WorldBlender.WB_CONFIG.WBPortalConfig.consumeChests)
+						if (WorldBlender.WBPortalConfig.consumeChests.get())
 						{
-							BlockEntity chestTileEntity = world.getBlockEntity(blockpos);
+							TileEntity chestTileEntity = world.getTileEntity(blockpos);
 							if(chestTileEntity != null &&
 									WBPortalSpawning.VALID_CHEST_BLOCKS_ENTITY_TYPES.getOrDefault(blockEntity.getType(), false))
 							{
@@ -209,7 +209,7 @@ public class WBPortalSpawning
 
 						//create portal but with cooldown so players can grab items before they get teleported
 						world.setBlockState(blockpos, WBBlocks.WORLD_BLENDER_PORTAL.getDefaultState(), 3);
-						WBPortalBlockEntity wbtile = (WBPortalBlockEntity) world.getBlockEntity(blockpos);
+						WBPortalBlockEntity wbtile = (WBPortalBlockEntity) world.getTileEntity(blockpos);
 
 						if(wbtile != null)
 							wbtile.triggerCooldown();
@@ -222,7 +222,7 @@ public class WBPortalSpawning
 				//throw error and list all the invalid items in the chests
 				else
 				{
-					String msg = "§eWorld Blender: §fThere are not enough unique block items in the chests. (stacks or duplicates are ignored) You need §c" + WorldBlender.WB_CONFIG.WBPortalConfig.uniqueBlocksNeeded + "§f block items to make the portal but there is only §a" + uniqueBlocksSet.size() + "§f unique block items right now.";
+					String msg = "§eWorld Blender: §fThere are not enough unique block items in the chests. (stacks or duplicates are ignored) You need §c" + WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get() + "§f block items to make the portal but there is only §a" + uniqueBlocksSet.size() + "§f unique block items right now.";
 
 					if(invalidItemSet.size() > 0)
 					{
@@ -270,7 +270,7 @@ public class WBPortalSpawning
 					for (BlockPos blockpos : BlockPos.iterate(position, position.add(offset)))
 					{
 						// We check if the block entity class itself has 'chest in the name.
-						BlockEntity blockEntity = world.getBlockEntity(blockpos);
+						TileEntity blockEntity = world.getTileEntity(blockpos);
 						if (blockEntity == null ||
 								!WBPortalSpawning.VALID_CHEST_BLOCKS_ENTITY_TYPES.getOrDefault(blockEntity.getType(), false))
 						{

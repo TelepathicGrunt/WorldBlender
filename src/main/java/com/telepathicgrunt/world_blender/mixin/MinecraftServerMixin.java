@@ -6,7 +6,7 @@ import com.mojang.datafixers.DataFixer;
 import com.telepathicgrunt.world_blender.WBIdentifiers;
 import com.telepathicgrunt.world_blender.WorldBlender;
 import com.telepathicgrunt.world_blender.features.WBPortalAltar;
-import com.telepathicgrunt.world_blender.the_blender.IdentifierPrinting;
+import com.telepathicgrunt.world_blender.the_blender.ResourceLocationPrinting;
 import com.telepathicgrunt.world_blender.the_blender.TheBlender;
 import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.resource.ServerResourceManager;
@@ -44,8 +44,8 @@ public class MinecraftServerMixin {
         if(impl.getOptional(Registry.BIOME_KEY).isPresent()) {
             TheBlender.blendTheWorld(impl);
             WBPortalAltar.ALTAR_TEMPLATE = structureManager.getStructure(WBIdentifiers.ALTAR_ID);
-            if(WorldBlender.WB_CONFIG.WBBlendingConfig.identifierDump){
-                IdentifierPrinting.printAllIdentifiers(impl);
+            if(WorldBlender.WBBlendingConfig.identifierDump.get()){
+                ResourceLocationPrinting.printAllResourceLocations(impl);
             }
         }
     }

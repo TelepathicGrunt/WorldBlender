@@ -1,15 +1,15 @@
 package com.telepathicgrunt.world_blender.mixin;
 
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.block.entity.TileEntity;
+import net.minecraft.block.entity.TileEntityType;
+import net.minecraft.client.render.block.entity.TileEntityRenderDispatcher;
+import net.minecraft.client.render.block.entity.TileEntityRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(BlockEntityRenderDispatcher.class)
+@Mixin(TileEntityRenderDispatcher.class)
 public interface BlockEntityRenderDispatcherInvoker {
 
     @Invoker("register")
-    <E extends BlockEntity> void callRegister(BlockEntityType<E> blockEntityType, BlockEntityRenderer<E> blockEntityRenderer);
+    <E extends TileEntity> void callRegister(TileEntityType<E> blockEntityType, TileEntityRenderer<E> blockEntityRenderer);
 }

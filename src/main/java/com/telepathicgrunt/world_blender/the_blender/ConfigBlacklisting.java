@@ -1,7 +1,7 @@
 package com.telepathicgrunt.world_blender.the_blender;
 
 import com.telepathicgrunt.world_blender.WorldBlender;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,12 +29,12 @@ public class ConfigBlacklisting
 	
 	public static void setupBlackLists() 
 	{
-		blanketBL = parseConfigAndAssignEntries(WorldBlender.WB_CONFIG.WBBlendingConfig.blanketBlacklist);
-		featureBL = parseConfigAndAssignEntries(WorldBlender.WB_CONFIG.WBBlendingConfig.blacklistedFeatures);
-		structureBL = parseConfigAndAssignEntries(WorldBlender.WB_CONFIG.WBBlendingConfig.blacklistedStructures);
-		carverBL = parseConfigAndAssignEntries(WorldBlender.WB_CONFIG.WBBlendingConfig.blacklistedCarvers);
-		spawnBL = parseConfigAndAssignEntries(WorldBlender.WB_CONFIG.WBBlendingConfig.blacklistedSpawns);
-		surfaceBL = parseConfigAndAssignEntries(WorldBlender.WB_CONFIG.WBBlendingConfig.blacklistedBiomeSurfaces);
+		blanketBL = parseConfigAndAssignEntries(WorldBlender.WBBlendingConfig.blanketBlacklist.get());
+		featureBL = parseConfigAndAssignEntries(WorldBlender.WBBlendingConfig.blacklistedFeatures.get());
+		structureBL = parseConfigAndAssignEntries(WorldBlender.WBBlendingConfig.blacklistedStructures.get());
+		carverBL = parseConfigAndAssignEntries(WorldBlender.WBBlendingConfig.blacklistedCarvers.get());
+		spawnBL = parseConfigAndAssignEntries(WorldBlender.WBBlendingConfig.blacklistedSpawns.get());
+		surfaceBL = parseConfigAndAssignEntries(WorldBlender.WBBlendingConfig.blacklistedBiomeSurfaces.get());
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class ConfigBlacklisting
 	 * Helper method that will perform the actual RL match, mod specific match, 
 	 * and term matching based on the format of the blacklisted entry string
 	 */
-	private static boolean matchFound(String blacklistedEntry, Identifier resourceLocationToCheck) 
+	private static boolean matchFound(String blacklistedEntry, ResourceLocation resourceLocationToCheck)
 	{
 		//cannot do any matching. RIP
 		if(resourceLocationToCheck == null || blacklistedEntry.isEmpty()) 
@@ -76,7 +76,7 @@ public class ConfigBlacklisting
 	
 	
 	
-	public static boolean isResourceLocationBlacklisted(BlacklistType type, Identifier incomingRL) 
+	public static boolean isResourceLocationBlacklisted(BlacklistType type, ResourceLocation incomingRL)
 	{
 		List<String> listToUse;
 		

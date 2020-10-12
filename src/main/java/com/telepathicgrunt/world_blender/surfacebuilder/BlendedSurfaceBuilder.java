@@ -212,8 +212,8 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
 		threeLayerSurfaceList.add(NETHER_CONFIG);
 		threeLayerSurfaceList.add(END_CONFIG);
 
-		if (WorldBlender.WB_CONFIG.WBBlendingConfig.allowVanillaSurfaces &&
-				WorldBlender.WB_CONFIG.WBBlendingConfig.allowVanillaBiomeImport)
+		if (WorldBlender.WBBlendingConfig.allowVanillaSurfaces.get() &&
+				WorldBlender.WBBlendingConfig.allowVanillaBiomeImport.get())
 		{
 			threeLayerSurfaceList.add(GRASS_CONFIG);
 			threeLayerSurfaceList.add(PODZOL_CONFIG);
@@ -273,7 +273,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
 	//		}
 
 		int chosenConfigIndex = 2; // Grass surface
-		double noiseScale = WorldBlender.WB_CONFIG.WBDimensionConfig.surfaceScale;
+		double noiseScale = WorldBlender.WBDimensionConfig.surfaceScale.get();
 
 		for (int configIndex = 0; configIndex < allSurfaceList.size(); configIndex++) {
 			if (configIndex == 0) {

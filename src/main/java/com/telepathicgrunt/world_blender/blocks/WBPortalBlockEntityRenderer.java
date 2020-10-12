@@ -6,10 +6,10 @@ import com.telepathicgrunt.world_blender.mixin.RenderPhaseAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.*;
-import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.client.render.block.entity.TileEntityRenderDispatcher;
+import net.minecraft.client.render.block.entity.TileEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Matrix4f;
 
@@ -19,49 +19,49 @@ import java.util.stream.IntStream;
 
 
 @Environment(EnvType.CLIENT)
-public class WBPortalBlockEntityRenderer extends BlockEntityRenderer<WBPortalBlockEntity>
+public class WBPortalBlockEntityRenderer extends TileEntityRenderer<WBPortalBlockEntity>
 {
-	public WBPortalBlockEntityRenderer(BlockEntityRenderDispatcher dispatcher)
+	public WBPortalBlockEntityRenderer(TileEntityRenderDispatcher dispatcher)
 	{
 		super(dispatcher);
 	}
 
 	@Override
-	public void render(WBPortalBlockEntity tileEntity, float partialTicks, MatrixStack modelMatrix, VertexConsumerProvider renderBuffer, int combinedLightIn, int combinedOverlayIn)
+	public void render(WBPortalBlockEntity TileEntity, float partialTicks, MatrixStack modelMatrix, VertexConsumerProvider renderBuffer, int combinedLightIn, int combinedOverlayIn)
 	{
 		RANDOM.setSeed(31100L);
-		double distance = tileEntity.getPos().getSquaredDistance(this.dispatcher.camera.getPos(), true);
+		double distance = TileEntity.getPos().getSquaredDistance(this.dispatcher.camera.getPos(), true);
 		int passes = this.getPasses(distance);
 		Matrix4f matrix4f = modelMatrix.peek().getModel();
-		this.drawColor(tileEntity, 0.1F, matrix4f, renderBuffer.getBuffer(WB_RENDER_TYPE.get(0)));
+		this.drawColor(TileEntity, 0.1F, matrix4f, renderBuffer.getBuffer(WB_RENDER_TYPE.get(0)));
 
 		for (int currentPass = 1; currentPass < passes; ++currentPass)
 		{
-			this.drawColor(tileEntity, 2.0F / (20 - currentPass), matrix4f, renderBuffer.getBuffer(WB_RENDER_TYPE.get(currentPass)));
+			this.drawColor(TileEntity, 2.0F / (20 - currentPass), matrix4f, renderBuffer.getBuffer(WB_RENDER_TYPE.get(currentPass)));
 		}
 	}
 
 
-	private void drawColor(WBPortalBlockEntity tileEntity, float modifier, Matrix4f matrix4f, VertexConsumer vertexBuilder)
+	private void drawColor(WBPortalBlockEntity TileEntity, float modifier, Matrix4f matrix4f, VertexConsumer vertexBuilder)
 	{
 		// turns dark red when cooling down but lightens over time. And when finished cooling down, it pops to full brightness
-		float coolDownEffect = tileEntity.isCoolingDown() ? 0.7f - tileEntity.getCoolDown()/1200F : 0.85f ; 
+		float coolDownEffect = TileEntity.isCoolingDown() ? 0.7f - TileEntity.getCoolDown()/1200F : 0.85f ;
 
-		float red = (RANDOM.nextFloat() * 3.95F) * modifier * coolDownEffect + tileEntity.getCoolDown()/2800F;
+		float red = (RANDOM.nextFloat() * 3.95F) * modifier * coolDownEffect + TileEntity.getCoolDown()/2800F;
 		float green = (RANDOM.nextFloat() * 2.95F) * modifier * coolDownEffect;
 		float blue = (RANDOM.nextFloat() * 3.0F) * modifier * coolDownEffect;
-		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, red, green, blue, Direction.SOUTH);
-		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, red, green, blue, Direction.NORTH);
-		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, red, green, blue, Direction.EAST);
-		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 0.0F, red, green, blue, Direction.WEST);
-		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, red, green, blue, Direction.DOWN);
-		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, red, green, blue, Direction.UP);
+		this.setVertexColor(TileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, red, green, blue, Direction.SOUTH);
+		this.setVertexColor(TileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, red, green, blue, Direction.NORTH);
+		this.setVertexColor(TileEntity, matrix4f, vertexBuilder, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, red, green, blue, Direction.EAST);
+		this.setVertexColor(TileEntity, matrix4f, vertexBuilder, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 0.0F, red, green, blue, Direction.WEST);
+		this.setVertexColor(TileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, red, green, blue, Direction.DOWN);
+		this.setVertexColor(TileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, red, green, blue, Direction.UP);
 	}
 
 
-	private void setVertexColor(WBPortalBlockEntity tileEntity, Matrix4f matrix4f, VertexConsumer vertexBuilder, float pos1, float pos2, float pos3, float pos4, float pos5, float pos6, float pos7, float pos8, float red, float green, float blue, Direction direction)
+	private void setVertexColor(WBPortalBlockEntity TileEntity, Matrix4f matrix4f, VertexConsumer vertexBuilder, float pos1, float pos2, float pos3, float pos4, float pos5, float pos6, float pos7, float pos8, float red, float green, float blue, Direction direction)
 	{
-		if (tileEntity.shouldRenderFace(direction))
+		if (TileEntity.shouldRenderFace(direction))
 		{
 			vertexBuilder.vertex(matrix4f, pos1, pos3, pos5).color(red, green, blue, 1.0F).next();
 			vertexBuilder.vertex(matrix4f, pos2, pos3, pos6).color(red, green, blue, 1.0F).next();
@@ -110,8 +110,8 @@ public class WBPortalBlockEntityRenderer extends BlockEntityRenderer<WBPortalBlo
 	
 	//////////////////////////////////RENDER STATE STUFF//////////////////////////////////////////
 
-	public static final Identifier MAIN_TEXTURE =     new Identifier("textures/misc/enchanted_item_glint.png");
-	public static final Identifier ADDITIVE_TEXTURE = new Identifier("textures/misc/forcefield.png");
+	public static final ResourceLocation MAIN_TEXTURE =     new ResourceLocation("textures/misc/enchanted_item_glint.png");
+	public static final ResourceLocation ADDITIVE_TEXTURE = new ResourceLocation("textures/misc/forcefield.png");
 	private static final Random RANDOM = new Random(31100L);
 	private static final List<RenderLayer> WB_RENDER_TYPE = IntStream.range(0, 9).mapToObj((index) ->
 			getWBPortal(index + 1)).collect(ImmutableList.toImmutableList());

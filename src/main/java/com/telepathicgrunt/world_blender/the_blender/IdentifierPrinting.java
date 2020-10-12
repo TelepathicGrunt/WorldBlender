@@ -1,7 +1,7 @@
 package com.telepathicgrunt.world_blender.the_blender;
 
 import com.telepathicgrunt.world_blender.WorldBlender;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
@@ -11,7 +11,7 @@ import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class IdentifierPrinting
+public class ResourceLocationPrinting
 {
 
 	/**
@@ -21,7 +21,7 @@ public class IdentifierPrinting
 	 * The resource location will be printed into a file call identifierDump.txt
 	 * and can be found below the world's save folder in the Minecraft folder.
 	 */
-	public static void printAllIdentifiers(DynamicRegistryManager registryManager)
+	public static void printAllResourceLocations(DynamicRegistryManager registryManager)
 	{
 		try(PrintStream printStream = new PrintStream("identifierDump.txt"))
 		{ 
@@ -72,7 +72,7 @@ public class IdentifierPrinting
 	}
 
 	private static void writeEntry(PrintStream printStream, RegistryKey<?> entry, AtomicReference<String> previous_namespace){
-		Identifier entryID = entry.getValue();
+		ResourceLocation entryID = entry.getValue();
 
 		// extra check to just make sure. Probably never possible to be null
 		if(entryID == null) return;

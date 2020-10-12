@@ -18,7 +18,7 @@ import com.telepathicgrunt.world_blender.the_blender.ConfigBlacklisting.Blacklis
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.SpawnSettings;
@@ -66,7 +66,7 @@ public class TheBlender {
                 TheBlender.mainBlending(
                         biomeEntry.getValue(), // Biome
                         world_blender_biomes, // WB biomes
-                        biomeEntry.getKey().getValue(), // Identifier
+                        biomeEntry.getKey().getValue(), // ResourceLocation
                         registryManager); // all the registries
             }
         }
@@ -83,7 +83,7 @@ public class TheBlender {
     /**
      * blends the given biome into WB biomes
      */
-    private static void mainBlending(Biome biome, List<Biome> world_blender_biomes, Identifier biomeID, DynamicRegistryManager.Impl dynamicRegistryManager) {
+    private static void mainBlending(Biome biome, List<Biome> world_blender_biomes, ResourceLocation biomeID, DynamicRegistryManager.Impl dynamicRegistryManager) {
 
         // Debugging breakpoint spot
 //        if(biomeID.getPath().contains("nether")){
@@ -95,11 +95,11 @@ public class TheBlender {
             return;
 
             // if the biome is a vanilla biome but config says no vanilla biome, skip this biome
-        else if (biomeID.getNamespace().equals("minecraft") && !WorldBlender.WB_CONFIG.WBBlendingConfig.allowVanillaBiomeImport)
+        else if (biomeID.getNamespace().equals("minecraft") && !WorldBlender.WBBlendingConfig.allowVanillaBiomeImport.get())
             return;
 
             // if the biome is a modded biome but config says no modded biome, skip this biome
-        else if (!biomeID.getNamespace().equals("minecraft") && !WorldBlender.WB_CONFIG.WBBlendingConfig.allowModdedBiomeImport)
+        else if (!biomeID.getNamespace().equals("minecraft") && !WorldBlender.WBBlendingConfig.allowModdedBiomeImport.get())
             return;
 
             // blacklisted by blanket list
@@ -132,8 +132,8 @@ public class TheBlender {
 
 
         // add end spike directly to all biomes if not directly blacklisted. Turning off vanilla features will not prevent end spikes from spawning due to them marking the world origin nicely
-        if (!ConfigBlacklisting.isResourceLocationBlacklisted(BlacklistType.FEATURE, new Identifier("minecraft:end_spike")))
-            world_blender_biomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getFeatures().get(GenerationStep.Feature.SURFACE_STRUCTURES.ordinal()).add(() -> configuredFeaturesRegistry.get(new Identifier("minecraft", "end_spike"))));
+        if (!ConfigBlacklisting.isResourceLocationBlacklisted(BlacklistType.FEATURE, new ResourceLocation("minecraft:end_spike")))
+            world_blender_biomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getFeatures().get(GenerationStep.Feature.SURFACE_STRUCTURES.ordinal()).add(() -> configuredFeaturesRegistry.get(new ResourceLocation("minecraft", "end_spike"))));
 
 
         // add grass, flower, and other small plants now so they are generated second to last
@@ -146,14 +146,14 @@ public class TheBlender {
         }
 
 
-        if (!WorldBlender.WB_CONFIG.WBBlendingConfig.disallowLaggyFeatures && FeatureGrouping.bambooFound) {
+        if (!WorldBlender.WBBlendingConfig.disallowLaggyFeatures.get() && FeatureGrouping.bambooFound) {
             // add 1 configured bamboo so it is dead last
-            world_blender_biomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getFeatures().get(GenerationStep.Feature.VEGETAL_DECORATION.ordinal()).add(() -> configuredFeaturesRegistry.get(new Identifier("minecraft", "bamboo"))));
+            world_blender_biomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getFeatures().get(GenerationStep.Feature.VEGETAL_DECORATION.ordinal()).add(() -> configuredFeaturesRegistry.get(new ResourceLocation("minecraft", "bamboo"))));
         }
 
 
         // Makes carvers be able to carve any underground blocks including netherrack, end stone, and modded blocks
-        if (WorldBlender.WB_CONFIG.WBDimensionConfig.carversCanCarveMoreBlocks) {
+        if (WorldBlender.WBDimensionConfig.carversCanCarveMoreBlocks.get()) {
             Set<Block> allBlocksToCarve = BlendedSurfaceBuilder.blocksToCarve();
 
             //get all carvable blocks
@@ -172,11 +172,11 @@ public class TheBlender {
         }
 
         // add these last so that this can contain other local modification feature's liquids/falling blocks better
-        if (!ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, new Identifier("world_blender:no_floating_liquids_or_falling_blocks"))) {
+        if (!ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, new ResourceLocation("world_blender:no_floating_liquids_or_falling_blocks"))) {
             world_blender_biomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getFeatures().get(GenerationStep.Feature.LOCAL_MODIFICATIONS.ordinal()).add(() -> WBConfiguredFeatures.NO_FLOATING_LIQUIDS_OR_FALLING_BLOCKS));
         }
 
-        if (!ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, new Identifier("world_blender:separate_lava_and_water"))) {
+        if (!ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, new ResourceLocation("world_blender:separate_lava_and_water"))) {
             world_blender_biomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getFeatures().get(GenerationStep.Feature.LOCAL_MODIFICATIONS.ordinal()).add(() -> WBConfiguredFeatures.SEPARATE_LAVA_AND_WATER));
         }
     }
@@ -222,7 +222,7 @@ public class TheBlender {
             // The actual main blending below
             // Welcome to hell!
 
-    private static HashBiMap<Identifier, ConfiguredFeature<?,?>> FEATURE_MAP_CACHE = HashBiMap.create();
+    private static HashBiMap<ResourceLocation, ConfiguredFeature<?,?>> FEATURE_MAP_CACHE = HashBiMap.create();
 
 
     private static void addBiomeFeatures(Biome biome, List<Biome> world_blender_biomes, MutableRegistry<ConfiguredFeature<?, ?>> configuredFeaturesRegistry) {
@@ -233,7 +233,7 @@ public class TheBlender {
                 ConfiguredFeature<?, ?> configuredFeature = configuredFeatureSupplier.get();
                 if (world_blender_biomes.get(0).getGenerationSettings().getFeatures().get(stage.ordinal()).stream().noneMatch(addedConfigFeature -> FeatureGrouping.serializeAndCompareFeature(addedConfigFeature.get(), configuredFeatureSupplier.get(), true))) {
 
-                    Identifier configuredFeatureID = configuredFeaturesRegistry.getId(configuredFeature);
+                    ResourceLocation configuredFeatureID = configuredFeaturesRegistry.getId(configuredFeature);
                     if(configuredFeatureID == null){
                         configuredFeatureID = BuiltinRegistries.CONFIGURED_FEATURE.getId(configuredFeature);
                     }
@@ -281,7 +281,7 @@ public class TheBlender {
                     // check if feature is already added
                     if (configuredFeatureID.getNamespace().equals("minecraft")) {
 
-                        if (WorldBlender.WB_CONFIG.WBBlendingConfig.allowVanillaFeatures) {
+                        if (WorldBlender.WBBlendingConfig.allowVanillaFeatures.get()) {
                             // add the vanilla grass and flowers to a map so we can add them
                             // later to the feature list so trees have a chance to spawn
                             if (FeatureGrouping.checksAndAddSmallPlantFeatures(stage, configuredFeature)) {
@@ -289,12 +289,12 @@ public class TheBlender {
                             }
 
                             // if we have no laggy feature config on, then the feature must not be fire, lava, bamboo, etc in order to be added
-                            if ((!FeatureGrouping.isLaggyFeature(configuredFeature) || !WorldBlender.WB_CONFIG.WBBlendingConfig.disallowLaggyFeatures)) {
+                            if ((!FeatureGrouping.isLaggyFeature(configuredFeature) || !WorldBlender.WBBlendingConfig.disallowLaggyFeatures.get())) {
                                 world_blender_biomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getFeatures().get(stage.ordinal()).add(configuredFeatureSupplier));
                             }
                         }
                     }
-                    else if (WorldBlender.WB_CONFIG.WBBlendingConfig.allowModdedFeatures) {
+                    else if (WorldBlender.WBBlendingConfig.allowModdedFeatures.get()) {
                         // checksAndAddSmallPlantFeatures add the vanilla grass and flowers to a map
                         // so we can add them later to the feature list so trees have a chance to spawn
                         //
@@ -308,7 +308,7 @@ public class TheBlender {
                             // list so they don't overwhelm other features or cause as many bamboo breaking
                             // because it got cut off
                             // if we have no laggy feature config on, then the feature must not be fire, lava, bamboo, etc in order to be added
-                            if ((!FeatureGrouping.isLaggyFeature(configuredFeature) || !WorldBlender.WB_CONFIG.WBBlendingConfig.disallowLaggyFeatures)) {
+                            if ((!FeatureGrouping.isLaggyFeature(configuredFeature) || !WorldBlender.WBBlendingConfig.disallowLaggyFeatures.get())) {
                                 world_blender_biomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getFeatures().get(stage.ordinal()).add(configuredFeatureSupplier));
                             }
                         }
@@ -318,7 +318,7 @@ public class TheBlender {
         }
     }
 
-    private static HashBiMap<Identifier, ConfiguredStructureFeature<?,?>> STRUCTURE_MAP_CACHE = HashBiMap.create();
+    private static HashBiMap<ResourceLocation, ConfiguredStructureFeature<?,?>> STRUCTURE_MAP_CACHE = HashBiMap.create();
 
     private static void addBiomeStructures(Biome biome, List<Biome> world_blender_biomes, MutableRegistry<ConfiguredStructureFeature<?, ?>> configuredStructuresRegistry) {
         for (Supplier<ConfiguredStructureFeature<?, ?>> configuredStructureSupplier : biome.getGenerationSettings().getStructureFeatures()) {
@@ -331,7 +331,7 @@ public class TheBlender {
                 // object as the feature in the biome. So I cannot get ID easily from the registry.
                 // Instead, I have to check the JSON of the feature to find a match and store the ID of it
                 // into a temporary map as a cache for later biomes.
-                Identifier configuredStructureID = configuredStructuresRegistry.getId(configuredStructure);
+                ResourceLocation configuredStructureID = configuredStructuresRegistry.getId(configuredStructure);
                 if(configuredStructureID == null){
                     configuredStructureID = BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE.getId(configuredStructure);
                 }
@@ -375,12 +375,12 @@ public class TheBlender {
                 }
 
                 if (configuredStructureID.getNamespace().equals("minecraft")) {
-                    if (WorldBlender.WB_CONFIG.WBBlendingConfig.allowVanillaStructures) {
+                    if (WorldBlender.WBBlendingConfig.allowVanillaStructures.get()) {
                         // add the structure version of the structure
                         world_blender_biomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getStructureFeatures().add(configuredStructureSupplier));
                     }
                 }
-                else if (WorldBlender.WB_CONFIG.WBBlendingConfig.allowModdedStructures) {
+                else if (WorldBlender.WBBlendingConfig.allowModdedStructures.get()) {
                     // add the structure version of the structure
                     world_blender_biomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getStructureFeatures().add(configuredStructureSupplier));
                 }
@@ -395,7 +395,7 @@ public class TheBlender {
                 ConfiguredCarver<?> configuredCarver = configuredCarverSupplier.get();
                 if (world_blender_biomes.get(0).getGenerationSettings().getCarversForStep(carverStage).stream().noneMatch(addedConfiguredCarver -> addedConfiguredCarver.get() == configuredCarver)) {
 
-                    Identifier configuredCarverID = configuredCarversRegistry.getId(configuredCarver);
+                    ResourceLocation configuredCarverID = configuredCarversRegistry.getId(configuredCarver);
                     if(configuredCarverID == null){
                         Optional<JsonElement> configuredStructureJSON = ConfiguredCarver.CODEC.encode(configuredCarver, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
 
@@ -413,10 +413,10 @@ public class TheBlender {
                     }
 
                     if (configuredCarverID.getNamespace().equals("minecraft")) {
-                        if (WorldBlender.WB_CONFIG.WBBlendingConfig.allowVanillaCarvers)
+                        if (WorldBlender.WBBlendingConfig.allowVanillaCarvers.get())
                             world_blender_biomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getCarversForStep(carverStage).add(configuredCarverSupplier));
                     }
-                    else if (WorldBlender.WB_CONFIG.WBBlendingConfig.allowModdedCarvers) {
+                    else if (WorldBlender.WBBlendingConfig.allowModdedCarvers.get()) {
                         world_blender_biomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getCarversForStep(carverStage).add(configuredCarverSupplier));
                     }
                 }
@@ -431,7 +431,7 @@ public class TheBlender {
                 if (world_blender_biomes.get(0).getSpawnSettings().getSpawnEntry(spawnGroup).stream().noneMatch(spawn -> spawn.type == spawnEntry.type)) {
 
                     //no check needed for if entitytype is null because it is impossible for it to be null without Minecraft blowing up
-                    Identifier entityTypeID = entityTypeRegistry.getId(spawnEntry.type);
+                    ResourceLocation entityTypeID = entityTypeRegistry.getId(spawnEntry.type);
 
                     // blacklisted by natural spawn list
                     if (ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.SPAWN, entityTypeID)) {
@@ -439,9 +439,9 @@ public class TheBlender {
                     }
 
                     if (entityTypeID.getNamespace().equals("minecraft")) {
-                        if (WorldBlender.WB_CONFIG.WBBlendingConfig.allowVanillaSpawns)
+                        if (WorldBlender.WBBlendingConfig.allowVanillaSpawns.get())
                             world_blender_biomes.forEach(blendedBiome -> blendedBiome.getSpawnSettings().getSpawnEntry(spawnGroup).add(spawnEntry));
-                    } else if (WorldBlender.WB_CONFIG.WBBlendingConfig.allowModdedSpawns) {
+                    } else if (WorldBlender.WBBlendingConfig.allowModdedSpawns.get()) {
                         world_blender_biomes.forEach(blendedBiome -> blendedBiome.getSpawnSettings().getSpawnEntry(spawnGroup).add(spawnEntry));
                     }
                 }
@@ -450,14 +450,14 @@ public class TheBlender {
     }
 
 
-    private static void addBiomeSurfaceConfig(Biome biome, Identifier biomeID, MutableRegistry<Block> blockRegistry) {
+    private static void addBiomeSurfaceConfig(Biome biome, ResourceLocation biomeID, MutableRegistry<Block> blockRegistry) {
 
         // return early if biome's is turned off by the vanilla surface configs.
         if (biomeID.getNamespace().equals("minecraft")) {
-            if (!WorldBlender.WB_CONFIG.WBBlendingConfig.allowVanillaSurfaces)
+            if (!WorldBlender.WBBlendingConfig.allowVanillaSurfaces.get())
                 return;
         }
-        else if (!WorldBlender.WB_CONFIG.WBBlendingConfig.allowModdedSurfaces) {
+        else if (!WorldBlender.WBBlendingConfig.allowModdedSurfaces.get()) {
             return;
         }
 

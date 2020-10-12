@@ -4,7 +4,7 @@ import com.telepathicgrunt.world_blender.WBIdentifiers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.TileEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
@@ -38,7 +38,7 @@ public class WBPortalBlock extends BlockWithEntity
 
 
 	@Override
-	public BlockEntity createBlockEntity(BlockView blockReader)
+	public TileEntity createTileEntity(BlockView blockReader)
 	{
 		return new WBPortalBlockEntity();
 	}
@@ -52,7 +52,7 @@ public class WBPortalBlock extends BlockWithEntity
 	@Override
 	public void onEntityCollision(BlockState blockState, World world, BlockPos position, Entity entity)
 	{
-		BlockEntity blockEntityOriginal = world.getBlockEntity(position);
+		TileEntity blockEntityOriginal = world.getBlockEntity(position);
 		if (blockEntityOriginal instanceof WBPortalBlockEntity)
 		{
 			WBPortalBlockEntity wbBlockEntity = (WBPortalBlockEntity) blockEntityOriginal;
@@ -96,7 +96,7 @@ public class WBPortalBlock extends BlockWithEntity
 						portalOrChestFound = true;
 
 						//make portals have a cooldown after being teleported to
-						BlockEntity blockEntity = destinationWorld.getBlockEntity(blockpos);
+						TileEntity TileEntity = destinationWorld.getTileEntity(blockpos);
 						if(blockEntity instanceof WBPortalBlockEntity){
 							((WBPortalBlockEntity)blockEntity).triggerCooldown();
 						}
@@ -107,7 +107,7 @@ public class WBPortalBlock extends BlockWithEntity
 
 					// We check if the block entity class itself has 'chest in the name.
 					// Cache the result and only count the block entity if it is a chest.
-					BlockEntity blockEntity = destinationWorld.getBlockEntity(blockpos);
+					TileEntity blockEntity = destinationWorld.getBlockEntity(blockpos);
 					if(blockEntity == null || blockNearTeleport instanceof Inventory) continue;
 
 					if (WBPortalSpawning.VALID_CHEST_BLOCKS_ENTITY_TYPES.getOrDefault(blockEntity.getType(), false))
@@ -122,7 +122,7 @@ public class WBPortalBlock extends BlockWithEntity
 				//no portal or chest was found around destination. just teleport to top land
 				if (!portalOrChestFound)
 				{
-					destPos = destinationWorld.getTopPosition(Heightmap.Type.WORLD_SURFACE, position);
+					destPos = destinationWorld.getHeight(Heightmap.Type.WORLD_SURFACE, position);
 
 					//places a portal block in World Blender so player can escape if
 					//there is no portal block and then makes it be in cooldown
@@ -132,7 +132,7 @@ public class WBPortalBlock extends BlockWithEntity
 						destinationWorld.setBlockState(destPos.up(), Blocks.AIR.getDefaultState());
 						
 						destinationWorld.setBlockState(destPos, WBBlocks.WORLD_BLENDER_PORTAL.getDefaultState());
-						BlockEntity blockEntity = destinationWorld.getBlockEntity(destPos);
+						TileEntity blockEntity = destinationWorld.getTileEntity(destPos);
 						if(blockEntity instanceof WBPortalBlockEntity){
 							((WBPortalBlockEntity)blockEntity).triggerCooldown();
 						}
@@ -178,8 +178,8 @@ public class WBPortalBlock extends BlockWithEntity
 	@Environment(EnvType.CLIENT)
 	public void randomDisplayTick(BlockState blockState, World world, BlockPos position, Random random)
 	{
-		BlockEntity tileentity = world.getBlockEntity(position);
-		if (tileentity instanceof WBPortalBlockEntity)
+		BlockEntity TileEntity = world.getBlockEntity(position);
+		if (TileEntity instanceof WBPortalBlockEntity)
 		{
 			if (random.nextFloat() < 0.09f)
 			{
@@ -192,8 +192,8 @@ public class WBPortalBlock extends BlockWithEntity
 	@Environment(EnvType.CLIENT)
 	public void createLotsOfParticles(BlockState blockState, World world, BlockPos position, Random random)
 	{
-		BlockEntity tileentity = world.getBlockEntity(position);
-		if (tileentity instanceof WBPortalBlockEntity)
+		BlockEntity TileEntity = world.getBlockEntity(position);
+		if (TileEntity instanceof WBPortalBlockEntity)
 		{
 			for(int i = 0; i < 50; i++) 
 			{

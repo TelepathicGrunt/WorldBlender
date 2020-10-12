@@ -1,13 +1,13 @@
 package com.telepathicgrunt.world_blender.mixin;
 
-import net.minecraft.world.biome.layer.util.CachingLayerSampler;
-import net.minecraft.world.biome.source.BiomeLayerSampler;
+import net.minecraft.world.gen.area.LazyArea;
+import net.minecraft.world.gen.layer.Layer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(BiomeLayerSampler.class)
+@Mixin(Layer.class)
 public interface BiomeLayerSamplerAccessor {
 
-    @Accessor("sampler")
-    CachingLayerSampler getSampler();
+    @Accessor("field_215742_b")
+    LazyArea getSampler();
 }

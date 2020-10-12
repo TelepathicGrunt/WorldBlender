@@ -72,5 +72,5 @@
   "text.autoconfig.world_blender.option.WBBlendingConfig.disallowLaggyFeatures.@PrefixText": "\n\nWill make vanilla bamboo, lava, and fire features and will try to \n make modded bamboo, lava, and fire features not spawn at all\n in order to help reduce lag in the world due to bamboo\n breaking like crazy or fire spreading rapidly.\n \n If all else fail, do /gamerule doFireTick false to reduce fire lag.",
   "text.autoconfig.world_blender.option.WBBlendingConfig.disallowLaggyFeatures": "Disallow Laggy Features",
   "text.autoconfig.world_blender.option.WBBlendingConfig.identifierDump.@PrefixText": "\n\nDumps all resource locations (IDs) for all mods into a new file\n called identifierDump.txt and can be found by looking below\n the saves and mods folder in Minecraft's folder. The file is made if you set this option to true and then run modded Minecraft until you reach the title menu.\n\n Use this option to look up the resource location or name of features, biomes, blocks, carvers, structures, or entities that you want to blacklist.",
-  "text.autoconfig.world_blender.option.WBBlendingConfig.identifierDump": "Identifier Dump"
+  "text.autoconfig.world_blender.option.WBBlendingConfig.identifierDump": "ResourceLocation Dump"
 }

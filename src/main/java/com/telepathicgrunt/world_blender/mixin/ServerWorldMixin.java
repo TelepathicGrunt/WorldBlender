@@ -3,7 +3,7 @@ package com.telepathicgrunt.world_blender.mixin;
 import com.telepathicgrunt.world_blender.WBIdentifiers;
 import com.telepathicgrunt.world_blender.WorldBlender;
 import com.telepathicgrunt.world_blender.dimension.AltarManager;
-import com.telepathicgrunt.world_blender.utils.ServerWorldAccess;
+import com.telepathicgrunt.world_blender.utils.ISeedReader;
 import net.minecraft.entity.boss.dragon.EnderDragonFight;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldGenerationProgressListener;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 @Mixin(ServerWorld.class)
-public class ServerWorldMixin implements ServerWorldAccess {
+public class ServerWorldMixin implements ISeedReader {
 
 	@Mutable
 	@Final
@@ -44,7 +44,7 @@ public class ServerWorldMixin implements ServerWorldAccess {
 	private void setupWorld(MinecraftServer server, Executor workerExecutor, LevelStorage.Session session, ServerWorldProperties properties, RegistryKey<World> registryKey, DimensionType dimensionType, WorldGenerationProgressListener worldGenerationProgressListener, ChunkGenerator chunkGenerator, boolean bl, long seed, List<Spawner> list, boolean bl2, CallbackInfo ci) {
 
 		if(registryKey.getValue().equals(WBIdentifiers.MOD_DIMENSION_ID) &&
-				WorldBlender.WB_CONFIG.WBDimensionConfig.spawnEnderDragon)
+				WorldBlender.WBDimensionConfig.spawnEnderDragon.get())
 		{
 			((DimensionTypeAccessor)dimensionType).setEnderDragonFight(true);
 			enderDragonFight = new EnderDragonFight((ServerWorld)(Object)this, server.getSaveProperties().getGeneratorOptions().getSeed(), server.getSaveProperties().getDragonFight());
