@@ -36,7 +36,7 @@ public class MinecraftServerMixin {
     private TemplateManager field_240765_ak_;
 
     @Inject(
-            method = "<init>",
+            method = "<init>(Ljava/lang/Thread;Lnet/minecraft/util/registry/DynamicRegistries$Impl;Lnet/minecraft/world/storage/SaveFormat$LevelSave;Lnet/minecraft/world/storage/IServerConfiguration;Lnet/minecraft/resources/ResourcePackList;Ljava/net/Proxy;Lcom/mojang/datafixers/DataFixer;Lnet/minecraft/resources/DataPackRegistries;Lcom/mojang/authlib/minecraft/MinecraftSessionService;Lcom/mojang/authlib/GameProfileRepository;Lnet/minecraft/server/management/PlayerProfileCache;Lnet/minecraft/world/chunk/listener/IChunkStatusListenerFactory;)V",
             at = @At(value = "TAIL")
     )
     private void modifyBiomeRegistry(Thread thread, DynamicRegistries.Impl impl, SaveFormat.LevelSave session,

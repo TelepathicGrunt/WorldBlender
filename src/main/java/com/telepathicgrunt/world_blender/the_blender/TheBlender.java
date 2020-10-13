@@ -274,6 +274,10 @@ public class TheBlender {
                         continue;
                     }
 
+                    if(configuredFeatureID.toString().equals("minecraft:warm_ocean_vegetation")){
+                        int t = 5;
+                    }
+
                     // Check feature blacklist from config
                     if (ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, configuredFeatureID)) {
                         continue;

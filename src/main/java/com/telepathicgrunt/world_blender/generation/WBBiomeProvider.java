@@ -76,6 +76,7 @@ public class WBBiomeProvider extends BiomeProvider
 	}
 
 
+	@Override
 	public Biome getNoiseBiome(int x, int y, int z) {
 		return this.sample(WBBiomeProvider.LAYERS_BIOME_REGISTRY, x, z);
 	}

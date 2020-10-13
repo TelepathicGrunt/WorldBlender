@@ -45,7 +45,7 @@ public class WBDimensionConfigs{
                             + " work in the World Blender Worldtype due to how fight managers are \r\n"
                             + " set up. It will only work for the dimension. \r\n")
                     .translation("world_blender.config.misc.spawnenderdragon")
-                    .define("spawnEnderDragon", false));
+                    .define("spawnEnderDragon", true));
 
             carversCanCarveMoreBlocks = subscriber.subscribe(builder
                     .comment(" \r\n-----------------------------------------------------\r\n\r\n"

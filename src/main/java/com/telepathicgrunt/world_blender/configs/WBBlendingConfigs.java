@@ -144,11 +144,11 @@ public class WBBlendingConfigs {
                     .comment(" \r\n-----------------------------------------------------\r\n\r\n"
                             +" Dumps all resource locations (IDs) for all mods into a new file\r\n"
                             +" called resourceLocationDump.txt and can be found by looking below\r\n"
-                            +" the saves and mods folder in Minecraft's folder. The file is made if"
-                            +" you set this option to true and then run modded Minecraft until you"
+                            +" the saves and mods folder in Minecraft's folder. The file is made if\r\n"
+                            +" you set this option to true and then run modded Minecraft until you\r\n"
                             +" reach the title menu.\r\n"
                             +"\r\n"
-                            +" Use this option to look up the resource location or name of features,"
+                            +" Use this option to look up the resource location or name of features,\r\n"
                             +" biomes, blocks, carvers, structures, or entities that you want to blacklist.\r\n")
                     .translation("world_blender.config.resourcelocation.resourcelocationdump")
                     .define("resourceLocationDump", false));
@@ -272,16 +272,12 @@ public class WBBlendingConfigs {
                             +" mob's name. For example, \"minecraft:ghast\" will prevent \r\n"
                             +" vanilla's ghast from being imported.\r\n"
                             +" \r\n"
-                            +" As default, The Midnight's Night Stag is blacklisted because\r\n"
-                            +" trying to spawn that mob outside The Mindnight's dimension will\r\n"
-                            +" cause the world to hang forever.\r\n"
-                            +" \r\n"
                             +" NOTE: You can blacklist multiple things at a time. Just separate\r\n"
                             +" each entry with a , (comma). Here's an example blacklisting all zombies\r\n"
                             +" and vanilla's ghasts: \r\n"
                             +" \"zombie, minecraft:ghast\"\r\n")
                     .translation("world_blender.config.blacklist.blacklistedspawns")
-                    .define("blacklistedSpawns", "midnight:nightstag"));
+                    .define("blacklistedSpawns", ""));
 
 
             blacklistedBiomeSurfaces = subscriber.subscribe(builder
