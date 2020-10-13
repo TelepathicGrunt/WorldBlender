@@ -1,50 +1,53 @@
 package com.telepathicgrunt.world_blender.blocks;
 
 import com.telepathicgrunt.world_blender.WBIdentifiers;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
-import net.minecraft.block.entity.TileEntity;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.function.BooleanBiFunction;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.Heightmap;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Random;
 
 
-public class WBPortalBlock extends BlockWithEntity
+public class WBPortalBlock extends ContainerBlock
 {
-	protected static final VoxelShape COLLISION_BOX = Block.createCuboidShape(2.0D, 2.0D, 2.0D, 14.0D, 14.0D, 14.0D);
+	protected static final VoxelShape COLLISION_BOX = Block.makeCuboidShape(2.0D, 2.0D, 2.0D, 14.0D, 14.0D, 14.0D);
 	
 	protected WBPortalBlock()
 	{
-		super(Block.Settings.of(Material.PORTAL, MaterialColor.BLACK).noCollision().lightLevel((blockState) -> 6).strength(-1.0F, 3600000.0F).dropsNothing());
+		super(AbstractBlock.Properties.create(Material.PORTAL, MaterialColor.BLACK).doesNotBlockMovement().setLightLevel((blockState) -> 6).hardnessAndResistance(-1.0F, 3600000.0F).noDrops());
 	}
 
 
 	@Override
-	public TileEntity createTileEntity(BlockView blockReader)
+	public TileEntity createNewTileEntity(IBlockReader blockReader)
 	{
 		return new WBPortalBlockEntity();
 	}
 
 	@Override
-	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+	public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
 		return COLLISION_BOX;
 	}
 
@@ -52,30 +55,30 @@ public class WBPortalBlock extends BlockWithEntity
 	@Override
 	public void onEntityCollision(BlockState blockState, World world, BlockPos position, Entity entity)
 	{
-		TileEntity blockEntityOriginal = world.getBlockEntity(position);
+		TileEntity blockEntityOriginal = world.getTileEntity(position);
 		if (blockEntityOriginal instanceof WBPortalBlockEntity)
 		{
 			WBPortalBlockEntity wbBlockEntity = (WBPortalBlockEntity) blockEntityOriginal;
 
-			if (!world.isClient &&
+			if (!world.isRemote() &&
 					!wbBlockEntity.isCoolingDown() &&
-					!entity.hasVehicle() &&
-					!entity.hasPassengers() &&
-					entity.canUsePortals() &&
-					VoxelShapes.matchesAnywhere(
-							VoxelShapes.cuboid(entity.getBoundingBox().offset(
+					!entity.isPassenger() &&
+					!entity.isBeingRidden() &&
+					entity.isNonBoss() &&
+					VoxelShapes.compare(
+							VoxelShapes.create(entity.getBoundingBox().offset(
 									(-position.getX()),
 									(-position.getY()),
 									(-position.getZ()))),
 							COLLISION_BOX,
-							BooleanBiFunction.AND))
+							IBooleanFunction.AND))
 			{
 				//gets the world in the destination dimension
 				MinecraftServer minecraftServer = entity.getServer(); // the server itself
 
 				assert minecraftServer != null;
-				ServerWorld destinationWorld = minecraftServer.getWorld(world.getRegistryKey().equals(WBIdentifiers.WB_WORLD_KEY) ? World.OVERWORLD : WBIdentifiers.WB_WORLD_KEY);
-				ServerWorld originalWorld = minecraftServer.getWorld(entity.world.getRegistryKey());
+				ServerWorld destinationWorld = minecraftServer.getWorld(world.getDimensionKey().equals(WBIdentifiers.WB_WORLD_KEY) ? World.OVERWORLD : WBIdentifiers.WB_WORLD_KEY);
+				ServerWorld originalWorld = minecraftServer.getWorld(entity.world.getDimensionKey());
 
 				if(destinationWorld == null) return;
 				BlockPos destPos = null;
@@ -83,7 +86,7 @@ public class WBPortalBlock extends BlockWithEntity
 				//looks for portal blocks in other dimension
 				//within a 9x256x9 area
 				boolean portalOrChestFound = false;
-				for (BlockPos blockpos : BlockPos.iterate(position.add(-4, -position.getY(), -4), position.add(4, 255 - position.getY(), 4)))
+				for (BlockPos blockpos : BlockPos.getAllInBoxMutable(position.add(-4, -position.getY(), -4), position.add(4, 255 - position.getY(), 4)))
 				{
 					Block blockNearTeleport = destinationWorld.getBlockState(blockpos).getBlock();
 
@@ -96,7 +99,7 @@ public class WBPortalBlock extends BlockWithEntity
 						portalOrChestFound = true;
 
 						//make portals have a cooldown after being teleported to
-						TileEntity TileEntity = destinationWorld.getTileEntity(blockpos);
+						TileEntity blockEntity = destinationWorld.getTileEntity(blockpos);
 						if(blockEntity instanceof WBPortalBlockEntity){
 							((WBPortalBlockEntity)blockEntity).triggerCooldown();
 						}
@@ -107,8 +110,8 @@ public class WBPortalBlock extends BlockWithEntity
 
 					// We check if the block entity class itself has 'chest in the name.
 					// Cache the result and only count the block entity if it is a chest.
-					TileEntity blockEntity = destinationWorld.getBlockEntity(blockpos);
-					if(blockEntity == null || blockNearTeleport instanceof Inventory) continue;
+					TileEntity blockEntity = destinationWorld.getTileEntity(blockpos);
+					if(blockEntity == null || blockNearTeleport instanceof IInventory) continue;
 
 					if (WBPortalSpawning.VALID_CHEST_BLOCKS_ENTITY_TYPES.getOrDefault(blockEntity.getType(), false))
 					{
@@ -126,7 +129,7 @@ public class WBPortalBlock extends BlockWithEntity
 
 					//places a portal block in World Blender so player can escape if
 					//there is no portal block and then makes it be in cooldown
-					if (destinationWorld.getRegistryKey().equals(WBIdentifiers.WB_WORLD_KEY))
+					if (destinationWorld.getDimensionKey().equals(WBIdentifiers.WB_WORLD_KEY))
 					{
 						destinationWorld.setBlockState(destPos, Blocks.AIR.getDefaultState());
 						destinationWorld.setBlockState(destPos.up(), Blocks.AIR.getDefaultState());
@@ -149,25 +152,25 @@ public class WBPortalBlock extends BlockWithEntity
 	 * Turns this portal blocks to air when right clicked while crouching
 	 */
 	@Override
-	public ActionResult onUse(BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity, Hand hand, BlockHitResult rayTrace)
+	public ActionResultType onBlockActivated(BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult rayTrace)
 	{
-		BlockEntity blockEntity = world.getBlockEntity(blockPos);
-		if(playerEntity.isInSneakingPose() &&
+		TileEntity blockEntity = world.getTileEntity(blockPos);
+		if(playerEntity.isCrouching() &&
 				blockEntity instanceof WBPortalBlockEntity &&
 				((WBPortalBlockEntity)blockEntity).isRemoveable())
 		{
-			if (world.isClient) {
+			if (world.isRemote()) {
 				//show lots of particles when portal is removed on client
-				createLotsOfParticles(blockState, world, blockPos, world.random);
+				createLotsOfParticles(blockState, world, blockPos, world.rand);
 			}
 			else {
 				//remove this portal on server side
 				world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
 			}
-			return ActionResult.SUCCESS;
+			return ActionResultType.SUCCESS;
 		}
 		
-		return ActionResult.FAIL;
+		return ActionResultType.FAIL;
 	}
 
 
@@ -175,10 +178,10 @@ public class WBPortalBlock extends BlockWithEntity
 	 * Shows particles around this block
 	 */
 	@Override
-	@Environment(EnvType.CLIENT)
-	public void randomDisplayTick(BlockState blockState, World world, BlockPos position, Random random)
+	@OnlyIn(Dist.CLIENT)
+	public void animateTick(BlockState blockState, World world, BlockPos position, Random random)
 	{
-		BlockEntity TileEntity = world.getBlockEntity(position);
+		TileEntity TileEntity = world.getTileEntity(position);
 		if (TileEntity instanceof WBPortalBlockEntity)
 		{
 			if (random.nextFloat() < 0.09f)
@@ -189,10 +192,10 @@ public class WBPortalBlock extends BlockWithEntity
 		}
 	}
 
-	@Environment(EnvType.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void createLotsOfParticles(BlockState blockState, World world, BlockPos position, Random random)
 	{
-		BlockEntity TileEntity = world.getBlockEntity(position);
+		TileEntity TileEntity = world.getTileEntity(position);
 		if (TileEntity instanceof WBPortalBlockEntity)
 		{
 			for(int i = 0; i < 50; i++) 
@@ -214,13 +217,13 @@ public class WBPortalBlock extends BlockWithEntity
 	}
 
 	@Override
-	public ItemStack getPickStack(BlockView p_185473_1_, BlockPos p_185473_2_, BlockState p_185473_3_)
+	public ItemStack getItem(IBlockReader p_185473_1_, BlockPos p_185473_2_, BlockState p_185473_3_)
 	{
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public boolean canBucketPlace(BlockState p_225541_1_, Fluid p_225541_2_)
+	public boolean isReplaceable(BlockState p_225541_1_, Fluid p_225541_2_)
 	{
 		return false;
 	}

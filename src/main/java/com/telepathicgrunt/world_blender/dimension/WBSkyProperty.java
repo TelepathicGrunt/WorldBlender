@@ -1,23 +1,25 @@
 package com.telepathicgrunt.world_blender.dimension;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.render.SkyProperties;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.world.DimensionRenderInfo;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@Environment(EnvType.CLIENT)
-public class WBSkyProperty extends SkyProperties {
+@OnlyIn(Dist.CLIENT)
+public class WBSkyProperty extends DimensionRenderInfo {
     public WBSkyProperty() {
-        super(155, false, SkyType.NORMAL, true, true);
+        super(155, false, FogType.NORMAL, true, true);
     }
 
     @Override
-    public Vec3d adjustSkyColor(Vec3d color, float sunHeight) {
-        return color.multiply(sunHeight * 0.85F + 0.06F, sunHeight * 0.90F + 0.06F, sunHeight * 0.89F + 0.10F);
+    // sky/fog color
+    public Vector3d func_230494_a_(Vector3d color, float sunHeight) {
+        return color.mul(sunHeight * 0.85F + 0.06F, sunHeight * 0.90F + 0.06F, sunHeight * 0.89F + 0.10F);
     }
 
     @Override
-    public boolean useThickFog(int camX, int camY) {
+    // thick fog or no
+    public boolean func_230493_a_(int camX, int camY) {
         return false;
     }
 

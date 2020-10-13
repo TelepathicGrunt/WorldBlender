@@ -6,25 +6,25 @@ import com.telepathicgrunt.world_blender.the_blender.ConfigBlacklisting;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.Material;
+import net.minecraft.block.material.Material;
+import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.noise.OctaveSimplexNoiseSampler;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.gen.ChunkRandom;
-import net.minecraft.world.gen.carver.Carver;
-import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
-import net.minecraft.world.gen.surfacebuilder.SurfaceConfig;
-import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
+import net.minecraft.world.chunk.IChunk;
+import net.minecraft.world.gen.PerlinNoiseGenerator;
+import net.minecraft.world.gen.carver.WorldCarver;
+import net.minecraft.world.gen.surfacebuilders.ISurfaceBuilderConfig;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
 import java.util.*;
 import java.util.stream.IntStream;
 
-public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
+public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 {
     public BlendedSurfaceBuilder() {
-		super(TernarySurfaceConfig.CODEC);
+		super(SurfaceBuilderConfig.field_237203_a_);
     }
 
 
@@ -32,7 +32,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
      * Passes the chosen surface blocks at this coordinate to the Surface Builder.
      */
     @Override
-    public void generate(Random random, Chunk chunk, Biome biome, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, TernarySurfaceConfig config) {
+    public void buildSurface(Random random, IChunk chunk, Biome biome, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, SurfaceBuilderConfig config) {
 		BlendedSurfaceBuilder.setPerlinSeed(seed);
 
 //		max = Math.max(max, noise);
@@ -40,22 +40,22 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
 //		AllTheFeatures.LOGGER.log(Level.DEBUG, "Max: " + max +", Min: "+min + ", perlin: "+noise);
 
 		// creates surface using a surface builder similar to vanilla's default but using a random config and makes end, nether, and certain modded surfaces fill entire column
-		SurfaceConfig chosenConfig = allSurfaceList.get(weightedIndex(x, z));
-		if(chosenConfig instanceof TernarySurfaceConfig) {
-			this.buildSurface(random, chunk, biome, x, z, startHeight, noise, defaultBlock, defaultFluid, chosenConfig.getTopMaterial(), chosenConfig.getUnderMaterial(), ((TernarySurfaceConfig)chosenConfig).getUnderwaterMaterial(), seaLevel);
+		ISurfaceBuilderConfig chosenConfig = allSurfaceList.get(weightedIndex(x, z));
+		if(chosenConfig instanceof SurfaceBuilderConfig) {
+			this.buildSurface(random, chunk, biome, x, z, startHeight, noise, defaultBlock, defaultFluid, chosenConfig.getTop(), chosenConfig.getUnder(), ((SurfaceBuilderConfig)chosenConfig).getUnderWaterMaterial(), seaLevel);
 		}
 		else {
-			this.buildSurface(random, chunk, biome, x, z, startHeight, noise, defaultBlock, defaultFluid, chosenConfig.getTopMaterial(), chosenConfig.getUnderMaterial(), chosenConfig.getUnderMaterial(), seaLevel);
+			this.buildSurface(random, chunk, biome, x, z, startHeight, noise, defaultBlock, defaultFluid, chosenConfig.getTop(), chosenConfig.getUnder(), chosenConfig.getUnder(), seaLevel);
 		}
 	   
     }
 
 
-    protected void buildSurface(Random random, Chunk chunk, Biome biome, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, BlockState top, BlockState middle, BlockState bottom, int sealevel) {
+    protected void buildSurface(Random random, IChunk chunk, Biome biome, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, BlockState top, BlockState middle, BlockState bottom, int sealevel) {
 		boolean replaceEntireColumn = false;
 
 		// makes the entire column be replaced with the bottom block
-		if (bottom.getBlock() == Blocks.END_STONE || bottom.getBlock() == Blocks.NETHERRACK || !Registry.BLOCK.getId(bottom.getBlock()).getNamespace().equals("minecraft")) {
+		if (bottom.getBlock() == Blocks.END_STONE || bottom.getBlock() == Blocks.NETHERRACK || !Registry.BLOCK.getKey(bottom.getBlock()).getNamespace().equals("minecraft")) {
 			replaceEntireColumn = true;
 		}
 
@@ -69,7 +69,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
 		int zInChunk = z & 15;
 
 		for (int y = startHeight; y >= 0; --y) {
-			blockpos$mutable.set(xInChunk, y, zInChunk);
+			blockpos$mutable.setPos(xInChunk, y, zInChunk);
 			BlockState currentBlockstate = chunk.getBlockState(blockpos$mutable);
 			if (currentBlockstate.getMaterial() == Material.AIR) {
 				// reset depth so next non-air block is treated as new top surface
@@ -92,14 +92,14 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
 
 					// adds the sea with frozen top if needed
 					if (y < sealevel && (topBlockstate == null || topBlockstate.getMaterial() == Material.AIR)) {
-						if (biome.getTemperature(blockpos$mutable.set(x, y, z)) < 0.15F) {
+						if (biome.getTemperature(blockpos$mutable.setPos(x, y, z)) < 0.15F) {
 							topBlockstate = Blocks.ICE.getDefaultState();
 						}
 						else {
 							topBlockstate = defaultFluid;
 						}
 
-						blockpos$mutable.set(xInChunk, y, zInChunk);
+						blockpos$mutable.setPos(xInChunk, y, zInChunk);
 					}
 
 					// begin creating the actual solid surface with depth set
@@ -149,9 +149,9 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // config picking
 
-    private static List<TernarySurfaceConfig> threeLayerSurfaceList;
-    private static List<SurfaceConfig> allSurfaceList;
-    private static OctaveSimplexNoiseSampler perlinGen;
+    private static List<SurfaceBuilderConfig> threeLayerSurfaceList;
+    private static List<ISurfaceBuilderConfig> allSurfaceList;
+    private static PerlinNoiseGenerator perlinGen;
     public static long perlinSeed;
     private static double baseScale;
 //	private double max = -100000;
@@ -159,7 +159,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
 
     public static void setPerlinSeed(long seed) {
 		if (perlinGen == null || perlinSeed != seed) {
-			perlinGen = new OctaveSimplexNoiseSampler(new ChunkRandom(seed), IntStream.rangeClosed(-1, 0));
+			perlinGen = new PerlinNoiseGenerator(new SharedSeedRandom(seed), IntStream.rangeClosed(-1, 0));
 			perlinSeed = seed;
 		}
     }
@@ -168,23 +168,23 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
     /**
      * Helper method to see if we already have said surface
      */
-    public boolean containsConfig(TernarySurfaceConfig configIn) {
-		return threeLayerSurfaceList.stream().anyMatch(configEntry -> configEntry.getTopMaterial() == configIn.getTopMaterial() && configEntry.getUnderMaterial() == configIn.getUnderMaterial() && configEntry.getUnderwaterMaterial() == configIn.getUnderwaterMaterial());
+    public boolean containsConfig(SurfaceBuilderConfig configIn) {
+		return threeLayerSurfaceList.stream().anyMatch(configEntry -> configEntry.getTop() == configIn.getTop() && configEntry.getUnder() == configIn.getUnder() && configEntry.getUnderWaterMaterial() == configIn.getUnderWaterMaterial());
     }
 
 
     /**
      * Helper method to see if we already have said non-standard surface
      */
-    public boolean containsConfig(SurfaceConfig configIn) {
-		return allSurfaceList.stream().anyMatch(configEntry -> configEntry.getTopMaterial() == configIn.getTopMaterial() && configEntry.getUnderMaterial() == configIn.getUnderMaterial());
+    public boolean containsConfig(ISurfaceBuilderConfig configIn) {
+		return allSurfaceList.stream().anyMatch(configEntry -> configEntry.getTop() == configIn.getTop() && configEntry.getUnder() == configIn.getUnder());
     }
 
 
     /**
      * Adds the standard surface to both lists for surface gen later
      */
-    public void addConfig(TernarySurfaceConfig configIn) {
+    public void addConfig(SurfaceBuilderConfig configIn) {
 		threeLayerSurfaceList.add(configIn);
 		allSurfaceList.add(configIn);
     }
@@ -193,13 +193,13 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
     /**
      * Adds the non-standard surface to allSurfaceList for surface gen later
      */
-    public void addConfig(SurfaceConfig configIn) {
+    public void addConfig(ISurfaceBuilderConfig configIn) {
 		allSurfaceList.add(configIn);
     }
 
 
-	public static final TernarySurfaceConfig SAND_SAND_UNDERWATER_CONFIG =
-			new TernarySurfaceConfig(Blocks.SAND.getDefaultState(), Blocks.SAND.getDefaultState(), Blocks.SANDSTONE.getDefaultState());
+	public static final SurfaceBuilderConfig SAND_SAND_UNDERWATER_CONFIG =
+			new SurfaceBuilderConfig(Blocks.SAND.getDefaultState(), Blocks.SAND.getDefaultState(), Blocks.SANDSTONE.getDefaultState());
 
     /**
      * Reset the surfaces
@@ -209,28 +209,28 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
 		allSurfaceList = new ArrayList<>();
 
 		// default order of surface builders I want to start with always
-		threeLayerSurfaceList.add(NETHER_CONFIG);
-		threeLayerSurfaceList.add(END_CONFIG);
+		threeLayerSurfaceList.add(NETHERRACK_CONFIG);
+		threeLayerSurfaceList.add(END_STONE_CONFIG);
 
 		if (WorldBlender.WBBlendingConfig.allowVanillaSurfaces.get() &&
 				WorldBlender.WBBlendingConfig.allowVanillaBiomeImport.get())
 		{
-			threeLayerSurfaceList.add(GRASS_CONFIG);
-			threeLayerSurfaceList.add(PODZOL_CONFIG);
-			threeLayerSurfaceList.add(BADLANDS_CONFIG);
+			threeLayerSurfaceList.add(GRASS_DIRT_GRAVEL_CONFIG);
+			threeLayerSurfaceList.add(PODZOL_DIRT_GRAVEL_CONFIG);
+			threeLayerSurfaceList.add(RED_SAND_WHITE_TERRACOTTA_GRAVEL_CONFIG);
 			threeLayerSurfaceList.add(SAND_SAND_UNDERWATER_CONFIG);
-			threeLayerSurfaceList.add(MYCELIUM_CONFIG);
-			threeLayerSurfaceList.add(new TernarySurfaceConfig(Blocks.SNOW_BLOCK.getDefaultState(), Blocks.DIRT.getDefaultState(), Blocks.GRAVEL.getDefaultState()));
-			threeLayerSurfaceList.add(CRIMSON_NYLIUM_CONFIG);
-			threeLayerSurfaceList.add(WARPED_NYLIUM_CONFIG);
-			threeLayerSurfaceList.add(BASALT_DELTA_CONFIG);
-			threeLayerSurfaceList.add(COARSE_DIRT_CONFIG);
+			threeLayerSurfaceList.add(MYCELIUM_DIRT_GRAVEL_CONFIG);
+			threeLayerSurfaceList.add(new SurfaceBuilderConfig(Blocks.SNOW_BLOCK.getDefaultState(), Blocks.DIRT.getDefaultState(), Blocks.GRAVEL.getDefaultState()));
+			threeLayerSurfaceList.add(field_237185_P_);
+			threeLayerSurfaceList.add(field_237186_Q_);
+			threeLayerSurfaceList.add(field_237187_R_);
+			threeLayerSurfaceList.add(CORASE_DIRT_DIRT_GRAVEL_CONFIG);
 			threeLayerSurfaceList.add(GRAVEL_CONFIG);
 		}
 
 		// remove the surfaces that we disallow through blacklist but keep nether/end road
 		for (int i = threeLayerSurfaceList.size() - 1; i > 1; i--) {
-			if (ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.SURFACE_BLOCK, Registry.BLOCK.getId(threeLayerSurfaceList.get(i).getTopMaterial().getBlock()))) {
+			if (ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.SURFACE_BLOCK, Registry.BLOCK.getKey(threeLayerSurfaceList.get(i).getTop().getBlock()))) {
 				threeLayerSurfaceList.remove(i);
 			}
 		}
@@ -244,14 +244,14 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
     // setup what vanilla carvers can carve through so they dont get cut off by unique blocks added to surfacebuilder config
     public static Set<Block> blocksToCarve() {
 
-    	Set<Block> carvableBlocks = new HashSet<>(((CarverAccessor) Carver.CANYON).getalwaysCarvableBlocks());
+    	Set<Block> carvableBlocks = new HashSet<>(((CarverAccessor) WorldCarver.CANYON).getalwaysCarvableBlocks());
 		carvableBlocks.add(Blocks.NETHERRACK);
 		carvableBlocks.add(Blocks.END_STONE);
 
 		// adds underground modded blocks to carve through
 		for (int i = threeLayerSurfaceList.size() - 1; i > 1; i--) {
-			if (!Registry.BLOCK.getId(threeLayerSurfaceList.get(i).getUnderwaterMaterial().getBlock()).getNamespace().equals("minecraft")) {
-			carvableBlocks.add(threeLayerSurfaceList.get(i).getUnderwaterMaterial().getBlock());
+			if (!Registry.BLOCK.getKey(threeLayerSurfaceList.get(i).getUnderWaterMaterial().getBlock()).getNamespace().equals("minecraft")) {
+			carvableBlocks.add(threeLayerSurfaceList.get(i).getUnderWaterMaterial().getBlock());
 			}
 		}
 
@@ -277,13 +277,13 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
 
 		for (int configIndex = 0; configIndex < allSurfaceList.size(); configIndex++) {
 			if (configIndex == 0) {
-				if (Math.abs(perlinGen.sample(x / noiseScale, z / noiseScale, true)) < 0.035D) {
+				if (Math.abs(perlinGen.noiseAt(x / noiseScale, z / noiseScale, true)) < 0.035D) {
 					chosenConfigIndex = 0; // nether pathway
 					break;
 				}
 			}
 			else if (configIndex == 1) {
-				if (Math.abs(perlinGen.sample(x / noiseScale, z / noiseScale, true)) < 0.06D) {
+				if (Math.abs(perlinGen.noiseAt(x / noiseScale, z / noiseScale, true)) < 0.06D) {
 					chosenConfigIndex = 1; // end border on nether path. Uses same scale as nether path.
 					break;
 				}
@@ -292,7 +292,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
 				double offset = 200D * configIndex;
 				double scaling = 200D + configIndex * 4D;
 				double threshold = baseScale + Math.min(configIndex / 150D, 0.125D);
-				if (Math.abs(perlinGen.sample((x + offset) / scaling, (z + offset) / scaling, true)) < threshold) {
+				if (Math.abs(perlinGen.noiseAt((x + offset) / scaling, (z + offset) / scaling, true)) < threshold) {
 					chosenConfigIndex = configIndex; // all other surfaces with scale offset and threshold decreasing as index gets closer to 0.
 					break;
 				}

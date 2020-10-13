@@ -1,18 +1,18 @@
 package com.telepathicgrunt.world_blender.mixin;
 
 import net.minecraft.block.Block;
-import net.minecraft.world.gen.carver.Carver;
+import net.minecraft.world.gen.carver.WorldCarver;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.Set;
 
-@Mixin(Carver.class)
+@Mixin(WorldCarver.class)
 public interface CarverAccessor {
 
-    @Accessor("alwaysCarvableBlocks")
+    @Accessor("carvableBlocks")
     Set<Block> getalwaysCarvableBlocks();
 
-    @Accessor("alwaysCarvableBlocks")
+    @Accessor("carvableBlocks")
     void setalwaysCarvableBlocks(Set<Block> blockSet);
 }

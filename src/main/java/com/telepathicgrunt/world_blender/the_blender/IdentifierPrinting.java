@@ -1,17 +1,17 @@
 package com.telepathicgrunt.world_blender.the_blender;
 
 import com.telepathicgrunt.world_blender.WorldBlender;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.DynamicRegistryManager;
+import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ResourceLocationPrinting
+public class IdentifierPrinting
 {
 
 	/**
@@ -21,20 +21,20 @@ public class ResourceLocationPrinting
 	 * The resource location will be printed into a file call identifierDump.txt
 	 * and can be found below the world's save folder in the Minecraft folder.
 	 */
-	public static void printAllResourceLocations(DynamicRegistryManager registryManager)
+	public static void printAllResourceLocations(DynamicRegistries registryManager)
 	{
 		try(PrintStream printStream = new PrintStream("identifierDump.txt"))
 		{ 
-			printOutSection(printStream, registryManager.get(Registry.BIOME_KEY), "BIOMES");
+			printOutSection(printStream, registryManager.func_243612_b(Registry.BIOME_KEY), "BIOMES");
 
 			printStream.println();
-			printOutSection(printStream, registryManager.get(Registry.CONFIGURED_FEATURE_WORLDGEN), "CONFIGURED FEATURES");
+			printOutSection(printStream, registryManager.func_243612_b(Registry.field_243552_au), "CONFIGURED FEATURES");
 			
 			printStream.println();
-			printOutSection(printStream, registryManager.get(Registry.CONFIGURED_STRUCTURE_FEATURE_WORLDGEN), "CONFIGURED STRUCTURES");
+			printOutSection(printStream, registryManager.func_243612_b(Registry.field_243553_av), "CONFIGURED STRUCTURES");
 
 			printStream.println();
-			printOutSection(printStream, registryManager.get(Registry.CONFIGURED_CARVER_WORLDGEN), "CARVERS");
+			printOutSection(printStream, registryManager.func_243612_b(Registry.field_243551_at), "CARVERS");
 			
 			printStream.println();
 			printOutSection(printStream, Registry.ENTITY_TYPE, "ENTITIES");
@@ -67,12 +67,12 @@ public class ResourceLocationPrinting
 		printStream.println("######      "+section+" RESOURCE LOCATION (IDs)        ######"); 
 		printStream.println();
 
-		registry.getEntries().stream().sorted(Comparator.comparing(p -> p.getKey().getValue().toString()))
+		registry.getEntries().stream().sorted(Comparator.comparing(p -> p.getKey().func_240901_a_().toString()))
 				.forEach(entry -> writeEntry(printStream, entry.getKey(), previous_namespace));
 	}
 
 	private static void writeEntry(PrintStream printStream, RegistryKey<?> entry, AtomicReference<String> previous_namespace){
-		ResourceLocation entryID = entry.getValue();
+		ResourceLocation entryID = entry.func_240901_a_();
 
 		// extra check to just make sure. Probably never possible to be null
 		if(entryID == null) return;

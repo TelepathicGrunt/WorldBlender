@@ -4,9 +4,9 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.gen.feature.StructureFeature;
 
 import java.util.*;
 
@@ -15,7 +15,7 @@ public class FeatureGrouping
 {
 	public static void setupFeatureMaps() 
 	{
-		for(GenerationStep.Feature stage : GenerationStep.Feature.values())
+		for(GenerationStage.Decoration stage : GenerationStage.Decoration.values())
 		{
 			SMALL_PLANT_MAP.put(stage, new ArrayList<>());
 			LARGE_PLANT_MAP.put(stage, new ArrayList<>());
@@ -42,7 +42,7 @@ public class FeatureGrouping
 	 */
 	public static boolean isLaggyFeature(ConfiguredFeature<?, ?> configuredFeature)
 	{
-		Optional<JsonElement> optionalConfiguredFeatureJSON = ConfiguredFeature.CODEC.encode(() -> configuredFeature, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
+		Optional<JsonElement> optionalConfiguredFeatureJSON = ConfiguredFeature.field_242763_a.encode(configuredFeature, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
 
 		if(optionalConfiguredFeatureJSON.isPresent()){
 			JsonElement configuredFeatureJSON = optionalConfiguredFeatureJSON.get();
@@ -64,14 +64,14 @@ public class FeatureGrouping
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final Map<GenerationStep.Feature, List<ConfiguredFeature<?, ?>>> SMALL_PLANT_MAP = Maps.newHashMap();
+	public static final Map<GenerationStage.Decoration, List<ConfiguredFeature<?, ?>>> SMALL_PLANT_MAP = Maps.newHashMap();
 	private static final List<String> SMALL_PLANT_KEYWORDS = Arrays.asList("grass", "flower", "rose", "plant", "bush", "fern");
 
 	/**
 	 * Will check if incoming configuredfeature is a small plant and add it to the small plant map if it is so 
 	 * we can have a list of them for specific feature manipulation later
 	 */
-	public static boolean checksAndAddSmallPlantFeatures(GenerationStep.Feature stage, ConfiguredFeature<?, ?> configuredFeature) 
+	public static boolean checksAndAddSmallPlantFeatures(GenerationStage.Decoration stage, ConfiguredFeature<?, ?> configuredFeature)
 	{
 		//if small plant is already added, skip it
 		if(SMALL_PLANT_MAP.get(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature, true)))
@@ -80,7 +80,7 @@ public class FeatureGrouping
 		}
 
 
-		Optional<JsonElement> optionalConfiguredFeatureJSON = ConfiguredFeature.CODEC.encode(() -> configuredFeature, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
+		Optional<JsonElement> optionalConfiguredFeatureJSON = ConfiguredFeature.field_242763_a.encode(configuredFeature, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
 
 		if(optionalConfiguredFeatureJSON.isPresent()) {
 			JsonElement configuredFeatureJSON = optionalConfiguredFeatureJSON.get();
@@ -102,14 +102,14 @@ public class FeatureGrouping
 
 	//while we are storing large plants into this map, we don't use it at the moment as we just
 	//need to identify what's a large plant and move it to the front of the feature list.
-	public static final Map<GenerationStep.Feature, List<ConfiguredFeature<?, ?>>> LARGE_PLANT_MAP = Maps.newHashMap();
+	public static final Map<GenerationStage.Decoration, List<ConfiguredFeature<?, ?>>> LARGE_PLANT_MAP = Maps.newHashMap();
 	private static final List<String> LARGE_PLANT_KEYWORDS = Arrays.asList("tree", "huge_mushroom", "big_mushroom", "poplar", "twiglet", "mangrove", "bramble");
 	
 	/**
 	 * Will check if incoming configuredfeature is a large plant and add it to the Large plant map if it is so 
 	 * we can have a list of them for specific feature manipulation later
 	 */
-	public static boolean checksAndAddLargePlantFeatures(GenerationStep.Feature stage, ConfiguredFeature<?, ?> configuredFeature) 
+	public static boolean checksAndAddLargePlantFeatures(GenerationStage.Decoration stage, ConfiguredFeature<?, ?> configuredFeature)
 	{
 		//if large plant is already added, skip it
 		if(LARGE_PLANT_MAP.get(stage).stream().anyMatch(vanillaConfigFeature -> serializeAndCompareFeature(vanillaConfigFeature, configuredFeature, true)))
@@ -118,7 +118,7 @@ public class FeatureGrouping
 		}
 
 
-		Optional<JsonElement> optionalConfiguredFeatureJSON = ConfiguredFeature.CODEC.encode(() -> configuredFeature, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
+		Optional<JsonElement> optionalConfiguredFeatureJSON = ConfiguredFeature.field_242763_a.encode(configuredFeature, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
 
 		if(optionalConfiguredFeatureJSON.isPresent()) {
 			JsonElement configuredFeatureJSON = optionalConfiguredFeatureJSON.get();
@@ -239,8 +239,8 @@ public class FeatureGrouping
 	 */
 	public static boolean serializeAndCompareFeature(ConfiguredFeature<?, ?> configuredFeature1, ConfiguredFeature<?, ?> configuredFeature2, boolean doDeepJSONCheck) {
 
-		Optional<JsonElement> optionalJsonElement1 = ConfiguredFeature.CODEC.encode(() -> configuredFeature1, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
-		Optional<JsonElement> optionalJsonElement2 = ConfiguredFeature.CODEC.encode(() -> configuredFeature2, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
+		Optional<JsonElement> optionalJsonElement1 = ConfiguredFeature.field_242763_a.encode(configuredFeature1, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
+		Optional<JsonElement> optionalJsonElement2 = ConfiguredFeature.field_242763_a.encode(configuredFeature2, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
 
 		// Compare the JSON to see if it's the exact same ConfiguredFeature.
 		if(optionalJsonElement1.isPresent() &&
@@ -262,10 +262,10 @@ public class FeatureGrouping
 	 * If cannot serialize, compare the feature itself to see if it is the same.
 	 */
 
-	public static boolean serializeAndCompareStructureJSONOnly(ConfiguredStructureFeature<?, ?> configuredStructure1, ConfiguredStructureFeature<?, ?> configuredStructure2) {
+	public static boolean serializeAndCompareStructureJSONOnly(StructureFeature<?, ?> configuredStructure1, StructureFeature<?, ?> configuredStructure2) {
 
-		Optional<JsonElement> optionalJsonElement1 = ConfiguredStructureFeature.CODEC.encode(configuredStructure1, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
-		Optional<JsonElement> optionalJsonElement2 = ConfiguredStructureFeature.CODEC.encode(configuredStructure2, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
+		Optional<JsonElement> optionalJsonElement1 = StructureFeature.field_236267_a_.encode(configuredStructure1, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
+		Optional<JsonElement> optionalJsonElement2 = StructureFeature.field_236267_a_.encode(configuredStructure2, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
 
 		// Compare the JSON to see if it's the exact same ConfiguredFeature.
 		if(optionalJsonElement1.isPresent() &&

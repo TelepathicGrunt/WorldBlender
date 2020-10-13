@@ -1,14 +1,14 @@
 package com.telepathicgrunt.world_blender.dimension;
 
 import com.telepathicgrunt.world_blender.WorldBlender;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.PersistentState;
-import net.minecraft.world.PersistentStateManager;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.DimensionSavedDataManager;
+import net.minecraft.world.storage.WorldSavedData;
 
 
-public class WBWorldSavedData extends PersistentState
+public class WBWorldSavedData extends WorldSavedData
 {
 	private static final String ALTAR_DATA = WorldBlender.MODID + "AltarMade";
 	private static final WBWorldSavedData CLIENT_DUMMY = new WBWorldSavedData();
@@ -26,20 +26,20 @@ public class WBWorldSavedData extends PersistentState
 			return CLIENT_DUMMY;
 		}
 
-		PersistentStateManager storage = ((ServerWorld)world).getPersistentStateManager();
+		DimensionSavedDataManager storage = ((ServerWorld)world).getSavedData();
 		return storage.getOrCreate(WBWorldSavedData::new, ALTAR_DATA);
 	}
 	
 	
 
 	@Override
-	public void fromTag(CompoundTag data)
+	public void read(CompoundNBT data)
 	{
 		wbAltarMade = data.getBoolean("WBAltarMade");
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag data)
+	public CompoundNBT write(CompoundNBT data)
 	{
 		data.putBoolean("WBAltarMade", wbAltarMade);
 		return data;

@@ -1,12 +1,12 @@
 package com.telepathicgrunt.world_blender.mixin;
 
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.DimensionType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(DimensionType.class)
 public interface DimensionTypeAccessor {
 
-    @Accessor("hasEnderDragonFight")
+    @Accessor("field_236015_u_")
     void setEnderDragonFight(boolean hasDragon);
 }

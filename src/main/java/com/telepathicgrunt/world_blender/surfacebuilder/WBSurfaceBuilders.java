@@ -1,8 +1,6 @@
 package com.telepathicgrunt.world_blender.surfacebuilder;
 
 import com.telepathicgrunt.world_blender.WorldBlender;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.event.RegistryEvent;

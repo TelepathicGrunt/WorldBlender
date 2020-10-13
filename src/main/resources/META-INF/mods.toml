@@ -1,0 +1,17 @@
+modLoader="javafml" #mandatory
+loaderVersion="[30,)" #mandatory
+
+[[mods]] #mandatory
+modId="world_blender" #mandatory
+logoFile="world_blender_logo.png"
+version="${version}" #mandatory
+displayName="World Blender" #mandatory
+displayURL="https://www.curseforge.com/minecraft/mc-mods/worldblender"
+authors="TelepathicGrunt"
+credits="Special thanks to all the Forge tutorials and debugging help from other modders to help make this mod possible!"
+description='''A dimension with all the features, structures, surfaces, and natural spawns from vanilla and your mods shoved in!'''
+
+[[dependencies.world_blender]]
+    modId="terraforged"
+    mandatory=false
+    versionRange="[0.1.2,)"

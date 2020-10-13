@@ -1,26 +1,22 @@
 package com.telepathicgrunt.world_blender.blocks;
 
-import com.telepathicgrunt.world_blender.WBIdentifiers;
-import io.netty.buffer.Unpooled;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
-import net.fabricmc.fabric.api.server.PlayerStream;
+import com.telepathicgrunt.world_blender.utils.MessageHandler;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Tickable;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 
-public class WBPortalBlockEntity extends BlockEntity implements Tickable
+public class WBPortalBlockEntity extends TileEntity implements ITickableTileEntity
 {
 	private float teleportCooldown = 300;
 	private boolean removeable = true;
@@ -58,23 +54,23 @@ public class WBPortalBlockEntity extends BlockEntity implements Tickable
 					destPos.getX() + 0.5D,
 					destPos.getY() + 1D,
 					destPos.getZ() + 0.5D, 
-					entity.yaw, 
-					entity.pitch);
+					entity.rotationYaw,
+					entity.rotationPitch);
 		}
 		else {
 	         Entity entity2 = entity.getType().create(destinationWorld);
 	         if (entity2 != null) {
-	        	 entity2.copyFrom(entity);
-	        	 entity2.refreshPositionAndAngles(destPos, entity.yaw, entity.pitch);
-	        	 entity2.setVelocity(entity.getVelocity());
-	        	 destinationWorld.onDimensionChanged(entity2);
+	        	 entity2.copyDataFromOld(entity);
+	        	 entity2.moveToBlockPosAndAngles(destPos, entity.rotationYaw, entity.rotationPitch);
+	        	 entity2.setMotion(entity.getMotion());
+	        	 destinationWorld.addFromAnotherDimension(entity2);
 	         }
 	         entity.remove();
 			 assert this.world != null;
-			 this.world.getProfiler().pop();
-	         originalWorld.resetIdleTimeout();
-	         destinationWorld.resetIdleTimeout();
-	         this.world.getProfiler().pop();
+			 this.world.getProfiler().endSection();
+	         originalWorld.resetUpdateEntityTick();
+	         destinationWorld.resetUpdateEntityTick();
+	         this.world.getProfiler().endSection();
 		}
 	}
 
@@ -95,19 +91,14 @@ public class WBPortalBlockEntity extends BlockEntity implements Tickable
 
 	public void triggerCooldown()
 	{
-		if(this.world == null || this.world.isClient()) return;
+		if(this.world == null || this.world.isRemote()) return;
 
 		this.teleportCooldown = 300;
 		this.markDirty();
-		this.world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 3);
+		this.world.notifyBlockUpdate(this.pos, this.getBlockState(), this.getBlockState(), 3);
 
 		// Send cooldown to client to display visually
-		PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
-		passedData.writeBlockPos(this.pos);
-		passedData.writeFloat(this.getCoolDown());
-
-		PlayerStream.world(world).forEach(player ->
-				ServerSidePacketRegistry.INSTANCE.sendToPlayer(player, WBIdentifiers.PORTAL_COOLDOWN_PACKET_ID, passedData));
+		MessageHandler.UpdateTECooldownPacket.sendToClient(this.pos, this.getCoolDown());
 	}
 	
 	public boolean isRemoveable()
@@ -122,9 +113,9 @@ public class WBPortalBlockEntity extends BlockEntity implements Tickable
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag data)
+	public CompoundNBT write(CompoundNBT data)
 	{
-		super.toTag(data);
+		super.write(data);
 		data.putFloat("Cooldown", this.teleportCooldown);
 		data.putBoolean("Removeable", this.removeable);
 		return data;
@@ -132,9 +123,9 @@ public class WBPortalBlockEntity extends BlockEntity implements Tickable
 
 
 	@Override
-	public void fromTag(BlockState blockState, CompoundTag data)
+	public void read(BlockState blockState, CompoundNBT data)
 	{
-		super.fromTag(blockState, data);
+		super.read(blockState, data);
 		if(data.contains("Cooldown")) 
 		{
 			this.teleportCooldown = data.getFloat("Cooldown");
@@ -147,7 +138,7 @@ public class WBPortalBlockEntity extends BlockEntity implements Tickable
 		this.removeable = data.getBoolean("Removeable");
 	}
 
-	@Environment(EnvType.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean shouldRenderFace(Direction direction)
 	{
 		return true;
@@ -156,14 +147,14 @@ public class WBPortalBlockEntity extends BlockEntity implements Tickable
 	}
 
 	@Deprecated
-	@Environment(EnvType.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
 		return false;
 	}
 
 	@Override
-	@Environment(EnvType.CLIENT)
-	public double getSquaredRenderDistance()
+	@OnlyIn(Dist.CLIENT)
+	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
 	}
@@ -174,9 +165,9 @@ public class WBPortalBlockEntity extends BlockEntity implements Tickable
 	 * TE's, this packet comes back to you clientside
 	 */
 	@Override
-	public BlockEntityUpdateS2CPacket toUpdatePacket()
+	public SUpdateTileEntityPacket getUpdatePacket()
 	{
-		return new BlockEntityUpdateS2CPacket(this.pos, 0, this.toInitialChunkDataTag());
+		return new SUpdateTileEntityPacket(this.pos, 0, this.getUpdateTag());
 	}
 	
 
@@ -185,9 +176,9 @@ public class WBPortalBlockEntity extends BlockEntity implements Tickable
 	 * blocks change at once. This compound comes back to you clientside
 	 */
 	@Override
-	public CompoundTag toInitialChunkDataTag()
+	public CompoundNBT getUpdateTag()
 	{
-		return this.toTag(new CompoundTag());
+		return this.write(new CompoundNBT());
 	}
 
 }

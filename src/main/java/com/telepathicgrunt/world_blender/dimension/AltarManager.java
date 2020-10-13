@@ -1,14 +1,14 @@
 package com.telepathicgrunt.world_blender.dimension;
 
 import com.telepathicgrunt.world_blender.features.WBFeatures;
-import net.minecraft.server.world.ChunkHolder;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
-import net.minecraft.world.chunk.WorldChunk;
-import net.minecraft.world.gen.feature.FeatureConfig;
+import net.minecraft.world.chunk.IChunk;
+import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.server.ChunkHolder;
+import net.minecraft.world.server.ServerWorld;
 
 
 public class AltarManager
@@ -30,7 +30,7 @@ public class AltarManager
 			boolean flag = this.isWorldOriginTicking();
 			if(flag)
 			{
-				WBFeatures.WB_PORTAL_ALTAR.generate(this.world, this.world.getChunkManager().getChunkGenerator(), this.world.random, new BlockPos(0, 255, 0), FeatureConfig.DEFAULT);
+				WBFeatures.WB_PORTAL_ALTAR.func_241855_a(this.world, this.world.getChunkProvider().getChunkGenerator(), this.world.rand, new BlockPos(0, 255, 0), IFeatureConfig.NO_FEATURE_CONFIG);
 				this.altarMade = true;
 				this.saveWBAltarData(this.world);
 			}
@@ -44,14 +44,14 @@ public class AltarManager
 		{
 			for (int z = -1; z <= 0; ++z)
 			{
-				Chunk ichunk = this.world.getChunk(x, z, ChunkStatus.FULL, false);
-				if (!(ichunk instanceof WorldChunk))
+				IChunk ichunk = this.world.getChunk(x, z, ChunkStatus.FULL, false);
+				if (!(ichunk instanceof Chunk))
 				{
 					return false;
 				}
 
-				ChunkHolder.LevelType chunkholder$locationtype = ((WorldChunk) ichunk).getLevelType();
-				if (!chunkholder$locationtype.isAfter(ChunkHolder.LevelType.TICKING))
+				ChunkHolder.LocationType chunkholder$locationtype = ((Chunk) ichunk).getLocationType();
+				if (!chunkholder$locationtype.isAtLeast(ChunkHolder.LocationType.TICKING))
 				{
 					return false;
 				}

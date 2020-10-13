@@ -1,10 +1,9 @@
 package com.telepathicgrunt.world_blender.configs;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.common.Mod;
 import com.telepathicgrunt.world_blender.utils.ConfigHelper;
 import com.telepathicgrunt.world_blender.utils.ConfigHelper.ConfigValueListener;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
 public class WBBlendingConfigs {

@@ -1,17 +1,16 @@
 package com.telepathicgrunt.world_blender.blocks;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.render.RenderPhase;
+import net.minecraft.client.renderer.RenderState;
 import net.minecraft.util.Util;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 
 public class WBRenderTexturingState
 {
-
-	@Environment(EnvType.CLIENT)
-	public static final class WBPortalTexturingState extends RenderPhase.Texturing
+	@OnlyIn(Dist.CLIENT)
+	public static final class WBPortalTexturingState extends RenderState.TexturingState
 	{
 		private final int iteration;
 
@@ -25,7 +24,7 @@ public class WBRenderTexturingState
 				RenderSystem.loadIdentity();
 				RenderSystem.translatef(0.5F, 0.5F, 0.0F);
 				RenderSystem.scalef(0.5F, 0.5F, 1.0F);
-				RenderSystem.translatef(17.0F / layerIndex, (2.0F + layerIndex / 1.5F) * (Util.getMeasuringTimeMs() % 1000000000000000000L / 100000.0F), 0.0F);
+				RenderSystem.translatef(17.0F / layerIndex, (2.0F + layerIndex / 1.5F) * (Util.millisecondsSinceEpoch() % 1000000000000000000L / 100000.0F), 0.0F);
 				RenderSystem.rotatef((layerIndex * layerIndex * 4321.0F + layerIndex * 9.0F) * 2.0F, 0.0F, 0.0F, 1.0F);
 				RenderSystem.scalef(4.5F - layerIndex / 4.0F, 4.5F - layerIndex / 4.0F, 1.0F);
 				RenderSystem.mulTextureByProjModelView();

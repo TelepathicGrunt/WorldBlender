@@ -1,19 +1,20 @@
 package com.telepathicgrunt.world_blender.mixin;
 
 import com.telepathicgrunt.world_blender.WBIdentifiers;
-import com.telepathicgrunt.world_blender.utils.ISeedReader;
-import net.minecraft.block.entity.TileEntity;
-import net.minecraft.block.entity.EndGatewayTileEntity;
-import net.minecraft.block.entity.EndPortalTileEntity;
-import net.minecraft.entity.boss.dragon.EnderDragonFight;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.chunk.WorldChunk;
+import com.telepathicgrunt.world_blender.utils.ServerWorldAccess;
+import net.minecraft.tileentity.EndGatewayTileEntity;
+import net.minecraft.tileentity.EndPortalTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.ISeedReader;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.end.DragonFightManager;
+import net.minecraft.world.server.ServerWorld;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(EnderDragonFight.class)
+@Mixin(DragonFightManager.class)
 public class EnderDragonFightMixin {
 
 	@Mutable
@@ -25,12 +26,12 @@ public class EnderDragonFightMixin {
 	//Otherwise spawning our altar in ServerWorld before dragon will not spawn dragon. Don't ask me why.
 	//Cursed enderdragon code
 	@Inject(
-			method = "convertFromLegacy",
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/boss/dragon/EnderDragonFight;generateEndPortal(Z)V")
+			method = "scanForLegacyFight",
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/end/DragonFightManager;generatePortal(Z)V")
 	)
 	private void tickAltar(CallbackInfo ci) {
-		if(world.getRegistryKey().getValue().equals(WBIdentifiers.MOD_DIMENSION_ID))
-			((ISeedReader)world).getAltar().tick();
+		if(world.getDimensionKey().func_240901_a_().equals(WBIdentifiers.MOD_DIMENSION_ID))
+			((ServerWorldAccess)world).getAltar().tick();
 	}
 
 
@@ -50,19 +51,19 @@ public class EnderDragonFightMixin {
 	 * @author TelepathicGrunt
 	 * @reason spawn end podium and altar faster in world blender dimension
 	 */
-	@Overwrite(aliases = "worldContainsEndPortal")
-	private boolean worldContainsEndPortal() {
-		int radius = this.world.getRegistryKey().equals(WBIdentifiers.WB_WORLD_KEY) ? 1 : 8;
+	@Overwrite(aliases = "exitPortalExists")
+	private boolean exitPortalExists() {
+		int radius = this.world.getDimensionKey().equals(WBIdentifiers.WB_WORLD_KEY) ? 1 : 8;
 		for(int i = -radius; i <= radius; ++i) {
 			for(int j = -radius; j <= radius; ++j) {
-				WorldChunk worldChunk = this.world.getChunk(i, j);
-				for (TileEntity blockEntity : worldChunk.getBlockEntities().values()) {
+				Chunk worldChunk = this.world.getChunk(i, j);
+				for (TileEntity blockEntity : worldChunk.getTileEntityMap().values()) {
 
 					// If in World Blender dimension, only check for End Port entity.
 					// Vanilla checks for gateways too which err well, breaks portal
 					// spawning as End Gateways can spawn close to spawn.
-					if (blockEntity instanceof EndPortalBlockEntity && (
-							!this.world.getRegistryKey().equals(WBIdentifiers.WB_WORLD_KEY) || !(blockEntity instanceof EndGatewayTileEntity)))
+					if (blockEntity instanceof EndPortalTileEntity && (
+							!this.world.getDimensionKey().equals(WBIdentifiers.WB_WORLD_KEY) || !(blockEntity instanceof EndGatewayTileEntity)))
 					{
 						return true;
 					}

@@ -5,17 +5,15 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "BiomeLayerSamplerAccessor",
-    "BlockEntityRenderDispatcherInvoker",
     "CarverAccessor",
     "ConfiguredCarverAccessor",
     "DimensionTypeAccessor",
     "EnderDragonFightMixin",
     "GenerationSettingsAccessor",
-    "GoVoteMixin",
     "MinecraftServerMixin",
     "RenderPhaseAccessor",
     "ServerWorldMixin",
-    "SpawnSettingsAccessor",
+    "MobSpawnInfoAccessor",
     "WeightedBlockStateProviderMixin"
   ],
   "client": [
