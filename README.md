@@ -1,10 +1,11 @@
 <p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.imgur.com/HLLklJ6.png" alt="The banner logo for World Blender with a picture of the crazy landscape behind the title." width="999" height="370" /></p>
 <h2 style="text-align: center;"><span style="font-size: 40px; text-align: center; color: #009b7c;"><strong>CURRENTLY FOR 1.15.2 &amp; 1.14.4 MC</strong></span></h2>
+<p style="text-align: center;"><span style="font-size: 12px; text-align: center; color: #009b7c;"><strong>Needs to be on both client and server to work</strong></span></p>
+<p style="text-align: center;"><strong><a href="https://www.curseforge.com/minecraft/mc-mods/worldblender">[Click here for the 1.16.3 Fabric version of this mod!]</a></strong></p>
 <p>&nbsp;</p>
-<p style="text-align: center;"><em><span style="font-size: 14px; color: #b00000; text-decoration: underline;"><strong>Recent 1.15.2 News:</strong></span><span style="font-size: 14px;"><b><strong>&nbsp;Fixed crashes when </strong></b></span></em></p>
-<p style="text-align: center;"><em><span style="font-size: 14px;"><b><strong>using mods that didn't register their features</strong></b></span></em></p>
-<p style="text-align: center;"><em><span style="font-size: 14px;"><b><strong>correctly or uses unique Surface Builders for biomes.&nbsp;</strong></b></span></em></p>
 <p>&nbsp;</p>
+<p style="text-align: center;"><strong><span style="color: #800000;">Recent News:</span></strong> <strong>Ported 1.16.3 Fabric version to Forge!</strong></p>
+<p style="text-align: center;"><strong>Please report any bugs that you find!</strong></p>
 <p>&nbsp;</p>
 <p><strong>______________________________________________________________________________</strong></p>
 <p>&nbsp;</p>
@@ -14,8 +15,13 @@
 <p>&nbsp;</p>
 <p><span style="font-size: 14px;">&nbsp; &nbsp;Inside the dimension, you will find massive webs of different kinds of surfaces all filled to the brim with trees, grass, and structures. But take notice of the Nether surface path that has End surfaces on each side. That Nether path is the main walkway through the dimension as no other surfaces can interrupt that pathway. So follow that red road and explore the insanity of the world! Also, if you got modded ores mod on, all the ores will be added as well as long as they are able to spawn in Stone! And lastly, the biomes will have imported every mob's spawn entry so there's no telling what will spawn! Though animals seem to not spawn very often due to all the trees and plants covering all the Grass Blocks so you may have to burn down some forests or blacklist many plant features in the config to increase animal spawning.</span></p>
 <p>&nbsp;</p>
-<p><span style="font-size: 14px;">&nbsp; &nbsp;Currently as of right now, here is the alphabetical list of 1.15.2 mods that does work with the latest 1.15.2 version of World Blender. Let me know if another mod works with World Blender and I'll add it to this list!</span></p>
-<p style="font-size: 14px;">&nbsp;<br /><strong>COMPATIBLE MODS LIST:</strong></p>
+<p><span style="font-size: 14px;">&nbsp; &nbsp;Currently as of right now, here is the alphabetical list of 1.16.3 mods that does work with the latest 1.16.3 version of World Blender. Let me know if another mod works with World Blender and I'll add it to this list!</span></p>
+<p style="font-size: 14px;">&nbsp;<br /><span style="font-size: 14px;"><strong>1.16.3 COMPATIBLE MODS LIST:</strong></span></p>
+<div class="spoiler">
+<p>Please help! College drained my time out of me like a vampire! Let me know what mods works with World Blender! (Or doesn't work. Someone always breaks my mod lmao)</p>
+<p>&nbsp;</p>
+</div>
+<p style="font-size: 14px;"><br /><strong>1.15.2 COMPATIBLE MODS LIST:</strong></p>
 <div class="spoiler">
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/aliketools/files/2887477">-AlikeTools</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/almost-all-the-ores">-Almost all the Ores</a></p>
@@ -28,6 +34,7 @@
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/biomes-o-plenty">-Biomes O' Plenty</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/bloomful/files/2902881">-Bloomful</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/blue-power">-Blue Power</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/botania">-Botania</a></p>
 <p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/bountiful">-Bountiful</a> (The Bounty Board only generates in Vanilla Villages so allow Villages to spawn in the dimension to get the Bounty Board)</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/buzzier-bees">-Buzzier Bees</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/coffeecheese">-CoffeeCat's CheeseMod</a></p>
@@ -51,7 +58,7 @@
 <p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/hunterillager">-HunterIllager</a> (Can crash during worldgen due to a Vanilla bug. The bug will be fixed in 1.16 as according to MC-173067 bug report on bugs.mojang.com!)</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/lucky-ores">-Lucky Ores</a></p>
 <p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/lycanites-mobs">-Lycanites Mobs</a> (Can import some of the mobs but this mod greatly increases lag time in the world when imported. Best to blacklist this mod for now in World Blender's config.)</p>
-<p style="font-size: 14px;"><a href="https://www.curseforge.com/minecraft/mc-mods/magic-dimencions">-Magic Dimensions</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/magic-dimencions">-Magic Dimensions</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/metal-bushes">-Metal Bushes</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/ma-astral">-Miner Arcana Presents Astral</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/moolands">-Moolands</a></p>
@@ -64,16 +71,17 @@
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/oh-the-biomes-youll-go">-Oh The Biomes You'll Go</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/ores-above-diamonds">-Ores Above Diamonds</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/ores-and-metals">-Ores and Metals Mod</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/pandoras-creatures">-Pandoras Creatures</a></p>
 <p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/pams-harvestcraft-2-trees">-Pam's HavestCraft 2 - Trees</a> (Go into the world's save folder and open up pam's config in the world. Then add "world_blender:world_blender" to the dimension whitelist)</p>
 <p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/pams-harvestcraft-2-crops">-Pam's HavestCraft 2 - Crops</a> (Go into the world's save folder and open up pam's config in the world. Then add "world_blender:world_blender" to the dimension whitelist)</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/peanut-mod">-Peanut!</a></p>
-<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/pokecube-aoi">-Pokecube AIO</a>&nbsp;(I can't get Pokemon mobs to spawn themselves but this could just be that I didn't setup Pokecube correctly. Let me know if you can get the mobs to spawn in World Blender dimension)</p>
+<p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/pokecube-aoi">-Pokecube AIO</a>&nbsp;(Use Pokecube v2.7.9 or newer with World blender v1.3.6&nbsp;or newer for all structures and pokemon to spawn in Wolrd Blender!)</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/premium-wood">-Premium Wood&nbsp;</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/productivebees#c5">-Productive Bees</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/project-vibrant-journeys/files/2945813">-Project: Vibrant Journeys</a></p>
 <p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/quark">-Quark </a>(The caves and patches of material like Glowcelium doesn't seem to get imported. The other stuff such as stalagmites and mobs does)&nbsp;</p>
 <p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/rare-ice">-Rare Ice (Forge/Fabric)</a> (Needs Ice, Blue Ice, or Packed Ice to be spawning in the world already for Rare Ice to generate. Just don't blacklist all the other icy features if you want Rare Ice in World Blender!)</p>
-<p style="font-size: 14px;"><a href="https://www.curseforge.com/minecraft/mc-mods/rats">-Rats</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/rats">-Rats</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/red-pandas">-Red Pandas</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/repurposed-structures">-Repurposed Structures&nbsp;</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/resynth">-Resynth</a></p>
@@ -89,7 +97,7 @@
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/terraforged">-TerraForged</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/the-bumblezone-forge">-The Bumblezone (Forge)</a></p>
 <p style="font-size: 14px;"><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/the-midnight">-The Midnight</a> (You must blacklist the Night Stag or else the world will hang forever. Add&nbsp;"midnight:nightstag" to the blacklistedSpawns entry in World Blender's config)</p>
-<p style="font-size: 14px;"><a href="https://www.curseforge.com/minecraft/mc-mods/tirphycraft">-Tirphycraft</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/tirphycraft">-Tirphycraft</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/traverse-legacy-continued">-Traverse: Legacy Continued</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/underground-materials">-Underground Materials</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/upgrade-aquatic">-Upgrade Aquatic</a></p>
@@ -141,11 +149,11 @@
 <p>&nbsp;</p>
 <p><span style="font-size: 16px;"><strong>-spawn the Enderdragon at world origin in the dimension! (Set to off by default as I want people to explore this dimension safely without worrying about the dragon guarding the custom altar at world origin. That way you always have an easy escape from the dimension at anytime)</strong></span></p>
 <p>&nbsp;</p>
-<p><span style="font-size: 14px;">&nbsp; &nbsp;The config file has more info on each of the options. Got more ideas or suggestions? Leave a comment below and I'll see if it can be done. The config file is located in the config folder outside of the world save folders. <strong>Any changes you do to the config requires a complete restart with Minecraft due to how it imports stuff from vanilla and other mod's biomes.</strong></span></p>
+<p><span style="font-size: 14px;">&nbsp; &nbsp;The config file has more info on each of the options. Got more ideas or suggestions? Leave a comment below and I'll see if it can be done. The config file is located in the config folder outside of the world save folders. <strong>Any changes you do to the config requires a complete restart with Minecraft due to how it imports stuff from vanilla and other mod's biomes. And also, don't forget you can modify World Blender's dimension or biomes by Datapack too! Here's what you can override with datapacks:<a href="https://github.com/TelepathicGrunt/WorldBlender/tree/master/src/main/resources/data/world_blender">&nbsp;https://github.com/TelepathicGrunt/WorldBlender/tree/master/src/main/resources/data/world_blender</a></strong></span></p>
 <p><span style="font-size: 14px;">&nbsp;</span></p>
 <p>&nbsp;</p>
 <p style="text-align: center;"><strong>______________________________________________________________________________</strong></p>
-<p style="text-align: center;"><em>For the list of changes in this mod, click the Source tab and check out README.txt file.</em></p>
+<p style="text-align: center;"><em>For the list of changes in this mod, click the Source tab and check out Changelog.md file.</em></p>
 <p style="text-align: center;"><em>This helps me keep track of what I had done so far.&nbsp;</em></p>
 <p style="text-align: center;">&nbsp;</p>
 <p>&nbsp;</p>
