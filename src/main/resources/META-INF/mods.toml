@@ -1,5 +1,6 @@
 modLoader="javafml" #mandatory
 loaderVersion="[30,)" #mandatory
+license="https://github.com/TelepathicGrunt/WorldBlender/blob/master/LICENSE"
 
 [[mods]] #mandatory
 modId="world_blender" #mandatory
@@ -12,6 +13,6 @@ credits="Special thanks to all the Forge tutorials and debugging help from other
 description='''A dimension with all the features, structures, surfaces, and natural spawns from vanilla and your mods shoved in!'''
 
 [[dependencies.world_blender]]
-    modId="terraforged"
-    mandatory=false
-    versionRange="[0.1.2,)"
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.3, 1.17.0)"

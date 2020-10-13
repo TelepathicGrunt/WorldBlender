@@ -33,7 +33,7 @@ public class WBPortalBlockEntityRenderer extends TileEntityRenderer<WBPortalBloc
 	public void render(WBPortalBlockEntity TileEntity, float partialTicks, MatrixStack modelMatrix, IRenderTypeBuffer renderBuffer, int combinedLightIn, int combinedOverlayIn)
 	{
 		RANDOM.setSeed(31100L);
-		double distance = TileEntity.getPos().distanceSq(this.renderDispatcher.cameraRayTraceResult.getHitVec(), true);
+		double distance = TileEntity.getPos().distanceSq(this.renderDispatcher.cameraHitResult.getHitVec(), true);
 		int passes = this.getPasses(distance);
 		Matrix4f matrix4f = modelMatrix.getLast().getMatrix();
 		this.drawColor(TileEntity, 0.1F, matrix4f, renderBuffer.getBuffer(WB_RENDER_TYPE.get(0)));
