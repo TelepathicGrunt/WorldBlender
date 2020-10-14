@@ -9,8 +9,10 @@ import com.telepathicgrunt.world_blender.features.WBConfiguredFeatures;
 import com.telepathicgrunt.world_blender.features.WBFeatures;
 import com.telepathicgrunt.world_blender.generation.WBBiomeProvider;
 import com.telepathicgrunt.world_blender.surfacebuilder.WBSurfaceBuilders;
+import com.telepathicgrunt.world_blender.the_blender.TheBlender;
 import com.telepathicgrunt.world_blender.utils.ConfigHelper;
 import com.telepathicgrunt.world_blender.utils.MessageHandler;
+import javafx.scene.layout.Priority;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
@@ -23,6 +25,7 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -63,6 +66,7 @@ public class WorldBlender{
 		modEventBus.addGenericListener(SurfaceBuilder.class, WBSurfaceBuilders::registerSurfaceBuilders);
 
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
+		forgeBus.addListener(EventPriority.LOWEST, TheBlender::addDimensionalSpacing);
 		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> WorldBlenderClient.subscribeClientEvents(modEventBus, forgeBus));
 	}
 

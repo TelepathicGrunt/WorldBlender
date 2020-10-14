@@ -16,7 +16,8 @@ Welcome to the Github! If you are looking for the most recent stable version, th
     
 ##### Structures:
  
-- 
+- Attempted a fix to make structure spawn properly in 
+  wb dimension for mods whose structures didn't spawn previously.
 
   
 ## (V.2.0.0 Changes) (1.16.3 Minecraft)
