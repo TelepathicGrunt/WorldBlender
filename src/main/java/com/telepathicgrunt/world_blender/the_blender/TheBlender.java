@@ -507,7 +507,7 @@ public class TheBlender {
     //--------------------------------------------------------------
     // An attempt to make sure we always have the spacing config for all structures
 
-    private static final Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>();
+    private static Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>();
 
     public static void addDimensionalSpacing(final WorldEvent.Load event) {
         if(event.getWorld() instanceof ServerWorld){
@@ -528,7 +528,7 @@ public class TheBlender {
 
                 // Set the structure spacing config in wb dimension and clear map so next saved world is fresh.
                 ((DimensionStructureSettingsAccessor)wbServerWorld.getChunkProvider().generator.func_235957_b_()).setStructureConfigMap(tempMap);
-                tempMap.clear();
+                tempMap = new HashMap<>(); // DO NOT DO .clear();  WE STORED THE MAP REFERENCE INTO THE CHUNKGENERATOR
             }
         }
     }
