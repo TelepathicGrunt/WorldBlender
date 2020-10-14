@@ -20,8 +20,11 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeMaker;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -50,8 +53,6 @@ public class WorldBlender{
 
 		WBPortalSpawning.generateRequiredBlockList(WBPortalConfig.requiredBlocksInChests.get());
 
-
-
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		modEventBus.addListener(this::setup);
@@ -60,6 +61,9 @@ public class WorldBlender{
 		modEventBus.addGenericListener(Block.class, WBBlocks::registerBlocks);
 		modEventBus.addGenericListener(TileEntityType.class, WBBlocks::registerBlockEntities);
 		modEventBus.addGenericListener(SurfaceBuilder.class, WBSurfaceBuilders::registerSurfaceBuilders);
+
+		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> WorldBlenderClient.subscribeClientEvents(modEventBus, forgeBus));
 	}
 
 	public void setup(final FMLCommonSetupEvent event)

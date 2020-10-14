@@ -251,7 +251,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 		// adds underground modded blocks to carve through
 		for (int i = threeLayerSurfaceList.size() - 1; i > 1; i--) {
 			if (!Registry.BLOCK.getKey(threeLayerSurfaceList.get(i).getUnderWaterMaterial().getBlock()).getNamespace().equals("minecraft")) {
-			carvableBlocks.add(threeLayerSurfaceList.get(i).getUnderWaterMaterial().getBlock());
+				carvableBlocks.add(threeLayerSurfaceList.get(i).getUnderWaterMaterial().getBlock());
 			}
 		}
 
