@@ -1,11 +1,29 @@
 <p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.imgur.com/HLLklJ6.png" alt="The banner logo for World Blender with a picture of the crazy landscape behind the title." width="999" height="370" /></p>
-<h2 style="text-align: center;"><span style="font-size: 40px; text-align: center; color: #009b7c;"><strong>CURRENTLY FOR 1.15.2 &amp; 1.14.4 MC</strong></span></h2>
+<h2 style="text-align: center;"><span style="font-size: 40px; text-align: center; color: #009b7c;"><strong>CURRENTLY FOR 1.16.3 MC</strong></span></h2>
 <p style="text-align: center;"><span style="font-size: 12px; text-align: center; color: #009b7c;"><strong>Needs to be on both client and server to work</strong></span></p>
-<p style="text-align: center;"><strong><a href="https://www.curseforge.com/minecraft/mc-mods/worldblender">[Click here for the 1.16.3 Fabric version of this mod!]</a></strong></p>
+<p style="text-align: center;"><strong><a href="https://www.curseforge.com/minecraft/mc-mods/world-blender-fabric">[Click here for the 1.16.3 Fabric version of this mod!]</a></strong></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p style="text-align: center;"><strong><span style="color: #800000;">Recent News:</span></strong> <strong>Ported 1.16.3 Fabric version to Forge!</strong></p>
 <p style="text-align: center;"><strong>Please report any bugs that you find!</strong></p>
+<p style="text-align: center;"><strong>Edit: just fixed some crashes and issues with</strong></p>
+<p style="text-align: center;"><strong>spawning some features/structures!</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><strong><em><br /></em><span style="font-size: 14px; color: #993300;"><span style="font-size: 18px;">GENERAL NOTE:</span> <em><br /></em></span></strong></p>
+<p style="text-align: center;"><span style="font-size: 14px; color: #993300;"><strong><em>Make a copy of your world before putting on&nbsp;</em></strong></span></p>
+<p style="text-align: center;"><span style="font-size: 14px; color: #993300;"><strong><em>World Blender! If you remove any&nbsp;dimension&nbsp;</em></strong></span></p>
+<p style="text-align: center;"><span style="font-size: 14px; color: #993300;"><strong><em>mod, the Nether and End dimensions&nbsp;will be&nbsp;</em></strong></span></p>
+<p style="text-align: center;"><span style="font-size: 14px; color: #993300;"><strong><em>missing from the game due to a Mojang bug. Also,</em></strong></span></p>
+<p style="text-align: center;"><span style="font-size: 14px; color: #993300;"><strong><em>putting the mod back on will not restore the dimension.</em></strong></span></p>
+<p style="text-align: center;"><span style="font-size: 14px;"><strong><em>&nbsp;<a href="https://bugs.mojang.com/browse/MC-197860">https://bugs.mojang.com/browse/MC-197860</a></em></strong></span><strong><em><br /></em></strong></p>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-align: center;"><strong><em><br /></em><span style="color: #993300;"><span style="font-size: 18px;">SERVER OWNERS NOTE:</span> <em><br /></em></span></strong></p>
+<p style="text-align: center; font-size: 14px; color: #993300;"><strong><em>If you make a fresh new world with this mod </em></strong><strong><em>on&nbsp;a </em></strong></p>
+<p style="text-align: center; font-size: 14px; color: #993300;"><strong><em>server, restart the&nbsp;server after the world&nbsp;</em></strong><strong><em>is made </em></strong></p>
+<p style="text-align: center; font-size: 14px; color: #993300;"><strong><em>due to this mojang bug&nbsp;causing </em></strong><strong><em>json&nbsp;</em></strong><strong><em>dimensions </em></strong></p>
+<p style="text-align: center; font-size: 14px; color: #993300;"><strong><em>to not be made </em></strong><strong><em>upon world&nbsp;creation </em></strong><strong><em>only on servers.</em></strong></p>
+<p style="text-align: center; font-size: 14px; color: #993300;"><strong><em><a href="https://bugs.mojang.com/browse/MC-195468">https://bugs.mojang.com/browse/MC-195468</a></em></strong>&nbsp;</p>
 <p>&nbsp;</p>
 <p><strong>______________________________________________________________________________</strong></p>
 <p>&nbsp;</p>
@@ -20,7 +38,34 @@
 <div class="spoiler">
 <p>Please help! College drained my time out of me like a vampire! Let me know what mods works with World Blender! (Or doesn't work. Someone always breaks my mod lmao)</p>
 <p>&nbsp;</p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/animalium">-Animalium</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/aquaculture">-Aquaculture 2</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/azuredoom-doom-mod">-AzureDoom's Doom Mod</a> (Don't forget to put on GeckoLib!)</p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/better-default-biomes/files/3077616">-BetterDefaultBiomes</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/biomes-o-plenty">-Biomes O' Plenty</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod">-Doctor Who - Weeping Angels</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/dungeon-crawl">-Dungeons Crawl</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/dungeons-mod">-Dungeons Mod</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/earth-mobs">-Earth Mobs</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/hunterillager">-HunterIllager</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/lucky-ore/files/3068277">-Lucky Ore</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/mutant-beasts">-Mutant Beasts</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/oh-the-biomes-youll-go">-Oh the Biomes You'll Go</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/randomite-classic">-Randomite Classic</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/rats-ratlantis">-Rats Ratlantis</a>&nbsp;</p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/rare-ice">-Rare Ice (Forge/Fabric)</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/repurposed-structures">-Repurposed Structures (Forge)</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/snow-under-trees">-Snow Under Trees</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/terraqueous">-Terraqueous</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/the-bumblezone-forge">-The Bumblezone (Forge)</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/the-conjurer">-The Conjurer</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/unearthed-forge">-Unearthed Forge</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/themcbros-useless-mod">-Useless Mod&nbsp;</a>(Their Useless House structure does not spawn in World Blender dimension)</p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/waddles">-Waddles</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/wyrmroost">-Wyrmroost</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/yungs-better-mineshafts-forge">-YUNG's Better Mineshafts Forge</a> (Will only spawn if Vanilla Mineshafts are not blacklisted)</p>
 </div>
+<p style="font-size: 14px;">&nbsp;</p>
 <p style="font-size: 14px;"><br /><strong>1.15.2 COMPATIBLE MODS LIST:</strong></p>
 <div class="spoiler">
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/aliketools/files/2887477">-AlikeTools</a></p>
