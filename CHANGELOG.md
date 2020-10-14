@@ -7,7 +7,12 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
   
 ## (V.2.0.1 Changes) (1.16.3 Minecraft)
-    
+     
+##### Dimension:
+ 
+- Fixed bug where End Podium and Altar may randomly not spawn 
+  at all in World Blender's dimension at world origin.
+
 ##### Blocks:
  
 - Fixed Portal block not rendering.

@@ -42,41 +42,41 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 	public boolean func_241855_a(ISeedReader world, ChunkGenerator chunkgenerator, Random rand, BlockPos position, NoFeatureConfig config)
 	{
 		//only world origin chunk allows generation
-		if (!world.getWorld().getDimensionKey().equals(WBIdentifiers.WB_WORLD_KEY) ||
-				position.getX() >> 4 != 0 ||
-				position.getZ() >> 4 != 0)
+		if (world.getWorld().getDimensionKey().equals(WBIdentifiers.WB_WORLD_KEY) &&
+				position.getX() >> 4 == 0 &&
+				position.getZ() >> 4 == 0)
 		{
-			return false;
-		}
 
-		if (ALTAR_TEMPLATE == null)
-		{
-			WorldBlender.LOGGER.warn("world blender portal altar NTB does not exist!");
-			return false;
-		}
-		
-		BlockPos.Mutable finalPosition = new BlockPos.Mutable().setPos(world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, position));
-		
-		//go past trees to world surface
-		BlockState blockState = world.getBlockState(finalPosition);
-		while(finalPosition.getY() > 12 && (!blockState.isSolid() || blockState.getMaterial() == Material.WOOD)) {
+			if (ALTAR_TEMPLATE == null)
+			{
+				WorldBlender.LOGGER.warn("world blender portal altar NTB does not exist!");
+				return false;
+			}
+
+			BlockPos.Mutable finalPosition = new BlockPos.Mutable().setPos(world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, position));
+
+			//go past trees to world surface
+			BlockState blockState = world.getBlockState(finalPosition);
+			while(finalPosition.getY() > 12 && (!blockState.isSolid() || blockState.getMaterial() == Material.WOOD)) {
+				finalPosition.move(Direction.DOWN);
+				blockState = world.getBlockState(finalPosition);
+			}
+
+			finalPosition.move(Direction.UP);
+			world.setBlockState(finalPosition.down(), Blocks.AIR.getDefaultState(), 3);
+			ALTAR_TEMPLATE.func_237152_b_(world, finalPosition.add(-5, -2, -5), placementSettings, rand);
 			finalPosition.move(Direction.DOWN);
-			blockState = world.getBlockState(finalPosition);
+			world.setBlockState(finalPosition, WBBlocks.WORLD_BLENDER_PORTAL.getDefaultState(), 3); //extra check to make sure portal is placed
+
+			//make portal block unremoveable in altar
+			TileEntity blockEntity = world.getTileEntity(finalPosition);
+			if(blockEntity instanceof WBPortalBlockEntity)
+				((WBPortalBlockEntity)blockEntity).makeNotRemoveable();
+
+			return true;
 		}
 
-		finalPosition.move(Direction.UP);
-		world.setBlockState(finalPosition.down(), Blocks.AIR.getDefaultState(), 3);
-		ALTAR_TEMPLATE.func_237152_b_(world, finalPosition.add(-5, -2, -5), placementSettings, rand);
-		finalPosition.move(Direction.DOWN);
-		world.setBlockState(finalPosition, WBBlocks.WORLD_BLENDER_PORTAL.getDefaultState(), 3); //extra check to make sure portal is placed
-
-		//make portal block unremoveable in altar
-		TileEntity blockEntity = world.getTileEntity(finalPosition);
-		if(blockEntity instanceof WBPortalBlockEntity)
-			((WBPortalBlockEntity)blockEntity).makeNotRemoveable();
-		
-		return true;
-
+		return false;
 	}
 
 }
