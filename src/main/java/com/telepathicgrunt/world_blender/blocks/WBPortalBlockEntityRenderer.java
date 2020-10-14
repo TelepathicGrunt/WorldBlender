@@ -30,41 +30,41 @@ public class WBPortalBlockEntityRenderer extends TileEntityRenderer<WBPortalBloc
 	}
 
 	@Override
-	public void render(WBPortalBlockEntity TileEntity, float partialTicks, MatrixStack modelMatrix, IRenderTypeBuffer renderBuffer, int combinedLightIn, int combinedOverlayIn)
+	public void render(WBPortalBlockEntity tileEntity, float partialTicks, MatrixStack modelMatrix, IRenderTypeBuffer renderBuffer, int combinedLightIn, int combinedOverlayIn)
 	{
 		RANDOM.setSeed(31100L);
-		double distance = TileEntity.getPos().distanceSq(this.renderDispatcher.cameraHitResult.getHitVec(), true);
+		double distance = tileEntity.getPos().distanceSq(this.renderDispatcher.renderInfo.getProjectedView(), true);
 		int passes = this.getPasses(distance);
 		Matrix4f matrix4f = modelMatrix.getLast().getMatrix();
-		this.drawColor(TileEntity, 0.1F, matrix4f, renderBuffer.getBuffer(WB_RENDER_TYPE.get(0)));
+		this.drawColor(tileEntity, 0.1F, matrix4f, renderBuffer.getBuffer(WB_RENDER_TYPE.get(0)));
 
 		for (int currentPass = 1; currentPass < passes; ++currentPass)
 		{
-			this.drawColor(TileEntity, 2.0F / (20 - currentPass), matrix4f, renderBuffer.getBuffer(WB_RENDER_TYPE.get(currentPass)));
+			this.drawColor(tileEntity, 2.0F / (20 - currentPass), matrix4f, renderBuffer.getBuffer(WB_RENDER_TYPE.get(currentPass)));
 		}
 	}
 
 
-	private void drawColor(WBPortalBlockEntity TileEntity, float modifier, Matrix4f matrix4f, IVertexBuilder vertexBuilder)
+	private void drawColor(WBPortalBlockEntity tileEntity, float modifier, Matrix4f matrix4f, IVertexBuilder vertexBuilder)
 	{
 		// turns dark red when cooling down but lightens over time. And when finished cooling down, it pops to full brightness
-		float coolDownEffect = TileEntity.isCoolingDown() ? 0.7f - TileEntity.getCoolDown()/1200F : 0.85f ;
+		float coolDownEffect = tileEntity.isCoolingDown() ? 0.7f - tileEntity.getCoolDown()/1200F : 0.85f ;
 
-		float red = (RANDOM.nextFloat() * 3.95F) * modifier * coolDownEffect + TileEntity.getCoolDown()/2800F;
+		float red = (RANDOM.nextFloat() * 3.95F) * modifier * coolDownEffect + tileEntity.getCoolDown()/2800F;
 		float green = (RANDOM.nextFloat() * 2.95F) * modifier * coolDownEffect;
 		float blue = (RANDOM.nextFloat() * 3.0F) * modifier * coolDownEffect;
-		this.setVertexColor(TileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, red, green, blue, Direction.SOUTH);
-		this.setVertexColor(TileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, red, green, blue, Direction.NORTH);
-		this.setVertexColor(TileEntity, matrix4f, vertexBuilder, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, red, green, blue, Direction.EAST);
-		this.setVertexColor(TileEntity, matrix4f, vertexBuilder, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 0.0F, red, green, blue, Direction.WEST);
-		this.setVertexColor(TileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, red, green, blue, Direction.DOWN);
-		this.setVertexColor(TileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, red, green, blue, Direction.UP);
+		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, red, green, blue, Direction.SOUTH);
+		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, red, green, blue, Direction.NORTH);
+		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, red, green, blue, Direction.EAST);
+		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 0.0F, red, green, blue, Direction.WEST);
+		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, red, green, blue, Direction.DOWN);
+		this.setVertexColor(tileEntity, matrix4f, vertexBuilder, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, red, green, blue, Direction.UP);
 	}
 
 
-	private void setVertexColor(WBPortalBlockEntity TileEntity, Matrix4f matrix4f, IVertexBuilder vertexBuilder, float pos1, float pos2, float pos3, float pos4, float pos5, float pos6, float pos7, float pos8, float red, float green, float blue, Direction direction)
+	private void setVertexColor(WBPortalBlockEntity tileEntity, Matrix4f matrix4f, IVertexBuilder vertexBuilder, float pos1, float pos2, float pos3, float pos4, float pos5, float pos6, float pos7, float pos8, float red, float green, float blue, Direction direction)
 	{
-		if (TileEntity.shouldRenderFace(direction))
+		if (tileEntity.shouldRenderFace(direction))
 		{
 			vertexBuilder.pos(matrix4f, pos1, pos3, pos5).color(red, green, blue, 1.0F).endVertex();
 			vertexBuilder.pos(matrix4f, pos2, pos3, pos6).color(red, green, blue, 1.0F).endVertex();
@@ -110,7 +110,7 @@ public class WBPortalBlockEntityRenderer extends TileEntityRenderer<WBPortalBloc
 		}
 	}
 
-	
+
 	//////////////////////////////////RENDER STATE STUFF//////////////////////////////////////////
 
 	public static final ResourceLocation MAIN_TEXTURE =     new ResourceLocation("textures/misc/enchanted_item_glint.png");
@@ -119,7 +119,6 @@ public class WBPortalBlockEntityRenderer extends TileEntityRenderer<WBPortalBloc
 	private static final List<RenderType> WB_RENDER_TYPE = IntStream.range(0, 9).mapToObj((index) ->
 			getWBPortal(index + 1)).collect(ImmutableList.toImmutableList());
 
-	
 	public static RenderType getWBPortal(int layer)
 	{
 		RenderState.TransparencyState renderstate$transparencystate;
