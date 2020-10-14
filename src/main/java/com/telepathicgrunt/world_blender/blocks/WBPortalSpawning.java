@@ -69,7 +69,7 @@ public class WBPortalSpawning
 									blockEntityType.create() instanceof IInventory);
 				}
 			}
-			catch(Exception e){
+			catch(Throwable e){
 				WorldBlender.LOGGER.log(Level.WARN, "Failed to check if "+blockEntityType.getRegistryName()+" is a chest. If is not a chest, ignore this message. If it is, let telepathicGrunt (World Blender dev) know this.");
 			}
 		}
