@@ -11,8 +11,12 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ##### Config:
  
 - Bamboo is now automatically blacklisted by disallowLaggyFeatures properly.
-  
-##### Misc:
+    
+##### Blender:
+ 
+- Unregistered ConfiguredFeatures, ConfiguredStructures, and/or ConfiguredCarvers
+  will no longer be spawned in WB's dimension due to unregistered stuff possibly
+  wiping out other mod's registered stuff from biomes.
  
 - Significantly reduce the log spam when other mods have unregistered
   ConfiguredFeatures, ConfiguredStructures, and/or ConfiguredCarvers.
