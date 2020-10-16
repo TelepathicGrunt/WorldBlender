@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 public class TheBlender {
 
     private static final Set<String> COLLECTED_UNREGISTERED_STUFF = new HashSet<>(); // not perfect but will try its best to show possible problematic mods.
-    private static final Pattern WORLDGEN_OBJECT_REGEX = Pattern.compile("\"(?:Name|type|location)\": \"([a-z_:]+)\"");
+    private static final Pattern WORLDGEN_OBJECT_REGEX = Pattern.compile("\"(?:Name|type|location)\": *\"([a-z_:]+)\"");
 
     /**
      * Kickstarts the blender. Should always be ran in MinecraftServer's init which is before the world is loaded
@@ -87,7 +87,8 @@ public class TheBlender {
                     "\n\n Found some unregistered ConfiguredFeatures, ConfiguredStructures, and/or" +
                     "\n ConfiguredCarvers. These unregistered stuff will not spawn in WorldBlender's dimension" +
                     "\n as unregistered stuff can wipe out everyone else's registered stuff from biomes." +
-                    "\n Here are the following that will not show up in WB's dimension: \n   " +
+                    "\n The creators of those mods need to register their stuff." +
+                    "\n Here are the following that will not show up in WB's dimension: \n\n" +
                     COLLECTED_UNREGISTERED_STUFF.stream().sorted().collect(Collectors.joining("\n")) + "\n\n";
 
             // Log it to the latest.log file.
