@@ -11,6 +11,11 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ##### Config:
  
 - Bamboo is now automatically blacklisted by disallowLaggyFeatures properly.
+  
+##### Misc:
+ 
+- Significantly reduce the log spam when other mods have unregistered
+  ConfiguredFeatures, ConfiguredStructures, and/or ConfiguredCarvers.
 
 
 ## (V.2.0.1 Changes) (1.16.3 Minecraft)
