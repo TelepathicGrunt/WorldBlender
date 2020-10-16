@@ -409,6 +409,12 @@ public class TheBlender {
 
                     ResourceLocation configuredCarverID = configuredCarversRegistry.getKey(configuredCarver);
                     if(configuredCarverID == null){
+                        configuredCarverID = WorldGenRegistries.field_243652_d.getKey(configuredCarver);
+                    }
+                    if(configuredCarverID == null){
+                    }
+
+                    if(configuredCarverID == null){
                         Optional<JsonElement> configuredStructureJSON = ConfiguredCarver.field_236235_a_.encode(configuredCarver, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
 
                         WorldBlender.LOGGER.log(Level.WARN, "---------------\n" +

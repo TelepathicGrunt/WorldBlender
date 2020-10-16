@@ -6,6 +6,13 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ------------------------------------------------
 #    | World Blender changelog |
   
+## (V.2.0.2 Changes) (1.16.3 Minecraft)
+     
+##### Config:
+ 
+- Bamboo is now automatically blacklisted by disallowLaggyFeatures properly.
+
+
 ## (V.2.0.1 Changes) (1.16.3 Minecraft)
      
 ##### Dimension:

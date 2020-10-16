@@ -47,8 +47,12 @@ public class FeatureGrouping
 		if(optionalConfiguredFeatureJSON.isPresent()){
 			JsonElement configuredFeatureJSON = optionalConfiguredFeatureJSON.get();
 
-			if(containsBannedFeatureName(configuredFeatureJSON, BAMBOO_FEATURE_KEYWORDS))
+			if(containsBannedFeatureName(configuredFeatureJSON, BAMBOO_FEATURE_KEYWORDS) ||
+					containsBannedState(configuredFeatureJSON, BAMBOO_FEATURE_KEYWORDS))
+			{
 				bambooFound = true;
+				return true;
+			}
 
 			if(containsBannedFeatureName(configuredFeatureJSON, LAGGY_FEATURE_KEYWORDS))
 				return true;
