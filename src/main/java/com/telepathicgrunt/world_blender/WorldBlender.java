@@ -12,7 +12,6 @@ import com.telepathicgrunt.world_blender.surfacebuilder.WBSurfaceBuilders;
 import com.telepathicgrunt.world_blender.the_blender.TheBlender;
 import com.telepathicgrunt.world_blender.utils.ConfigHelper;
 import com.telepathicgrunt.world_blender.utils.MessageHandler;
-import javafx.scene.layout.Priority;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;

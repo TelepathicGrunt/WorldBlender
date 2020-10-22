@@ -6,7 +6,6 @@ import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.tileentity.EndGatewayTileEntity;
 import net.minecraft.tileentity.EndPortalTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.ISeedReader;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.end.DragonFightManager;
 import net.minecraft.world.server.ServerWorld;
