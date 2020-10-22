@@ -7,6 +7,14 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
  
  
+## (V.2.0.4 Changes) (1.16.3 Minecraft)
+     
+##### Portal:
+
+- Make crouch right clicking without activation item not 
+  deny the item's behavior.
+
+ 
 ## (V.2.0.3 Changes) (1.16.3 Minecraft)
      
 ##### Portal:

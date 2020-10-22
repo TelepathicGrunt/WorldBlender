@@ -106,7 +106,7 @@ public class WBPortalSpawning
 			else if((player.getHeldItemMainhand().getItem() != Registry.ITEM.getOrDefault(activationItem) && hand == Hand.MAIN_HAND) ||
 					(player.getHeldItemOffhand().getItem() != Registry.ITEM.getOrDefault(activationItem) && hand == Hand.OFF_HAND))
 			{
-				return ActionResultType.FAIL;
+				return ActionResultType.PASS;
 			}
 
 
