@@ -441,8 +441,9 @@ public class TheBlender {
         if (biome.func_242440_e().func_242502_e() instanceof SurfaceBuilderConfig) {
             SurfaceBuilderConfig surfaceConfig = (SurfaceBuilderConfig) biome.func_242440_e().func_242502_e();
 
-            // blacklisted by surface list. Checks top block
-            if (ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.SURFACE_BLOCK, Registry.BLOCK.getKey(surfaceConfig.getTop().getBlock()))) {
+            // Blacklisted by surface list. Checks top block
+            // Also do null check as BYG actually managed to set the surfaceConfig's block to be null lol
+            if (surfaceConfig.getTop() == null || ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.SURFACE_BLOCK, Registry.BLOCK.getKey(surfaceConfig.getTop().getBlock()))) {
                 return;
             }
 
