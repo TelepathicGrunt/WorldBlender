@@ -457,7 +457,7 @@ public class TheBlender {
             ISurfaceBuilderConfig surfaceConfig = biome.func_242440_e().func_242502_e();
 
             // blacklisted by surface list. Checks top block
-            if (ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.SURFACE_BLOCK, Registry.BLOCK.getKey(surfaceConfig.getTop().getBlock()))) {
+            if (surfaceConfig.getTop() == null || ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.SURFACE_BLOCK, Registry.BLOCK.getKey(surfaceConfig.getTop().getBlock()))) {
                 return;
             }
 
