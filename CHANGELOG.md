@@ -14,6 +14,10 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 - Added null check in case mods put null into their surfacebuilder
   config when they really should not be doing that.
 
+##### Mod Compat:
+ 
+- Fixed crash with Vampirism Tile Entities.
+
 
 ## (V.2.0.2 Changes) (1.16.3 Minecraft)
      

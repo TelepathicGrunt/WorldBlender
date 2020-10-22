@@ -25,6 +25,7 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
@@ -41,11 +42,12 @@ import org.apache.logging.log4j.Logger;
 public class WorldBlender{
 	public static final String MODID = "world_blender";
 	public static final Logger LOGGER = LogManager.getLogger(MODID);
+
 	public static WBBlendingConfigs.WBConfigValues WBBlendingConfig = null;
-
 	public static WBDimensionConfigs.WBConfigValues WBDimensionConfig = null;
-
 	public static WBPortalConfigs.WBConfigValues WBPortalConfig = null;
+
+	private static boolean chestListGenerated = false;
 
 	public WorldBlender() {
 
@@ -53,8 +55,6 @@ public class WorldBlender{
 		WBBlendingConfig = ConfigHelper.register(ModConfig.Type.COMMON, WBBlendingConfigs.WBConfigValues::new, "world_blender-blending.toml");
 		WBDimensionConfig = ConfigHelper.register(ModConfig.Type.COMMON, WBDimensionConfigs.WBConfigValues::new, "world_blender-dimension.toml");
 		WBPortalConfig = ConfigHelper.register(ModConfig.Type.COMMON, WBPortalConfigs.WBConfigValues::new, "world_blender-portal.toml");
-
-		WBPortalSpawning.generateRequiredBlockList(WBPortalConfig.requiredBlocksInChests.get());
 
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
@@ -66,6 +66,7 @@ public class WorldBlender{
 		modEventBus.addGenericListener(SurfaceBuilder.class, WBSurfaceBuilders::registerSurfaceBuilders);
 
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
+		forgeBus.addListener(EventPriority.NORMAL, this::setupChestList);
 		forgeBus.addListener(EventPriority.LOWEST, TheBlender::addDimensionalSpacing);
 		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> WorldBlenderClient.subscribeClientEvents(modEventBus, forgeBus));
 	}
@@ -73,7 +74,17 @@ public class WorldBlender{
 	public void setup(final FMLCommonSetupEvent event)
 	{
 		MessageHandler.init();
-		WBPortalSpawning.generateRequiredBlockList(WBPortalConfig.requiredBlocksInChests.get());
+	}
+
+	public void setupChestList(final WorldEvent.Load event)
+	{
+		// Do it at any world startup so tile-entities using tags like Vampirism does not crash.
+		// We do not need to re-make like when entering other worlds as blocks/tile-entities are
+		// not dynamic registries like worldgen registries are.
+		if(!chestListGenerated){
+			WBPortalSpawning.generateRequiredBlockList(WBPortalConfig.requiredBlocksInChests.get());
+			chestListGenerated = true;
+		}
 	}
 
 	@Deprecated
