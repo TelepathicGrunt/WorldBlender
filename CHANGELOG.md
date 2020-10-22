@@ -9,6 +9,14 @@ Welcome to the Github! If you are looking for the most recent stable version, th
  
 ## (V.2.0.3 Changes) (1.16.3 Minecraft)
      
+##### Portal:
+ 
+- Fixed Portal being unabled to be created from chests.
+  People! It's okay to contact me about bugs! I want to know!
+  Either that or people aren't playing World Blender in survival lol. *sob*
+   
+- Fixed color formatting of portal messages.
+
 ##### SurfaceBuilders:
  
 - Added null check in case mods put null into their surfacebuilder

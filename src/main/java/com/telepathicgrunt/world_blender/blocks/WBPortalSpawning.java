@@ -12,16 +12,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.Event;
 import org.apache.logging.log4j.Level;
 
 import java.util.*;
@@ -76,11 +76,17 @@ public class WBPortalSpawning
 		}
 	}
 
-	public static ActionResultType blockRightClick(PlayerEntity player, World world, Hand hand, RayTraceResult RayTraceResult)
+	public static void BlockRightClickEvent(PlayerInteractEvent.RightClickBlock event)
+	{
+		ActionResultType result = blockRightClick(event.getPlayer(), event.getWorld(), event.getHand(), event.getPos());
+		if(!result.equals(ActionResultType.PASS)){
+			event.setResult(Event.Result.DENY);
+		}
+	}
+
+	public static ActionResultType blockRightClick(PlayerEntity player, World world, Hand hand, BlockPos position)
 	{
 		if(world.isRemote() || player.isSpectator()) return ActionResultType.PASS;
-
-		BlockPos position = new BlockPos(RayTraceResult.getHitVec());
 
 		// Checks to see if player uses right click on a chest while crouching while holding nether star
 		TileEntity blockEntity = world.getTileEntity(position);
@@ -93,7 +99,7 @@ public class WBPortalSpawning
 			if (!Registry.ITEM.containsKey(activationItem))
 			{
 				WorldBlender.LOGGER.log(Level.INFO, "World Blender: Warning, the activation item set in the config does not exist. Please make sure it is a valid resource location to a real item as the portal cannot be created now.");
-				ITextComponent message = new StringTextComponent("§eWorld Blender: §fWarning, the activation item set in the config does not exist. Please make sure it is a valid resource location to a real item as the portal cannot be created now.");
+				StringTextComponent message = new StringTextComponent(TextFormatting.YELLOW + "World Blender: " + TextFormatting.WHITE + "Warning, the activation item set in the config does not exist. Please make sure it is a valid resource location to a real item as the portal cannot be created now.");
 				player.sendStatusMessage(message, false);
 				return ActionResultType.FAIL;
 			}
@@ -146,7 +152,7 @@ public class WBPortalSpawning
 				if(!INVALID_IDS.isEmpty())
 				{
 					WorldBlender.LOGGER.log(Level.INFO, "World Blender: Warning, error reading the required blocks config entry. Please make sure the blocks specified in that config are valid resource locations and points to real blocks as the portal cannot be created now. The problematic entries are: " + String.join(", ", INVALID_IDS));
-					ITextComponent message = new StringTextComponent("§eWorld Blender: §fWarning, error reading the required blocks config entry. Please make sure the blocks specified in that config are valid resource locations and points to real blocks as the portal cannot be created now. The problematic entries are: §6" + String.join(", ", INVALID_IDS));
+					StringTextComponent message = new StringTextComponent(TextFormatting.YELLOW + "World Blender: " + TextFormatting.WHITE + "Warning, error reading the required blocks config entry. Please make sure the blocks specified in that config are valid resource locations and points to real blocks as the portal cannot be created now. The problematic entries are: " + TextFormatting.GOLD + String.join(", ", INVALID_IDS));
 					player.sendStatusMessage(message, false);
 					return ActionResultType.FAIL;
 				}
@@ -185,7 +191,7 @@ public class WBPortalSpawning
 				if(isMissingRequiredBlocks)
 				{
 					WorldBlender.LOGGER.log(Level.INFO, "World Blender: There are not enough required blocks in the chests. Please add the needed required blocks and then add any other unique blocks until you have "+WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get()+" unique blocks. The require blocks specified in the config are " + REQUIRED_PORTAL_BLOCKS.stream().map(entry -> Registry.BLOCK.getKey(entry).toString()).collect(Collectors.joining(", ")));
-					ITextComponent message = new StringTextComponent("§eWorld Blender: §fThere are not enough required blocks in the chests. Please add the needed required blocks and then add any other unique blocks until you have §c"+WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get()+"§f unique blocks. The require blocks specified in the config are §6" + REQUIRED_PORTAL_BLOCKS.stream().map(entry -> Registry.BLOCK.getKey(entry).toString()).collect(Collectors.joining(", ")));
+					StringTextComponent message = new StringTextComponent(TextFormatting.YELLOW + "World Blender: " + TextFormatting.WHITE + "There are not enough required blocks in the chests. Please add the needed required blocks and then add any other unique blocks until you have " + TextFormatting.RED+WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get()+TextFormatting.WHITE + " unique blocks. The require blocks specified in the config are " + TextFormatting.GOLD + REQUIRED_PORTAL_BLOCKS.stream().map(entry -> Registry.BLOCK.getKey(entry).toString()).collect(Collectors.joining(", ")));
 					player.sendStatusMessage(message, false);
 					return ActionResultType.FAIL;
 				}
@@ -231,14 +237,14 @@ public class WBPortalSpawning
 				//throw error and list all the invalid items in the chests
 				else
 				{
-					String msg = "§eWorld Blender: §fThere are not enough unique block items in the chests. (stacks or duplicates are ignored) You need §c" + WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get() + "§f block items to make the portal but there is only §a" + uniqueBlocksSet.size() + "§f unique block items right now.";
+					String msg = TextFormatting.YELLOW + "World Blender: " + TextFormatting.WHITE + "There are not enough unique block items in the chests. (stacks or duplicates are ignored) You need " + TextFormatting.RED + WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get() + TextFormatting.WHITE + " block items to make the portal but there is only " + TextFormatting.GREEN + uniqueBlocksSet.size() + TextFormatting.WHITE + " unique block items right now.";
 
 					if(invalidItemSet.size() > 0)
 					{
 						//collect the items names into a list of strings
 						List<String> invalidItemString = new ArrayList<>();
 						invalidItemSet.forEach(item -> invalidItemString.add(item.getDisplayName(new ItemStack(item)).getString()));
-						msg += "\n§f Also, here is a list of non-block items that were found and should be removed: §6" + String.join(", ", invalidItemString);
+						msg += TextFormatting.WHITE + "\n Also, here is a list of non-block items that were found and should be removed: " + TextFormatting.GOLD + String.join(", ", invalidItemString);
 					}
 
 					if(duplicateBlockSlotSet.size() != 0)
@@ -247,7 +253,7 @@ public class WBPortalSpawning
 						List<String> duplicateSlotString = new ArrayList<>();
 						duplicateBlockSlotSet.remove(Items.AIR); //We dont need to list air
 						duplicateBlockSlotSet.forEach(blockitem -> duplicateSlotString.add(blockitem.getDisplayName(new ItemStack(blockitem)).getString()));
-						msg += "\n§f There are some slots that contains the same blocks and should be removed. These blocks are: §6" + String.join(", ", duplicateSlotString);
+						msg += TextFormatting.WHITE + "\n There are some slots that contains the same blocks and should be removed. These blocks are: " + TextFormatting.GOLD + String.join(", ", duplicateSlotString);
 					}
 
 					WorldBlender.LOGGER.log(Level.INFO, msg);

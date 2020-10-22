@@ -68,6 +68,7 @@ public class WorldBlender{
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 		forgeBus.addListener(EventPriority.NORMAL, this::setupChestList);
 		forgeBus.addListener(EventPriority.LOWEST, TheBlender::addDimensionalSpacing);
+		forgeBus.addListener(EventPriority.NORMAL, WBPortalSpawning::BlockRightClickEvent);
 		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> WorldBlenderClient.subscribeClientEvents(modEventBus, forgeBus));
 	}
 
