@@ -5,11 +5,13 @@ import com.telepathicgrunt.world_blender.blocks.WBPortalBlockEntityRenderer;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 public class WorldBlenderClient{
-	public static void subscribeClientEvents(IEventBus modBus, IEventBus forgeBus)
+	public static void subscribeClientEvents()
 	{
-		modBus.addListener(WorldBlenderClient::onClientSetup);
+		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		modEventBus.addListener(WorldBlenderClient::onClientSetup);
 	}
 
 

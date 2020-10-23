@@ -68,7 +68,7 @@ public class WorldBlender{
 		forgeBus.addListener(EventPriority.NORMAL, this::setupChestList);
 		forgeBus.addListener(EventPriority.LOWEST, TheBlender::addDimensionalSpacing);
 		forgeBus.addListener(EventPriority.NORMAL, WBPortalSpawning::BlockRightClickEvent);
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> WorldBlenderClient.subscribeClientEvents(modEventBus, forgeBus));
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> WorldBlenderClient::subscribeClientEvents);
 	}
 
 	public void setup(final FMLCommonSetupEvent event)
