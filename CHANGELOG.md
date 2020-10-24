@@ -7,6 +7,14 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
  
  
+## (V.2.0.5 Changes) (1.16.3 Minecraft)
+     
+##### Portal:
+
+- Fixed serverside crash when attempting to make portal. 
+  Special thanks to adoxentor for finding this crash!
+
+ 
 ## (V.2.0.4 Changes) (1.16.3 Minecraft)
      
 ##### Portal:
