@@ -9,6 +9,12 @@ Welcome to the Github! If you are looking for the most recent stable version, th
  
 ## (V.2.0.5 Changes) (1.16.3 Minecraft)
      
+##### Major:
+- Register to Forge registry instead of vanilla due to a breaking 
+  change done by Forge and they didn't even give us modders a heads up.
+  Thank you Forge. Thank you so very much. Glad to see them thinking about
+  the modders and making sure we wake up to our mods blowing up. ffs
+
 ##### Portal:
 
 - Fixed serverside crash when attempting to make portal. 
