@@ -30,7 +30,7 @@ public class AltarManager
 			boolean flag = this.isWorldOriginTicking();
 			if(flag)
 			{
-				WBFeatures.WB_PORTAL_ALTAR.func_241855_a(this.world, this.world.getChunkProvider().getChunkGenerator(), this.world.rand, new BlockPos(0, 255, 0), IFeatureConfig.NO_FEATURE_CONFIG);
+				WBFeatures.WB_PORTAL_ALTAR.get().func_241855_a(this.world, this.world.getChunkProvider().getChunkGenerator(), this.world.rand, new BlockPos(0, 255, 0), IFeatureConfig.NO_FEATURE_CONFIG);
 				this.altarMade = true;
 				this.saveWBAltarData(this.world);
 			}

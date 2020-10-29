@@ -10,9 +10,9 @@ import net.minecraft.world.gen.feature.IFeatureConfig;
 
 public class WBConfiguredFeatures
 {
-    public static final ConfiguredFeature<?,?> WB_PORTAL_ALTAR = WBFeatures.WB_PORTAL_ALTAR.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-    public static final ConfiguredFeature<?,?> NO_FLOATING_LIQUIDS_OR_FALLING_BLOCKS = WBFeatures.NO_FLOATING_LIQUIDS_OR_FALLING_BLOCKS.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-    public static final ConfiguredFeature<?,?> SEPARATE_LAVA_AND_WATER = WBFeatures.SEPARATE_LAVA_AND_WATER.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
+    public static final ConfiguredFeature<?,?> WB_PORTAL_ALTAR = WBFeatures.WB_PORTAL_ALTAR.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
+    public static final ConfiguredFeature<?,?> NO_FLOATING_LIQUIDS_OR_FALLING_BLOCKS = WBFeatures.NO_FLOATING_LIQUIDS_OR_FALLING_BLOCKS.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
+    public static final ConfiguredFeature<?,?> SEPARATE_LAVA_AND_WATER = WBFeatures.SEPARATE_LAVA_AND_WATER.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
     
     public static void registerConfiguredFeatures()
     {

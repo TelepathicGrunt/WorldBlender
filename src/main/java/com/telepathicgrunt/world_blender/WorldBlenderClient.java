@@ -17,6 +17,10 @@ public class WorldBlenderClient{
 
 	public static void onClientSetup(FMLClientSetupEvent event)
 	{
-		ClientRegistry.bindTileEntityRenderer(WBBlocks.WORLD_BLENDER_PORTAL_BE, WBPortalBlockEntityRenderer::new);
+		event.enqueueWork(() ->
+		{
+			//Put this into enqueue because its not thread safe - andrew
+			ClientRegistry.bindTileEntityRenderer(WBBlocks.WORLD_BLENDER_PORTAL_BE.get(), WBPortalBlockEntityRenderer::new);
+		});
 	}
 }
