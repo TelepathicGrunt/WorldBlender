@@ -1,5 +1,6 @@
 package com.telepathicgrunt.world_blender;
 
+import com.telepathicgrunt.world_blender.generation.WBBiomeProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -69,6 +70,7 @@ public class WorldBlender{
 		event.enqueueWork(() ->
 		{
 			WBConfiguredFeatures.registerConfiguredFeatures();
+			WBBiomeProvider.registerBiomeProvider();
 		});
 		MessageHandler.init();
 	}

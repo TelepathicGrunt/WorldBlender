@@ -2,6 +2,9 @@ package com.telepathicgrunt.world_blender;
 
 import com.telepathicgrunt.world_blender.blocks.WBBlocks;
 import com.telepathicgrunt.world_blender.blocks.WBPortalBlockEntityRenderer;
+import com.telepathicgrunt.world_blender.dimension.WBSkyProperty;
+import com.telepathicgrunt.world_blender.mixin.SkyPropertiesAccessor;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -17,6 +20,8 @@ public class WorldBlenderClient{
 
 	public static void onClientSetup(FMLClientSetupEvent event)
 	{
+		SkyPropertiesAccessor.getfield_239208_a_().put(new ResourceLocation(WorldBlender.MODID, "sky_property"), new WBSkyProperty());
+
 		event.enqueueWork(() ->
 		{
 			//Put this into enqueue because its not thread safe - andrew

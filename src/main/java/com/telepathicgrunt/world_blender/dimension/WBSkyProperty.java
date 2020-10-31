@@ -8,7 +8,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class WBSkyProperty extends DimensionRenderInfo {
     public WBSkyProperty() {
-        super(155, false, FogType.NORMAL, true, true);
+        super(155, true, FogType.NORMAL, false, false);
     }
 
     @Override

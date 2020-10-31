@@ -214,6 +214,9 @@ public class FeatureGrouping
 						allFeatures.append(jsonConfigObject.get("type").toString()).append(" ");
 						return allFeatures.toString();
 					}
+					else{
+						return allFeatures.toString();
+					}
 				}
 			}
 			else if(jsonConfigObject.has("feature")){

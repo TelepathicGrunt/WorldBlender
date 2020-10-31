@@ -208,7 +208,7 @@ public class WBBlendingConfigs {
                             +" and vanilla's icebergs: \r\n"
                             +" \"tree, minecraft:iceberg\"\r\n")
                     .translation("world_blender.config.blacklist.blacklistedfeatures")
-                    .define("blacklistedFeatures", ""));
+                    .define("blacklistedFeatures", "minecraft:basalt_blobs,minecraft:blackstone_blobs"));
 
 
             blacklistedStructures = subscriber.subscribe(builder

@@ -18,7 +18,9 @@
     "ServerWorldMixin",
     "WeightedBlockStateProviderMixin"
   ],
-  "client": [],
+  "client": [
+    "SkyPropertiesAccessor"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

@@ -7,14 +7,27 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
  
  
-## (V.2.0.5 Changes) (1.16.3 Minecraft)
+## (V.2.0.6 Changes) (1.16.3 Minecraft)
      
 ##### Major:
 - Register to Forge registry instead of vanilla due to a breaking 
-  change done by Forge and they didn't even give us modders a heads up.
-  Thank you Forge. Thank you so very much. Glad to see them thinking about
-  the modders and making sure we wake up to our mods blowing up. ffs
+  change done by Forge. Special thanks to andrew0030 for helping
+  me with fixing this!
 
+##### Dimension:
+
+- Fixed sky color.
+ 
+##### Features:
+
+- Fixed Coral not spawning in dimension.
+
+- Set default value for blacklistedFeatures config to 
+  "minecraft:basalt_blobs,minecraft:blackstone_blobs"
+ 
+ 
+## (V.2.0.5 Changes) (1.16.3 Minecraft)
+     
 ##### Portal:
 
 - Fixed serverside crash when attempting to make portal. 
