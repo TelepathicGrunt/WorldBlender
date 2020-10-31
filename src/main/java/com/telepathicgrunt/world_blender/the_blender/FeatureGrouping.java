@@ -236,7 +236,7 @@ public class FeatureGrouping
 			return jsonStartObject.get("type").toString();
 		}
 
-		return "";
+		return jsonStartObject.toString();
 	}
 
 
