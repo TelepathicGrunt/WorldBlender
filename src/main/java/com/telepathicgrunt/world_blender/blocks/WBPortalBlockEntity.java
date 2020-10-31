@@ -24,7 +24,7 @@ public class WBPortalBlockEntity extends TileEntity implements ITickableTileEnti
 
 	public WBPortalBlockEntity()
 	{
-		super(WBBlocks.WORLD_BLENDER_PORTAL_BE);
+		super(WBBlocks.WORLD_BLENDER_PORTAL_BE.get());
 	}
 
 

@@ -90,7 +90,7 @@ public class WBPortalBlock extends ContainerBlock
 				{
 					Block blockNearTeleport = destinationWorld.getBlockState(blockpos).getBlock();
 
-					if (blockNearTeleport == WBBlocks.WORLD_BLENDER_PORTAL)
+					if (blockNearTeleport == WBBlocks.WORLD_BLENDER_PORTAL.get())
 					{
 						//gets portal block closest to players original xz coordinate
 						if (destPos == null || (Math.abs(blockpos.getX() - position.getX()) < Math.abs(destPos.getX() - position.getX()) && Math.abs(blockpos.getZ() - position.getZ()) < Math.abs(destPos.getZ() - position.getZ())))
@@ -134,7 +134,7 @@ public class WBPortalBlock extends ContainerBlock
 						destinationWorld.setBlockState(destPos, Blocks.AIR.getDefaultState());
 						destinationWorld.setBlockState(destPos.up(), Blocks.AIR.getDefaultState());
 						
-						destinationWorld.setBlockState(destPos, WBBlocks.WORLD_BLENDER_PORTAL.getDefaultState());
+						destinationWorld.setBlockState(destPos, WBBlocks.WORLD_BLENDER_PORTAL.get().getDefaultState());
 						TileEntity blockEntity = destinationWorld.getTileEntity(destPos);
 						if(blockEntity instanceof WBPortalBlockEntity){
 							((WBPortalBlockEntity)blockEntity).triggerCooldown();

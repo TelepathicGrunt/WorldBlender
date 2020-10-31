@@ -447,8 +447,8 @@ public class TheBlender {
                 return;
             }
 
-            if (!((BlendedSurfaceBuilder) WBSurfaceBuilders.BLENDED_SURFACE_BUILDER).containsConfig(surfaceConfig)) {
-                ((BlendedSurfaceBuilder) WBSurfaceBuilders.BLENDED_SURFACE_BUILDER).addConfig(surfaceConfig);
+            if (!((BlendedSurfaceBuilder) WBSurfaceBuilders.BLENDED_SURFACE_BUILDER.get()).containsConfig(surfaceConfig)) {
+                ((BlendedSurfaceBuilder) WBSurfaceBuilders.BLENDED_SURFACE_BUILDER.get()).addConfig(surfaceConfig);
             }
         }
         else {
@@ -461,8 +461,8 @@ public class TheBlender {
                 return;
             }
 
-            if (!((BlendedSurfaceBuilder) WBSurfaceBuilders.BLENDED_SURFACE_BUILDER).containsConfig(surfaceConfig)) {
-                ((BlendedSurfaceBuilder) WBSurfaceBuilders.BLENDED_SURFACE_BUILDER).addConfig(surfaceConfig);
+            if (!((BlendedSurfaceBuilder) WBSurfaceBuilders.BLENDED_SURFACE_BUILDER.get()).containsConfig(surfaceConfig)) {
+                ((BlendedSurfaceBuilder) WBSurfaceBuilders.BLENDED_SURFACE_BUILDER.get()).addConfig(surfaceConfig);
             }
         }
     }

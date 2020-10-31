@@ -66,7 +66,7 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 			world.setBlockState(finalPosition.down(), Blocks.AIR.getDefaultState(), 3);
 			ALTAR_TEMPLATE.func_237152_b_(world, finalPosition.add(-5, -2, -5), placementSettings, rand);
 			finalPosition.move(Direction.DOWN);
-			world.setBlockState(finalPosition, WBBlocks.WORLD_BLENDER_PORTAL.getDefaultState(), 3); //extra check to make sure portal is placed
+			world.setBlockState(finalPosition, WBBlocks.WORLD_BLENDER_PORTAL.get().getDefaultState(), 3); //extra check to make sure portal is placed
 
 			//make portal block unremoveable in altar
 			TileEntity blockEntity = world.getTileEntity(finalPosition);

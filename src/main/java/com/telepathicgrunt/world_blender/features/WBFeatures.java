@@ -1,20 +1,24 @@
 package com.telepathicgrunt.world_blender.features;
 
+import com.google.common.base.Supplier;
 import com.telepathicgrunt.world_blender.WorldBlender;
+
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class WBFeatures
 {
-    public static Feature<NoFeatureConfig> WB_PORTAL_ALTAR = new WBPortalAltar();
-    public static Feature<NoFeatureConfig> NO_FLOATING_LIQUIDS_OR_FALLING_BLOCKS = new NoFloatingLiquidsOrFallingBlocks();
-    public static Feature<NoFeatureConfig> SEPARATE_LAVA_AND_WATER = new SeparateLavaAndWater();
+	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WorldBlender.MODID);
+	
+    public static final RegistryObject<Feature<NoFeatureConfig>> WB_PORTAL_ALTAR = createFeature("portal_altar", () -> new WBPortalAltar());
+    public static final RegistryObject<Feature<NoFeatureConfig>> NO_FLOATING_LIQUIDS_OR_FALLING_BLOCKS = createFeature("no_floating_liquids_or_falling_blocks", () -> new NoFloatingLiquidsOrFallingBlocks());
+    public static final RegistryObject<Feature<NoFeatureConfig>> SEPARATE_LAVA_AND_WATER = createFeature("separate_lava_and_water", () -> new SeparateLavaAndWater());
     
-    public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
+    private static <F extends Feature<?>> RegistryObject<F> createFeature(String name, Supplier<F> feature)
     {
-        WorldBlender.register(event.getRegistry(), WB_PORTAL_ALTAR, "portal_altar");
-        WorldBlender.register(event.getRegistry(), NO_FLOATING_LIQUIDS_OR_FALLING_BLOCKS, "no_floating_liquids_or_falling_blocks");
-        WorldBlender.register(event.getRegistry(), SEPARATE_LAVA_AND_WATER, "separate_lava_and_water");
-    }
+		return FEATURES.register(name, feature);
+	}
 }

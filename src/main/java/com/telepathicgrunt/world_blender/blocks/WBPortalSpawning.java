@@ -224,7 +224,7 @@ public class WBPortalSpawning
 						}
 
 						//create portal but with cooldown so players can grab items before they get teleported
-						world.setBlockState(blockpos, WBBlocks.WORLD_BLENDER_PORTAL.getDefaultState(), 3);
+						world.setBlockState(blockpos, WBBlocks.WORLD_BLENDER_PORTAL.get().getDefaultState(), 3);
 						WBPortalBlockEntity wbtile = (WBPortalBlockEntity) world.getTileEntity(blockpos);
 
 						if(wbtile != null)
