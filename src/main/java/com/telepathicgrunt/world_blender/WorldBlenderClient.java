@@ -20,10 +20,10 @@ public class WorldBlenderClient{
 
 	public static void onClientSetup(FMLClientSetupEvent event)
 	{
-		SkyPropertiesAccessor.getfield_239208_a_().put(new ResourceLocation(WorldBlender.MODID, "sky_property"), new WBSkyProperty());
-
 		event.enqueueWork(() ->
 		{
+			SkyPropertiesAccessor.getfield_239208_a_().put(new ResourceLocation(WorldBlender.MODID, "sky_property"), new WBSkyProperty());
+
 			//Put this into enqueue because its not thread safe - andrew
 			ClientRegistry.bindTileEntityRenderer(WBBlocks.WORLD_BLENDER_PORTAL_BE.get(), WBPortalBlockEntityRenderer::new);
 		});

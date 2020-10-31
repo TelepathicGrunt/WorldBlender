@@ -15,11 +15,9 @@ Welcome to the Github! If you are looking for the most recent stable version, th
   me with fixing this!
 
 ##### Dimension:
-
 - Fixed sky color.
  
 ##### Features:
-
 - Fixed Coral not spawning in dimension.
 
 - Set default value for blacklistedFeatures config to 
