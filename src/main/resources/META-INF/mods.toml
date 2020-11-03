@@ -5,6 +5,7 @@ license="https://github.com/TelepathicGrunt/WorldBlender/blob/master/LICENSE"
 [[mods]] #mandatory
 modId="world_blender" #mandatory
 logoFile="world_blender_logo.png"
+logoBlur=false
 version="${version}" #mandatory
 displayName="World Blender" #mandatory
 displayURL="https://www.curseforge.com/minecraft/mc-mods/worldblender"

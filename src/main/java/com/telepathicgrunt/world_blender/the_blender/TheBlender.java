@@ -264,14 +264,6 @@ public class TheBlender {
             for (Supplier<ConfiguredFeature<?, ?>> configuredFeatureSupplier : biome.func_242440_e().func_242498_c().get(stage.ordinal())) {
                 ConfiguredFeature<?, ?> configuredFeature = configuredFeatureSupplier.get();
 
-                ResourceLocation configuredFeatureID2 = configuredFeaturesRegistry.getKey(configuredFeature);
-                if(configuredFeatureID2 == null){
-                    configuredFeatureID2 = WorldGenRegistries.field_243653_e.getKey(configuredFeature);
-                }
-
-                if(configuredFeatureID2.toString().equals("minecraft:warm_ocean_vegetation")){
-                    int t = 5;
-                }
                 if (world_blender_biomes.get(0).func_242440_e().func_242498_c().get(stage.ordinal()).stream().noneMatch(addedConfigFeature -> FeatureGrouping.serializeAndCompareFeature(addedConfigFeature.get(), configuredFeatureSupplier.get(), true))) {
 
                     ResourceLocation configuredFeatureID = configuredFeaturesRegistry.getKey(configuredFeature);

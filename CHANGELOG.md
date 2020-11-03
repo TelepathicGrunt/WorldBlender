@@ -6,6 +6,17 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ------------------------------------------------
 #    | World Blender changelog |
  
+
+## (V.2.0.7 Changes) (1.16.3 Minecraft)
+
+##### Blending:
+
+- Forgot to remove debug thing which caused crash with unregistered stuff.
+
+##### Misc:
+
+- Removed logo blur from logo in mod list
+ 
  
 ## (V.2.0.6 Changes) (1.16.3 Minecraft)
      
