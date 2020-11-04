@@ -1,13 +1,12 @@
 <p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.imgur.com/HLLklJ6.png" alt="The banner logo for World Blender with a picture of the crazy landscape behind the title." width="999" height="370" /></p>
-<h2 style="text-align: center;"><span style="font-size: 40px; text-align: center; color: #009b7c;"><strong>CURRENTLY FOR 1.16.3 MC</strong></span></h2>
+<h2 style="text-align: center;"><span style="font-size: 40px; text-align: center; color: #009b7c;"><strong>CURRENTLY FOR 1.16.4 MC</strong></span></h2>
 <p style="text-align: center;"><span style="font-size: 12px; text-align: center; color: #009b7c;"><strong>Needs to be on both client and server to work</strong></span></p>
-<p style="text-align: center;"><strong><a href="https://www.curseforge.com/minecraft/mc-mods/world-blender-fabric">[Click here for the 1.16.3 Fabric version of this mod!]</a></strong></p>
+<p style="text-align: center;"><strong><a href="https://www.curseforge.com/minecraft/mc-mods/world-blender-fabric">[Click here for the 1.16.4 Fabric version of this mod!]</a></strong></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p style="text-align: center;"><strong><span style="color: #800000;">Recent News:</span></strong> <strong>Ported 1.16.3 Fabric version to Forge!</strong></p>
-<p style="text-align: center;"><strong>Please report any bugs that you find!</strong></p>
-<p style="text-align: center;"><strong>Edit: just fixed some crashes and issues with</strong></p>
-<p style="text-align: center;"><strong>spawning some features/structures!</strong></p>
+<p style="text-align: center;"><strong><span style="color: #800000;">Recent News:</span></strong> <strong>Activation item config can </strong></p>
+<p style="text-align: center;"><strong>now take multiple item entries!</strong></p>
+<p style="text-align: center;"><strong>Report any bugs please!</strong></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p style="text-align: center;"><strong><em><br /></em><span style="font-size: 14px; color: #993300;"><span style="font-size: 18px;">GENERAL NOTE:</span> <em><br /></em></span></strong></p>
@@ -36,7 +35,7 @@
 <p><span style="font-size: 14px;">&nbsp; &nbsp;Currently as of right now, here is the alphabetical list of 1.16.3 mods that does work with the latest 1.16.3 version of World Blender. Let me know if another mod works with World Blender and I'll add it to this list!</span></p>
 <p style="font-size: 14px;">&nbsp;<br /><span style="font-size: 14px;"><strong>1.16.3 COMPATIBLE MODS LIST:</strong></span></p>
 <div class="spoiler">
-<p>Please help! College drained my time out of me like a vampire! Let me know what mods works with World Blender! (Or doesn't work. Someone always breaks my mod lmao)</p>
+<p>Please help! College drained my time out of me like a vampire! Let me know what mods works with World Blender! (Or doesn't work)</p>
 <p>&nbsp;</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/animalium">-Animalium</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/aquaculture">-Aquaculture 2</a></p>
@@ -47,20 +46,27 @@
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/dungeon-crawl">-Dungeons Crawl</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/dungeons-mod">-Dungeons Mod</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/earth-mobs">-Earth Mobs</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/embellishcraft">-Embellishcraft</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/hunterillager">-HunterIllager</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/lucky-ore/files/3068277">-Lucky Ore</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/mutant-beasts">-Mutant Beasts</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/oh-the-biomes-youll-go">-Oh the Biomes You'll Go</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/pandoras-creatures">-Pandoras Creatures</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/pneumaticcraft-repressurized">-PneumaticCraft: Repressurized</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/quark">-Quark&nbsp;</a>(Use Quark's config to add Quark's stuff to World Blender. You have to allow both World Blender's dimension and biomes)</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/randomite-classic">-Randomite Classic</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/rats-ratlantis">-Rats Ratlantis</a>&nbsp;</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/rare-ice">-Rare Ice (Forge/Fabric)</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/repurposed-structures">-Repurposed Structures (Forge)</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/simple-farming">-Simple Farming</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/snow-under-trees">-Snow Under Trees</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/teletubbies-mod">-Teletubbies Mod</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/terraqueous">-Terraqueous</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/the-bumblezone-forge">-The Bumblezone (Forge)</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/the-conjurer">-The Conjurer</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/unearthed-forge">-Unearthed Forge</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/themcbros-useless-mod">-Useless Mod&nbsp;</a>(Their Useless House structure does not spawn in World Blender dimension)</p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/valhelsia-structures">-Valhelsia Structures</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/waddles">-Waddles</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/wyrmroost">-Wyrmroost</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/yungs-better-mineshafts-forge">-YUNG's Better Mineshafts Forge</a> (Will only spawn if Vanilla Mineshafts are not blacklisted)</p>
@@ -160,7 +166,7 @@
 <p>&nbsp;</p>
 <h2 style="color: #009b7c;"><strong>HOW DO I ENTER THIS WORLD?</strong></h2>
 <p>&nbsp;</p>
-<p><span style="font-size: 14px;">&nbsp; &nbsp; To enter this highly, overpowered and broken dimension, you have to prove that you had traveled quite a lot and that you are in the endgame by placing 8 chests in a 2x2x2 area and then filling every single slot in those chests with at least 1 unique block item! (Items without block forms and duplicate block slots will be ignored and stacks of one block will not count as extra) Then when you are done, hold a Nether Star in your hand and right click any of the chests while crouching to create the portal that will consume your chests and blocks inside as a sacrifice! If this is too much to do,<strong> you can easily reduce the number of unique blocks required or what activation item is needed to make the portal by going into the config file.</strong> But once the portal is made, just walk into the portal after it has cooled down (not red anymore) and you'll enter the dimension with a new portal block at your feet to let you exit easily!</span></p>
+<p><span style="font-size: 14px;">&nbsp; &nbsp; To enter this highly, overpowered and broken dimension, you have to prove that you had traveled quite a lot and that you are in the endgame by placing 8 chests in a 2x2x2 area and then filling every slot with 1 of every block you can find! (Items without block forms does not count. Having more than 1 kind of one block will not count as extra either.) Then when you are done, hold a Nether Star in your hand. Now crouch and right click any of the chests with the star to create the portal! The portal will consume the chests and the blocks inside as sacrifice! If this is too much to do,<strong> you can easily reduce the number of unique blocks required or what activation item is needed to make the portal by going into the config file.</strong> But once the portal is made, just walk into the portal after it has cooled down (not red anymore) and you'll enter the dimension with a new portal block at your feet to let you exit easily!</span></p>
 <p>&nbsp;</p>
 <p><span style="font-size: 14px;">&nbsp; &nbsp;If you create the portal in a bad spot, you can right click the portal blocks while crouching and holding no items to vaporize the portal. Also in this crazy dimension, you can always leave it by heading to world origin as there will be quartz altar with an unbreakable portal block to always allow you to escape (unless another feature destroys the altar... I'll see about preventing that in a future version). The portal will always place you back to the Overworld when leaving the dimension so keep that in mind! And also, the portal can teleport any entity or dropped item but only one at a time and it will have a cooldown phase.</span></p>
 <p>&nbsp;</p>
@@ -188,7 +194,7 @@
 <p>&nbsp;</p>
 <p><span style="font-size: 16px;"><strong>-print out all resource locations of everything registered to help you with making a blacklist easily.</strong></span></p>
 <p><span style="font-size: 16px;"><strong>&nbsp; &nbsp;</strong></span></p>
-<p><span style="font-size: 16px;"><strong>-change how much unique blocks is needed to make the portal, specify required blocks that needs to be in the chests, what activation item is needed, and whether the portal should drop the chests and its contents instead of consuming it.</strong></span></p>
+<p><span style="font-size: 16px;"><strong>-change how many kinds of blocks are needed to make the portal, specify required blocks that needs to be in the chests, what activation item(s) is needed, and whether the portal should drop the chests and its contents instead of consuming it.</strong></span></p>
 <p>&nbsp;</p>
 <p><span style="font-size: 16px;"><strong>-how thick the surface bands are and whether vanilla ravine and cave carvers can carve through modded blocks, Netherrack, and End Stone underground.</strong></span></p>
 <p>&nbsp;</p>

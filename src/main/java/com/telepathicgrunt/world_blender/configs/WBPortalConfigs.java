@@ -20,22 +20,24 @@ public class WBPortalConfigs {
 
             uniqueBlocksNeeded = subscriber.subscribe(builder
                     .comment(" \r\n-----------------------------------------------------\r\n\r\n"
-                            +" At least many unique block items are needed to be in the eight\r\n"
-                            +" chests (or other blocks with chest tag) to create the portal. \r\n"
+                            +" How many kinds of block items are needed to be in the eight\r\n"
+                            +" chests (or other chest tagged blocks) to create the portal. \r\n"
                             +" \r\n"
                             +" Items with no block form will be ignored and not counted but still be consumed.\r\n"
                             +" \r\n"
-                            +" If you set this to beyond 216 (maximum slots four 8 chests), make\r\n"
-                            +" sure you have a mod that has a chest that has much more inventory "
-                            +" slots to fill or else you cannot ")
+                            +" If you set this to beyond 216 (maximum slots of 8 vanilla chests), make\r\n"
+                            +" sure you have a mod that has a chest that has much more inventory slots"
+                            +" to fill or else you cannot create the portal.")
                     .translation("world_blender.config.portal.uniqueblocksneeded")
                     .defineInRange("uniqueBlocksNeeded", 216, 0, 1000));
 
             activationItem = subscriber.subscribe(builder
                     .comment(" \r\n-----------------------------------------------------\r\n\r\n"
-                            +" Item that you need in your hand when you're crouching and right\r\n"
+                            +" Item(s) that you need in your hand when you're crouching and right\r\n"
                             +" clicking a chest block to begin the portal creation process.\r\n"
-                            +" This activation item will then be consumed.\r\n"
+                            +" This activation item will then be consumed. You can specify more\r\n"
+                            +" than 1 item that can be used to make the portal. Just separate the\r\n"
+                            +" item identifiers with a comma.\r\n"
                             +" \r\n"
                             +" NOTE: the 8 chests needs to be in a 2x2 pattern before this mod "
                             +" starts checking the contents of the chests and then create the"

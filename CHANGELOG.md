@@ -6,6 +6,12 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ------------------------------------------------
 #    | World Blender changelog |
  
+## (V.2.0.9 Changes) (1.16.3 Minecraft)
+
+##### Config:
+
+- Clarified and fixed some config comments.
+
 
 ## (V.2.0.8 Changes) (1.16.3 Minecraft)
 
