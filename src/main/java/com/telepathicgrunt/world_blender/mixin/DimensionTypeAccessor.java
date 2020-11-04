@@ -7,6 +7,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(DimensionType.class)
 public interface DimensionTypeAccessor {
 
-    @Accessor("field_236015_u_")
-    void setEnderDragonFight(boolean hasDragon);
+    @Accessor(value = "hasDragonFight")
+    void setHasDragonFight(boolean hasDragon);
 }

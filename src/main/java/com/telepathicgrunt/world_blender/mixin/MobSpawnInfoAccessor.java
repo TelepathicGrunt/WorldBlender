@@ -12,17 +12,17 @@ import java.util.Map;
 @Mixin(MobSpawnInfo.class)
 public interface MobSpawnInfoAccessor {
 
-    @Accessor("field_242554_e")
+    @Accessor("spawners")
     Map<EntityClassification, List<MobSpawnInfo.Spawners>> getSpawners();
 
-    @Accessor("field_242554_e")
+    @Accessor("spawners")
     void setSpawners(Map<EntityClassification, List<MobSpawnInfo.Spawners>> features);
 
 
-    @Accessor("field_242555_f")
+    @Accessor("spawnCosts")
     Map<EntityType<?>, MobSpawnInfo.SpawnCosts> getSpawnCosts();
 
-    @Accessor("field_242555_f")
+    @Accessor("spawnCosts")
     void setSpawnCosts(Map<EntityType<?>, MobSpawnInfo.SpawnCosts>  structureFeatures);
 
 }

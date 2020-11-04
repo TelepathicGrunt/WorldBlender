@@ -16,7 +16,7 @@ public class WBConfiguredFeatures
     
     public static void registerConfiguredFeatures()
     {
-        MutableRegistry<ConfiguredFeature<?, ?>> registry = (MutableRegistry<ConfiguredFeature<?, ?>>) WorldGenRegistries.field_243653_e;
+        MutableRegistry<ConfiguredFeature<?, ?>> registry = (MutableRegistry<ConfiguredFeature<?, ?>>) WorldGenRegistries.CONFIGURED_FEATURE;
 
         Registry.register(registry, new ResourceLocation(WorldBlender.MODID, "portal_altar"), WB_PORTAL_ALTAR);
         Registry.register(registry, new ResourceLocation(WorldBlender.MODID, "no_floating_liquids_or_falling_blocks"), NO_FLOATING_LIQUIDS_OR_FALLING_BLOCKS);

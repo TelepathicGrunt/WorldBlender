@@ -46,11 +46,11 @@ public class ServerWorldMixin implements ServerWorldAccess {
 							IChunkStatusListener worldGenerationProgressListener, ChunkGenerator chunkGenerator,
 							boolean bl, long seed, List<ISpecialSpawner> list, boolean bl2, CallbackInfo ci) {
 
-		if(registryKey.func_240901_a_().equals(WBIdentifiers.MOD_DIMENSION_ID) &&
+		if(registryKey.getLocation().equals(WBIdentifiers.MOD_DIMENSION_ID) &&
 				WorldBlender.WBDimensionConfig.spawnEnderDragon.get())
 		{
-			((DimensionTypeAccessor)dimensionType).setEnderDragonFight(true);
-			field_241105_O_ = new DragonFightManager((ServerWorld)(Object)this, server.func_240793_aU_().getDimensionGeneratorSettings().getSeed(), server.func_240793_aU_().getDragonFightData());
+			((DimensionTypeAccessor)dimensionType).setHasDragonFight(true);
+			field_241105_O_ = new DragonFightManager((ServerWorld)(Object)this, server.getServerConfiguration().getDimensionGeneratorSettings().getSeed(), server.getServerConfiguration().getDragonFightData());
 		}
 
 		ALTAR = new AltarManager((ServerWorld)(Object)this);
@@ -65,7 +65,7 @@ public class ServerWorldMixin implements ServerWorldAccess {
 			at = @At(value = "HEAD")
 	)
 	private void tickAltar(CallbackInfo ci) {
-		if(((ServerWorld)(Object)this).getDimensionKey().func_240901_a_().equals(WBIdentifiers.MOD_DIMENSION_ID) && field_241105_O_ == null)
+		if(((ServerWorld)(Object)this).getDimensionKey().getLocation().equals(WBIdentifiers.MOD_DIMENSION_ID) && field_241105_O_ == null)
 			ALTAR.tick();
 	}
 }

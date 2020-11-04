@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 
 public class WBIdentifiers {
     public static final ResourceLocation MOD_DIMENSION_ID = new ResourceLocation(WorldBlender.MODID, WorldBlender.MODID);
-    public static final RegistryKey<World> WB_WORLD_KEY = RegistryKey.func_240903_a_(Registry.WORLD_KEY, WBIdentifiers.MOD_DIMENSION_ID);
+    public static final RegistryKey<World> WB_WORLD_KEY = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, WBIdentifiers.MOD_DIMENSION_ID);
     public static final ResourceLocation WB_BIOME_PROVIDER_ID = new ResourceLocation(WorldBlender.MODID, "biome_source");
 
     public static final ResourceLocation GENERAL_BLENDED_BIOME_ID = new ResourceLocation(WorldBlender.MODID, "general_blended");

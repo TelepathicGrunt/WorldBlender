@@ -25,16 +25,16 @@ public class IdentifierPrinting
 	{
 		try(PrintStream printStream = new PrintStream("identifierDump.txt"))
 		{ 
-			printOutSection(printStream, registryManager.func_243612_b(Registry.BIOME_KEY), "BIOMES");
+			printOutSection(printStream, registryManager.getRegistry(Registry.BIOME_KEY), "BIOMES");
 
 			printStream.println();
-			printOutSection(printStream, registryManager.func_243612_b(Registry.field_243552_au), "CONFIGURED FEATURES");
+			printOutSection(printStream, registryManager.getRegistry(Registry.CONFIGURED_FEATURE_KEY), "CONFIGURED FEATURES");
 			
 			printStream.println();
-			printOutSection(printStream, registryManager.func_243612_b(Registry.field_243553_av), "CONFIGURED STRUCTURES");
+			printOutSection(printStream, registryManager.getRegistry(Registry.CONFIGURED_STRUCTURE_FEATURE_KEY), "CONFIGURED STRUCTURES");
 
 			printStream.println();
-			printOutSection(printStream, registryManager.func_243612_b(Registry.field_243551_at), "CARVERS");
+			printOutSection(printStream, registryManager.getRegistry(Registry.CONFIGURED_CARVER_KEY), "CARVERS");
 			
 			printStream.println();
 			printOutSection(printStream, Registry.ENTITY_TYPE, "ENTITIES");
@@ -67,12 +67,12 @@ public class IdentifierPrinting
 		printStream.println("######      "+section+" RESOURCE LOCATION (IDs)        ######"); 
 		printStream.println();
 
-		registry.getEntries().stream().sorted(Comparator.comparing(p -> p.getKey().func_240901_a_().toString()))
+		registry.getEntries().stream().sorted(Comparator.comparing(p -> p.getKey().getLocation().toString()))
 				.forEach(entry -> writeEntry(printStream, entry.getKey(), previous_namespace));
 	}
 
 	private static void writeEntry(PrintStream printStream, RegistryKey<?> entry, AtomicReference<String> previous_namespace){
-		ResourceLocation entryID = entry.func_240901_a_();
+		ResourceLocation entryID = entry.getLocation();
 
 		// extra check to just make sure. Probably never possible to be null
 		if(entryID == null) return;

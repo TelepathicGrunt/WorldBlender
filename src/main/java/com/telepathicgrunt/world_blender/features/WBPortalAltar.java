@@ -39,7 +39,7 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 	
 
 	@Override
-	public boolean func_241855_a(ISeedReader world, ChunkGenerator chunkgenerator, Random rand, BlockPos position, NoFeatureConfig config)
+	public boolean generate(ISeedReader world, ChunkGenerator chunkgenerator, Random rand, BlockPos position, NoFeatureConfig config)
 	{
 		//only world origin chunk allows generation
 		if (world.getWorld().getDimensionKey().equals(WBIdentifiers.WB_WORLD_KEY) &&

@@ -32,7 +32,7 @@ public class EnderDragonFightMixin {
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/end/DragonFightManager;generatePortal(Z)V")
 	)
 	private void tickAltar(CallbackInfo ci) {
-		if(world.getDimensionKey().func_240901_a_().equals(WBIdentifiers.MOD_DIMENSION_ID))
+		if(world.getDimensionKey().getLocation().equals(WBIdentifiers.MOD_DIMENSION_ID))
 			((ServerWorldAccess)world).getAltar().tick();
 	}
 
@@ -90,7 +90,7 @@ public class EnderDragonFightMixin {
 			cancellable = true
 	)
 	private void doNotCheckWBBedrockFloor(CallbackInfoReturnable<BlockPattern.PatternHelper> cir, int k, int l) {
-		if(l < 5 && world.getDimensionKey().func_240901_a_().equals(WBIdentifiers.MOD_DIMENSION_ID))
+		if(l < 5 && world.getDimensionKey().getLocation().equals(WBIdentifiers.MOD_DIMENSION_ID))
 			cir.setReturnValue(null); // Skip checking the bedrock layer
 	}
 }

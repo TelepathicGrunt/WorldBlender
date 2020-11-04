@@ -93,14 +93,14 @@ public class NoFloatingLiquidsOrFallingBlocks extends Feature<NoFeatureConfig>
 	}
 
 	@Override
-	public boolean func_241855_a(ISeedReader world, ChunkGenerator chunkgenerator, Random rand, BlockPos position, NoFeatureConfig config)
+	public boolean generate(ISeedReader world, ChunkGenerator chunkgenerator, Random rand, BlockPos position, NoFeatureConfig config)
 	{
 		//this feature is completely turned off.
 		if(!WorldBlender.WBDimensionConfig.preventFallingBlocks.get() &&
 				!WorldBlender.WBDimensionConfig.containFloatingLiquids.get())
 			return false;
 		
-		BlockPos.Mutable mutable;
+		BlockPos.Mutable mutable = new BlockPos.Mutable();
 		BlockState currentBlockstate;
 		BlockState lastBlockstate = Blocks.STONE.getDefaultState();
 		
@@ -108,8 +108,8 @@ public class NoFloatingLiquidsOrFallingBlocks extends Feature<NoFeatureConfig>
 		{
 			for(int z = 0; z < 16; z++)
 			{
-				mutable = new BlockPos.Mutable(position.getX() + x, 0, position.getZ() + z);
-				mutable.move(Direction.UP, Math.max(world.getHeight(Heightmap.Type.WORLD_SURFACE, mutable.getX(), mutable.getZ()), chunkgenerator.func_230356_f_()));
+				mutable.setPos(position.getX() + x, 0, position.getZ() + z);
+				mutable.move(Direction.UP, Math.max(world.getHeight(Heightmap.Type.WORLD_SURFACE, mutable.getX(), mutable.getZ()), chunkgenerator.getSeaLevel()));
 				
 				//checks the column downward
 				for(; mutable.getY() >= 0; mutable.move(Direction.DOWN))

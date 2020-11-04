@@ -33,7 +33,7 @@ public class MinecraftServerMixin {
 
     @Final
     @Shadow
-    private TemplateManager field_240765_ak_;
+    private TemplateManager templateManager;
 
     @Inject(
             method = "<init>(Ljava/lang/Thread;Lnet/minecraft/util/registry/DynamicRegistries$Impl;Lnet/minecraft/world/storage/SaveFormat$LevelSave;Lnet/minecraft/world/storage/IServerConfiguration;Lnet/minecraft/resources/ResourcePackList;Ljava/net/Proxy;Lcom/mojang/datafixers/DataFixer;Lnet/minecraft/resources/DataPackRegistries;Lcom/mojang/authlib/minecraft/MinecraftSessionService;Lcom/mojang/authlib/GameProfileRepository;Lnet/minecraft/server/management/PlayerProfileCache;Lnet/minecraft/world/chunk/listener/IChunkStatusListenerFactory;)V",
@@ -46,12 +46,10 @@ public class MinecraftServerMixin {
                                      PlayerProfileCache userCache, IChunkStatusListenerFactory worldGenerationProgressListenerFactory,
                                      CallbackInfo ci) {
 
-        if(impl.func_230521_a_(Registry.BIOME_KEY).isPresent()) {
-            TheBlender.blendTheWorld(impl);
-            WBPortalAltar.ALTAR_TEMPLATE = field_240765_ak_.getTemplate(WBIdentifiers.ALTAR_ID);
-            if(WorldBlender.WBBlendingConfig.resourceLocationDump.get()){
-                IdentifierPrinting.printAllResourceLocations(impl);
-            }
+        TheBlender.blendTheWorld(impl);
+        WBPortalAltar.ALTAR_TEMPLATE = templateManager.getTemplate(WBIdentifiers.ALTAR_ID);
+        if(WorldBlender.WBBlendingConfig.resourceLocationDump.get()){
+            IdentifierPrinting.printAllResourceLocations(impl);
         }
     }
 }

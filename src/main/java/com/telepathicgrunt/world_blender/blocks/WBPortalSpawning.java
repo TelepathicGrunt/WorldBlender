@@ -96,20 +96,30 @@ public class WBPortalSpawning
 				WBPortalSpawning.VALID_CHEST_BLOCKS_ENTITY_TYPES.getOrDefault(blockEntity.getType(), false))
 		{
 			//checks to make sure the activation item is a real item before doing the rest of the checks
-			ResourceLocation activationItem = new ResourceLocation(WorldBlender.WBPortalConfig.activationItem.get());
-			if (Registry.ITEM.func_241873_b(activationItem).isPresent())
-			{
-				WorldBlender.LOGGER.log(Level.INFO, "World Blender: Warning, the activation item set in the config does not exist. Please make sure it is a valid resource location to a real item as the portal cannot be created now.");
-				StringTextComponent message = new StringTextComponent(TextFormatting.YELLOW + "World Blender: " + TextFormatting.WHITE + "Warning, the activation item set in the config does not exist. Please make sure it is a valid resource location to a real item as the portal cannot be created now.");
-				player.sendStatusMessage(message, false);
-				return ActionResultType.FAIL;
-			}
-			else if((player.getHeldItemMainhand().getItem() != Registry.ITEM.getOrDefault(activationItem) && hand == Hand.MAIN_HAND) ||
-					(player.getHeldItemOffhand().getItem() != Registry.ITEM.getOrDefault(activationItem) && hand == Hand.OFF_HAND))
-			{
-				return ActionResultType.PASS;
+			String[] activationItems = WorldBlender.WBPortalConfig.activationItem.get().split(",");
+			Arrays.parallelSetAll(activationItems, (i) -> activationItems[i].trim().toLowerCase(Locale.ROOT).replace(' ', '_'));
+			boolean validItem = false;
+
+			for(String itemString : activationItems){
+				ResourceLocation activationItem = new ResourceLocation(itemString);
+				if (!Registry.ITEM.getOptional(activationItem).isPresent())
+				{
+					WorldBlender.LOGGER.log(Level.INFO, "World Blender: Warning, the activation item set in the config does not exist. Please make sure " + itemString + " is a valid resource location to a real item as the portal cannot be created now.");
+					StringTextComponent message = new StringTextComponent(TextFormatting.YELLOW + "World Blender: " + TextFormatting.WHITE + "Warning, the activation item set in the config does not exist. Please make sure " + TextFormatting.YELLOW + itemString + TextFormatting.WHITE + " is a valid resource location to a real item as the portal cannot be created now.");
+					player.sendStatusMessage(message, false);
+					return ActionResultType.FAIL;
+				}
+				else if((player.getHeldItemMainhand().getItem().equals(Registry.ITEM.getOrDefault(activationItem)) && hand == Hand.MAIN_HAND) ||
+						(player.getHeldItemOffhand().getItem().equals(Registry.ITEM.getOrDefault(activationItem)) && hand == Hand.OFF_HAND))
+				{
+					validItem = true;
+					break;
+				}
 			}
 
+			if(activationItems.length != 0 && !validItem){
+				return ActionResultType.PASS;
+			}
 
 			BlockPos.Mutable cornerOffset = new BlockPos.Mutable(1, 1, 1);
 			boolean eightChestsFound = checkForValidChests(world, position, cornerOffset);

@@ -35,18 +35,18 @@ public class WBBiomeProvider extends BiomeProvider
 
 	public static final Codec<WBBiomeProvider> CODEC =
 			RecordCodecBuilder.create((instance) -> instance.group(
-					RegistryLookupCodec.func_244331_a(Registry.BIOME_KEY).forGetter((biomeProvider) -> biomeProvider.BIOME_REGISTRY))
+					RegistryLookupCodec.getLookUpCodec(Registry.BIOME_KEY).forGetter((biomeProvider) -> biomeProvider.BIOME_REGISTRY))
 					.apply(instance, instance.stable(WBBiomeProvider::new)));
 
 	private final Layer BIOME_SAMPLER;
 	protected final Registry<Biome> BIOME_REGISTRY;
 	protected static Registry<Biome> LAYERS_BIOME_REGISTRY;
 	private static final List<RegistryKey<Biome>> BIOMES = ImmutableList.of(
-			RegistryKey.func_240903_a_(Registry.BIOME_KEY, WBIdentifiers.GENERAL_BLENDED_BIOME_ID),
-			RegistryKey.func_240903_a_(Registry.BIOME_KEY, WBIdentifiers.MOUNTAINOUS_BLENDED_BIOME_ID),
-			RegistryKey.func_240903_a_(Registry.BIOME_KEY, WBIdentifiers.COLD_HILLS_BLENDED_BIOME_ID),
-			RegistryKey.func_240903_a_(Registry.BIOME_KEY, WBIdentifiers.OCEAN_BLENDED_BIOME_ID),
-			RegistryKey.func_240903_a_(Registry.BIOME_KEY, WBIdentifiers.FROZEN_OCEAN_BLENDED_BIOME_ID));
+			RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WBIdentifiers.GENERAL_BLENDED_BIOME_ID),
+			RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WBIdentifiers.MOUNTAINOUS_BLENDED_BIOME_ID),
+			RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WBIdentifiers.COLD_HILLS_BLENDED_BIOME_ID),
+			RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WBIdentifiers.OCEAN_BLENDED_BIOME_ID),
+			RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WBIdentifiers.FROZEN_OCEAN_BLENDED_BIOME_ID));
 
 	public WBBiomeProvider(Registry<Biome> biomeRegistry) {
 		// find a way to pass in world seed here
@@ -54,7 +54,7 @@ public class WBBiomeProvider extends BiomeProvider
 	}
 
 	public WBBiomeProvider(long seed, Registry<Biome> biomeRegistry) {
-		super(BIOMES.stream().map((registryKey) -> () -> (Biome)biomeRegistry.func_243576_d(registryKey)));
+		super(BIOMES.stream().map((registryKey) -> () -> (Biome)biomeRegistry.getValueForKey(registryKey)));
 		MainBiomeLayer.setSeed(seed);
 		this.BIOME_REGISTRY = biomeRegistry;
 		WBBiomeProvider.LAYERS_BIOME_REGISTRY = biomeRegistry;
@@ -90,7 +90,7 @@ public class WBBiomeProvider extends BiomeProvider
 				throw Util.pauseDevMode(new IllegalStateException("Unknown biome id: " + k));
 			}
 			else {
-				return registry.getValueForKey(BiomeRegistry.func_244203_a(0));
+				return registry.getValueForKey(BiomeRegistry.getKeyFromID(0));
 			}
 		}
 		else {

@@ -7,6 +7,24 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
  
 
+## (V.2.0.8 Changes) (1.16.3 Minecraft)
+
+##### Features:
+
+- Optimized World Blender's feature slightly.
+
+##### Portal:
+
+- You now can specify multiple activation items! 
+  Just separate their identifiers with a comma.
+  If you make activation item config empty, any 
+  crouch right clicking can make the portal now too.
+
+##### Backend:
+
+- Updated to latest mcp mappings and verified to work on 1.16.4
+
+
 ## (V.2.0.7 Changes) (1.16.3 Minecraft)
 
 ##### Blending:

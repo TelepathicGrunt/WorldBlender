@@ -23,11 +23,11 @@ public class WBBiomes
 	// No static variable to hold as these dummy biomes should NOT be held and referenced elsewhere.
 	static
 	{
-		createBiome("general_blended", () -> BiomeMaker.func_244234_c(false));
-		createBiome("cold_hills_blended", () -> BiomeMaker.func_244234_c(false));
-		createBiome("mountainous_blended", () -> BiomeMaker.func_244234_c(false));
-		createBiome("ocean_blended", () -> BiomeMaker.func_244234_c(false));
-		createBiome("frozen_ocean_blended", () -> BiomeMaker.func_244234_c(false));
+		createBiome("general_blended", BiomeMaker::makeVoidBiome);
+		createBiome("cold_hills_blended", BiomeMaker::makeVoidBiome);
+		createBiome("mountainous_blended", BiomeMaker::makeVoidBiome);
+		createBiome("ocean_blended", BiomeMaker::makeVoidBiome);
+		createBiome("frozen_ocean_blended", BiomeMaker::makeVoidBiome);
 	}
 	
 	private static RegistryObject<Biome> createBiome(String name, Supplier<Biome> biome)

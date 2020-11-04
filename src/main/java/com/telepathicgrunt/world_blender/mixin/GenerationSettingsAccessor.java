@@ -15,24 +15,24 @@ import java.util.function.Supplier;
 @Mixin(BiomeGenerationSettings.class)
 public interface GenerationSettingsAccessor {
 
-    @Accessor("field_242484_f")
+    @Accessor("features")
     List<List<Supplier<ConfiguredFeature<?, ?>>>> getGSFeatures();
 
-    @Accessor("field_242484_f")
+    @Accessor("features")
     void setGSFeatures(List<List<Supplier<ConfiguredFeature<?, ?>>>> features);
 
 
-    @Accessor("field_242485_g")
+    @Accessor("structures")
     List<Supplier<StructureFeature<?, ?>>> getGSStructureFeatures();
 
-    @Accessor("field_242485_g")
+    @Accessor("structures")
     void setGSStructureFeatures(List<Supplier<StructureFeature<?, ?>>> structureFeatures);
 
 
-    @Accessor("field_242483_e")
+    @Accessor("carvers")
     Map<GenerationStage.Carving, List<Supplier<ConfiguredCarver<?>>>> getCarvers();
 
-    @Accessor("field_242483_e")
+    @Accessor("carvers")
     void setCarvers(Map<GenerationStage.Carving, List<Supplier<ConfiguredCarver<?>>>> features);
 
 }
