@@ -2,7 +2,6 @@ package com.telepathicgrunt.world_blender.surfacebuilder;
 
 import com.google.common.base.Supplier;
 import com.telepathicgrunt.world_blender.WorldBlender;
-
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.fml.RegistryObject;

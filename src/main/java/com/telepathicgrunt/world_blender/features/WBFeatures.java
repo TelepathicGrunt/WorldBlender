@@ -2,7 +2,6 @@ package com.telepathicgrunt.world_blender.features;
 
 import com.google.common.base.Supplier;
 import com.telepathicgrunt.world_blender.WorldBlender;
-
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraftforge.fml.RegistryObject;

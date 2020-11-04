@@ -1,16 +1,9 @@
 package com.telepathicgrunt.world_blender.biomes;
 
 import com.google.common.base.Supplier;
-import com.telepathicgrunt.world_blender.WBIdentifiers;
 import com.telepathicgrunt.world_blender.WorldBlender;
-import com.telepathicgrunt.world_blender.generation.WBBiomeProvider;
-
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeMaker;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

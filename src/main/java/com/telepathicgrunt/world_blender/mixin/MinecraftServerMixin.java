@@ -13,7 +13,6 @@ import net.minecraft.resources.ResourcePackList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerProfileCache;
 import net.minecraft.util.registry.DynamicRegistries;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.chunk.listener.IChunkStatusListenerFactory;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.storage.IServerConfiguration;

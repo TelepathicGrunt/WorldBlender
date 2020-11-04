@@ -3,7 +3,6 @@ package com.telepathicgrunt.world_blender.blocks;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Sets;
 import com.telepathicgrunt.world_blender.WorldBlender;
-
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;

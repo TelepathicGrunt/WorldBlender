@@ -1,9 +1,5 @@
 package com.telepathicgrunt.world_blender;
 
-import com.telepathicgrunt.world_blender.generation.WBBiomeProvider;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.telepathicgrunt.world_blender.biomes.WBBiomes;
 import com.telepathicgrunt.world_blender.blocks.WBBlocks;
 import com.telepathicgrunt.world_blender.blocks.WBPortalSpawning;
@@ -12,11 +8,11 @@ import com.telepathicgrunt.world_blender.configs.WBDimensionConfigs;
 import com.telepathicgrunt.world_blender.configs.WBPortalConfigs;
 import com.telepathicgrunt.world_blender.features.WBConfiguredFeatures;
 import com.telepathicgrunt.world_blender.features.WBFeatures;
+import com.telepathicgrunt.world_blender.generation.WBBiomeProvider;
 import com.telepathicgrunt.world_blender.surfacebuilder.WBSurfaceBuilders;
 import com.telepathicgrunt.world_blender.the_blender.TheBlender;
 import com.telepathicgrunt.world_blender.utils.ConfigHelper;
 import com.telepathicgrunt.world_blender.utils.MessageHandler;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -30,6 +26,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(WorldBlender.MODID)
 public class WorldBlender{
