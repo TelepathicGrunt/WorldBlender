@@ -57,15 +57,13 @@ public class ServerWorldMixin implements ServerWorldAccess {
 	}
 
 
-	//Generate altar here only if enderdragon is off.
-	//Otherwise spawning our altar here before dragon will not spawn dragon. Don't ask me why.
-	//Cursed enderdragon code
+	//Generate altar here for dimension
 	@Inject(
 			method = "tick(Ljava/util/function/BooleanSupplier;)V",
 			at = @At(value = "HEAD")
 	)
 	private void tickAltar(CallbackInfo ci) {
-		if(((ServerWorld)(Object)this).getDimensionKey().getLocation().equals(WBIdentifiers.MOD_DIMENSION_ID) && field_241105_O_ == null)
+		if(((ServerWorld)(Object)this).getDimensionKey().getLocation().equals(WBIdentifiers.MOD_DIMENSION_ID))
 			ALTAR.tick();
 	}
 }

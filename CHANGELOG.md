@@ -1,4 +1,4 @@
-# Made for Minecraft v.1.16.3
+# Made for Minecraft v.1.16.4
 # Created by TelepathicGrunt
 
 Welcome to the Github! If you are looking for the most recent stable version, then checkout the master branch! Branches dedicated to the latest version of Minecraft may be unstable or broken as I test and experiment so stick with the master branch instead.
@@ -6,39 +6,36 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ------------------------------------------------
 #    | World Blender changelog |
  
-## (V.2.0.9 Changes) (1.16.3 Minecraft)
+## (V.2.0.9 Changes) (1.16.4 Minecraft)
 
 ##### Config:
-
 - Clarified and fixed some config comments.
+
+##### Dimension:
+- Fixed possible issue with End Podium or Altar not spawning.
 
 
 ## (V.2.0.8 Changes) (1.16.3 Minecraft)
 
 ##### Features:
-
 - Optimized World Blender's feature slightly.
 
 ##### Portal:
-
 - You now can specify multiple activation items! 
   Just separate their identifiers with a comma.
   If you make activation item config empty, any 
   crouch right clicking can make the portal now too.
 
 ##### Backend:
-
 - Updated to latest mcp mappings and verified to work on 1.16.4
 
 
 ## (V.2.0.7 Changes) (1.16.3 Minecraft)
 
 ##### Blending:
-
 - Forgot to remove debug thing which caused crash with unregistered stuff.
 
 ##### Misc:
-
 - Removed logo blur from logo in mod list
  
  
@@ -62,7 +59,6 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ## (V.2.0.5 Changes) (1.16.3 Minecraft)
      
 ##### Portal:
-
 - Fixed serverside crash when attempting to make portal. 
   Special thanks to adoxentor for finding this crash!
 
@@ -70,7 +66,6 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ## (V.2.0.4 Changes) (1.16.3 Minecraft)
      
 ##### Portal:
-
 - Make crouch right clicking without activation item not 
   deny the item's behavior.
 
@@ -78,7 +73,6 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ## (V.2.0.3 Changes) (1.16.3 Minecraft)
      
 ##### Portal:
- 
 - Fixed Portal being unabled to be created from chests.
   People! It's okay to contact me about bugs! I want to know!
   Either that or people aren't playing World Blender in survival lol. *sob*
@@ -86,23 +80,19 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 - Fixed color formatting of portal messages.
 
 ##### SurfaceBuilders:
- 
 - Added null check in case mods put null into their surfacebuilder
   config when they really should not be doing that.
 
 ##### Mod Compat:
- 
 - Fixed crash with Vampirism Tile Entities.
 
 
 ## (V.2.0.2 Changes) (1.16.3 Minecraft)
      
 ##### Config:
- 
 - Bamboo is now automatically blacklisted by disallowLaggyFeatures properly.
     
 ##### Blender:
- 
 - Unregistered ConfiguredFeatures, ConfiguredStructures, and/or ConfiguredCarvers
   will no longer be spawned in WB's dimension due to unregistered stuff possibly
   wiping out other mod's registered stuff from biomes.
@@ -114,18 +104,15 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ## (V.2.0.1 Changes) (1.16.3 Minecraft)
      
 ##### Dimension:
- 
 - Fixed bug where End Podium and Altar may randomly not spawn 
   at all in World Blender's dimension at world origin.
 
 ##### Blocks:
- 
 - Fixed Portal block not rendering.
 
 - Fixed Crash with Vampirism.
     
 ##### Structures:
- 
 - Attempted a fix to make structure spawn properly in 
   wb dimension for mods whose structures didn't spawn previously.
 
@@ -133,37 +120,31 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ## (V.2.0.0 Changes) (1.16.3 Minecraft)
     
 ##### Major:
- 
 - Ported 1.16.3 WorldBlender from Fabric to Forge!
 
   
 ## (V.1.3.8 Changes) (1.15.2 Minecraft)
    
 ##### Compat:
- 
 - Fixed mod compat with Terraforged. Special thanks to Terraforged dev, Dags, for the compat code!
 
 
 ## (V.1.3.7 Changes) (1.15.2 Minecraft)
   
 ##### Compat:
- 
 -Tried fixing crash with Mcreator due to Mcreator modifying entity spawn stuff.
   
 ##### Dimension:
- 
 -Added config to allow map cursor spinning or not in the dimension.
     
 ## (V.1.3.6 Changes) (1.15.2 Minecraft)
   
 ##### Mod Compatibility:
- 
 -Added data files to allow compat with Pokecube
   
 ## (V.1.3.5 Changes) (1.15.2 Minecraft)
   
 ##### Mod Compatibility:
-  
 -Fixed mod compatibility breaking with Dimensional Dungeons and Terraforged if the user adds another mod that didn't properly registered their features.
 
 -Updated backend so World Blender can import any new feature that Terraforged adds in the future.
@@ -175,7 +156,6 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 -Added option to make World Blender place Obsidian to separate lava tagged fluids from water tagged fluids underground.
 
 ##### Surfaces:
-
 -Fixed crash when mods uses a unique surfacebuilder that uses a config that doesn't extend SurfaceBuilderConfig class.
 
 ## (V.1.3.4 Changes) (1.15.2 Minecraft)
@@ -235,7 +215,6 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 -Improved the containFloatingLiquids config entry so it now contains water much better when the water is floating in midair and is exposed to the sky. 
   
 ##### Structures:
-
 -Fixed Desert Temples, Jungle Temples, and Strongholds from having missing Chests and fixed Strongholds from missing Silverfish Spawner in Portal Room.
 
 -Fixed what in theory could be a rare potential crash with this mod trying to be compatible with Dimensional Dungeons.
