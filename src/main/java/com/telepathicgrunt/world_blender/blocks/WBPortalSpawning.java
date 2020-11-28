@@ -5,8 +5,10 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.ContainerBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -20,6 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -38,7 +41,7 @@ public class WBPortalSpawning
 	 * Takes config string and chops it up into individual entries and returns the array of the entries.
 	 * Splits the incoming string on commas, trims white spaces on end, turns inside whitespace to _, and lowercases entry.
 	 */
-	public static void generateRequiredBlockList(String configEntry) {
+	public static void generateRequiredBlockList(IWorld world, String configEntry) {
 		String[] entriesArray = configEntry.split(",");
 		Arrays.parallelSetAll(entriesArray, (i) -> entriesArray[i].trim().toLowerCase(Locale.ROOT).replace(' ', '_'));
 		
@@ -59,20 +62,31 @@ public class WBPortalSpawning
 		}
 
 		//find all entity types that are most likely chests
-		for(TileEntityType<?> blockEntityType : Registry.BLOCK_ENTITY_TYPE)
-		{
-			try{
-				TileEntity tileEntity = blockEntityType.create();
-				if(tileEntity != null){
-					boolean containsChestName = tileEntity.getClass().getSimpleName().toLowerCase().contains("chest");
-					boolean isIInventory = tileEntity instanceof IInventory;
-					WBPortalSpawning.VALID_CHEST_BLOCKS_ENTITY_TYPES.put(
-							blockEntityType,
-							containsChestName && isIInventory);
+		for(Block block : Registry.BLOCK) {
+			if(block instanceof ContainerBlock){
+				ResourceLocation blockId = Registry.BLOCK.getKey(block);
+
+				try{
+					TileEntity blockEntity = ((ContainerBlock) block).createNewTileEntity(world);
+
+					if(blockEntity != null) {
+						ResourceLocation blockEntityId = Registry.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType());
+
+						if(blockEntityId != null) {
+							boolean hasChestName = blockId.getPath().contains("chest") || blockEntityId.getPath().contains("chest");
+							boolean isInventory = blockEntity instanceof IInventory;
+							WBPortalSpawning.VALID_CHEST_BLOCKS_ENTITY_TYPES.put(
+									blockEntity.getType(),
+									hasChestName && isInventory);
+						}
+						else{
+							throw new Exception();
+						}
+					}
 				}
-			}
-			catch(Throwable e){
-				WorldBlender.LOGGER.log(Level.WARN, "Failed to check if "+blockEntityType.getRegistryName()+" is a chest. If is not a chest, ignore this message. If it is, let telepathicGrunt (World Blender dev) know this.");
+				catch(Throwable e){
+					WorldBlender.LOGGER.log(Level.WARN, "Failed to check if "+blockId+" is a chest. If is not a chest, ignore this message. If it is, let telepathicGrunt (World Blender dev) know this.");
+				}
 			}
 		}
 	}
@@ -91,6 +105,7 @@ public class WBPortalSpawning
 
 		// Checks to see if player uses right click on a chest while crouching while holding nether star
 		TileEntity blockEntity = world.getTileEntity(position);
+
 		if (player.isCrouching() &&
 				blockEntity != null &&
 				WBPortalSpawning.VALID_CHEST_BLOCKS_ENTITY_TYPES.getOrDefault(blockEntity.getType(), false))

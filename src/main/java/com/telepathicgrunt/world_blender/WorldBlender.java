@@ -79,7 +79,7 @@ public class WorldBlender{
 		// We do not need to re-make like when entering other worlds as blocks/tile-entities are
 		// not dynamic registries like worldgen registries are.
 		if(!chestListGenerated){
-			WBPortalSpawning.generateRequiredBlockList(WBPortalConfig.requiredBlocksInChests.get());
+			WBPortalSpawning.generateRequiredBlockList(event.getWorld(), WBPortalConfig.requiredBlocksInChests.get());
 			chestListGenerated = true;
 		}
 	}

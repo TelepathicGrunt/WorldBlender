@@ -6,6 +6,12 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ------------------------------------------------
 #    | World Blender changelog |
  
+## (V.2.0.10 Changes) (1.16.4 Minecraft)
+
+##### Portal:
+- Fixed portal not able to be spawned outside development environment.
+
+
 ## (V.2.0.9 Changes) (1.16.4 Minecraft)
 
 ##### Config:
