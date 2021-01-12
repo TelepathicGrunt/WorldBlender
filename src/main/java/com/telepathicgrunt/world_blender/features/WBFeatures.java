@@ -12,10 +12,9 @@ public class WBFeatures
 {
 	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WorldBlender.MODID);
 	
-    public static final RegistryObject<Feature<NoFeatureConfig>> WB_PORTAL_ALTAR = createFeature("portal_altar", () -> new WBPortalAltar());
-    public static final RegistryObject<Feature<NoFeatureConfig>> NO_FLOATING_LIQUIDS_OR_FALLING_BLOCKS = createFeature("no_floating_liquids_or_falling_blocks", () -> new NoFloatingLiquidsOrFallingBlocks());
-    public static final RegistryObject<Feature<NoFeatureConfig>> SEPARATE_LAVA_AND_WATER = createFeature("separate_lava_and_water", () -> new SeparateLavaAndWater());
-    
+    public static final RegistryObject<Feature<NoFeatureConfig>> WB_PORTAL_ALTAR = createFeature("portal_altar", WBPortalAltar::new);
+    public static final RegistryObject<Feature<NoFeatureConfig>> ANTI_FLOATING_BLOCKS_AND_SEPARATE_LIQUIDS = createFeature("anti_floating_blocks_and_separate_liquids", AntiFloatingBlocksAndSeparateLiquids::new);
+
     private static <F extends Feature<?>> RegistryObject<F> createFeature(String name, Supplier<F> feature)
     {
 		return FEATURES.register(name, feature);

@@ -38,8 +38,8 @@ public class WBBiomeProvider extends BiomeProvider
 			RecordCodecBuilder.create((instance) -> instance.group(
 					Codec.LONG.fieldOf("seed").orElseGet(WorldSeedHolder::getSeed).forGetter((biomeSource) -> biomeSource.seed),
 					RegistryLookupCodec.getLookUpCodec(Registry.BIOME_KEY).forGetter((biomeProvider) -> biomeProvider.biomeRegistry),
-					Codec.intRange(1, 20).fieldOf("biome_size").orElse(2).forGetter((biomeSource) -> biomeSource.biomeSize))
-					.apply(instance, instance.stable(WBBiomeProvider::new)));
+					Codec.intRange(1, 20).fieldOf("biome_size").orElse(2).forGetter((biomeSource) -> biomeSource.biomeSize)
+			).apply(instance, instance.stable(WBBiomeProvider::new)));
 
 	private final long seed;
 	private final int biomeSize;

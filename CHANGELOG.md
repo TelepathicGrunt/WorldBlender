@@ -6,7 +6,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ------------------------------------------------
 #    | World Blender changelog |
  
-## (V.2.1.0 Changes) (1.16.4 Minecraft)
+## (V.3.0.0 Changes) (1.16.4 Minecraft)
 
 ##### Blender:
 - Switched to using a Set in backend to massively improve World Blender's speed at world startup.
@@ -19,6 +19,8 @@ Welcome to the Github! If you are looking for the most recent stable version, th
   and put the entry inside "biome_source". Change the 2 to a larger number for bigger biomes!
   
 - Reworked backend so that the Biome Source now uses the world's seed by default. Add `"seed":` entry to "biome_source" to specify a fixed seed for biome placement. 
+
+- Optimized and combined NoFloatingLiquidsOrFallingBlocks and SeparateLavaAndWater features into antiFloatingBlocksAndSeparateLiquids feature to be faster.
 
 ##### Structures:
 - Fixed Ocean Monuments not spawning in World Blender's dimension.

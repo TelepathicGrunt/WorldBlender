@@ -7,9 +7,12 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.FallingBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
@@ -18,10 +21,10 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import java.util.*;
 
 
-public class NoFloatingLiquidsOrFallingBlocks extends Feature<NoFeatureConfig>
+public class AntiFloatingBlocksAndSeparateLiquids extends Feature<NoFeatureConfig>
 {
 
-	public NoFloatingLiquidsOrFallingBlocks()
+	public AntiFloatingBlocksAndSeparateLiquids()
 	{
 		super(NoFeatureConfig.field_236558_a_);
 	}
@@ -97,38 +100,64 @@ public class NoFloatingLiquidsOrFallingBlocks extends Feature<NoFeatureConfig>
 	{
 		//this feature is completely turned off.
 		if(!WorldBlender.WBDimensionConfig.preventFallingBlocks.get() &&
-				!WorldBlender.WBDimensionConfig.containFloatingLiquids.get())
+			!WorldBlender.WBDimensionConfig.containFloatingLiquids.get() &&
+			!WorldBlender.WBDimensionConfig.preventLavaTouchingWater.get())
+		{
 			return false;
+		}
 		
 		BlockPos.Mutable mutable = new BlockPos.Mutable();
 		BlockState currentBlockstate;
+		BlockState neighboringBlockstate;
 		BlockState lastBlockstate = Blocks.STONE.getDefaultState();
+		boolean setblock = false;
+		int xChunkOrigin = ((position.getX() >> 4) << 4);
+		int zChunkOrigin = ((position.getZ() >> 4) << 4);
+		IChunk cachedChunk = world.getChunk(xChunkOrigin >> 4, zChunkOrigin >> 4);
 		
-		for(int x = 0; x < 16; x++)
-		{
-			for(int z = 0; z < 16; z++)
-			{
-				mutable.setPos(position.getX() + x, 0, position.getZ() + z);
+		for(int x = 0; x < 16; x++) {
+			for(int z = 0; z < 16; z++) {
+				setblock = false;
+				mutable.setPos(xChunkOrigin + x, 0, zChunkOrigin + z);
 				mutable.move(Direction.UP, Math.max(world.getHeight(Heightmap.Type.WORLD_SURFACE, mutable.getX(), mutable.getZ()), chunkgenerator.getSeaLevel()));
 				
 				//checks the column downward
-				for(; mutable.getY() >= 0; mutable.move(Direction.DOWN))
-				{
-					currentBlockstate = world.getBlockState(mutable);
-					
-					//current block is a block that liquids can break. time to check if we need to replace this block
-					if(REPLACEABLE_MATERIALS.contains(currentBlockstate.getMaterial()))
+				for(; mutable.getY() >= 0; mutable.move(Direction.DOWN)) {
+					currentBlockstate = cachedChunk.getBlockState(mutable);
+
+					if (WorldBlender.WBDimensionConfig.preventLavaTouchingWater.get() &&
+							currentBlockstate.getFluidState().isTagged(FluidTags.LAVA))
 					{
+						for (Direction face : Direction.values()) {
+							mutable.move(face);
+							if(cachedChunk.getPos().x != mutable.getX() >> 4 || cachedChunk.getPos().z != mutable.getZ() >> 4){
+								neighboringBlockstate = world.getBlockState(mutable);
+							}
+							else{
+								neighboringBlockstate = cachedChunk.getBlockState(mutable);
+							}
+							mutable.move(face.getOpposite());
+
+							if (neighboringBlockstate.getFluidState().isTagged(FluidTags.WATER)) {
+								world.setBlockState(mutable, Blocks.OBSIDIAN.getDefaultState(), 2);
+								setblock = true;
+								break;
+							}
+						}
+					}
+
+					//current block is a block that liquids can break. time to check if we need to replace this block
+					if(!setblock && REPLACEABLE_MATERIALS.contains(currentBlockstate.getMaterial())) {
 						//if above block was a fallible block, place a solid block below
-						preventfalling(world, mutable, lastBlockstate);
+						preventfalling(world, cachedChunk, mutable, lastBlockstate);
 						
 						//if neighboring block is a liquid block, place a solid block next to it
-						liquidContaining(world, mutable, lastBlockstate);
+						liquidContaining(world, cachedChunk, mutable, lastBlockstate);
 					}
-					else if(currentBlockstate.getMaterial() == Material.WATER || currentBlockstate.getMaterial() == Material.LAVA)
-					{
+
+					if(!setblock && !currentBlockstate.isSolid() && !currentBlockstate.getFluidState().isEmpty()) {
 						//if above block was a fallible block, place a solid block below
-						preventfalling(world, mutable, lastBlockstate);
+						preventfalling(world, cachedChunk, mutable, lastBlockstate);
 					}
 					
 					//saves our current block to the last blockstate before we move down one.
@@ -147,21 +176,12 @@ public class NoFloatingLiquidsOrFallingBlocks extends Feature<NoFeatureConfig>
 	 * @param mutable - current position
 	 * @param lastBlockstate - must be the above blockstate when passed in
 	 */
-	private static void preventfalling(ISeedReader world, BlockPos.Mutable mutable, BlockState lastBlockstate)
+	private static void preventfalling(ISeedReader world, IChunk cachedChunk, BlockPos.Mutable mutable, BlockState lastBlockstate)
 	{
 		if(!WorldBlender.WBDimensionConfig.preventFallingBlocks.get()) return;
 		
-		if(lastBlockstate.getBlock() instanceof FallingBlock)
-		{
-			MaterialColor targetMaterial = lastBlockstate.getMaterialColor(world, mutable);
-			if(targetMaterial == null || !COLOR_MAP.containsKey(targetMaterial))
-			{
-				world.setBlockState(mutable, Blocks.CYAN_TERRACOTTA.getDefaultState(), 2);
-			}
-			else
-			{
-				world.setBlockState(mutable, COLOR_MAP.get(targetMaterial).getDefaultState(), 2);
-			}
+		if(lastBlockstate.getBlock() instanceof FallingBlock) {
+			setReplacementBlock(world, cachedChunk, mutable, lastBlockstate, lastBlockstate);
 		}
 	}
 	
@@ -172,7 +192,7 @@ public class NoFloatingLiquidsOrFallingBlocks extends Feature<NoFeatureConfig>
 	 * @param mutable - current position
 	 * @param lastBlockstate - must be the above blockstate when passed in
 	 */
-	private static void liquidContaining(ISeedReader world, BlockPos.Mutable mutable, BlockState lastBlockstate)
+	private static void liquidContaining(ISeedReader world, IChunk cachedChunk, BlockPos.Mutable mutable, BlockState lastBlockstate)
 	{
 		if(!WorldBlender.WBDimensionConfig.containFloatingLiquids.get()) return;
 		
@@ -181,39 +201,51 @@ public class NoFloatingLiquidsOrFallingBlocks extends Feature<NoFeatureConfig>
 		
 
 		//if above is liquid, we need to contain it
-		if(!lastBlockstate.getFluidState().isEmpty())
-		{
+		if(!lastBlockstate.getFluidState().isEmpty()) {
 			touchingLiquid = true;
 			neighboringBlockstate = lastBlockstate;
 		}
 		//if side is liquid, we need to contain it
-		else
-		{
-			for(Direction face : Direction.Plane.HORIZONTAL)
-			{
-				neighboringBlockstate = world.getBlockState(mutable.offset(face));
-				if(!neighboringBlockstate.getFluidState().isEmpty())
-				{
+		else {
+			for(Direction face : Direction.Plane.HORIZONTAL) {
+				mutable.move(face);
+				if(cachedChunk.getPos().x != mutable.getX() >> 4 || cachedChunk.getPos().z != mutable.getZ() >> 4){
+					neighboringBlockstate = world.getBlockState(mutable);
+				}
+				else{
+					neighboringBlockstate = cachedChunk.getBlockState(mutable);
+				}
+				mutable.move(face.getOpposite());
+
+				if(!neighboringBlockstate.getFluidState().isEmpty()) {
 					touchingLiquid = true;
 					break;
 				}
 			}
 		}
 		
-		
-		if(touchingLiquid)
-		{
-			MaterialColor targetMaterial = neighboringBlockstate.getMaterialColor(world, mutable);
-			if(targetMaterial == null || !COLOR_MAP.containsKey(targetMaterial))
-			{
-				world.setBlockState(mutable, Blocks.CYAN_TERRACOTTA.getDefaultState(), 2);
-			}
-			else
-			{
-				world.setBlockState(mutable, COLOR_MAP.get(targetMaterial).getDefaultState(), 2);
-			}
+		if(touchingLiquid) {
+			setReplacementBlock(world, cachedChunk, mutable, lastBlockstate, neighboringBlockstate);
 		}
 	}
 
-
+	private static void setReplacementBlock(ISeedReader world, IChunk cachedChunk, BlockPos.Mutable mutable, BlockState lastBlockstate, BlockState neighboringBlockstate) {
+		MaterialColor targetMaterial = neighboringBlockstate.getMaterialColor(world, mutable);
+		if(!COLOR_MAP.containsKey(targetMaterial)) {
+			if(lastBlockstate.hasTileEntity()){
+				world.setBlockState(mutable, Blocks.CYAN_TERRACOTTA.getDefaultState(), 2);
+			}
+			else{
+				cachedChunk.setBlockState(mutable, Blocks.CYAN_TERRACOTTA.getDefaultState(), false);
+			}
+		}
+		else {
+			if(lastBlockstate.hasTileEntity()) {
+				world.setBlockState(mutable, COLOR_MAP.get(targetMaterial).getDefaultState(), 2);
+			}
+			else{
+				cachedChunk.setBlockState(mutable, COLOR_MAP.get(targetMaterial).getDefaultState(), false);
+			}
+		}
+	}
 }
