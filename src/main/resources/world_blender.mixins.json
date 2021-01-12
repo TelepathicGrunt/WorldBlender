@@ -15,6 +15,7 @@
     "GenerationSettingsAccessor",
     "MinecraftServerMixin",
     "MobSpawnInfoAccessor",
+    "OceanMonumentStructureMixin",
     "RenderPhaseAccessor",
     "ServerWorldMixin",
     "WeightedBlockStateProviderMixin"
