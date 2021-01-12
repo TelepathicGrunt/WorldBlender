@@ -47,10 +47,13 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 				position.getZ() >> 4 == 0)
 		{
 
-			if (ALTAR_TEMPLATE == null)
-			{
-				WorldBlender.LOGGER.warn("world blender portal altar NTB does not exist!");
-				return false;
+			if (ALTAR_TEMPLATE == null) {
+				WBPortalAltar.ALTAR_TEMPLATE = world.getWorld().getStructureTemplateManager().getTemplate(WBIdentifiers.ALTAR_ID);
+
+				if (ALTAR_TEMPLATE == null) {
+					WorldBlender.LOGGER.warn("world blender portal altar NTB does not exist!");
+					return false;
+				}
 			}
 
 			BlockPos.Mutable finalPosition = new BlockPos.Mutable().setPos(world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, position));

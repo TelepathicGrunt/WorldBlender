@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourcePackList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerProfileCache;
 import net.minecraft.util.registry.DynamicRegistries;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.chunk.listener.IChunkStatusListenerFactory;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.storage.IServerConfiguration;
@@ -43,12 +44,14 @@ public class MinecraftServerMixin {
                                      Proxy proxy, DataFixer dataFixer, DataPackRegistries serverResourceManager,
                                      MinecraftSessionService minecraftSessionService, GameProfileRepository gameProfileRepository,
                                      PlayerProfileCache userCache, IChunkStatusListenerFactory worldGenerationProgressListenerFactory,
-                                     CallbackInfo ci) {
-
-        TheBlender.blendTheWorld(impl);
-        WBPortalAltar.ALTAR_TEMPLATE = templateManager.getTemplate(WBIdentifiers.ALTAR_ID);
+                                     CallbackInfo ci)
+    {
         if(WorldBlender.WBBlendingConfig.resourceLocationDump.get()){
             IdentifierPrinting.printAllResourceLocations(impl);
+        }
+
+        if(impl.func_230521_a_(Registry.BIOME_KEY).isPresent()) {
+            TheBlender.blendTheWorld(impl);
         }
     }
 }
