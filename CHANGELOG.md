@@ -36,7 +36,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ##### Backend:
 - Added a special mixin by shartte that prevents structures from crashing the lighting threads when they replace a light block.
   The logs had NO infomation so special thanks to shartte for figuring out the cause of this crazy crash and allowing me to use his mixin!
-  https://github.com/AppliedEnergistics/Applied-Energistics-2/pull/4935/files
+  https://github.com/AppliedEnergistics/Applied-Energistics-2/pull/4935
   
 - Moved some of my code around so if it causes issues, it now shows up in stacktraces for easier debugging.
 
