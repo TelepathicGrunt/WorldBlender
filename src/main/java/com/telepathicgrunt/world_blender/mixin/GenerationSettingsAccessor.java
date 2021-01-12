@@ -16,23 +16,23 @@ import java.util.function.Supplier;
 public interface GenerationSettingsAccessor {
 
     @Accessor("features")
-    List<List<Supplier<ConfiguredFeature<?, ?>>>> getGSFeatures();
+    List<List<Supplier<ConfiguredFeature<?, ?>>>> wb_getGSFeatures();
 
     @Accessor("features")
-    void setGSFeatures(List<List<Supplier<ConfiguredFeature<?, ?>>>> features);
+    void wb_setGSFeatures(List<List<Supplier<ConfiguredFeature<?, ?>>>> features);
 
 
     @Accessor("structures")
-    List<Supplier<StructureFeature<?, ?>>> getGSStructureFeatures();
+    List<Supplier<StructureFeature<?, ?>>> wb_getGSStructureFeatures();
 
     @Accessor("structures")
-    void setGSStructureFeatures(List<Supplier<StructureFeature<?, ?>>> structureFeatures);
+    void wb_setGSStructureFeatures(List<Supplier<StructureFeature<?, ?>>> structureFeatures);
 
 
     @Accessor("carvers")
-    Map<GenerationStage.Carving, List<Supplier<ConfiguredCarver<?>>>> getCarvers();
+    Map<GenerationStage.Carving, List<Supplier<ConfiguredCarver<?>>>> wb_getCarvers();
 
     @Accessor("carvers")
-    void setCarvers(Map<GenerationStage.Carving, List<Supplier<ConfiguredCarver<?>>>> features);
+    void wb_setCarvers(Map<GenerationStage.Carving, List<Supplier<ConfiguredCarver<?>>>> features);
 
 }

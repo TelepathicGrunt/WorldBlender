@@ -161,14 +161,14 @@ public class TheBlender {
             //get all carvable blocks
             for (GenerationStage.Carving carverStage : GenerationStage.Carving.values()) {
                 for (Supplier<ConfiguredCarver<?>> carver : world_blender_biomes.get(0).getGenerationSettings().getCarvers(carverStage)) {
-                    allBlocksToCarve.addAll(((CarverAccessor)((ConfiguredCarverAccessor)carver.get()).getcarver()).getalwaysCarvableBlocks());
+                    allBlocksToCarve.addAll(((CarverAccessor)((ConfiguredCarverAccessor)carver.get()).wb_getcarver()).wb_getalwaysCarvableBlocks());
                 }
             }
 
             //update all carvers to carve the complete list of stuff to carve
             for (GenerationStage.Carving carverStage : GenerationStage.Carving.values()) {
                 for (Supplier<ConfiguredCarver<?>> carver : world_blender_biomes.get(0).getGenerationSettings().getCarvers(carverStage)) {
-                    ((CarverAccessor)((ConfiguredCarverAccessor)carver.get()).getcarver()).setalwaysCarvableBlocks(allBlocksToCarve);
+                    ((CarverAccessor)((ConfiguredCarverAccessor)carver.get()).wb_getcarver()).wb_setalwaysCarvableBlocks(allBlocksToCarve);
                 }
             }
         }
@@ -188,7 +188,7 @@ public class TheBlender {
      */
     private static void makeBiomeMutable(Biome biome){
         // Make the structure and features list mutable for modification late
-        List<List<Supplier<ConfiguredFeature<?, ?>>>> tempFeature = ((GenerationSettingsAccessor)biome.getGenerationSettings()).getGSFeatures();
+        List<List<Supplier<ConfiguredFeature<?, ?>>>> tempFeature = ((GenerationSettingsAccessor)biome.getGenerationSettings()).wb_getGSFeatures();
         List<List<Supplier<ConfiguredFeature<?, ?>>>> mutableGenerationStages = new ArrayList<>();
 
         // Fill in generation stages so there are at least 10 or else Minecraft crashes.
@@ -202,21 +202,21 @@ public class TheBlender {
         }
 
         // Make the Structure and GenerationStages (features) list mutable for modification later
-        ((GenerationSettingsAccessor)biome.getGenerationSettings()).setGSFeatures(mutableGenerationStages);
-        ((GenerationSettingsAccessor)biome.getGenerationSettings()).setGSStructureFeatures(new ArrayList<>(((GenerationSettingsAccessor)biome.getGenerationSettings()).getGSStructureFeatures()));
-        ((GenerationSettingsAccessor)biome.getGenerationSettings()).setGSStructureFeatures(new ArrayList<>(((GenerationSettingsAccessor)biome.getGenerationSettings()).getGSStructureFeatures()));
+        ((GenerationSettingsAccessor)biome.getGenerationSettings()).wb_setGSFeatures(mutableGenerationStages);
+        ((GenerationSettingsAccessor)biome.getGenerationSettings()).wb_setGSStructureFeatures(new ArrayList<>(((GenerationSettingsAccessor)biome.getGenerationSettings()).wb_getGSStructureFeatures()));
+        ((GenerationSettingsAccessor)biome.getGenerationSettings()).wb_setGSStructureFeatures(new ArrayList<>(((GenerationSettingsAccessor)biome.getGenerationSettings()).wb_getGSStructureFeatures()));
 
-        ((GenerationSettingsAccessor)biome.getGenerationSettings()).setCarvers(new HashMap<>(((GenerationSettingsAccessor)biome.getGenerationSettings()).getCarvers()));
+        ((GenerationSettingsAccessor)biome.getGenerationSettings()).wb_setCarvers(new HashMap<>(((GenerationSettingsAccessor)biome.getGenerationSettings()).wb_getCarvers()));
         for(Carving carverGroup : Carving.values()){
-            ((GenerationSettingsAccessor) biome.getGenerationSettings()).getCarvers().put(carverGroup, new ArrayList<>(biome.getGenerationSettings().getCarvers(carverGroup)));
+            ((GenerationSettingsAccessor) biome.getGenerationSettings()).wb_getCarvers().put(carverGroup, new ArrayList<>(biome.getGenerationSettings().getCarvers(carverGroup)));
         }
 
-        ((MobSpawnInfoAccessor)biome.getMobSpawnInfo()).setSpawners(new HashMap<>(((MobSpawnInfoAccessor) biome.getMobSpawnInfo()).getSpawners()));
+        ((MobSpawnInfoAccessor)biome.getMobSpawnInfo()).wb_setSpawners(new HashMap<>(((MobSpawnInfoAccessor) biome.getMobSpawnInfo()).wb_getSpawners()));
         for(EntityClassification spawnGroup : EntityClassification.values()){
-            ((MobSpawnInfoAccessor) biome.getMobSpawnInfo()).getSpawners().put(spawnGroup, new ArrayList<>(biome.getMobSpawnInfo().getSpawners(spawnGroup)));
+            ((MobSpawnInfoAccessor) biome.getMobSpawnInfo()).wb_getSpawners().put(spawnGroup, new ArrayList<>(biome.getMobSpawnInfo().getSpawners(spawnGroup)));
         }
 
-        ((MobSpawnInfoAccessor)biome.getMobSpawnInfo()).setSpawnCosts(new HashMap<>(((MobSpawnInfoAccessor) biome.getMobSpawnInfo()).getSpawnCosts()));
+        ((MobSpawnInfoAccessor)biome.getMobSpawnInfo()).wb_setSpawnCosts(new HashMap<>(((MobSpawnInfoAccessor) biome.getMobSpawnInfo()).wb_getSpawnCosts()));
     }
 
 
@@ -476,7 +476,7 @@ public class TheBlender {
                 tempMap.values().removeIf(Objects::isNull);
 
                 // Set the structure spacing config in wb dimension and clear map so next saved world is fresh.
-                ((DimensionStructureSettingsAccessor)wbServerWorld.getChunkProvider().generator.func_235957_b_()).setStructureConfigMap(tempMap);
+                ((DimensionStructureSettingsAccessor)wbServerWorld.getChunkProvider().generator.func_235957_b_()).wb_setStructureConfigMap(tempMap);
                 tempMap = new HashMap<>(); // DO NOT DO .clear();  WE STORED THE MAP REFERENCE INTO THE CHUNKGENERATOR
             }
         }

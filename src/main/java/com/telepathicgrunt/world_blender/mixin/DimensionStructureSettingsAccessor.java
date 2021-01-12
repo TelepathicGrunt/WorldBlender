@@ -12,5 +12,5 @@ import java.util.Map;
 public interface DimensionStructureSettingsAccessor {
 
     @Accessor("field_236193_d_")
-    void setStructureConfigMap(Map<Structure<?>, StructureSeparationSettings> structureStructureSeparationSettingsMap);
+    void wb_setStructureConfigMap(Map<Structure<?>, StructureSeparationSettings> structureStructureSeparationSettingsMap);
 }

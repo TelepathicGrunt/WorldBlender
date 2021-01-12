@@ -13,16 +13,16 @@ import java.util.Map;
 public interface MobSpawnInfoAccessor {
 
     @Accessor("spawners")
-    Map<EntityClassification, List<MobSpawnInfo.Spawners>> getSpawners();
+    Map<EntityClassification, List<MobSpawnInfo.Spawners>> wb_getSpawners();
 
     @Accessor("spawners")
-    void setSpawners(Map<EntityClassification, List<MobSpawnInfo.Spawners>> features);
+    void wb_setSpawners(Map<EntityClassification, List<MobSpawnInfo.Spawners>> features);
 
 
     @Accessor("spawnCosts")
-    Map<EntityType<?>, MobSpawnInfo.SpawnCosts> getSpawnCosts();
+    Map<EntityType<?>, MobSpawnInfo.SpawnCosts> wb_getSpawnCosts();
 
     @Accessor("spawnCosts")
-    void setSpawnCosts(Map<EntityType<?>, MobSpawnInfo.SpawnCosts>  structureFeatures);
+    void wb_setSpawnCosts(Map<EntityType<?>, MobSpawnInfo.SpawnCosts>  structureFeatures);
 
 }

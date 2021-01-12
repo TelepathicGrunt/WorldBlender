@@ -125,17 +125,17 @@ public class WBPortalBlockEntityRenderer extends TileEntityRenderer<WBPortalBloc
 		RenderState.TextureState renderstate$texturestate;
 		if (layer <= 1)
 		{
-			renderstate$transparencystate = RenderPhaseAccessor.getTRANSLUCENT_TRANSPARENCY();
+			renderstate$transparencystate = RenderPhaseAccessor.wb_getTRANSLUCENT_TRANSPARENCY();
 			renderstate$texturestate = new RenderState.TextureState(MAIN_TEXTURE, false, false);
 		}
 		else if (layer <= 3)
 		{
-			renderstate$transparencystate = RenderPhaseAccessor.getADDITIVE_TRANSPARENCY();
+			renderstate$transparencystate = RenderPhaseAccessor.wb_getADDITIVE_TRANSPARENCY();
 			renderstate$texturestate = new RenderState.TextureState(ADDITIVE_TEXTURE, true, false);
 		}
 		else
 		{
-			renderstate$transparencystate = RenderPhaseAccessor.getADDITIVE_TRANSPARENCY();
+			renderstate$transparencystate = RenderPhaseAccessor.wb_getADDITIVE_TRANSPARENCY();
 			renderstate$texturestate = new RenderState.TextureState(ADDITIVE_TEXTURE, false, false);
 		}
 
@@ -150,7 +150,7 @@ public class WBPortalBlockEntityRenderer extends TileEntityRenderer<WBPortalBloc
 						.transparency(renderstate$transparencystate)
 						.texture(renderstate$texturestate)
 						.texturing(new WBPortalTexturingState(layer))
-						.fog(RenderPhaseAccessor.getBLACK_FOG())
+						.fog(RenderPhaseAccessor.wb_getBLACK_FOG())
 						.build(false));
 	}
 }

@@ -9,5 +9,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface BiomeLayerSamplerAccessor {
 
     @Accessor("field_215742_b")
-    LazyArea getSampler();
+    LazyArea wb_getSampler();
 }

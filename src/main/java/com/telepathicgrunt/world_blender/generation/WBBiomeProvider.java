@@ -82,7 +82,7 @@ public class WBBiomeProvider extends BiomeProvider
 	}
 
 	public Biome sample(Registry<Biome> registry, int x, int z) {
-		int k = ((BiomeLayerSamplerAccessor)this.BIOME_SAMPLER).getSampler().getValue(x, z);
+		int k = ((BiomeLayerSamplerAccessor)this.BIOME_SAMPLER).wb_getSampler().getValue(x, z);
 		Biome biome = registry.getByValue(k);
 		if (biome == null) {
 			//fallback to builtin registry if dynamic registry doesnt have biome

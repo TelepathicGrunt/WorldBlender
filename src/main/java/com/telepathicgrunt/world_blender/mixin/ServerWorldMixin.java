@@ -49,7 +49,7 @@ public class ServerWorldMixin implements ServerWorldAccess {
 		if(registryKey.getLocation().equals(WBIdentifiers.MOD_DIMENSION_ID) &&
 				WorldBlender.WBDimensionConfig.spawnEnderDragon.get())
 		{
-			((DimensionTypeAccessor)dimensionType).setHasDragonFight(true);
+			((DimensionTypeAccessor)dimensionType).wb_setHasDragonFight(true);
 			field_241105_O_ = new DragonFightManager((ServerWorld)(Object)this, server.getServerConfiguration().getDimensionGeneratorSettings().getSeed(), server.getServerConfiguration().getDragonFightData());
 		}
 

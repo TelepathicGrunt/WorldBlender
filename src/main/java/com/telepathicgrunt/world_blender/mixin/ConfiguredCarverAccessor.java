@@ -11,5 +11,5 @@ public interface ConfiguredCarverAccessor{
 
     @Accessor("carver")
     <WC extends ICarverConfig>
-    WorldCarver<WC> getcarver();
+    WorldCarver<WC> wb_getcarver();
 }

@@ -244,7 +244,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
     // setup what vanilla carvers can carve through so they dont get cut off by unique blocks added to surfacebuilder config
     public static Set<Block> blocksToCarve() {
 
-    	Set<Block> carvableBlocks = new HashSet<>(((CarverAccessor) WorldCarver.CANYON).getalwaysCarvableBlocks());
+    	Set<Block> carvableBlocks = new HashSet<>(((CarverAccessor) WorldCarver.CANYON).wb_getalwaysCarvableBlocks());
 		carvableBlocks.add(Blocks.NETHERRACK);
 		carvableBlocks.add(Blocks.END_STONE);
 

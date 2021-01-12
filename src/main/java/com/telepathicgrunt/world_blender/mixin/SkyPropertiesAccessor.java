@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface SkyPropertiesAccessor {
 
     @Accessor("field_239208_a_")
-    static Object2ObjectMap<ResourceLocation, DimensionRenderInfo> getfield_239208_a_() {
+    static Object2ObjectMap<ResourceLocation, DimensionRenderInfo> wb_getfield_239208_a_() {
         throw new UnsupportedOperationException();
     }
 }

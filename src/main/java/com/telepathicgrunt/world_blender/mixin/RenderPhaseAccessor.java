@@ -8,17 +8,17 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface RenderPhaseAccessor {
 
     @Accessor("TRANSLUCENT_TRANSPARENCY")
-    static RenderState.TransparencyState getTRANSLUCENT_TRANSPARENCY() {
+    static RenderState.TransparencyState wb_getTRANSLUCENT_TRANSPARENCY() {
         throw new UnsupportedOperationException();
     }
 
     @Accessor("ADDITIVE_TRANSPARENCY")
-    static RenderState.TransparencyState getADDITIVE_TRANSPARENCY() {
+    static RenderState.TransparencyState wb_getADDITIVE_TRANSPARENCY() {
         throw new UnsupportedOperationException();
     }
 
     @Accessor("BLACK_FOG")
-    static RenderState.FogState getBLACK_FOG() {
+    static RenderState.FogState wb_getBLACK_FOG() {
         throw new UnsupportedOperationException();
     }
 }
