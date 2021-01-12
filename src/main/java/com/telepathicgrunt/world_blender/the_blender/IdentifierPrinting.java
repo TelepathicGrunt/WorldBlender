@@ -45,7 +45,7 @@ public class IdentifierPrinting
 		}
 		catch (FileNotFoundException e)
 		{
-			WorldBlender.LOGGER.warn("FAILED TO CREATE AND WRITE TO identifierDump.txt. SEE STACKTRACE AND SHOW IT TO MOD MAKER.");
+			WorldBlender.LOGGER.warn("FAILED TO CREATE AND WRITE TO config/world_blender-identifier_dump.txt. SEE LATEST.LOG AND SHOW IT TO WORLD BLENDER DEV.");
 			e.printStackTrace();
 		} 
 	}
