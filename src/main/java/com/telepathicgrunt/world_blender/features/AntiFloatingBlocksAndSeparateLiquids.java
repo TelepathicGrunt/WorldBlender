@@ -110,7 +110,7 @@ public class AntiFloatingBlocksAndSeparateLiquids extends Feature<NoFeatureConfi
 		BlockState currentBlockstate;
 		BlockState neighboringBlockstate;
 		BlockState lastBlockstate = Blocks.STONE.getDefaultState();
-		boolean setblock = false;
+		boolean setblock;
 		int xChunkOrigin = ((position.getX() >> 4) << 4);
 		int zChunkOrigin = ((position.getZ() >> 4) << 4);
 		IChunk cachedChunk = world.getChunk(xChunkOrigin >> 4, zChunkOrigin >> 4);
@@ -125,6 +125,7 @@ public class AntiFloatingBlocksAndSeparateLiquids extends Feature<NoFeatureConfi
 				for(; mutable.getY() >= 0; mutable.move(Direction.DOWN)) {
 					currentBlockstate = cachedChunk.getBlockState(mutable);
 
+					// current block is a lava-tagged fluid
 					if (WorldBlender.WBDimensionConfig.preventLavaTouchingWater.get() &&
 							currentBlockstate.getFluidState().isTagged(FluidTags.LAVA))
 					{
@@ -146,18 +147,20 @@ public class AntiFloatingBlocksAndSeparateLiquids extends Feature<NoFeatureConfi
 						}
 					}
 
-					//current block is a block that liquids can break. time to check if we need to replace this block
-					if(!setblock && REPLACEABLE_MATERIALS.contains(currentBlockstate.getMaterial())) {
-						//if above block was a fallible block, place a solid block below
-						preventfalling(world, cachedChunk, mutable, lastBlockstate);
-						
-						//if neighboring block is a liquid block, place a solid block next to it
-						liquidContaining(world, cachedChunk, mutable, lastBlockstate);
-					}
-
-					if(!setblock && !currentBlockstate.isSolid() && !currentBlockstate.getFluidState().isEmpty()) {
-						//if above block was a fallible block, place a solid block below
-						preventfalling(world, cachedChunk, mutable, lastBlockstate);
+					if(!setblock){
+						//current block is a block that liquids can break. time to check if we need to replace this block
+						if(REPLACEABLE_MATERIALS.contains(currentBlockstate.getMaterial())) {
+							//if above block was a fallible block, place a solid block below
+							setblock = preventfalling(world, cachedChunk, mutable, lastBlockstate, currentBlockstate);
+							if(!setblock){
+								//if neighboring block is a liquid block, place a solid block next to it
+								liquidContaining(world, cachedChunk, mutable, lastBlockstate, currentBlockstate);
+							}
+						}
+						else if(!currentBlockstate.isSolid() && !currentBlockstate.getFluidState().isEmpty()) {
+							//if above block was a fallible block, place a solid block below
+							preventfalling(world, cachedChunk, mutable, lastBlockstate, currentBlockstate);
+						}
 					}
 					
 					//saves our current block to the last blockstate before we move down one.
@@ -176,13 +179,15 @@ public class AntiFloatingBlocksAndSeparateLiquids extends Feature<NoFeatureConfi
 	 * @param mutable - current position
 	 * @param lastBlockstate - must be the above blockstate when passed in
 	 */
-	private static void preventfalling(ISeedReader world, IChunk cachedChunk, BlockPos.Mutable mutable, BlockState lastBlockstate)
+	private static boolean preventfalling(ISeedReader world, IChunk cachedChunk, BlockPos.Mutable mutable, BlockState lastBlockstate, BlockState currentBlockstate)
 	{
-		if(!WorldBlender.WBDimensionConfig.preventFallingBlocks.get()) return;
+		if(!WorldBlender.WBDimensionConfig.preventFallingBlocks.get()) return false;
 		
 		if(lastBlockstate.getBlock() instanceof FallingBlock) {
-			setReplacementBlock(world, cachedChunk, mutable, lastBlockstate, lastBlockstate);
+			setReplacementBlock(world, cachedChunk, mutable, lastBlockstate, lastBlockstate, currentBlockstate);
+			return true;
 		}
+		return false;
 	}
 	
 	
@@ -192,9 +197,9 @@ public class AntiFloatingBlocksAndSeparateLiquids extends Feature<NoFeatureConfi
 	 * @param mutable - current position
 	 * @param lastBlockstate - must be the above blockstate when passed in
 	 */
-	private static void liquidContaining(ISeedReader world, IChunk cachedChunk, BlockPos.Mutable mutable, BlockState lastBlockstate)
+	private static boolean liquidContaining(ISeedReader world, IChunk cachedChunk, BlockPos.Mutable mutable, BlockState lastBlockstate, BlockState currentBlockstate)
 	{
-		if(!WorldBlender.WBDimensionConfig.containFloatingLiquids.get()) return;
+		if(!WorldBlender.WBDimensionConfig.containFloatingLiquids.get()) return false;
 		
 		boolean touchingLiquid = false;
 		BlockState neighboringBlockstate = null;
@@ -225,14 +230,16 @@ public class AntiFloatingBlocksAndSeparateLiquids extends Feature<NoFeatureConfi
 		}
 		
 		if(touchingLiquid) {
-			setReplacementBlock(world, cachedChunk, mutable, lastBlockstate, neighboringBlockstate);
+			setReplacementBlock(world, cachedChunk, mutable, lastBlockstate, neighboringBlockstate, currentBlockstate);
+			return true;
 		}
+		return false;
 	}
 
-	private static void setReplacementBlock(ISeedReader world, IChunk cachedChunk, BlockPos.Mutable mutable, BlockState lastBlockstate, BlockState neighboringBlockstate) {
+	private static void setReplacementBlock(ISeedReader world, IChunk cachedChunk, BlockPos.Mutable mutable, BlockState lastBlockstate, BlockState neighboringBlockstate, BlockState currentBlockstate) {
 		MaterialColor targetMaterial = neighboringBlockstate.getMaterialColor(world, mutable);
 		if(!COLOR_MAP.containsKey(targetMaterial)) {
-			if(lastBlockstate.hasTileEntity()){
+			if(currentBlockstate.hasTileEntity()){
 				world.setBlockState(mutable, Blocks.CYAN_TERRACOTTA.getDefaultState(), 2);
 			}
 			else{
@@ -240,7 +247,7 @@ public class AntiFloatingBlocksAndSeparateLiquids extends Feature<NoFeatureConfi
 			}
 		}
 		else {
-			if(lastBlockstate.hasTileEntity()) {
+			if(currentBlockstate.hasTileEntity()) {
 				world.setBlockState(mutable, COLOR_MAP.get(targetMaterial).getDefaultState(), 2);
 			}
 			else{
