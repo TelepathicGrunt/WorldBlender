@@ -6,7 +6,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ------------------------------------------------
 #    | World Blender changelog |
  
-## (V.2.0.11 Changes) (1.16.4 Minecraft)
+## (V.2.1.0 Changes) (1.16.4 Minecraft)
 
 ##### Blender:
 - Switched to using a Set in backend to massively improve World Blender's speed at world startup.
@@ -14,6 +14,12 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 - Removed code that parsed and printed out other mod's unregistered worldgen stuff. 
   This is done to try and speed up World Blender a bit at world startup.
   
+##### Dimension:
+- Biome size now can be changed with a datapack! Add `"biome_size": 2` entry to data/world_blender/dimension/world_blender.json
+  and put the entry inside "biome_source". Change the 2 to a larger number for bigger biomes!
+  
+- Reworked backend so that the Biome Source now uses the world's seed by default. Add `"seed":` entry to "biome_source" to specify a fixed seed for biome placement. 
+
 ##### Structures:
 - Fixed Ocean Monuments not spawning in World Blender's dimension.
 

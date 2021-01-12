@@ -8,6 +8,7 @@
     "BiomeLayerSamplerAccessor",
     "CarverAccessor",
     "ConfiguredCarverAccessor",
+    "DimensionGeneratorSettingsMixin",
     "DimensionStructureSettingsAccessor",
     "DimensionTypeAccessor",
     "EnderDragonFightAccessor",

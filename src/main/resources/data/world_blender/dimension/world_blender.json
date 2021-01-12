@@ -2,6 +2,7 @@
   "type": "world_blender:world_blender",
   "generator": {
     "biome_source": {
+      "biome_size": 2,
       "type": "world_blender:biome_source"
     },
     "type": "minecraft:noise",

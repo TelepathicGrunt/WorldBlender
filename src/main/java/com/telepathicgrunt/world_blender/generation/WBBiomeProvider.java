@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.telepathicgrunt.world_blender.WBIdentifiers;
 import com.telepathicgrunt.world_blender.mixin.BiomeLayerSamplerAccessor;
+import com.telepathicgrunt.world_blender.utils.WorldSeedHolder;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SharedConstants;
 import net.minecraft.util.Util;
@@ -35,12 +36,15 @@ public class WBBiomeProvider extends BiomeProvider
 
 	public static final Codec<WBBiomeProvider> CODEC =
 			RecordCodecBuilder.create((instance) -> instance.group(
-					RegistryLookupCodec.getLookUpCodec(Registry.BIOME_KEY).forGetter((biomeProvider) -> biomeProvider.BIOME_REGISTRY))
+					Codec.LONG.fieldOf("seed").orElseGet(WorldSeedHolder::getSeed).forGetter((biomeSource) -> biomeSource.seed),
+					RegistryLookupCodec.getLookUpCodec(Registry.BIOME_KEY).forGetter((biomeProvider) -> biomeProvider.biomeRegistry),
+					Codec.intRange(1, 20).fieldOf("biome_size").orElse(2).forGetter((biomeSource) -> biomeSource.biomeSize))
 					.apply(instance, instance.stable(WBBiomeProvider::new)));
 
-	private final Layer BIOME_SAMPLER;
-	protected final Registry<Biome> BIOME_REGISTRY;
-	protected static Registry<Biome> LAYERS_BIOME_REGISTRY;
+	private final long seed;
+	private final int biomeSize;
+	private final Layer biomeSampler;
+	protected final Registry<Biome> biomeRegistry;
 	private static final List<RegistryKey<Biome>> BIOMES = ImmutableList.of(
 			RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WBIdentifiers.GENERAL_BLENDED_BIOME_ID),
 			RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WBIdentifiers.MOUNTAINOUS_BLENDED_BIOME_ID),
@@ -48,49 +52,53 @@ public class WBBiomeProvider extends BiomeProvider
 			RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WBIdentifiers.OCEAN_BLENDED_BIOME_ID),
 			RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WBIdentifiers.FROZEN_OCEAN_BLENDED_BIOME_ID));
 
-	public WBBiomeProvider(Registry<Biome> biomeRegistry) {
-		// find a way to pass in world seed here
-		this(0, biomeRegistry);
-	}
 
-	public WBBiomeProvider(long seed, Registry<Biome> biomeRegistry) {
+	public WBBiomeProvider(long seed, Registry<Biome> biomeRegistry, int biomeSize) {
 		super(BIOMES.stream().map((registryKey) -> () -> (Biome)biomeRegistry.getValueForKey(registryKey)));
-		MainBiomeLayer.setSeed(seed);
-		this.BIOME_REGISTRY = biomeRegistry;
-		WBBiomeProvider.LAYERS_BIOME_REGISTRY = biomeRegistry;
-		this.BIOME_SAMPLER = buildWorldProcedure(seed);
+
+		this.biomeRegistry = biomeRegistry;
+		this.biomeSize = biomeSize;
+		this.seed = seed;
+		this.biomeSampler = buildWorldProcedure(seed, biomeSize, biomeRegistry);
 	}
 
 
-	public static Layer buildWorldProcedure(long seed) {
+	public static Layer buildWorldProcedure(long seed, int biomeSize, Registry<Biome> biomeRegistry) {
 		IAreaFactory<LazyArea> layerFactory = build((salt) ->
-				new LazyAreaLayerContext(25, seed, salt));
+				new LazyAreaLayerContext(25, seed, salt),
+				biomeSize,
+				seed,
+				biomeRegistry);
 		return new Layer(layerFactory);
 	}
 
-	public static <T extends IArea, C extends IExtendedNoiseRandom<T>> IAreaFactory<T> build(LongFunction<C> contextFactory) {
-		IAreaFactory<T> layerFactory = MainBiomeLayer.INSTANCE.apply(contextFactory.apply(200L));
-		layerFactory = ZoomLayer.NORMAL.apply(contextFactory.apply(2001L), layerFactory);
-		layerFactory = ZoomLayer.FUZZY.apply(contextFactory.apply(2000L), layerFactory);
+	public static <T extends IArea, C extends IExtendedNoiseRandom<T>> IAreaFactory<T> build(LongFunction<C> contextFactory, int biomeSize, long seed, Registry<Biome> biomeRegistry) {
+		IAreaFactory<T> layerFactory = (new MainBiomeLayer(seed, biomeRegistry)).apply(contextFactory.apply(200L));
+
+		for(int currentExtraZoom = 0; currentExtraZoom < biomeSize; currentExtraZoom++){
+			if((currentExtraZoom + 2) % 3 != 0){
+				layerFactory = ZoomLayer.NORMAL.apply(contextFactory.apply(2001L + currentExtraZoom), layerFactory);
+			}
+			else{
+				layerFactory = ZoomLayer.FUZZY.apply(contextFactory.apply(2000L + (currentExtraZoom * 31)), layerFactory);
+			}
+		}
+
 		return layerFactory;
 	}
 
 
 	@Override
 	public Biome getNoiseBiome(int x, int y, int z) {
-		return this.sample(WBBiomeProvider.LAYERS_BIOME_REGISTRY, x, z);
-	}
-
-	public Biome sample(Registry<Biome> registry, int x, int z) {
-		int k = ((BiomeLayerSamplerAccessor)this.BIOME_SAMPLER).wb_getSampler().getValue(x, z);
-		Biome biome = registry.getByValue(k);
+		int k = ((BiomeLayerSamplerAccessor)this.biomeSampler).wb_getSampler().getValue(x, z);
+		Biome biome = this.biomeRegistry.getByValue(k);
 		if (biome == null) {
 			//fallback to builtin registry if dynamic registry doesnt have biome
 			if (SharedConstants.developmentMode) {
 				throw Util.pauseDevMode(new IllegalStateException("Unknown biome id: " + k));
 			}
 			else {
-				return registry.getValueForKey(BiomeRegistry.getKeyFromID(0));
+				return this.biomeRegistry.getValueForKey(BiomeRegistry.getKeyFromID(0));
 			}
 		}
 		else {
@@ -106,6 +114,6 @@ public class WBBiomeProvider extends BiomeProvider
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public BiomeProvider getBiomeProvider(long seed) {
-		return new WBBiomeProvider(seed, WBBiomeProvider.LAYERS_BIOME_REGISTRY);
+		return new WBBiomeProvider(seed, this.biomeRegistry, this.biomeSize);
 	}
 }
