@@ -8,7 +8,7 @@ import com.telepathicgrunt.world_blender.configs.WBDimensionConfigs;
 import com.telepathicgrunt.world_blender.configs.WBPortalConfigs;
 import com.telepathicgrunt.world_blender.features.WBConfiguredFeatures;
 import com.telepathicgrunt.world_blender.features.WBFeatures;
-import com.telepathicgrunt.world_blender.generation.WBBiomeProvider;
+import com.telepathicgrunt.world_blender.dimension.WBBiomeProvider;
 import com.telepathicgrunt.world_blender.surfacebuilder.WBSurfaceBuilders;
 import com.telepathicgrunt.world_blender.the_blender.TheBlender;
 import com.telepathicgrunt.world_blender.utils.ConfigHelper;

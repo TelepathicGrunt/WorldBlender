@@ -24,5 +24,4 @@ public interface MobSpawnInfoAccessor {
 
     @Accessor("spawnCosts")
     void wb_setSpawnCosts(Map<EntityType<?>, MobSpawnInfo.SpawnCosts>  structureFeatures);
-
 }

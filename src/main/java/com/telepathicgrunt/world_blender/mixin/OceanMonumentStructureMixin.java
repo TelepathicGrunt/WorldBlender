@@ -1,6 +1,6 @@
 package com.telepathicgrunt.world_blender.mixin;
 
-import com.telepathicgrunt.world_blender.generation.WBBiomeProvider;
+import com.telepathicgrunt.world_blender.dimension.WBBiomeProvider;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.biome.Biome;

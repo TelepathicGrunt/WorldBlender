@@ -12,6 +12,7 @@ public class WBBlendingConfigs {
         public ConfigValueListener<Boolean> allowVanillaBiomeImport;
         public ConfigValueListener<Boolean> allowModdedBiomeImport;
         public ConfigValueListener<Boolean> disallowLaggyFeatures;
+        public ConfigValueListener<Boolean> cleanSlateWBBiomesAtStartup;
 
         public ConfigValueListener<Boolean> allowVanillaFeatures;
         public ConfigValueListener<Boolean> allowVanillaStructures;
@@ -35,6 +36,15 @@ public class WBBlendingConfigs {
 
         public WBConfigValues(ForgeConfigSpec.Builder builder, ConfigHelper.Subscriber subscriber)
         {
+
+            cleanSlateWBBiomesAtStartup = subscriber.subscribe(builder
+                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
+                            +" Use this if another mod is adding stuff to World Blender's biomes \r\n"
+                            +" and World Blender's blacklisting config is not working. This option \r\n"
+                            +" will wipe clear WB's biomes so they have absolutely nothing in it \r\n"
+                            +" and then it will import everyone else's stuff based on it's blacklist.\r\n")
+                    .translation("world_blender.config.cleanslatewbbiomesatstartup")
+                    .define("cleanSlateWBBiomesAtStartup", true));
 
             builder.push("Optimization Options");
 

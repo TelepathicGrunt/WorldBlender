@@ -1,4 +1,4 @@
-package com.telepathicgrunt.world_blender.generation;
+package com.telepathicgrunt.world_blender.dimension;
 
 import com.telepathicgrunt.world_blender.WBIdentifiers;
 import net.minecraft.util.SharedSeedRandom;

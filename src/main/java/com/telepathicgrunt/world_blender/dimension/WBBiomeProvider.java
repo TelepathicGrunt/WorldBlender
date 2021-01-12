@@ -1,4 +1,4 @@
-package com.telepathicgrunt.world_blender.generation;
+package com.telepathicgrunt.world_blender.dimension;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;

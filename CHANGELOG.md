@@ -14,6 +14,10 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 - Removed code that parsed and printed out other mod's unregistered worldgen stuff. 
   This is done to try and speed up World Blender a bit at world startup.
   
+- Added cleanSlateWBBiomesAtStartup config option (defaults to true) which will make sure WB biomes 
+  are completely cleared of all other mod's stuff before the blender runs and fills it with everything. 
+  Can help with some mod incompatibility issues.
+  
 ##### Dimension:
 - Biome size now can be changed with a datapack! Add `"biome_size": 2` entry to data/world_blender/dimension/world_blender.json
   and put the entry inside "biome_source". Change the 2 to a larger number for bigger biomes!
