@@ -19,7 +19,8 @@
     "OceanMonumentStructureMixin",
     "RenderPhaseAccessor",
     "ServerWorldMixin",
-    "WeightedBlockStateProviderMixin"
+    "WeightedBlockStateProviderMixin",
+    "WorldLightManagerMixin"
   ],
   "client": [
     "SkyPropertiesAccessor"
