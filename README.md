@@ -4,9 +4,14 @@
 <p style="text-align: center;"><strong><a href="https://www.curseforge.com/minecraft/mc-mods/world-blender-fabric">[Click here for the 1.16.4 Fabric version of this mod!]</a></strong></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p style="text-align: center;"><strong><span style="color: #800000;">Recent News:</span></strong> <strong>Activation item config can </strong></p>
-<p style="text-align: center;"><strong>now take multiple item entries!</strong></p>
-<p style="text-align: center;"><strong>Report any bugs please!</strong></p>
+<p style="text-align: center;"><strong><span style="color: #800000;">Recent News:</span></strong>&nbsp;<strong>MASSIVE UPDATE!</strong></p>
+<p style="text-align: center;"><strong>- Faster world startup times now!</strong></p>
+<p style="text-align: center;"><strong>- All Vanilla Village types now spawn!</strong></p>
+<p style="text-align: center;"><strong>- Fixed bug that prevented Ocean Monuments from spawning!</strong></p>
+<p style="text-align: center;"><strong>- And more! See the changelog for more info!</strong></p>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-align: center;"><strong>Will not work with Immersive Portals v0.12</strong></p>
+<p style="text-align: center;"><strong>However, their next update will fix this!</strong></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p style="text-align: center;"><strong><em><br /></em><span style="font-size: 14px; color: #993300;"><span style="font-size: 18px;">GENERAL NOTE:</span> <em><br /></em></span></strong></p>
@@ -17,12 +22,8 @@
 <p style="text-align: center;"><span style="font-size: 14px; color: #993300;"><strong><em>putting the mod back on will not restore the dimension.</em></strong></span></p>
 <p style="text-align: center;"><span style="font-size: 14px;"><strong><em>&nbsp;<a href="https://bugs.mojang.com/browse/MC-197860">https://bugs.mojang.com/browse/MC-197860</a></em></strong></span><strong><em><br /></em></strong></p>
 <p style="text-align: center;">&nbsp;</p>
-<p style="text-align: center;"><strong><em><br /></em><span style="color: #993300;"><span style="font-size: 18px;">SERVER OWNERS NOTE:</span> <em><br /></em></span></strong></p>
-<p style="text-align: center; font-size: 14px; color: #993300;"><strong><em>If you make a fresh new world with this mod </em></strong><strong><em>on&nbsp;a </em></strong></p>
-<p style="text-align: center; font-size: 14px; color: #993300;"><strong><em>server, restart the&nbsp;server after the world&nbsp;</em></strong><strong><em>is made </em></strong></p>
-<p style="text-align: center; font-size: 14px; color: #993300;"><strong><em>due to this mojang bug&nbsp;causing </em></strong><strong><em>json&nbsp;</em></strong><strong><em>dimensions </em></strong></p>
-<p style="text-align: center; font-size: 14px; color: #993300;"><strong><em>to not be made </em></strong><strong><em>upon world&nbsp;creation </em></strong><strong><em>only on servers.</em></strong></p>
-<p style="text-align: center; font-size: 14px; color: #993300;"><strong><em><a href="https://bugs.mojang.com/browse/MC-195468">https://bugs.mojang.com/browse/MC-195468</a></em></strong>&nbsp;</p>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-align: center; font-size: 14px; color: #993300;">&nbsp;</p>
 <p>&nbsp;</p>
 <p><strong>______________________________________________________________________________</strong></p>
 <p>&nbsp;</p>
@@ -33,14 +34,15 @@
 <p><span style="font-size: 14px;">&nbsp; &nbsp;Inside the dimension, you will find massive webs of different kinds of surfaces all filled to the brim with trees, grass, and structures. But take notice of the Nether surface path that has End surfaces on each side. That Nether path is the main walkway through the dimension as no other surfaces can interrupt that pathway. So follow that red road and explore the insanity of the world! Also, if you got modded ores mod on, all the ores will be added as well as long as they are able to spawn in Stone! And lastly, the biomes will have imported every mob's spawn entry so there's no telling what will spawn! Though animals seem to not spawn very often due to all the trees and plants covering all the Grass Blocks so you may have to burn down some forests or blacklist many plant features in the config to increase animal spawning.</span></p>
 <p>&nbsp;</p>
 <p><span style="font-size: 14px;">&nbsp; &nbsp;Currently as of right now, here is the alphabetical list of 1.16.3 mods that does work with the latest 1.16.3 version of World Blender. Let me know if another mod works with World Blender and I'll add it to this list!</span></p>
-<p style="font-size: 14px;">&nbsp;<br /><span style="font-size: 14px;"><strong>1.16.3 COMPATIBLE MODS LIST:</strong></span></p>
+<p style="font-size: 14px;">&nbsp;<br /><span style="font-size: 14px;"><strong>1.16.3 / 1.16.4 COMPATIBLE MODS LIST:</strong></span></p>
 <div class="spoiler">
 <p>Please help! College drained my time out of me like a vampire! Let me know what mods works with World Blender! (Or doesn't work)</p>
 <p>&nbsp;</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/animalium">-Animalium</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/applied-energistics-2">-Applied Energistics 2</a> (blacklist their appliedenergistics2:meteorite structure from World Blender's dimension by WB's config and AE2's config. Otherwise, the meteorite will cause the world to hang.)</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/aquaculture">-Aquaculture 2</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/azuredoom-doom-mod">-AzureDoom's Doom Mod</a> (Don't forget to put on GeckoLib!)</p>
-<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/better-default-biomes/files/3077616">-BetterDefaultBiomes</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/better-default-biomes">-BetterDefaultBiomes</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/biomes-o-plenty">-Biomes O' Plenty</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod">-Doctor Who - Weeping Angels</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/dungeon-crawl">-Dungeons Crawl</a></p>
@@ -48,7 +50,7 @@
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/earth-mobs">-Earth Mobs</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/embellishcraft">-Embellishcraft</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/hunterillager">-HunterIllager</a></p>
-<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/lucky-ore/files/3068277">-Lucky Ore</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/lucky-ore">-Lucky Ore</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/mutant-beasts">-Mutant Beasts</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/oh-the-biomes-youll-go">-Oh the Biomes You'll Go</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/pandoras-creatures">-Pandoras Creatures</a></p>
@@ -58,12 +60,14 @@
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/rats-ratlantis">-Rats Ratlantis</a>&nbsp;</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/rare-ice">-Rare Ice (Forge/Fabric)</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/repurposed-structures">-Repurposed Structures (Forge)</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/cobbler">-Shulker's Faithful Factories (Previously Cobbler)</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/simple-farming">-Simple Farming</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/snow-under-trees">-Snow Under Trees</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/teletubbies-mod">-Teletubbies Mod</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/terraqueous">-Terraqueous</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/the-bumblezone-forge">-The Bumblezone (Forge)</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/the-conjurer">-The Conjurer</a></p>
+<p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/the-undergarden">-The Undergarden</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/unearthed-forge">-Unearthed Forge</a></p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/themcbros-useless-mod">-Useless Mod&nbsp;</a>(Their Useless House structure does not spawn in World Blender dimension)</p>
 <p><a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/valhelsia-structures">-Valhelsia Structures</a></p>
@@ -210,6 +214,9 @@
 <p>&nbsp;</p>
 <p style="color: #009b7c;"><strong>*If you find an issue, glitch, or have a suggestion about my mod, let me know! But if you don't have a GitHub account to report in the Issue tab above, just comment what the problem is below and I'll try and get back to you ASAP! :)&nbsp;</strong></p>
 <p>&nbsp;</p>
-<p><span style="font-size: 24px; color: #ff9900;"><strong>Discord Link for my channel about my mods! :&nbsp;<a class="anchor-3Z-8Bb anchorUnderlineOnHover-2ESHQB" style="font-size: 24px; color: #ff9900;" tabindex="0" title="https://discord.gg/4eHptfV" role="button" href="https://discord.gg/4eHptfV" target="_blank" rel="noopener noreferrer">https://discord.gg/4eHptfV</a></strong></span></p>
-<h3><span style="font-size: 24px; color: #333399;"><strong>&nbsp;<br /><span style="font-size: 12px;">Checkout this guy's mod spotlight of World Blender where if you go to 4:07, you can see a great example of how chaotic the world becomes when tons of mods are used together with World Blender! :D</span></strong></span></h3>
+<p>&nbsp;</p>
+<p><span style="font-size: 24px;"><strong>Discord Link for my channel about my mods! :&nbsp;</strong></span></p>
+<p><span style="font-size: 24px;"><strong><a class="anchor-3Z-8Bb anchorUnderlineOnHover-2ESHQB" style="font-size: 24px;" tabindex="0" title="https://discord.gg/4eHptfV" role="button" href="https://discord.gg/4eHptfV" target="_blank" rel="noopener noreferrer">https://discord.gg/4eHptfV</a></strong></span></p>
+<p><span style="font-size: 24px;"><strong><a class="anchor-3Z-8Bb anchorUnderlineOnHover-2ESHQB" style="font-size: 24px;" tabindex="0" title="https://discord.gg/4eHptfV" role="button" href="https://discord.gg/4eHptfV" target="_blank" rel="noopener noreferrer"><img src="https://beeimg.com/images/g00282193071.png" alt="discord-logo-png-free-transparent-png-logos-discord-png-logo-300_300 (PNG)  | BeeIMG" width="105" height="105" /></a></strong></span></p>
+<p><span style="font-size: 24px; color: #333399;"><strong><br /><span style="font-size: 12px;">Checkout this guy's mod spotlight of World Blender where if you go to 4:07, you can see a great example of how chaotic the world becomes when tons of mods are used together with World Blender! :D</span></strong></span></p>
 <p><iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/mvJQ9S89dMQ?wmode=transparent" height="358" width="638"></iframe></p>
