@@ -29,8 +29,7 @@ public class WBPortalAltar extends Feature<NoFeatureConfig>
 	private static final PlacementSettings placementSettings = (new PlacementSettings())
 																			.setMirror(Mirror.NONE)
 																			.setRotation(Rotation.NONE)
-																			.setIgnoreEntities(false)
-																			.setChunk(null);
+																			.setIgnoreEntities(false);
 	
 	public WBPortalAltar()
 	{
