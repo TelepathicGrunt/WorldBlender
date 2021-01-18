@@ -1,4 +1,4 @@
-package com.telepathicgrunt.world_blender.mixin;
+package com.telepathicgrunt.world_blender.mixin.dimensions;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.lighting.WorldLightManager;

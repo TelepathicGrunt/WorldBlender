@@ -1,4 +1,4 @@
-package com.telepathicgrunt.world_blender.mixin;
+package com.telepathicgrunt.world_blender.mixin.worldgen;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.gen.carver.WorldCarver;

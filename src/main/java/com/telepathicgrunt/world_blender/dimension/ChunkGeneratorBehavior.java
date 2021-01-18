@@ -1,6 +1,6 @@
 package com.telepathicgrunt.world_blender.dimension;
 
-import com.telepathicgrunt.world_blender.mixin.ChunkGeneratorAccessor;
+import com.telepathicgrunt.world_blender.mixin.worldgen.ChunkGeneratorAccessor;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.SectionPos;

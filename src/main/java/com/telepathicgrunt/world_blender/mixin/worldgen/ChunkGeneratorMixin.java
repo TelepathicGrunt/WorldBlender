@@ -1,4 +1,4 @@
-package com.telepathicgrunt.world_blender.mixin;
+package com.telepathicgrunt.world_blender.mixin.worldgen;
 
 import com.telepathicgrunt.world_blender.dimension.ChunkGeneratorBehavior;
 import com.telepathicgrunt.world_blender.dimension.WBBiomeProvider;

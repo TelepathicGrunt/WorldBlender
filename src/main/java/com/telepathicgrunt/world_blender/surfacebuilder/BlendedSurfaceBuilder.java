@@ -1,7 +1,7 @@
 package com.telepathicgrunt.world_blender.surfacebuilder;
 
 import com.telepathicgrunt.world_blender.WorldBlender;
-import com.telepathicgrunt.world_blender.mixin.CarverAccessor;
+import com.telepathicgrunt.world_blender.mixin.worldgen.CarverAccessor;
 import com.telepathicgrunt.world_blender.the_blender.ConfigBlacklisting;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

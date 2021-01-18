@@ -1,4 +1,4 @@
-package com.telepathicgrunt.world_blender.mixin;
+package com.telepathicgrunt.world_blender.mixin.blocks;
 
 import net.minecraft.client.renderer.RenderState;
 import org.spongepowered.asm.mixin.Mixin;

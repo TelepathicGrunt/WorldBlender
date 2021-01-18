@@ -3,7 +3,7 @@ package com.telepathicgrunt.world_blender.the_blender;
 import com.telepathicgrunt.world_blender.WBIdentifiers;
 import com.telepathicgrunt.world_blender.WorldBlender;
 import com.telepathicgrunt.world_blender.features.WBConfiguredFeatures;
-import com.telepathicgrunt.world_blender.mixin.*;
+import com.telepathicgrunt.world_blender.mixin.worldgen.*;
 import com.telepathicgrunt.world_blender.surfacebuilder.BlendedSurfaceBuilder;
 import com.telepathicgrunt.world_blender.surfacebuilder.WBSurfaceBuilders;
 import com.telepathicgrunt.world_blender.the_blender.ConfigBlacklisting.BlacklistType;

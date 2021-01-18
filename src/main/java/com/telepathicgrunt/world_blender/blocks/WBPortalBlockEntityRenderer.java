@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.telepathicgrunt.world_blender.blocks.WBRenderTexturingState.WBPortalTexturingState;
-import com.telepathicgrunt.world_blender.mixin.RenderPhaseAccessor;
+import com.telepathicgrunt.world_blender.mixin.blocks.RenderPhaseAccessor;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
