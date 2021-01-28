@@ -2,10 +2,8 @@ package com.telepathicgrunt.world_blender.configs;
 
 import com.telepathicgrunt.world_blender.utils.ConfigHelper;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.common.Mod;
 
 
-@Mod.EventBusSubscriber
 public class WBDimensionConfigs{
     public static class WBConfigValues {
         public ConfigHelper.ConfigValueListener<Double> surfaceScale;
