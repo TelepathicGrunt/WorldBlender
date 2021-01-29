@@ -9,7 +9,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class WBRenderTexturingState
 {
-	@OnlyIn(Dist.CLIENT)
+	// CLIENT-SIDED
 	public static final class WBPortalTexturingState extends RenderState.TexturingState
 	{
 		private final int iteration;

@@ -138,7 +138,7 @@ public class WBPortalBlockEntity extends TileEntity implements ITickableTileEnti
 		this.removeable = data.getBoolean("Removeable");
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	// CLIENT-SIDED
 	public boolean shouldRenderFace(Direction direction)
 	{
 		return true;
@@ -147,13 +147,13 @@ public class WBPortalBlockEntity extends TileEntity implements ITickableTileEnti
 	}
 
 	@Deprecated
-	@OnlyIn(Dist.CLIENT)
+	// CLIENT-SIDED
 	public boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
 		return false;
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	// CLIENT-SIDED
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;

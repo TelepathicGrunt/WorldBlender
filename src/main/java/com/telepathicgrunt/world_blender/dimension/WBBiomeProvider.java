@@ -112,7 +112,7 @@ public class WBBiomeProvider extends BiomeProvider
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	// CLIENT-SIDED
 	public BiomeProvider getBiomeProvider(long seed) {
 		return new WBBiomeProvider(seed, this.biomeRegistry, this.biomeSize);
 	}

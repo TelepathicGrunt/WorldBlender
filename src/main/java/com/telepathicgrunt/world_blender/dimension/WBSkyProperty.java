@@ -5,7 +5,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
+// CLIENT-SIDED
 public class WBSkyProperty extends DimensionRenderInfo {
     public WBSkyProperty() {
         super(155, true, FogType.NORMAL, false, false);

@@ -178,7 +178,7 @@ public class WBPortalBlock extends ContainerBlock
 	 * Shows particles around this block
 	 */
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	// CLIENT-SIDED
 	public void animateTick(BlockState blockState, World world, BlockPos position, Random random)
 	{
 		TileEntity TileEntity = world.getTileEntity(position);
@@ -192,7 +192,7 @@ public class WBPortalBlock extends ContainerBlock
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	// CLIENT-SIDED
 	public void createLotsOfParticles(BlockState blockState, World world, BlockPos position, Random random)
 	{
 		TileEntity TileEntity = world.getTileEntity(position);

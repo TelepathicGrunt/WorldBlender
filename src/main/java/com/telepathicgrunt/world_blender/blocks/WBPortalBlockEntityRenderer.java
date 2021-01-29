@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-@OnlyIn(Dist.CLIENT)
+// CLIENT-SIDED
 public class WBPortalBlockEntityRenderer extends TileEntityRenderer<WBPortalBlockEntity>
 {
 	public WBPortalBlockEntityRenderer(TileEntityRendererDispatcher dispatcher)
