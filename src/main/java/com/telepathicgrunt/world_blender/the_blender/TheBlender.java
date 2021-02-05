@@ -40,6 +40,18 @@ public class TheBlender {
     private static final Set<Supplier<?>> CHECKED_WORLDGEN_OBJECTS = new HashSet<>();
     private static final Set<MobSpawnInfo.Spawners> CHECKED_MOBS = new HashSet<>();
 
+    // Prevent modded mobs from drowning out vanilla or other mod's mobs.
+    private static final Map<EntityClassification, Integer> MAX_WEIGHT_PER_GROUP = createWeightMap();
+    private static Map<EntityClassification, Integer> createWeightMap() {
+        Map<EntityClassification, Integer> tempMap = new HashMap<>();
+        tempMap.put(EntityClassification.CREATURE, 15);
+        tempMap.put(EntityClassification.MONSTER, 120);
+        tempMap.put(EntityClassification.WATER_AMBIENT, 30);
+        tempMap.put(EntityClassification.WATER_CREATURE, 12);
+        tempMap.put(EntityClassification.AMBIENT, 15);
+        return tempMap;
+    }
+
     /**
      * Kickstarts the blender. Should always be ran in MinecraftServer's init which is before the world is loaded
      */
@@ -384,7 +396,6 @@ public class TheBlender {
         }
     }
 
-
     private static void addBiomeNaturalMobs(Biome biome, List<Biome> worldBlenderBiomes) {
         for (EntityClassification spawnGroup : EntityClassification.values()) {
             for (MobSpawnInfo.Spawners spawnEntry : biome.getMobSpawnInfo().getSpawners(spawnGroup)) {
@@ -400,12 +411,18 @@ public class TheBlender {
                             continue;
                         }
 
+                        int maxWeight = MAX_WEIGHT_PER_GROUP.getOrDefault(spawnGroup, spawnEntry.itemWeight);
+                        MobSpawnInfo.Spawners newEntry = new MobSpawnInfo.Spawners(
+                                spawnEntry.type,
+                                Math.max(Math.min(spawnEntry.itemWeight, maxWeight), 1), // Cap the weight and make sure it isn't too low
+                                spawnEntry.minCount,
+                                spawnEntry.maxCount);
+
                         if (entityTypeID.getNamespace().equals("minecraft")) {
                             if (WorldBlender.WBBlendingConfig.allowVanillaSpawns.get())
-                                worldBlenderBiomes.forEach(blendedBiome -> blendedBiome.getMobSpawnInfo().getSpawners(spawnGroup).add(spawnEntry));
-                        } else if (WorldBlender.WBBlendingConfig.allowModdedSpawns.get()) {
-                            worldBlenderBiomes.forEach(blendedBiome -> blendedBiome.getMobSpawnInfo().getSpawners(spawnGroup).add(spawnEntry));
-                        }
+                                worldBlenderBiomes.forEach(blendedBiome -> blendedBiome.getMobSpawnInfo().getSpawners(spawnGroup).add(newEntry));
+                        } else if (WorldBlender.WBBlendingConfig.allowModdedSpawns.get())
+                            worldBlenderBiomes.forEach(blendedBiome -> blendedBiome.getMobSpawnInfo().getSpawners(spawnGroup).add(newEntry));
                     }
 
                     CHECKED_MOBS.add(spawnEntry);
