@@ -1,5 +1,6 @@
 package com.telepathicgrunt.world_blender.the_blender;
 
+import com.google.common.collect.ImmutableMap;
 import com.telepathicgrunt.world_blender.WBIdentifiers;
 import com.telepathicgrunt.world_blender.WorldBlender;
 import com.telepathicgrunt.world_blender.configs.WBBlendingConfigs;
@@ -14,8 +15,7 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.*;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.GenerationStage.Carving;
 import net.minecraft.world.gen.carver.ConfiguredCarver;
@@ -25,6 +25,7 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraft.world.gen.surfacebuilders.ISurfaceBuilderConfig;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.world.MobSpawnInfoBuilder;
 import net.minecraftforge.event.world.WorldEvent;
 
 import javax.annotation.Nullable;
@@ -34,88 +35,117 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class TheBlender {
-	// MUST KEEP THESE SETS. They massively speed up World Blender at mod startup by preventing excessive running of .anyMatch and other streams/checks
-	private static final Set<Supplier<?>> CHECKED_WORLDGEN_OBJECTS = new HashSet<>();
-	private static final Set<MobSpawnInfo.Spawners> CHECKED_MOBS = new HashSet<>();
-	
 	// Prevent modded mobs from drowning out vanilla or other mod's mobs.
-	private static final Map<EntityClassification, Integer> MAX_WEIGHT_PER_GROUP = new HashMap<>();
-	
-	static {
-		MAX_WEIGHT_PER_GROUP.put(EntityClassification.CREATURE, 15);
-		MAX_WEIGHT_PER_GROUP.put(EntityClassification.MONSTER, 120);
-		MAX_WEIGHT_PER_GROUP.put(EntityClassification.WATER_AMBIENT, 30);
-		MAX_WEIGHT_PER_GROUP.put(EntityClassification.WATER_CREATURE, 12);
-		MAX_WEIGHT_PER_GROUP.put(EntityClassification.AMBIENT, 15);
-	}
+	private static final Map<EntityClassification, Integer> MAX_WEIGHT_PER_GROUP = ImmutableMap.of(
+		EntityClassification.CREATURE, 15,
+		EntityClassification.MONSTER, 120,
+		EntityClassification.WATER_AMBIENT, 30,
+		EntityClassification.WATER_CREATURE, 12,
+		EntityClassification.AMBIENT, 15
+	);
 	
 	/**
-	 Kickstarts the blender. Should always be ran in MinecraftServer's init which is before the world is loaded
+	 Kickstarts the blender. Should always be run in MinecraftServer's init which is before the world is loaded
 	 */
 	public static void blendTheWorld(DynamicRegistries.Impl registryManager) {
-		Optional<MutableRegistry<Biome>> biomes = registryManager.func_230521_a_(Registry.BIOME_KEY);
-		if (!biomes.isPresent()) return;
+		Optional<MutableRegistry<Biome>> _biomes = registryManager.func_230521_a_(Registry.BIOME_KEY);
+		if (!_biomes.isPresent()) return;
+		Registry<Biome> biomes = _biomes.get();
 		
-		List<Biome> worldBlenderBiomes = biomes.get().getEntries().stream()
+		TheBlender blender = new TheBlender(registryManager);
+		blender.blendTheWorld(biomes);
+		
+		biomes.getEntries().stream()
 			.filter(entry -> entry.getKey().getLocation().getNamespace().equals(WorldBlender.MODID))
 			.map(Map.Entry::getValue)
-			.collect(Collectors.toList());
+			.forEach(blender::apply);
 		
-		// Only world blender biomes will be mutable
-		worldBlenderBiomes.forEach(TheBlender::makeBiomeMutable);
+		// free up some memory when we are done and ready it for the next world clicked on.
+		FeatureGrouping.clearFeatureMaps();
+	}
+	
+	// store all the data we're blending
+	private final List<List<Supplier<ConfiguredFeature<?, ?>>>> blendedFeaturesByStage = new ArrayList<>();
+	private final Collection<Supplier<StructureFeature<?, ?>>> blendedStructures = new ArrayList<>();
+	private final Map<Carving, List<Supplier<ConfiguredCarver<?>>>> blendedCarversByStage = new HashMap<>();
+	private final MobSpawnInfoBuilder blendedSpawnInfo = new MobSpawnInfoBuilder(MobSpawnInfo.EMPTY);
+	private final BlendedSurfaceBuilder blendedSurface = new BlendedSurfaceBuilder();
+	
+	// some registries we access
+	private final MutableRegistry<ConfiguredFeature<?, ?>> configuredFeaturesRegistry;
+	private final MutableRegistry<StructureFeature<?, ?>> configuredStructuresRegistry;
+	private final MutableRegistry<ConfiguredCarver<?>> configuredCarversRegistry;
+	
+	// MUST KEEP THESE SETS. They massively speed up World Blender at mod startup by preventing excessive running of .anyMatch and other streams/checks
+	private final Set<Supplier<?>> checkedWorldgenObjects = new HashSet<>();
+	private final Set<MobSpawnInfo.Spawners> checkedMobs = new HashSet<>();
+	
+	private TheBlender(DynamicRegistries.Impl registryManager) {
+		// set up collections of nested lists
+		Arrays.stream(GenerationStage.Decoration.values())
+			.forEach(stage -> blendedFeaturesByStage.add(new ArrayList<>()));
+		Arrays.stream(Carving.values())
+			.forEach(stage -> blendedCarversByStage.put(stage, new ArrayList<>()));
 		
-		// Clear out world blender biomes of everything.
-		if (WorldBlender.WBBlendingConfig.cleanSlateWBBiomesAtStartup.get()) {
-			worldBlenderBiomes.forEach(biome -> {
-				biome.getGenerationSettings().getFeatures().forEach(List::clear);
-				biome.getGenerationSettings().getStructures().clear();
-				((GenerationSettingsAccessor) biome.getGenerationSettings()).wb_getCarvers().forEach((stage, list) -> list.clear());
-				((MobSpawnInfoAccessor) biome.getMobSpawnInfo()).wb_getSpawnCosts().clear();
-				((MobSpawnInfoAccessor) biome.getMobSpawnInfo()).wb_getSpawners().forEach((group, list) -> list.clear());
-			});
-		}
-		
-		// Reset these before biome loop
 		ConfigBlacklisting.setupBlackLists();
 		FeatureGrouping.setupFeatureMaps();
 		BlendedSurfaceBuilder.resetSurfaceList();
 		
-		// THE biome loop. Very magical!
-		for (Map.Entry<RegistryKey<Biome>, Biome> biomeEntry : biomes.get().getEntries()) {
-			
+		configuredFeaturesRegistry = registryManager.getRegistry(Registry.CONFIGURED_FEATURE_KEY);
+		configuredStructuresRegistry = registryManager.getRegistry(Registry.CONFIGURED_STRUCTURE_FEATURE_KEY);
+		configuredCarversRegistry = registryManager.getRegistry(Registry.CONFIGURED_CARVER_KEY);
+	}
+	
+	private List<Supplier<ConfiguredFeature<?, ?>>> blendedFeatures(GenerationStage.Decoration stage) {
+		return blendedFeaturesByStage.get(stage.ordinal());
+	}
+	
+	private void blendTheWorld(Registry<Biome> biomes) {
+		for (Map.Entry<RegistryKey<Biome>, Biome> biomeEntry : biomes.getEntries()) {
 			if (!biomeEntry.getKey().getLocation().getNamespace().equals(WorldBlender.MODID)) {
 				// begin blending into our biomes
-				mainBlending(
+				blend(
 					biomeEntry.getValue(), // Biome
-					worldBlenderBiomes, // WB biomes
-					biomeEntry.getKey().getLocation(), // ResourceLocation
-					registryManager // all the registries
+					biomeEntry.getKey().getLocation() // ResourceLocation
 				);
 			}
 		}
 		
 		// wrap up the last bits that still needs to be blended but after the biome loop
-		completeBlending(worldBlenderBiomes, registryManager.getRegistry(Registry.CONFIGURED_FEATURE_KEY));
+		completeBlending();
+	}
+	
+	private void apply(Biome blendedBiome) {
+		makeBiomeMutable(blendedBiome);
 		
-		// free up some memory when we are done and ready it for the next world clicked on.
-		FeatureGrouping.clearFeatureMaps();
-		CHECKED_WORLDGEN_OBJECTS.clear();
-		CHECKED_MOBS.clear();
+		// TODO: it's possible that there will be issues with just passing these nested lists and stuff by reference.
+		// it would be easy enough to just deep clone the lists.
+		// we should test if this is necessary, ideally in a large modpack.
+		
+		blendedBiome.getGenerationSettings().getFeatures().clear();
+		blendedBiome.getGenerationSettings().getFeatures().addAll(blendedFeaturesByStage);
+		
+		blendedBiome.getGenerationSettings().getStructures().clear();
+		blendedBiome.getGenerationSettings().getStructures().addAll(blendedStructures);
+		
+		Map<Carving, List<Supplier<ConfiguredCarver<?>>>> carvers = ((GenerationSettingsAccessor) blendedBiome.getGenerationSettings()).wb_getCarvers();
+		carvers.clear();
+		carvers.putAll(blendedCarversByStage);
+		
+		MobSpawnInfo spawnInfo = blendedBiome.getMobSpawnInfo();
+		MobSpawnInfoAccessor spawnInfoAccessor = (MobSpawnInfoAccessor) spawnInfo;
+		MobSpawnInfoAccessor blendedAccessor = (MobSpawnInfoAccessor) blendedSpawnInfo.copy();
+		spawnInfoAccessor.wb_setSpawnCosts(blendedAccessor.wb_getSpawnCosts());
+		spawnInfoAccessor.wb_setSpawners(blendedAccessor.wb_getSpawners());
 	}
 	
 	/**
 	 blends the given biome into WB biomes
 	 */
-	private static void mainBlending(Biome biome, List<Biome> worldBlenderBiomes, ResourceLocation biomeID, DynamicRegistries.Impl dynamicRegistryManager) {
-		// Debugging breakpoint spot
-//        if(biomeID.getPath().contains("nether")){
-//            int t = 5;
-//        }
-		
+	private void blend(Biome biome, ResourceLocation biomeID) {
 		// ignore our own biomes to speed things up and prevent possible duplications
 		if (biomeID.getNamespace().equals(WorldBlender.MODID)) return;
 		
-		// if the biome is a vanilla biome but config says no vanilla biome, skip this biome
 		if (shouldSkip(
 			biomeID,
 			c -> c.allowVanillaBiomeImport,
@@ -123,82 +153,17 @@ public class TheBlender {
 			BlacklistType.BLANKET
 		)) return;
 		
-		/////////// FEATURES//////////////////
-		addBiomeFeatures(biome, worldBlenderBiomes, dynamicRegistryManager.getRegistry(Registry.CONFIGURED_FEATURE_KEY));
+		BiomeGenerationSettings settings = biome.getGenerationSettings();
+		GenerationSettingsAccessor settingsAccessor = (GenerationSettingsAccessor) settings;
 		
-		////////////////////// STRUCTURES////////////////////////
-		addBiomeStructures(biome, worldBlenderBiomes, dynamicRegistryManager.getRegistry(Registry.CONFIGURED_STRUCTURE_FEATURE_KEY));
-		
-		//////////////////////// CARVERS/////////////////////////
-		addBiomeCarvers(biome, worldBlenderBiomes, dynamicRegistryManager.getRegistry(Registry.CONFIGURED_CARVER_KEY));
-		
-		//////////////////////// SPAWNER/////////////////////////
-		addBiomeNaturalMobs(biome, worldBlenderBiomes);
-		
-		//////////////////////// SURFACE/////////////////////////
-		addBiomeSurfaceConfig(biome, biomeID);
+		addBiomeFeatures(settings.getFeatures());
+		addBiomeStructures(settings.getStructures());
+		addBiomeCarvers(settingsAccessor.wb_getCarvers());
+		addBiomeNaturalMobs(biome.getMobSpawnInfo());
+		addBiomeSurfaceConfig(settings.getSurfaceBuilderConfig(), biomeID);
 	}
 	
-	/**
-	 Adds the last bit of stuff that needs to be added to WB biomes after everything else is added.
-	 Like bamboo and flowers should be dead last so they don't crowd out tree spawning
-	 */
-	public static void completeBlending(List<Biome> worldBlenderBiomes, MutableRegistry<ConfiguredFeature<?, ?>> configuredFeaturesRegistry) {
-		// add end spike directly to all biomes if not directly blacklisted. Turning off vanilla features will not prevent end spikes from spawning due to them marking the world origin nicely
-		ResourceLocation endSpikeID = new ResourceLocation("minecraft", "end_spike");
-		if (!ConfigBlacklisting.isResourceLocationBlacklisted(BlacklistType.FEATURE, endSpikeID)) {
-			worldBlenderBiomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getFeatures().get(GenerationStage.Decoration.SURFACE_STRUCTURES.ordinal()).add(() -> configuredFeaturesRegistry.getOrDefault(endSpikeID)));
-		}
-		
-		
-		// add grass, flower, and other small plants now so they are generated second to last
-		for (GenerationStage.Decoration stage : GenerationStage.Decoration.values()) {
-			for (ConfiguredFeature<?, ?> grassyFlowerFeature : FeatureGrouping.SMALL_PLANT_MAP.get(stage)) {
-				List<Supplier<ConfiguredFeature<?, ?>>> stageFeatures = worldBlenderBiomes.get(0)
-					.getGenerationSettings()
-					.getFeatures()
-					.get(stage.ordinal());
-				boolean alreadyPresent = stageFeatures.stream().anyMatch(existing ->
-					FeatureGrouping.serializeAndCompareFeature(existing.get(), grassyFlowerFeature, true)
-				);
-				if (alreadyPresent) continue;
-				
-				worldBlenderBiomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getFeatures().get(stage.ordinal()).add(() -> grassyFlowerFeature));
-			}
-		}
-		
-		
-		if (!disallowLaggyFeatures() && FeatureGrouping.bambooFound) {
-			// add 1 configured bamboo so it is dead last
-			worldBlenderBiomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getFeatures().get(GenerationStage.Decoration.VEGETAL_DECORATION.ordinal()).add(() -> configuredFeaturesRegistry.getOrDefault(new ResourceLocation("minecraft", "bamboo"))));
-		}
-		
-		
-		// Makes carvers be able to carve any underground blocks including netherrack, end stone, and modded blocks
-		if (WorldBlender.WBDimensionConfig.carversCanCarveMoreBlocks.get()) {
-			Set<Block> allBlocksToCarve = BlendedSurfaceBuilder.blocksToCarve();
-			
-			// get all carvable blocks
-			for (GenerationStage.Carving carverStage : GenerationStage.Carving.values()) {
-				for (Supplier<ConfiguredCarver<?>> carver : worldBlenderBiomes.get(0).getGenerationSettings().getCarvers(carverStage)) {
-					allBlocksToCarve.addAll(((CarverAccessor) ((ConfiguredCarverAccessor) carver.get()).wb_getcarver()).wb_getalwaysCarvableBlocks());
-				}
-			}
-			
-			// update all carvers to carve the complete list of stuff to carve
-			for (GenerationStage.Carving carverStage : GenerationStage.Carving.values()) {
-				for (Supplier<ConfiguredCarver<?>> carver : worldBlenderBiomes.get(0).getGenerationSettings().getCarvers(carverStage)) {
-					((CarverAccessor) ((ConfiguredCarverAccessor) carver.get()).wb_getcarver()).wb_setalwaysCarvableBlocks(allBlocksToCarve);
-				}
-			}
-		}
-		
-		// add these last so that this can contain other local modification feature's liquids/falling blocks better
-		if (!ConfigBlacklisting.isResourceLocationBlacklisted(ConfigBlacklisting.BlacklistType.FEATURE, new ResourceLocation("world_blender:anti_floating_blocks_and_separate_liquids"))) {
-			worldBlenderBiomes.forEach(blendedBiome -> blendedBiome.getGenerationSettings().getFeatures().get(GenerationStage.Decoration.LOCAL_MODIFICATIONS.ordinal()).add(() -> WBConfiguredFeatures.ANTI_FLOATING_BLOCKS_AND_SEPARATE_LIQUIDS));
-		}
-	}
-	
+	// TODO: do we still need this?
 	/**
 	 Helper method to make WB biomes mutable to add stuff to it later
 	 */
@@ -232,23 +197,80 @@ public class TheBlender {
 		((MobSpawnInfoAccessor) biome.getMobSpawnInfo()).wb_setSpawnCosts(new HashMap<>(((MobSpawnInfoAccessor) biome.getMobSpawnInfo()).wb_getSpawnCosts()));
 	}
 	
-	//--------------------------------------------------------------
-	// The actual main blending below
-	// Welcome to hell!
+	/**
+	 Adds the last bit of stuff that needs to be added to WB biomes after everything else is added.
+	 Like bamboo and flowers should be dead last so they don't crowd out tree spawning
+	 */
+	private void completeBlending() {
+		// add end spike directly to all biomes if not directly blacklisted. Turning off vanilla features will not prevent end spikes from spawning due to them marking the world origin nicely
+		ResourceLocation endSpikeID = new ResourceLocation("minecraft", "end_spike");
+		if (!ConfigBlacklisting.isResourceLocationBlacklisted(BlacklistType.FEATURE, endSpikeID)) {
+			blendedFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES)
+				.add(() -> configuredFeaturesRegistry.getOrDefault(endSpikeID));
+		}
+		
+		
+		// add grass, flower, and other small plants now so they are generated second to last
+		for (GenerationStage.Decoration stage : GenerationStage.Decoration.values()) {
+			FeatureGrouping.SMALL_PLANT_MAP.get(stage).forEach(grassyFlowerFeature -> {
+				List<Supplier<ConfiguredFeature<?, ?>>> stageFeatures = blendedFeatures(stage);
+				
+				boolean alreadyPresent = stageFeatures.stream().anyMatch(existing ->
+					FeatureGrouping.serializeAndCompareFeature(
+						existing.get(),
+						grassyFlowerFeature,
+						true
+					)
+				);
+				if (alreadyPresent) return;
+				
+				stageFeatures.add(() -> grassyFlowerFeature);
+			});
+		}
+		
+		
+		if (!disallowLaggyFeatures() && FeatureGrouping.bambooFound) {
+			// add 1 configured bamboo so it is dead last
+			blendedFeatures(GenerationStage.Decoration.VEGETAL_DECORATION)
+				.add(() -> configuredFeaturesRegistry.getOrDefault(new ResourceLocation("minecraft", "bamboo")));
+		}
+		
+		
+		// make carvers be able to carve any underground blocks including netherrack, end stone, and modded blocks
+		if (WorldBlender.WBDimensionConfig.carversCanCarveMoreBlocks.get()) {
+			List<CarverAccessor> carvers = blendedCarversByStage.values().stream()
+				.flatMap(Collection::stream)
+				.map(carver -> (ConfiguredCarverAccessor) carver.get())
+				.map(carver -> (CarverAccessor) carver.wb_getcarver())
+				.collect(Collectors.toList());
+			
+			Set<Block> allCarvableBlocks = carvers.stream()
+				.flatMap(carver -> carver.wb_getalwaysCarvableBlocks().stream())
+				.collect(Collectors.toSet());
+			
+			carvers.forEach(carver -> carver.wb_setalwaysCarvableBlocks(allCarvableBlocks));
+		}
+		
+		// add these last so that this can contain other local modification feature's liquids/falling blocks better
+		boolean isModificationBlacklisted = ConfigBlacklisting.isResourceLocationBlacklisted(
+			BlacklistType.FEATURE,
+			new ResourceLocation(WorldBlender.MODID, "anti_floating_blocks_and_separate_liquids")
+		);
+		if (!isModificationBlacklisted) {
+			blendedFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS)
+				.add(() -> WBConfiguredFeatures.ANTI_FLOATING_BLOCKS_AND_SEPARATE_LIQUIDS);
+		}
+	}
 	
-	private static void addBiomeFeatures(
-		List<List<Supplier<ConfiguredFeature<?, ?>>>> biomeFeaturesByStage,
-		List<List<Supplier<ConfiguredFeature<?, ?>>>> blendedFeaturesByStage,
-		MutableRegistry<ConfiguredFeature<?, ?>> configuredFeaturesRegistry
-	) {
+	private void addBiomeFeatures(List<List<Supplier<ConfiguredFeature<?, ?>>>> biomeFeaturesByStage) {
 		for (GenerationStage.Decoration stage : GenerationStage.Decoration.values()) {
 			if (stage.ordinal() >= biomeFeaturesByStage.size()) break;
 			
-			List<Supplier<ConfiguredFeature<?, ?>>> blendedFeatures = blendedFeaturesByStage.get(stage.ordinal());
+			List<Supplier<ConfiguredFeature<?, ?>>> blendedFeatures = blendedFeatures(stage);
 			
 			for (Supplier<ConfiguredFeature<?, ?>> featureSupplier : biomeFeaturesByStage.get(stage.ordinal())) {
-				if (CHECKED_WORLDGEN_OBJECTS.contains(featureSupplier)) continue;
-				CHECKED_WORLDGEN_OBJECTS.add(featureSupplier);
+				if (checkedWorldgenObjects.contains(featureSupplier)) continue;
+				checkedWorldgenObjects.add(featureSupplier);
 				
 				ConfiguredFeature<?, ?> feature = featureSupplier.get();
 				
@@ -280,17 +302,12 @@ public class TheBlender {
 				// later to the feature list so trees have a chance to spawn
 				if (FeatureGrouping.checksAndAddSmallPlantFeatures(stage, feature)) continue;
 				
+				// add modded features that might be trees to front
+				// of feature list so they have priority over all vanilla features in same generation stage.
 				boolean isVanilla = featureID.getNamespace().equals("minecraft");
-				if (!isVanilla) {
-					// add modded features that might be trees to front
-					// of feature list so they have priority over all vanilla features in same generation stage.
-					if (FeatureGrouping.checksAndAddLargePlantFeatures(stage, feature)) {
-						blendedFeatures.add(0, featureSupplier);
-						continue;
-					}
-					// cannot be a bamboo feature as we will place them dead last in the feature
-					// list so they don't overwhelm other features or cause as many bamboo breaking
-					// because it got cut off
+				if (!isVanilla && FeatureGrouping.checksAndAddLargePlantFeatures(stage, feature)) {
+					blendedFeatures.add(0, featureSupplier);
+					continue;
 				}
 				
 				// if we have no laggy feature config on, then the feature must not be fire, lava, bamboo, etc in order to be added
@@ -301,14 +318,10 @@ public class TheBlender {
 		}
 	}
 	
-	private static void addBiomeStructures(
-		Collection<Supplier<StructureFeature<?, ?>>> biomeStructures,
-		Collection<Supplier<StructureFeature<?, ?>>> blendedStructures,
-		Registry<StructureFeature<?, ?>> configuredStructuresRegistry
-	) {
+	private void addBiomeStructures(Collection<Supplier<StructureFeature<?, ?>>> biomeStructures) {
 		for (Supplier<StructureFeature<?, ?>> structureSupplier : biomeStructures) {
-			if (CHECKED_WORLDGEN_OBJECTS.contains(structureSupplier)) continue;
-			CHECKED_WORLDGEN_OBJECTS.add(structureSupplier);
+			if (checkedWorldgenObjects.contains(structureSupplier)) continue;
+			checkedWorldgenObjects.add(structureSupplier);
 			
 			StructureFeature<?, ?> configuredStructure = structureSupplier.get();
 			
@@ -338,19 +351,15 @@ public class TheBlender {
 		}
 	}
 	
-	private static void addBiomeCarvers(
-		List<List<Supplier<ConfiguredCarver<?>>>> biomeCarversByStage,
-		List<List<Supplier<ConfiguredCarver<?>>>> blendedCarversByStage,
-		MutableRegistry<ConfiguredCarver<?>> configuredCarversRegistry
-	) {
+	private void addBiomeCarvers(Map<Carving, List<Supplier<ConfiguredCarver<?>>>> biomeCarversByStage) {
 		for (Carving carverStage : GenerationStage.Carving.values()) {
-			for (Supplier<ConfiguredCarver<?>> carverSupplier : biomeCarversByStage.get(carverStage.ordinal())) {
-				if (CHECKED_WORLDGEN_OBJECTS.contains(carverSupplier)) continue;
-				CHECKED_WORLDGEN_OBJECTS.add(carverSupplier);
+			List<Supplier<ConfiguredCarver<?>>> blendedCarvers = blendedCarversByStage.get(carverStage);
+			for (Supplier<ConfiguredCarver<?>> carverSupplier : biomeCarversByStage.get(carverStage)) {
+				if (checkedWorldgenObjects.contains(carverSupplier)) continue;
+				checkedWorldgenObjects.add(carverSupplier);
 				
 				ConfiguredCarver<?> configuredCarver = carverSupplier.get();
 				
-				List<Supplier<ConfiguredCarver<?>>> blendedCarvers = blendedCarversByStage.get(carverStage.ordinal());
 				// TODO: couldn't this just be a contains with the supplier?
 				boolean alreadyPresent = blendedCarvers.stream()
 					.anyMatch(existing -> existing.get() == configuredCarver);
@@ -373,13 +382,13 @@ public class TheBlender {
 		}
 	}
 	
-	private static void addBiomeNaturalMobs(MobSpawnInfo biomeSpawnInfo, MobSpawnInfo blendedSpawnInfo) {
+	private void addBiomeNaturalMobs(MobSpawnInfo biomeSpawnInfo) {
 		for (EntityClassification spawnGroup : EntityClassification.values()) {
 			Integer maxWeight = MAX_WEIGHT_PER_GROUP.getOrDefault(spawnGroup, Integer.MAX_VALUE);
-			List<MobSpawnInfo.Spawners> blendedSpawns = blendedSpawnInfo.getSpawners(spawnGroup);
+			List<MobSpawnInfo.Spawners> blendedSpawns = blendedSpawnInfo.getSpawner(spawnGroup);
 			for (MobSpawnInfo.Spawners spawnEntry : biomeSpawnInfo.getSpawners(spawnGroup)) {
-				if (CHECKED_MOBS.contains(spawnEntry)) continue;
-				CHECKED_MOBS.add(spawnEntry);
+				if (checkedMobs.contains(spawnEntry)) continue;
+				checkedMobs.add(spawnEntry);
 				
 				boolean alreadyPresent = blendedSpawns.stream()
 					.anyMatch(existing -> existing.type == spawnEntry.type);
@@ -408,7 +417,7 @@ public class TheBlender {
 		}
 	}
 	
-	private static void addBiomeSurfaceConfig(ISurfaceBuilderConfig biomeSurface, BlendedSurfaceBuilder blendedSurface, ResourceLocation biomeID) {
+	private void addBiomeSurfaceConfig(ISurfaceBuilderConfig biomeSurface, ResourceLocation biomeID) {
 		if (shouldSkip(
 			biomeID,
 			c -> c.allowVanillaSurfaces,
@@ -429,9 +438,9 @@ public class TheBlender {
 		blendedSurface.addConfigIfMissing(biomeSurface);
 	}
 	
-	//--------------------------------------------------------------
-	// An attempt to make sure we always have the spacing config for all structures
-	
+	/**
+	 An attempt to make sure we always have the spacing config for all structures
+	 */
 	public static void addDimensionalSpacing(final WorldEvent.Load event) {
 		if (!(event.getWorld() instanceof ServerWorld)) return;
 		ServerWorld serverWorld = (ServerWorld) event.getWorld();
@@ -454,6 +463,9 @@ public class TheBlender {
 		((DimensionStructureSettingsAccessor) wbServerWorld.getChunkProvider().generator.func_235957_b_()).wb_setStructureConfigMap(structureConfig);
 	}
 	
+	/**
+	 Checks if the given resource should be skipped based on config (checking for null in the process).
+	 */
 	private static boolean shouldSkip(
 		@Nullable ResourceLocation id,
 		Function<WBBlendingConfigs.WBConfigValues, ConfigHelper.ConfigValueListener<Boolean>> allowVanilla,
