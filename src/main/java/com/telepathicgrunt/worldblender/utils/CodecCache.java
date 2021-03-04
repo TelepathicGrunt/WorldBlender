@@ -27,6 +27,7 @@ public class CodecCache<T> {
 
     public void clear() {
         cache.clear();
+        requestCount.set(0);
     }
 
     public Optional<JsonElement> get(T value) {

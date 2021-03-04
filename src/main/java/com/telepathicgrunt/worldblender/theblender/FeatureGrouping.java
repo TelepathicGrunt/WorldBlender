@@ -123,6 +123,10 @@ public class FeatureGrouping {
 		return featureCache.getStats();
 	}
 
+	public void clearCache() {
+		featureCache.clear();
+	}
+
 	public Optional<JsonElement> encode(ConfiguredFeature<?, ?> feature) {
 		return featureCache.get(feature);
 	}

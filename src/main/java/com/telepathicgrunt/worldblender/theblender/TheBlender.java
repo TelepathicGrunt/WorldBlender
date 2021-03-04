@@ -132,6 +132,9 @@ public class TheBlender {
 		final long blendTimeMS = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNanos);
 		WorldBlender.LOGGER.debug("Blend time: {}ms", blendTimeMS);
 		WorldBlender.LOGGER.debug("Feature cache: {}", featureGrouping.getCacheStats());
+
+		// Dispose of cached json in-case future implementations keep this object around for longer.
+		featureGrouping.clearCache();
 	}
 	
 	private void apply(Biome blendedBiome) {
