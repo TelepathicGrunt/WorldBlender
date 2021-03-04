@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.telepathicgrunt.world_blender.mixin",
+  "package": "com.telepathicgrunt.worldblender.mixin",
   "refmap": "world_blender.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "mixins": [

@@ -7,6 +7,17 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
 
 
+## (V.3.0.3 Changes) (1.16.5 Minecraft)
+
+##### Blender:
+
+- Massive speedup to blending.
+
+-Fixed possible structure spacing issues.
+
+-Fixed carvers not carving the correct blocks that can appear in World Blender's surfaces.
+
+
 ## (V.3.0.2 Changes) (1.16.5 Minecraft)
 
 ##### Blender:
