@@ -103,20 +103,20 @@ public class FeatureGrouping {
 	 If cannot serialize, compare the feature itself to see if it is the same.
 	 */
 	public boolean serializeAndCompareFeature(ConfiguredFeature<?, ?> configuredFeature1, ConfiguredFeature<?, ?> configuredFeature2, boolean doDeepJSONCheck) {
+		// ConfiguredFeature doesn't implement equals() so just check the reference.
+		if (configuredFeature1 == configuredFeature2) return true;
+
 		Optional<JsonElement> optionalJsonElement1 = encode(configuredFeature1);
+		if (!optionalJsonElement1.isPresent()) return false;
+
 		Optional<JsonElement> optionalJsonElement2 = encode(configuredFeature2);
+		if (!optionalJsonElement2.isPresent()) return false;
 
 		// Compare the JSON to see if it's the exact same ConfiguredFeature.
-		if (optionalJsonElement1.isPresent() &&
-				optionalJsonElement2.isPresent()) {
-			JsonElement configuredFeatureJSON1 = optionalJsonElement1.get();
-			JsonElement configuredFeatureJSON2 = optionalJsonElement2.get();
-
-			return configuredFeatureJSON1.toString().equals(configuredFeatureJSON2.toString()) ||
-					(doDeepJSONCheck && getFeatureName(configuredFeatureJSON1).equals(getFeatureName(configuredFeatureJSON2)));
-		}
-
-		return configuredFeature1.equals(configuredFeature2);
+		JsonElement featureJson1 = optionalJsonElement1.get();
+		JsonElement featureJson2 = optionalJsonElement2.get();
+		return featureJson1.equals(featureJson2)
+				|| (doDeepJSONCheck && getFeatureName(featureJson1).equals(getFeatureName(featureJson2)));
 	}
 
 	public String getCacheStats() {
