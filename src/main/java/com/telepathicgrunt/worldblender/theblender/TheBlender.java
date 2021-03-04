@@ -32,6 +32,7 @@ import net.minecraftforge.event.world.WorldEvent;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -112,6 +113,8 @@ public class TheBlender {
 	}
 	
 	private void blendTheWorld(Registry<Biome> biomeRegistry) {
+		final long startNanos = System.nanoTime();
+
 		for (Map.Entry<RegistryKey<Biome>, Biome> biomeEntry : biomeRegistry.getEntries()) {
 			if (!biomeEntry.getKey().getLocation().getNamespace().equals(WorldBlender.MODID)) {
 				// begin blending into our biomes
@@ -125,6 +128,10 @@ public class TheBlender {
 		// wrap up the last bits that still needs to be blended but after the biome loop
 		completeBlending();
 		blendedSurface.save();
+
+		final long blendTimeMS = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNanos);
+		WorldBlender.LOGGER.debug("Blend time: {}ms", blendTimeMS);
+		WorldBlender.LOGGER.debug("Feature cache: {}", featureGrouping.getCacheStats());
 	}
 	
 	private void apply(Biome blendedBiome) {
@@ -225,9 +232,9 @@ public class TheBlender {
 		for (GenerationStage.Decoration stage : GenerationStage.Decoration.values()) {
 			featureGrouping.smallPlants.get(stage).forEach(grassyFlowerFeature -> {
 				List<Supplier<ConfiguredFeature<?, ?>>> stageFeatures = blendedStageFeatures(stage);
-				
+
 				boolean alreadyPresent = stageFeatures.stream().anyMatch(existing ->
-					FeatureGrouping.serializeAndCompareFeature(
+					featureGrouping.serializeAndCompareFeature(
 						existing.get(),
 						grassyFlowerFeature,
 						true
@@ -289,7 +296,7 @@ public class TheBlender {
 				
 				// Do deep check to see if this configuredfeature instance is actually the same as another configuredfeature
 				boolean alreadyPresent = stageFeatures.stream().anyMatch(existing ->
-					FeatureGrouping.serializeAndCompareFeature(
+					featureGrouping.serializeAndCompareFeature(
 						existing.get(),
 						feature,
 						true

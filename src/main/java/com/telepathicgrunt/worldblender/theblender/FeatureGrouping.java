@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
+import com.telepathicgrunt.worldblender.utils.CodecCache;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.StructureFeature;
@@ -18,7 +19,8 @@ public class FeatureGrouping {
 	private static final List<String> LAGGY_FEATURE_KEYWORDS = ImmutableList.of("basalt_columns", "basalt_pillar", "delta_feature");
 	private static final List<String> SMALL_PLANT_KEYWORDS = ImmutableList.of("grass", "flower", "rose", "plant", "bush", "fern");
 	private static final List<String> LARGE_PLANT_KEYWORDS = ImmutableList.of("tree", "huge_mushroom", "big_mushroom", "poplar", "twiglet", "mangrove", "bramble");
-	
+
+	private final CodecCache<ConfiguredFeature<?, ?>> featureCache = CodecCache.of(ConfiguredFeature.field_242763_a);
 	public final Map<GenerationStage.Decoration, List<ConfiguredFeature<?, ?>>> smallPlants = Maps.newHashMap();
 	//while we are storing large plants into this map, we don't use it at the moment as we just
 	//need to identify what's a large plant and move it to the front of the feature list.
@@ -31,7 +33,7 @@ public class FeatureGrouping {
 			largePlants.put(stage, new ArrayList<>());
 		}
 	}
-	
+
 	/**
 	 Tries to find if the feature is bamboo, sugar cane, lava, or
 	 fire and return true if it is due to them being laggy.
@@ -94,6 +96,35 @@ public class FeatureGrouping {
 		
 		largePlants.get(stage).add(configuredFeature);
 		return true;
+	}
+
+	/**
+	 Will serialize (if possible) both features and check if they are the same feature.
+	 If cannot serialize, compare the feature itself to see if it is the same.
+	 */
+	public boolean serializeAndCompareFeature(ConfiguredFeature<?, ?> configuredFeature1, ConfiguredFeature<?, ?> configuredFeature2, boolean doDeepJSONCheck) {
+		Optional<JsonElement> optionalJsonElement1 = encode(configuredFeature1);
+		Optional<JsonElement> optionalJsonElement2 = encode(configuredFeature2);
+
+		// Compare the JSON to see if it's the exact same ConfiguredFeature.
+		if (optionalJsonElement1.isPresent() &&
+				optionalJsonElement2.isPresent()) {
+			JsonElement configuredFeatureJSON1 = optionalJsonElement1.get();
+			JsonElement configuredFeatureJSON2 = optionalJsonElement2.get();
+
+			return configuredFeatureJSON1.toString().equals(configuredFeatureJSON2.toString()) ||
+					(doDeepJSONCheck && getFeatureName(configuredFeatureJSON1).equals(getFeatureName(configuredFeatureJSON2)));
+		}
+
+		return configuredFeature1.equals(configuredFeature2);
+	}
+
+	public String getCacheStats() {
+		return featureCache.getStats();
+	}
+
+	public Optional<JsonElement> encode(ConfiguredFeature<?, ?> feature) {
+		return featureCache.get(feature);
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -188,27 +219,6 @@ public class FeatureGrouping {
 		
 		return root.toString();
 	}
-	
-	/**
-	 Will serialize (if possible) both features and check if they are the same feature.
-	 If cannot serialize, compare the feature itself to see if it is the same.
-	 */
-	public static boolean serializeAndCompareFeature(ConfiguredFeature<?, ?> configuredFeature1, ConfiguredFeature<?, ?> configuredFeature2, boolean doDeepJSONCheck) {
-		Optional<JsonElement> optionalJsonElement1 = encode(configuredFeature1);
-		Optional<JsonElement> optionalJsonElement2 = encode(configuredFeature2);
-		
-		// Compare the JSON to see if it's the exact same ConfiguredFeature.
-		if (optionalJsonElement1.isPresent() &&
-			optionalJsonElement2.isPresent()) {
-			JsonElement configuredFeatureJSON1 = optionalJsonElement1.get();
-			JsonElement configuredFeatureJSON2 = optionalJsonElement2.get();
-			
-			return configuredFeatureJSON1.toString().equals(configuredFeatureJSON2.toString()) ||
-				(doDeepJSONCheck && getFeatureName(configuredFeatureJSON1).equals(getFeatureName(configuredFeatureJSON2)));
-		}
-		
-		return configuredFeature1.equals(configuredFeature2);
-	}
 
 	/**
 	 Unused currently. Was the old way of comparing configuredfeatures.
@@ -228,9 +238,5 @@ public class FeatureGrouping {
 		JsonElement json1 = _json1.get();
 		JsonElement json2 = _json2.get();
 		return json1.toString().equals(json2.toString());
-	}
-	
-	private static Optional<JsonElement> encode(ConfiguredFeature<?, ?> feature) {
-		return ConfiguredFeature.field_242763_a.encode(feature, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
 	}
 }
