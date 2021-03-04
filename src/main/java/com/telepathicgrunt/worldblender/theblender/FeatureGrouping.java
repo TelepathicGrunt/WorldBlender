@@ -59,7 +59,7 @@ public class FeatureGrouping {
 		boolean alreadyPresent = smallPlants.get(stage).stream().anyMatch(existing ->
 			serializeAndCompareFeature(existing, configuredFeature, true)
 		);
-		if (alreadyPresent) return false; // TODO: should this actually return true?
+		if (alreadyPresent) return true;
 		
 		Optional<JsonElement> _configuredFeatureJSON = encode(configuredFeature);
 		if (!_configuredFeatureJSON.isPresent()) return false;
@@ -82,7 +82,7 @@ public class FeatureGrouping {
 		boolean alreadyPresent = largePlants.get(stage).stream().anyMatch(existing ->
 			serializeAndCompareFeature(existing, configuredFeature, true)
 		);
-		if (alreadyPresent) return false; // TODO: should this actually return true?
+		if (alreadyPresent) return true;
 		
 		Optional<JsonElement> _configuredFeatureJSON = encode(configuredFeature);
 		if (!_configuredFeatureJSON.isPresent()) return false;
@@ -119,7 +119,7 @@ public class FeatureGrouping {
 					if (blockPath.contains(keyword)) return true;
 				}
 			} else if (entry.getValue().isJsonObject()) {
-				// TODO: is this correct? would return false before checking other entries
+				// Exit early if a banned term was found
 				return containsBannedState(entry.getValue().getAsJsonObject(), keywordList);
 			}
 		}
@@ -143,9 +143,7 @@ public class FeatureGrouping {
 	 */
 	private static String getFeatureName(JsonElement jsonElement) {
 		JsonObject root = jsonElement.getAsJsonObject();
-		
-		// TODO: I feel like this logic could be simplified a _lot_
-		
+
 		JsonElement _config = root.get("config");
 		if (_config != null) {
 			JsonObject config = _config.getAsJsonObject();
@@ -211,9 +209,10 @@ public class FeatureGrouping {
 		
 		return configuredFeature1.equals(configuredFeature2);
 	}
-	
-	// TODO: this seems to be unused
+
 	/**
+	 Unused currently. Was the old way of comparing configuredfeatures.
+
 	 Will serialize (if possible) both features and check if they are the same feature.
 	 If cannot serialize, compare the feature itself to see if it is the same.
 	 */

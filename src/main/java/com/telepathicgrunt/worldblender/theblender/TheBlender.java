@@ -150,8 +150,7 @@ public class TheBlender {
 		spawnInfoAccessor.wb_setSpawnCosts(blendedAccessor.wb_getSpawnCosts());
 		spawnInfoAccessor.wb_setSpawners(blendedAccessor.wb_getSpawners());
 	}
-	
-	// TODO: do we still need this?
+
 	/**
 	 Helper method to make WB biomes mutable to add stuff to it later
 	 */
