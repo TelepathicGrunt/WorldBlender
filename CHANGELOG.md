@@ -11,11 +11,13 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 
 ##### Blender:
 
-- Massive speedup to blending.
+- Massive speedup to blending by Won-Ton. Special thanks to them! 
 
--Fixed possible structure spacing issues.
+- Some optimization and lots of code cleanup by Julian. Special thanks to them! 
 
--Fixed carvers not carving the correct blocks that can appear in World Blender's surfaces.
+- Fixed possible structure spacing issues.
+
+- Fixed carvers not carving the correct blocks that can appear in World Blender's surfaces.
 
 
 ## (V.3.0.2 Changes) (1.16.5 Minecraft)

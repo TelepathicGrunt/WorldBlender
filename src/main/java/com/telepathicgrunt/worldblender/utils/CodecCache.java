@@ -11,18 +11,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
+// Created by Won-Ton. Credit to him
 public class CodecCache<T> {
     public static final int DEFAULT_CACHE_SIZE = 2048;
 
     private final Codec<T> codec;
     private final Map<T, Optional<JsonElement>> cache;
-    private final Function<T, Optional<JsonElement>> computeFunc;
     private final AtomicInteger requestCount = new AtomicInteger(0);
 
     private CodecCache(Codec<T> codec, Map<T, Optional<JsonElement>> backing) {
         this.codec = codec;
         this.cache = backing;
-        this.computeFunc = this::encode;
     }
 
     public void clear() {
@@ -32,7 +31,7 @@ public class CodecCache<T> {
 
     public Optional<JsonElement> get(T value) {
         requestCount.incrementAndGet();
-        return cache.computeIfAbsent(value, computeFunc);
+        return cache.computeIfAbsent(value, this::encode);
     }
 
     public String getStats() {
