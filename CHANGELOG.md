@@ -7,7 +7,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
 
 
-## (V.3.0.3 Changes) (1.16.5 Minecraft)
+## (V.3.1.0 Changes) (1.16.5 Minecraft)
 
 ##### Blender:
 
