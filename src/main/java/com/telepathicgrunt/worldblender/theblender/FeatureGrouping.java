@@ -223,24 +223,4 @@ public class FeatureGrouping {
 		
 		return root.toString();
 	}
-
-	/**
-	 Unused currently. Was the old way of comparing configuredfeatures.
-
-	 Will serialize (if possible) both features and check if they are the same feature.
-	 If cannot serialize, compare the feature itself to see if it is the same.
-	 */
-	public static boolean serializeAndCompareStructureJSONOnly(StructureFeature<?, ?> configuredStructure1, StructureFeature<?, ?> configuredStructure2) {
-		Optional<JsonElement> _json1 = StructureFeature.field_236267_a_.encode(configuredStructure1, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
-		Optional<JsonElement> _json2 = StructureFeature.field_236267_a_.encode(configuredStructure2, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()).get().left();
-		
-		// Compare the JSON to see if it's the exact same ConfiguredFeature.
-		if (!_json1.isPresent() || !_json2.isPresent()) {
-			return configuredStructure1.equals(configuredStructure2);
-		}
-		
-		JsonElement json1 = _json1.get();
-		JsonElement json2 = _json2.get();
-		return json1.toString().equals(json2.toString());
-	}
 }

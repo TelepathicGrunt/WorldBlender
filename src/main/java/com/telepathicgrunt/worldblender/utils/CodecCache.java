@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 // Created by Won-Ton. Credit to him
 public class CodecCache<T> {
-    public static final int DEFAULT_CACHE_SIZE = 2048;
+    public static final int DEFAULT_CACHE_SIZE = 4096;
 
     private final Codec<T> codec;
     private final Map<T, Optional<JsonElement>> cache;

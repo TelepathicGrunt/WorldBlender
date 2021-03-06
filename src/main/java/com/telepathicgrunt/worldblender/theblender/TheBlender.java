@@ -143,6 +143,8 @@ public class TheBlender {
 		// TODO: it's possible that there will be issues with just passing these nested lists and stuff by reference.
 		// it would be easy enough to just deep clone the lists.
 		// we should test if this is necessary, ideally in a large modpack.
+
+		// Update: seems to be working alright with a ton of other worldgen mods. Will need to test more.
 		
 		blendedBiome.getGenerationSettings().getFeatures().clear();
 		blendedBiome.getGenerationSettings().getFeatures().addAll(blendedFeaturesByStage);
