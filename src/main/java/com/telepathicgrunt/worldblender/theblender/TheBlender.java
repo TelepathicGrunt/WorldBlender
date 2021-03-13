@@ -471,7 +471,7 @@ public class TheBlender {
 		Map<Structure<?>, StructureSeparationSettings> currentStructureConfigs = serverWorld.getChunkProvider().generator.func_235957_b_().func_236195_a_();
 		STRUCTURE_CONFIGS.putAll(Maps.difference(currentStructureConfigs, STRUCTURE_CONFIGS).entriesOnlyOnLeft());
 
-		if(((ChunkGeneratorAccessor) serverWorld.getChunkProvider().generator).getBiomeSource() instanceof WBBiomeProvider){
+		if(((ChunkGeneratorAccessor) serverWorld.getChunkProvider().generator).wb_getBiomeSource() instanceof WBBiomeProvider){
 			// Dunno why someone would set null but we should check anyway
 			STRUCTURE_CONFIGS.values().removeIf(Objects::isNull);
 

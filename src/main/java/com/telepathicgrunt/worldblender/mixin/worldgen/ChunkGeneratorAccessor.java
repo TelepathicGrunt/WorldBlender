@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(ChunkGenerator.class)
 public interface ChunkGeneratorAccessor {
     @Accessor("biomeProvider")
-    BiomeProvider getBiomeSource();
+    BiomeProvider wb_getBiomeSource();
 
     @Accessor("field_235949_c_")
-    BiomeProvider getPopulationSource();
+    BiomeProvider wb_getPopulationSource();
 }

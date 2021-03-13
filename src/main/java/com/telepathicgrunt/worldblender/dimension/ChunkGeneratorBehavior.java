@@ -62,7 +62,7 @@ public class ChunkGeneratorBehavior {
                         .func_242771_a(
                             dynamicRegistryManager,
                             chunkGenerator,
-                            ((ChunkGeneratorAccessor)chunkGenerator).getPopulationSource(),
+                            ((ChunkGeneratorAccessor)chunkGenerator).wb_getPopulationSource(),
                             structureManager,
                             worldSeed, chunkPos,
                             biome,

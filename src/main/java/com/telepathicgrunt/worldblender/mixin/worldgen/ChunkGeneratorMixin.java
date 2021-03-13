@@ -34,7 +34,7 @@ public class ChunkGeneratorMixin {
                                                  TemplateManager structureManager, long worldSeed,
                                                  ChunkPos chunkPos, Biome biome, CallbackInfo ci)
     {
-        if (((ChunkGeneratorAccessor) this).getBiomeSource() instanceof WBBiomeProvider) {
+        if (((ChunkGeneratorAccessor) this).wb_getBiomeSource() instanceof WBBiomeProvider) {
             if (ChunkGeneratorBehavior.placeAllConfiguredStructures(
             		((ChunkGenerator) (Object) this), configuredStructureFeature, dynamicRegistryManager,
                     structureAccessor, chunk, structureManager, worldSeed, chunkPos, biome))
