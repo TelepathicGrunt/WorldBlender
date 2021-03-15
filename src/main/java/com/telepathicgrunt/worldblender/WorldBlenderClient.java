@@ -2,9 +2,11 @@ package com.telepathicgrunt.worldblender;
 
 import com.telepathicgrunt.worldblender.blocks.WBBlocks;
 import com.telepathicgrunt.worldblender.blocks.WBPortalBlockEntityRenderer;
+import com.telepathicgrunt.worldblender.blocks.WBPortalClientOverlay;
 import com.telepathicgrunt.worldblender.dimension.WBSkyProperty;
 import com.telepathicgrunt.worldblender.mixin.dimensions.SkyPropertiesAccessor;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -15,6 +17,8 @@ public class WorldBlenderClient{
 	{
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		modEventBus.addListener(WorldBlenderClient::onClientSetup);
+
+		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 	}
 
 
