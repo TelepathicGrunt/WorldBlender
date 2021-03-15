@@ -1,10 +1,11 @@
 {
   "generator.world_blender": "World Blender",
   "generator.world_blender.info": "Blend your world together like a smoothie!",
-  "biome.world_blender.blended": "Blended Biome",
-  "biome.world_blender.mountain_blended": "Mountain Blended Biome",
+  "biome.world_blender.general_blended": "General Blended Biome",
+  "biome.world_blender.mountainous_blended": "Mountainous Blended Biome",
   "biome.world_blender.ocean_blended": "Ocean Blended Biome",
   "biome.world_blender.frozen_ocean_blended": "Frozen Ocean Blended Biome",
+  "biome.world_blender.cold_hills_blended": "Cold Hills Blended Biome",
   "block.world_blender.world_blender_portal": "World Blender Portal",
   "feature.world_blender.world_blender_portal_altar": "World Blender Portal Altar",
 
