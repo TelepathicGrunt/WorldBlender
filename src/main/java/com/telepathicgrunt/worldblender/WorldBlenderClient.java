@@ -2,7 +2,6 @@ package com.telepathicgrunt.worldblender;
 
 import com.telepathicgrunt.worldblender.blocks.WBBlocks;
 import com.telepathicgrunt.worldblender.blocks.WBPortalBlockEntityRenderer;
-import com.telepathicgrunt.worldblender.blocks.WBPortalClientOverlay;
 import com.telepathicgrunt.worldblender.dimension.WBSkyProperty;
 import com.telepathicgrunt.worldblender.mixin.dimensions.SkyPropertiesAccessor;
 import net.minecraft.util.ResourceLocation;

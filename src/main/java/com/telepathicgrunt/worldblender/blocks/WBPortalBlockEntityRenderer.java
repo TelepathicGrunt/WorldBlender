@@ -1,10 +1,10 @@
 package com.telepathicgrunt.worldblender.blocks;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.telepathicgrunt.worldblender.blocks.WBRenderTexturingState.WBPortalTexturingState;
 import com.telepathicgrunt.worldblender.mixin.blocks.RenderPhaseAccessor;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
@@ -15,7 +15,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
 
-import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
@@ -27,18 +26,36 @@ public class WBPortalBlockEntityRenderer extends TileEntityRenderer<WBPortalBloc
 		super(dispatcher);
 	}
 
+	// Culling optimization by Comp500
+	// https://github.com/comp500/PolyDungeons/blob/master/src/main/java/polydungeons/block/entity/DecorativeEndBlockEntity.java
+	private static boolean wasRendered = false;
+	public static void drawBuffers() {
+		if (wasRendered) {
+			// Should only be run if render has been called at least once
+			wasRendered = false;
+			for (int i = 0; i < 9; i++) {
+				RenderType layer = WB_RENDER_TYPE[i];
+				BufferBuilder buf = BUFFER_BUILDERS[i];
+				layer.finish(buf, 0, 0, 0);
+				// Set up the buffer builder to be ready to accept vertices again
+				buf.begin(layer.getDrawMode(), layer.getVertexFormat());
+			}
+		}
+	}
+
 	@Override
 	public void render(WBPortalBlockEntity tileEntity, float partialTicks, MatrixStack modelMatrix, IRenderTypeBuffer renderBuffer, int combinedLightIn, int combinedOverlayIn)
 	{
+		wasRendered = true;
 		RANDOM.setSeed(31100L);
 		double distance = tileEntity.getPos().distanceSq(this.renderDispatcher.renderInfo.getProjectedView(), true);
 		int passes = this.getPasses(distance);
 		Matrix4f matrix4f = modelMatrix.getLast().getMatrix();
-		this.drawColor(tileEntity, 0.1F, matrix4f, renderBuffer.getBuffer(WB_RENDER_TYPE.get(0)));
+		this.drawColor(tileEntity, 0.1F, matrix4f, BUFFER_BUILDERS[0]);
 
 		for (int currentPass = 1; currentPass < passes; ++currentPass)
 		{
-			this.drawColor(tileEntity, 2.0F / (20 - currentPass), matrix4f, renderBuffer.getBuffer(WB_RENDER_TYPE.get(currentPass)));
+			this.drawColor(tileEntity, 2.0F / (20 - currentPass), matrix4f, BUFFER_BUILDERS[currentPass]);
 		}
 	}
 
@@ -111,11 +128,12 @@ public class WBPortalBlockEntityRenderer extends TileEntityRenderer<WBPortalBloc
 
 	//////////////////////////////////RENDER STATE STUFF//////////////////////////////////////////
 
-	public static final ResourceLocation MAIN_TEXTURE =     new ResourceLocation("textures/misc/enchanted_item_glint.png");
+	public static final ResourceLocation MAIN_TEXTURE = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 	public static final ResourceLocation ADDITIVE_TEXTURE = new ResourceLocation("textures/misc/forcefield.png");
 	private static final Random RANDOM = new Random(31100L);
-	private static final List<RenderType> WB_RENDER_TYPE = IntStream.range(0, 9).mapToObj((index) ->
-			getWBPortal(index + 1)).collect(ImmutableList.toImmutableList());
+	private static final BufferBuilder[] BUFFER_BUILDERS = new BufferBuilder[9];
+	private static final RenderType[] WB_RENDER_TYPE = IntStream.range(0, 9).mapToObj((index) ->
+			getWBPortal(index + 1)).toArray(RenderType[]::new);
 
 	public static RenderType getWBPortal(int layer)
 	{
@@ -137,7 +155,7 @@ public class WBPortalBlockEntityRenderer extends TileEntityRenderer<WBPortalBloc
 			renderstate$texturestate = new RenderState.TextureState(ADDITIVE_TEXTURE, false, false);
 		}
 
-		return RenderType.makeType(
+		RenderType renderLayer = RenderType.makeType(
 				"world_blender_portal",
 				DefaultVertexFormats.POSITION_COLOR,
 				7,
@@ -150,5 +168,10 @@ public class WBPortalBlockEntityRenderer extends TileEntityRenderer<WBPortalBloc
 						.texturing(new WBPortalTexturingState(layer))
 						.fog(RenderPhaseAccessor.wb_getBLACK_FOG())
 						.build(false));
+
+		BufferBuilder builder = new BufferBuilder(renderLayer.getBufferSize());
+		builder.begin(renderLayer.getDrawMode(), renderLayer.getVertexFormat());
+		BUFFER_BUILDERS[layer - 1] = builder;
+		return renderLayer;
 	}
 }

@@ -3,25 +3,18 @@ package com.telepathicgrunt.worldblender.mixin.blocks;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.telepathicgrunt.worldblender.blocks.WBBlocks;
 import com.telepathicgrunt.worldblender.blocks.WBPortalClientOverlay;
-import com.telepathicgrunt.worldblender.utils.WorldSeedHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OverlayRenderer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.SimpleRegistry;
-import net.minecraft.world.Dimension;
-import net.minecraft.world.gen.settings.DimensionGeneratorSettings;
 import org.apache.commons.lang3.tuple.Pair;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-
-import java.util.Optional;
 
 @Mixin(OverlayRenderer.class)
 public class OverlayRendererMixin {

@@ -2,12 +2,19 @@ package com.telepathicgrunt.worldblender.surfacebuilder;
 
 import com.telepathicgrunt.worldblender.WorldBlender;
 import com.telepathicgrunt.worldblender.theblender.ConfigBlacklisting;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.gen.surfacebuilders.*;
+import net.minecraft.world.gen.surfacebuilders.ISurfaceBuilderConfig;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class SurfaceBlender {
 	final List<ISurfaceBuilderConfig> surfaces = new ArrayList<>();

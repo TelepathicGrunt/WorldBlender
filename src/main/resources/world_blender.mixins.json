@@ -5,8 +5,7 @@
   "refmap": "world_blender.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "blocks.OverlayRendererMixin",
-    "blocks.RenderPhaseAccessor",
+    "BlockAccessor",
     "dimensions.DimensionGeneratorSettingsMixin",
     "dimensions.DimensionTypeAccessor",
     "dimensions.EnderDragonFightAccessor",
@@ -26,7 +25,11 @@
     "worldgen.WeightedBlockStateProviderMixin"
   ],
   "client": [
-    "dimensions.SkyPropertiesAccessor"
+    "blocks.OverlayRendererMixin",
+    "blocks.RenderPhaseAccessor",
+    "dimensions.ClientWorldMixin",
+    "dimensions.SkyPropertiesAccessor",
+    "dimensions.WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

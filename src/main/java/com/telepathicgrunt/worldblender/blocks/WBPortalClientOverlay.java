@@ -14,10 +14,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.world.gen.PerlinNoiseGenerator;
-import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.IntStream;
 
 public class WBPortalClientOverlay {
