@@ -13,6 +13,8 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 - Added screen overlay when inside the portal block.
 
 ##### Biomes:
+- Made biomes a bit bigger in World Blender's dimension.
+
 - Fixed lang file for biome names so they show up translated properly in minimaps.
 
 

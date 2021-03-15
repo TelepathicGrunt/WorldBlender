@@ -54,6 +54,6 @@
   "temperature": 1.85,
   "downfall": 0.4,
   "category": "none",
-  "depth": 0.5,
-  "scale": 1.0
+  "depth": 0.525,
+  "scale": 1.3
 }
