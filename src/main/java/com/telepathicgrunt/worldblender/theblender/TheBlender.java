@@ -290,6 +290,15 @@ public class TheBlender {
 			blendedStageFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS)
 				.add(() -> WBConfiguredFeatures.ANTI_FLOATING_BLOCKS_AND_SEPARATE_LIQUIDS);
 		}
+
+		isModificationBlacklisted = ConfigBlacklisting.isResourceLocationBlacklisted(
+				BlacklistType.FEATURE,
+				new ResourceLocation(WorldBlender.MODID, "item_clearing")
+		);
+		if (!isModificationBlacklisted) {
+			blendedStageFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS)
+					.add(() -> WBConfiguredFeatures.ITEM_CLEARING);
+		}
 	}
 	
 	private void addBiomeFeatures(List<List<Supplier<ConfiguredFeature<?, ?>>>> biomeFeaturesByStage) {

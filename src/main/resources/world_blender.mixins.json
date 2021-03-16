@@ -5,7 +5,7 @@
   "refmap": "world_blender.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "BlockAccessor",
+    "blocks.BlockAccessor",
     "dimensions.DimensionGeneratorSettingsMixin",
     "dimensions.DimensionTypeAccessor",
     "dimensions.EnderDragonFightAccessor",

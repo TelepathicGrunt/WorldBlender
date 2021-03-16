@@ -10,6 +10,8 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ## (V.3.1.1 Changes) (1.16.5 Minecraft)
 
 ##### Block:
+- World Blender Portal block rendering is now optimized thanks to comp500! Special thanks to them!
+
 - Added screen overlay when inside the portal block.
 
 ##### Biomes:

@@ -7,6 +7,7 @@ import com.telepathicgrunt.worldblender.configs.WBBlendingConfigs;
 import com.telepathicgrunt.worldblender.configs.WBDimensionConfigs;
 import com.telepathicgrunt.worldblender.configs.WBPortalConfigs;
 import com.telepathicgrunt.worldblender.dimension.WBBiomeProvider;
+import com.telepathicgrunt.worldblender.dimension.WBWorldSavedData;
 import com.telepathicgrunt.worldblender.features.WBConfiguredFeatures;
 import com.telepathicgrunt.worldblender.features.WBFeatures;
 import com.telepathicgrunt.worldblender.surfacebuilder.WBSurfaceBuilders;
@@ -58,6 +59,7 @@ public class WorldBlender{
 
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 		forgeBus.addListener(EventPriority.NORMAL, this::setupChestList);
+		forgeBus.addListener(EventPriority.NORMAL, WBWorldSavedData::worldTick);
 		forgeBus.addListener(EventPriority.LOWEST, TheBlender::addDimensionalSpacing);
 		forgeBus.addListener(EventPriority.NORMAL, WBPortalSpawning::BlockRightClickEvent);
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> WorldBlenderClient::subscribeClientEvents);

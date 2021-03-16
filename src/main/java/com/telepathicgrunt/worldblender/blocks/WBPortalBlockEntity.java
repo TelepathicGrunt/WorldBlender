@@ -1,6 +1,6 @@
 package com.telepathicgrunt.worldblender.blocks;
 
-import com.telepathicgrunt.worldblender.mixin.BlockAccessor;
+import com.telepathicgrunt.worldblender.mixin.blocks.BlockAccessor;
 import com.telepathicgrunt.worldblender.utils.MessageHandler;
 import it.unimi.dsi.fastutil.objects.Object2ByteLinkedOpenHashMap;
 import net.minecraft.block.Block;

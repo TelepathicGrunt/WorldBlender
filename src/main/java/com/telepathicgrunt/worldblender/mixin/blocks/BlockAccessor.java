@@ -1,4 +1,4 @@
-package com.telepathicgrunt.worldblender.mixin;
+package com.telepathicgrunt.worldblender.mixin.blocks;
 
 import it.unimi.dsi.fastutil.objects.Object2ByteLinkedOpenHashMap;
 import net.minecraft.block.Block;
