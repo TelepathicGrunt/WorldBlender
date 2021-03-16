@@ -5,6 +5,7 @@
   "refmap": "world_blender.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "AbstractRailBlockInvoker",
     "blocks.BlockAccessor",
     "dimensions.DimensionGeneratorSettingsMixin",
     "dimensions.DimensionTypeAccessor",

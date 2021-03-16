@@ -16,8 +16,8 @@ import java.util.Optional;
 
 public class FeatureGrouping {
 	private static final List<String> BAMBOO_FEATURE_KEYWORDS = ImmutableList.of("bamboo");
-	private static final List<String> LAGGY_STATE_KEYWORDS = ImmutableList.of("lava", "fire", "bamboo", "sugar_cane");
-	private static final List<String> LAGGY_FEATURE_KEYWORDS = ImmutableList.of("basalt_columns", "basalt_pillar", "delta_feature");
+	private static final List<String> FIRE_STATE_KEYWORDS = ImmutableList.of("lava", "fire");
+	private static final List<String> BASALT_FEATURE_KEYWORDS = ImmutableList.of("basalt_columns", "delta_feature");
 	private static final List<String> SMALL_PLANT_KEYWORDS = ImmutableList.of("grass", "flower", "rose", "plant", "bush", "fern");
 	private static final List<String> LARGE_PLANT_KEYWORDS = ImmutableList.of("tree", "huge_mushroom", "big_mushroom", "poplar", "twiglet", "mangrove", "bramble");
 
@@ -36,24 +36,33 @@ public class FeatureGrouping {
 	}
 
 	/**
-	 Tries to find if the feature is bamboo, sugar cane, lava, or
-	 fire and return true if it is due to them being laggy.
+	 Tries to find if the feature is lava, basalt, or fire and return true if it is due to them being laggy and ugly.
 	 */
-	public boolean isLaggy(ConfiguredFeature<?, ?> configuredFeature) {
+	public boolean isFireOrBasalt(ConfiguredFeature<?, ?> configuredFeature) {
 		Optional<JsonElement> _configuredFeatureJSON = encode(configuredFeature);
 		if (!_configuredFeatureJSON.isPresent()) return false;
 		JsonElement configuredFeatureJSON = _configuredFeatureJSON.get();
-		
+
+		return containsBannedFeatureName(configuredFeatureJSON, BASALT_FEATURE_KEYWORDS) || containsBannedState(configuredFeatureJSON, FIRE_STATE_KEYWORDS);
+	}
+
+	/**
+	 * Used to know if we have came across bamboo and will prevent its import as we will add our own bamboo at a better stage.
+	 */
+	public boolean isBamboo(ConfiguredFeature<?, ?> configuredFeature) {
+		Optional<JsonElement> _configuredFeatureJSON = encode(configuredFeature);
+		if (!_configuredFeatureJSON.isPresent()) return false;
+		JsonElement configuredFeatureJSON = _configuredFeatureJSON.get();
+
 		if (containsBannedFeatureName(configuredFeatureJSON, BAMBOO_FEATURE_KEYWORDS) ||
-			containsBannedState(configuredFeatureJSON, BAMBOO_FEATURE_KEYWORDS)) {
+				containsBannedState(configuredFeatureJSON, BAMBOO_FEATURE_KEYWORDS)) {
 			bambooFound = true;
 			return true;
 		}
-		
-		return containsBannedFeatureName(configuredFeatureJSON, LAGGY_FEATURE_KEYWORDS)
-			|| containsBannedState(configuredFeatureJSON, LAGGY_STATE_KEYWORDS);
+
+		return false;
 	}
-	
+
 	/**
 	 Will check if incoming configuredfeature is a small plant and add it to the small plant map if it is so
 	 we can have a list of them for specific feature manipulation later

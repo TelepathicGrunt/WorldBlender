@@ -8,6 +8,7 @@ import com.telepathicgrunt.worldblender.configs.WBDimensionConfigs;
 import com.telepathicgrunt.worldblender.configs.WBPortalConfigs;
 import com.telepathicgrunt.worldblender.dimension.WBBiomeProvider;
 import com.telepathicgrunt.worldblender.dimension.WBWorldSavedData;
+import com.telepathicgrunt.worldblender.entities.WBEntities;
 import com.telepathicgrunt.worldblender.features.WBConfiguredFeatures;
 import com.telepathicgrunt.worldblender.features.WBFeatures;
 import com.telepathicgrunt.worldblender.surfacebuilder.WBSurfaceBuilders;
@@ -51,15 +52,15 @@ public class WorldBlender{
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		modEventBus.addListener(this::setup);
+		WBBlocks.BLOCKS.register(modEventBus);
 		WBBiomes.BIOMES.register(modEventBus);
 		WBFeatures.FEATURES.register(modEventBus);
-		WBBlocks.BLOCKS.register(modEventBus);
+		WBEntities.ENTITIES.register(modEventBus);
 		WBBlocks.TILE_ENTITY_TYPES.register(modEventBus);
 		WBSurfaceBuilders.SURFACE_BUILDERS.register(modEventBus);
 
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 		forgeBus.addListener(EventPriority.NORMAL, this::setupChestList);
-		forgeBus.addListener(EventPriority.NORMAL, WBWorldSavedData::worldTick);
 		forgeBus.addListener(EventPriority.LOWEST, TheBlender::addDimensionalSpacing);
 		forgeBus.addListener(EventPriority.NORMAL, WBPortalSpawning::BlockRightClickEvent);
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> WorldBlenderClient::subscribeClientEvents);

@@ -9,8 +9,7 @@ public class WBBlendingConfigs {
     {
         public ConfigValueListener<Boolean> allowVanillaBiomeImport;
         public ConfigValueListener<Boolean> allowModdedBiomeImport;
-        public ConfigValueListener<Boolean> disallowLaggyFeatures;
-        public ConfigValueListener<Boolean> cleanSlateWBBiomesAtStartup;
+        public ConfigValueListener<Boolean> disallowFireLavaBasaltFeatures;
 
         public ConfigValueListener<Boolean> allowVanillaFeatures;
         public ConfigValueListener<Boolean> allowVanillaStructures;
@@ -34,28 +33,17 @@ public class WBBlendingConfigs {
 
         public WBConfigValues(ForgeConfigSpec.Builder builder, ConfigHelper.Subscriber subscriber)
         {
-
-            cleanSlateWBBiomesAtStartup = subscriber.subscribe(builder
-                    .comment(" \r\n-----------------------------------------------------\r\n\r\n"
-                            +" Use this if another mod is adding stuff to World Blender's biomes \r\n"
-                            +" and World Blender's blacklisting config is not working. This option \r\n"
-                            +" will wipe clear WB's biomes so they have absolutely nothing in it \r\n"
-                            +" and then it will import everyone else's stuff based on it's blacklist.\r\n")
-                    .translation("world_blender.config.cleanslatewbbiomesatstartup")
-                    .define("cleanSlateWBBiomesAtStartup", true));
-
             builder.push("Optimization Options");
 
-            disallowLaggyFeatures = subscriber.subscribe(builder
+            disallowFireLavaBasaltFeatures = subscriber.subscribe(builder
                     .comment(" \r\n-----------------------------------------------------\r\n\r\n"
-                            +" Will make vanilla bamboo, lava, and fire features and will try to \r\n"
-                            +" make modded bamboo, lava, and fire features not spawn at all\r\n"
-                            +" in order to help reduce lag in the world due to bamboo\r\n"
-                            +" breaking like crazy or fire spreading rapidly.\r\n"
-                            +" \r\n"
+                            +" Will prevent importing vanilla lava/fire/basalt features and \r\n"
+                            +" will attempt to make modded lava/fire features not spawn at all\r\n"
+                            +" in order to help reduce lag in the world due to fire spreading rapidly.\r\n"
+                            +" Also, basalt is ugly as it overwhelms the world.\r\n"
                             +" If all else fail, do /gamerule doFireTick false to reduce fire lag.\r\n")
-                    .translation("world_blender.config.optimization.disallowlaggyvanillafeatures")
-                    .define("disallowLaggyVanillaFeatures", true));
+                    .translation("world_blender.config.optimization.disallowfirelavafeatures")
+                    .define("disallowFireLavaFeatures", true));
 
             builder.pop();
 

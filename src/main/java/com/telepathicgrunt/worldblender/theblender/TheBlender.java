@@ -256,13 +256,12 @@ public class TheBlender {
 			});
 		}
 
-		if (!disallowLaggyFeatures() && featureGrouping.bambooFound) {
+		if (featureGrouping.bambooFound) {
 			// add 1 configured bamboo so it is dead last
 			blendedStageFeatures(GenerationStage.Decoration.VEGETAL_DECORATION)
-				.add(() -> configuredFeatureRegistry.getOrDefault(new ResourceLocation("minecraft", "bamboo")));
+					.add(() -> configuredFeatureRegistry.getOrDefault(new ResourceLocation("minecraft", "bamboo_light")));
 		}
-		
-		
+
 		// make carvers be able to carve any underground blocks including netherrack, end stone, and modded blocks
 		if (WorldBlender.WBDimensionConfig.carversCanCarveMoreBlocks.get()) {
 			List<CarverAccessor> carvers = blendedCarversByStage.values().stream()
@@ -349,10 +348,12 @@ public class TheBlender {
 					stageFeatures.add(0, featureSupplier);
 					continue;
 				}
-				
+
+				// if bamboo, dont import as we will import our own bamboo at a better stage.
 				// if we have no laggy feature config on, then the feature must not be fire, lava, bamboo, etc in order to be added
-				if (disallowLaggyFeatures() && featureGrouping.isLaggy(feature)) continue;
-				
+				if (featureGrouping.isBamboo(feature) || (WorldBlender.WBBlendingConfig.disallowFireLavaBasaltFeatures.get() && featureGrouping.isFireOrBasalt(feature)))
+					continue;
+
 				stageFeatures.add(featureSupplier);
 			}
 		}
@@ -512,9 +513,5 @@ public class TheBlender {
 		if (!isVanilla && !allowModded.apply(WorldBlender.WBBlendingConfig).get()) return true;
 		
 		return blacklist != null && ConfigBlacklisting.isResourceLocationBlacklisted(blacklist, id);
-	}
-	
-	private static boolean disallowLaggyFeatures() {
-		return WorldBlender.WBBlendingConfig.disallowLaggyFeatures.get();
 	}
 }
