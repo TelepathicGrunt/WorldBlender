@@ -1,17 +1,15 @@
 package com.telepathicgrunt.worldblender.entities;
 
-import com.telepathicgrunt.worldblender.mixin.AbstractRailBlockInvoker;
+import com.telepathicgrunt.worldblender.mixin.blocks.AbstractRailBlockInvoker;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.server.SSpawnObjectPacket;
 import net.minecraft.state.properties.RailShape;
 import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.server.ServerWorld;
@@ -89,7 +87,8 @@ public class ItemClearingEntity extends Entity {
                            this.world.setBlockState(mutable, newState, 3);
                         }
                         else{
-                           // forces blocks like leaves to self-destruct
+                           // forces blocks like leaves or twisting vines to self-destruct
+                           currentState.tick((ServerWorld) this.world, mutable, this.rand);
                            currentState.randomTick((ServerWorld) this.world, mutable, this.rand);
                         }
                      }

@@ -1,4 +1,4 @@
-package com.telepathicgrunt.worldblender.mixin;
+package com.telepathicgrunt.worldblender.mixin.blocks;
 
 import net.minecraft.block.AbstractRailBlock;
 import net.minecraft.state.properties.RailShape;

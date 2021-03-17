@@ -10,7 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class WBEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, WorldBlender.MODID);
 
-    public static final RegistryObject<EntityType<ItemClearingEntity>> ITEM_CLEARING_ENTITY = ENTITIES.register("honey_slime", () ->
+    public static final RegistryObject<EntityType<ItemClearingEntity>> ITEM_CLEARING_ENTITY = ENTITIES.register("item_clearing_entity", () ->
             EntityType.Builder.<ItemClearingEntity>create(ItemClearingEntity::new, EntityClassification.MISC)
                     .size(0, 0).trackingRange(0).build("item_clearing_entity"));
 }
