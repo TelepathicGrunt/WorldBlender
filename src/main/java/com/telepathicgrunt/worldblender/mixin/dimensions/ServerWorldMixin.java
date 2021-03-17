@@ -3,6 +3,7 @@ package com.telepathicgrunt.worldblender.mixin.dimensions;
 import com.telepathicgrunt.worldblender.WBIdentifiers;
 import com.telepathicgrunt.worldblender.WorldBlender;
 import com.telepathicgrunt.worldblender.dimension.AltarManager;
+import com.telepathicgrunt.worldblender.dimension.WBBiomeProvider;
 import com.telepathicgrunt.worldblender.utils.ServerWorldAccess;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
@@ -31,6 +32,7 @@ public class ServerWorldMixin implements ServerWorldAccess {
 	@Shadow
 	private DragonFightManager field_241105_O_;
 
+	@Shadow private boolean insideTick;
 	@Unique
 	public AltarManager ALTAR = null;
 
@@ -44,16 +46,18 @@ public class ServerWorldMixin implements ServerWorldAccess {
 	private void setupWorld(MinecraftServer server, Executor workerExecutor, SaveFormat.LevelSave session,
 							IServerWorldInfo properties, RegistryKey<World> registryKey, DimensionType dimensionType,
 							IChunkStatusListener worldGenerationProgressListener, ChunkGenerator chunkGenerator,
-							boolean bl, long seed, List<ISpecialSpawner> list, boolean bl2, CallbackInfo ci) {
+							boolean bl, long seed, List<ISpecialSpawner> list, boolean bl2, CallbackInfo ci)
+	{
+		ServerWorld serverWorld = (ServerWorld)(Object)this;
 
-		if(registryKey.getLocation().equals(WBIdentifiers.MOD_DIMENSION_ID) &&
-				WorldBlender.WBDimensionConfig.spawnEnderDragon.get())
-		{
-			((DimensionTypeAccessor)dimensionType).wb_setHasDragonFight(true);
-			field_241105_O_ = new DragonFightManager((ServerWorld)(Object)this, server.getServerConfiguration().getDimensionGeneratorSettings().getSeed(), server.getServerConfiguration().getDragonFightData());
+		if(serverWorld.getChunkProvider().getChunkGenerator().getBiomeProvider() instanceof WBBiomeProvider){
+			if(WorldBlender.WBDimensionConfig.spawnEnderDragon.get()) {
+				((DimensionTypeAccessor)dimensionType).wb_setHasDragonFight(true);
+				field_241105_O_ = new DragonFightManager(serverWorld, server.getServerConfiguration().getDimensionGeneratorSettings().getSeed(), server.getServerConfiguration().getDragonFightData());
+			}
+
+			ALTAR = new AltarManager(serverWorld);
 		}
-
-		ALTAR = new AltarManager((ServerWorld)(Object)this);
 	}
 
 
@@ -63,7 +67,8 @@ public class ServerWorldMixin implements ServerWorldAccess {
 			at = @At(value = "HEAD")
 	)
 	private void tickAltar(CallbackInfo ci) {
-		if(((ServerWorld)(Object)this).getDimensionKey().getLocation().equals(WBIdentifiers.MOD_DIMENSION_ID))
+		if(((ServerWorld)(Object)this).getChunkProvider().getChunkGenerator().getBiomeProvider() instanceof WBBiomeProvider){
 			ALTAR.tick();
+		}
 	}
 }

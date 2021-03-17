@@ -11,6 +11,9 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 
 ##### Dimension:
 - Will now do its best to remove blocks in invalid spots during worldgen and will try and remove all dropped items from newly made chunks from worldgen features breaking.
+  This means there will be a lot less floating blocks that shouldn't be floating! And possible better performance too.
+
+- Enderdragon and its podium will now only be made in any world that is using World Blender's Biome Source.
 
 ##### Block:
 - World Blender Portal block rendering is now optimized thanks to comp500! Special thanks to them!
