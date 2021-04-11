@@ -1,13 +1,28 @@
 package com.telepathicgrunt.worldblender.theblender;
 
 import com.telepathicgrunt.worldblender.WorldBlender;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.registry.Registry;
+import net.minecraftforge.common.ForgeConfig;
+import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoader;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.loading.FMLCommonLaunchHandler;
+import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fml.loading.moddiscovery.ModFile;
+import net.minecraftforge.fml.loading.moddiscovery.ModFileInfo;
+import net.minecraftforge.forgespi.locating.IModFile;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -23,7 +38,8 @@ public class IdentifierPrinting
 	 */
 	public static void printAllResourceLocations(DynamicRegistries registryManager)
 	{
-		try(PrintStream printStream = new PrintStream("config/world_blender-identifier_dump.txt"))
+
+		try(PrintStream printStream = new PrintStream(Paths.get(FMLPaths.CONFIGDIR.get().toString(), "world_blender-identifier_dump.txt").toString()))
 		{ 
 			printOutSection(printStream, registryManager.getRegistry(Registry.BIOME_KEY), "BIOMES");
 
@@ -41,7 +57,8 @@ public class IdentifierPrinting
 			
 			printStream.println();
 			printOutSection(printStream, Registry.BLOCK, "BLOCKS");
-			
+
+			WorldBlender.LOGGER.warn("Created identifier file at config/world_blender-identifier_dump.txt");
 		}
 		catch (FileNotFoundException e)
 		{
