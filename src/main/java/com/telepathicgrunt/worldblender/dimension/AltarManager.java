@@ -22,6 +22,10 @@ public class AltarManager
 		this.altarMade = WBWorldSavedData.get(serverWorld).getWBAltarState();
 	}
 
+	public boolean isAltarMade(){
+		return altarMade;
+	}
+
 	@SuppressWarnings("resource")
 	public void tick()
 	{
