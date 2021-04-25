@@ -55,6 +55,7 @@ public class EnderDragonFightMixin {
 
 
 	/*
+	 * Loads less chunks now instead of vanilla
 	 * Needed so that the portal check does not recognize a pattern in the
 	 * Bedrock floor of World Blender's dimension as if it is an End Podium.
 	 *
@@ -62,11 +63,13 @@ public class EnderDragonFightMixin {
 	 */
 	@Inject(
 			method = "findExitPortal()Lnet/minecraft/block/pattern/BlockPattern$PatternHelper;",
-			at = @At(value = "RETURN", target = "Lnet/minecraft/util/math/vector/Vector3i;getY()I"),
+			at = @At(value = "HEAD"),
 			cancellable = true
 	)
 	private void findExitPortal(CallbackInfoReturnable<BlockPattern.PatternHelper> cir) {
-		BlockPattern.PatternHelper result = EnderDragonFightModification.findEndPortal((DragonFightManager)(Object)this, cir.getReturnValue());
-		if(cir.getReturnValue() != result) cir.setReturnValue(result);
+		if(world.getDimensionKey().equals(WBIdentifiers.WB_WORLD_KEY)){
+			BlockPattern.PatternHelper result = EnderDragonFightModification.findEndPortal((DragonFightManager)(Object)this, cir.getReturnValue());
+			cir.setReturnValue(result);
+		}
 	}
 }

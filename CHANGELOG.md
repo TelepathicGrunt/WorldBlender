@@ -7,6 +7,12 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 #    | World Blender changelog |
 
 
+## (V.3.1.4 Changes) (1.16.5 Minecraft)
+
+##### Dimension:
+- Attempt 2 boogaloo at making vanilla Enderdragon code stop loading a metric ton of chunks.
+
+
 ## (V.3.1.3 Changes) (1.16.5 Minecraft)
 
 ##### Dimension:

@@ -8,6 +8,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.end.DragonFightManager;
+import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.gen.feature.EndPodiumFeature;
+import net.minecraft.world.server.ServerWorld;
 
 public class EnderDragonFightModification {
 
@@ -18,28 +21,40 @@ public class EnderDragonFightModification {
      * This was the cause of End Podium and Altar not spawning in WB dimension randomly.
      */
     public static BlockPattern.PatternHelper findEndPortal(DragonFightManager enderDragonFight, BlockPattern.PatternHelper blockPattern) {
-        if(((EnderDragonFightAccessor)enderDragonFight).wb_getworld().getDimensionKey().equals(WBIdentifiers.WB_WORLD_KEY)){
-            Chunk worldChunk = ((EnderDragonFightAccessor)enderDragonFight).wb_getworld().getChunk(0, 0);
+        ServerWorld world = ((EnderDragonFightAccessor)enderDragonFight).wb_getworld();
+        Chunk worldChunk = world.getChunk(0, 0);
 
-            for(TileEntity blockEntity : worldChunk.getTileEntityMap().values()) {
-                if (blockEntity instanceof WBPortalBlockEntity) {
-                    if(!((WBPortalBlockEntity) blockEntity).isRemoveable()){
-                        BlockPattern.PatternHelper blockpattern = ((EnderDragonFightAccessor)enderDragonFight).wb_getendPortalPattern().match(((EnderDragonFightAccessor)enderDragonFight).wb_getworld(), blockEntity.getPos());
-                        if (blockpattern != null) {
-                            BlockPos blockpos = blockpattern.translateOffset(3, 7, 3).getPos();
-                            if (((EnderDragonFightAccessor)enderDragonFight).wb_getexitPortalLocation() == null && blockpos.getX() == 0 && blockpos.getZ() == 0) {
-                                ((EnderDragonFightAccessor)enderDragonFight).wb_setexitPortalLocation(blockpos);
-                            }
-
-                            return blockpattern;
+        for(TileEntity blockEntity : worldChunk.getTileEntityMap().values()) {
+            if (blockEntity instanceof WBPortalBlockEntity) {
+                if(!((WBPortalBlockEntity) blockEntity).isRemoveable()){
+                    BlockPattern.PatternHelper blockpattern = ((EnderDragonFightAccessor)enderDragonFight).wb_getendPortalPattern().match(world, blockEntity.getPos().add(-3, 3, -3));
+                    if (blockpattern != null) {
+                        BlockPos blockpos = blockpattern.translateOffset(3, 7, 3).getPos();
+                        if (((EnderDragonFightAccessor)enderDragonFight).wb_getexitPortalLocation() == null && blockpos.getX() == 0 && blockpos.getZ() == 0) {
+                            ((EnderDragonFightAccessor)enderDragonFight).wb_setexitPortalLocation(blockpos);
                         }
+
+                        return blockpattern;
                     }
                 }
             }
-
-            return null; // Skip checking the bedrock layer
         }
 
-        return blockPattern;
+        int maxY = world.getHeight(Heightmap.Type.MOTION_BLOCKING, EndPodiumFeature.END_PODIUM_LOCATION).getY();
+        BlockPos.Mutable mutable = new BlockPos.Mutable();
+
+        // skip checking bedrock layer
+        for(int currentY = maxY; currentY >= 10; --currentY) {
+            BlockPattern.PatternHelper result2 = ((EnderDragonFightAccessor)enderDragonFight).wb_getendPortalPattern().match(world, mutable.setPos(EndPodiumFeature.END_PODIUM_LOCATION.getX(), currentY, EndPodiumFeature.END_PODIUM_LOCATION.getZ()));
+            if (result2 != null) {
+                if (((EnderDragonFightAccessor)enderDragonFight).wb_getexitPortalLocation() == null) {
+                    ((EnderDragonFightAccessor)enderDragonFight).wb_setexitPortalLocation(result2.translateOffset(3, 3, 3).getPos());
+                }
+
+                return result2;
+            }
+        }
+
+        return null;
     }
 }
