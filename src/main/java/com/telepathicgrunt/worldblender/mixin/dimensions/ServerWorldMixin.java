@@ -1,6 +1,5 @@
 package com.telepathicgrunt.worldblender.mixin.dimensions;
 
-import com.telepathicgrunt.worldblender.WBIdentifiers;
 import com.telepathicgrunt.worldblender.WorldBlender;
 import com.telepathicgrunt.worldblender.dimension.AltarManager;
 import com.telepathicgrunt.worldblender.dimension.WBBiomeProvider;

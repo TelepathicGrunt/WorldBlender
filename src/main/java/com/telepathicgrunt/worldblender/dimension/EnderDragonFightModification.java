@@ -1,6 +1,5 @@
 package com.telepathicgrunt.worldblender.dimension;
 
-import com.telepathicgrunt.worldblender.WBIdentifiers;
 import com.telepathicgrunt.worldblender.blocks.WBPortalBlockEntity;
 import com.telepathicgrunt.worldblender.mixin.dimensions.EnderDragonFightAccessor;
 import net.minecraft.block.pattern.BlockPattern;

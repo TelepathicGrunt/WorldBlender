@@ -1,28 +1,11 @@
 package com.telepathicgrunt.worldblender.dimension;
 
-import com.mojang.datafixers.DSL;
-import com.mojang.datafixers.types.templates.CompoundList;
 import com.telepathicgrunt.worldblender.WorldBlender;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ClassInheritanceMultiMap;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
-import net.minecraftforge.event.TickEvent;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 
 public class WBWorldSavedData extends WorldSavedData {

@@ -1,31 +1,22 @@
-# Made for Minecraft v.1.16.5
-# Created by TelepathicGrunt
-
-Welcome to the Github! If you are looking for the most recent stable version, then checkout the master branch! Branches dedicated to the latest version of Minecraft may be unstable or broken as I test and experiment so stick with the master branch instead.
-
-------------------------------------------------
-#    | World Blender changelog |
-
-
-## (V.3.1.4 Changes) (1.16.5 Minecraft)
+### **(V.3.1.4 Changes) (1.16.5 Minecraft)**
 
 ##### Dimension:
 - Attempt 2 boogaloo at making vanilla Enderdragon code stop loading a metric ton of chunks.
 
 
-## (V.3.1.3 Changes) (1.16.5 Minecraft)
+### **(V.3.1.3 Changes) (1.16.5 Minecraft)**
 
 ##### Dimension:
 - Found a way to turn off the lag when entering World Blender's dimension due to vanilla Enderdragon code loading a ton of chunks by default.
 
 
-## (V.3.1.2 Changes) (1.16.5 Minecraft)
+### **(V.3.1.2 Changes) (1.16.5 Minecraft)**
 
 ##### Config:
 - Added "aoa3:lborean_barrier_roof" to blacklistedfeatures config's default value as that feature from Advent of Ascension (Nevermine) places Barrier Blocks at y=125.
 
 
-## (V.3.1.1 Changes) (1.16.5 Minecraft)
+### **(V.3.1.1 Changes) (1.16.5 Minecraft)**
 
 ##### Dimension:
 - Will now do its best to remove blocks in invalid spots during worldgen and will try and remove all dropped items from newly made chunks from worldgen features breaking.
@@ -44,7 +35,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 - Fixed lang file for biome names so they show up translated properly in minimaps.
 
 
-## (V.3.1.0 Changes) (1.16.5 Minecraft)
+### **(V.3.1.0 Changes) (1.16.5 Minecraft)**
 
 ##### Blender:
 
@@ -57,7 +48,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 - Fixed carvers not carving the correct blocks that can appear in World Blender's surfaces.
 
 
-## (V.3.0.2 Changes) (1.16.5 Minecraft)
+### **(V.3.0.2 Changes) (1.16.5 Minecraft)**
 
 ##### Blender:
 
@@ -65,14 +56,14 @@ Welcome to the Github! If you are looking for the most recent stable version, th
   This will prevent mod's mobs from crowding out both vanill and other mod's mobs too much.
 
 
- ## (V.3.0.1 Changes) (1.16.4 Minecraft)
+ ### **(V.3.0.1 Changes) (1.16.4 Minecraft)**
  
  ##### Dimension:
  
 -Switched to a safer mixin to get the world's seed if no seed is specified in the JSON.
 
 
-## (V.3.0.0 Changes) (1.16.4 Minecraft)
+### **(V.3.0.0 Changes) (1.16.4 Minecraft)**
 
 ##### Blender:
 - Switched to using a Set in backend to massively improve World Blender's speed at world startup.
@@ -113,13 +104,13 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 - Moved some of my code around so if it causes issues, it now shows up in stacktraces for easier debugging.
 
   
-## (V.2.0.10 Changes) (1.16.4 Minecraft)
+### **(V.2.0.10 Changes) (1.16.4 Minecraft)**
 
 ##### Portal:
 - Fixed portal not able to be spawned outside development environment.
 
 
-## (V.2.0.9 Changes) (1.16.4 Minecraft)
+### **(V.2.0.9 Changes) (1.16.4 Minecraft)**
 
 ##### Config:
 - Clarified and fixed some config comments.
@@ -128,7 +119,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 - Fixed possible issue with End Podium or Altar not spawning.
 
 
-## (V.2.0.8 Changes) (1.16.3 Minecraft)
+### **(V.2.0.8 Changes) (1.16.3 Minecraft)**
 
 ##### Features:
 - Optimized World Blender's feature slightly.
@@ -143,7 +134,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 - Updated to latest mcp mappings and verified to work on 1.16.4
 
 
-## (V.2.0.7 Changes) (1.16.3 Minecraft)
+### **(V.2.0.7 Changes) (1.16.3 Minecraft)**
 
 ##### Blending:
 - Forgot to remove debug thing which caused crash with unregistered stuff.
@@ -152,7 +143,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 - Removed logo blur from logo in mod list
  
  
-## (V.2.0.6 Changes) (1.16.3 Minecraft)
+### **(V.2.0.6 Changes) (1.16.3 Minecraft)**
      
 ##### Major:
 - Register to Forge registry instead of vanilla due to a breaking 
@@ -169,21 +160,21 @@ Welcome to the Github! If you are looking for the most recent stable version, th
   "minecraft:basalt_blobs,minecraft:blackstone_blobs"
  
  
-## (V.2.0.5 Changes) (1.16.3 Minecraft)
+### **(V.2.0.5 Changes) (1.16.3 Minecraft)**
      
 ##### Portal:
 - Fixed serverside crash when attempting to make portal. 
   Special thanks to adoxentor for finding this crash!
 
  
-## (V.2.0.4 Changes) (1.16.3 Minecraft)
+### **(V.2.0.4 Changes) (1.16.3 Minecraft)**
      
 ##### Portal:
 - Make crouch right clicking without activation item not 
   deny the item's behavior.
 
  
-## (V.2.0.3 Changes) (1.16.3 Minecraft)
+### **(V.2.0.3 Changes) (1.16.3 Minecraft)**
      
 ##### Portal:
 - Fixed Portal being unabled to be created from chests.
@@ -200,7 +191,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 - Fixed crash with Vampirism Tile Entities.
 
 
-## (V.2.0.2 Changes) (1.16.3 Minecraft)
+### **(V.2.0.2 Changes) (1.16.3 Minecraft)**
      
 ##### Config:
 - Bamboo is now automatically blacklisted by disallowLaggyFeatures properly.
@@ -214,7 +205,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
   ConfiguredFeatures, ConfiguredStructures, and/or ConfiguredCarvers.
 
 
-## (V.2.0.1 Changes) (1.16.3 Minecraft)
+### **(V.2.0.1 Changes) (1.16.3 Minecraft)**
      
 ##### Dimension:
 - Fixed bug where End Podium and Altar may randomly not spawn 
@@ -230,19 +221,19 @@ Welcome to the Github! If you are looking for the most recent stable version, th
   wb dimension for mods whose structures didn't spawn previously.
 
   
-## (V.2.0.0 Changes) (1.16.3 Minecraft)
+### **(V.2.0.0 Changes) (1.16.3 Minecraft)**
     
 ##### Major:
 - Ported 1.16.3 WorldBlender from Fabric to Forge!
 
   
-## (V.1.3.8 Changes) (1.15.2 Minecraft)
+### **(V.1.3.8 Changes) (1.15.2 Minecraft)**
    
 ##### Compat:
 - Fixed mod compat with Terraforged. Special thanks to Terraforged dev, Dags, for the compat code!
 
 
-## (V.1.3.7 Changes) (1.15.2 Minecraft)
+### **(V.1.3.7 Changes) (1.15.2 Minecraft)**
   
 ##### Compat:
 -Tried fixing crash with Mcreator due to Mcreator modifying entity spawn stuff.
@@ -250,12 +241,12 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ##### Dimension:
 -Added config to allow map cursor spinning or not in the dimension.
     
-## (V.1.3.6 Changes) (1.15.2 Minecraft)
+### **(V.1.3.6 Changes) (1.15.2 Minecraft)**
   
 ##### Mod Compatibility:
 -Added data files to allow compat with Pokecube
   
-## (V.1.3.5 Changes) (1.15.2 Minecraft)
+### **(V.1.3.5 Changes) (1.15.2 Minecraft)**
   
 ##### Mod Compatibility:
 -Fixed mod compatibility breaking with Dimensional Dungeons and Terraforged if the user adds another mod that didn't properly registered their features.
@@ -271,7 +262,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 ##### Surfaces:
 -Fixed crash when mods uses a unique surfacebuilder that uses a config that doesn't extend SurfaceBuilderConfig class.
 
-## (V.1.3.4 Changes) (1.15.2 Minecraft)
+### **(V.1.3.4 Changes) (1.15.2 Minecraft)**
   
 ##### Misc: 
 
@@ -289,13 +280,13 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 
 -Portal Altar should now bypass trees and generate more often on the actual terrain surface.
 
-## (V.1.3.3 Changes) (1.15.2 Minecraft)
+### **(V.1.3.3 Changes) (1.15.2 Minecraft)**
   
 ##### Misc: 
 
 -Quick fix to patch a crash at startup due to me forgetting to do deferredtask........
   
-## (V.1.3.2 Changes) (1.15.2 Minecraft)
+### **(V.1.3.2 Changes) (1.15.2 Minecraft)**
   
 ##### Misc: 
 
@@ -311,7 +302,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 
 -Added support for offhand. You now can hold the activation item in your offhand to make the portal.
   
-## (V.1.3.1 Changes) (1.15.2 Minecraft)
+### **(V.1.3.1 Changes) (1.15.2 Minecraft)**
   
 ##### Portal: 
 
@@ -333,7 +324,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 -Fixed what in theory could be a rare potential crash with this mod trying to be compatible with Dimensional Dungeons.
 
 
-## (V.1.3.0 Changes) (1.15.2 Minecraft)
+### **(V.1.3.0 Changes) (1.15.2 Minecraft)**
   
 ##### Config: 
 -Added config option to allow whether to let carvers carve through more kinds of blocks or not.
@@ -348,13 +339,13 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 -All Vanilla carvers and most if not all modded carvers should now be able to carve through Netherrack, End Stone, and other modded blocks that will fully replace Stone underground.
 
   
-## (V.1.2.4 Changes) (1.15.2 Minecraft)
+### **(V.1.2.4 Changes) (1.15.2 Minecraft)**
  
 ##### Misc: 
 -Fixed crashing due to me forgetting to do a null check if a mod's feature isn't registered to the Forge registry.
   
   
-## (V.1.2.3 Changes) (1.15.2 Minecraft)
+### **(V.1.2.3 Changes) (1.15.2 Minecraft)**
  
 ##### Config: 
 -Changed config entry of disableLaggyVanillaFeatures to disableLaggyFeatures as it will now attempt to detect other mod's bamboo, sugar cane, lava, and fire based features and prevent their generation.  
@@ -365,7 +356,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 -Optimized a bit in backend to use less memory.
   
    
-## (V.1.2.2 Changes) (1.15.2 Minecraft)
+### **(V.1.2.2 Changes) (1.15.2 Minecraft)**
    
 ##### Importing Features: 
 -Fixed a crash with importing from a certain biome with a certain feature.
@@ -375,7 +366,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 -End Spikes and End Podium can only be turned off now by putting their resource location into the feature blacklist due to them being needed for Enderdragon fights. Basically, this is to reduce the chance of people accidentally turning them off when turning off other features and if they really don't want the spike or podium, they have to explicitly tell the game to not spawn it.
   
   
-## (V.1.2.1 Changes) (1.15.2 Minecraft)
+### **(V.1.2.1 Changes) (1.15.2 Minecraft)**
   
 ##### Block: 
 -Fixed bug where portal block that are player-made cannot be removed by crouch right-clicking with empty hand.
@@ -387,7 +378,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 -Removed the log spam caused by World Blender when Dimension Dungeons is generating in the dimension.
 
 
-## (V.1.2.0 Changes) (1.15.2 Minecraft)
+### **(V.1.2.0 Changes) (1.15.2 Minecraft)**
    
 ##### Importing Features: 
 -Added dedicated support for DimDungeon mod!
@@ -409,7 +400,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 -Slightly reduced collision box of World Blender Portal so you have to go more into it to teleport rather than graze the surface of the block.
   
    
-## (V.1.1.0 Changes) (1.15.2 Minecraft)
+### **(V.1.1.0 Changes) (1.15.2 Minecraft)**
  
 ##### Importing Features: 
 -Fixed bug where some modded features are seen as vanilla features by mistake.
@@ -432,7 +423,7 @@ Welcome to the Github! If you are looking for the most recent stable version, th
 -Added config to turn off vanilla bamboo, fire, and lava based features to help reduce lag.
 
 
-## (V.1.0.0 Changes) (1.15.2 Minecraft)
+### **(V.1.0.0 Changes) (1.15.2 Minecraft)**
 
 ##### Major: 
 -FIRST RELEASE OF THIS MOD

@@ -39,7 +39,7 @@ public class OverlayRendererMixin {
 	 * will try to overlay the End Portal rod over our face which we do not want.
 	 */
 	@ModifyVariable(method = "renderOverlays(Lnet/minecraft/client/Minecraft;Lcom/mojang/blaze3d/matrix/MatrixStack;)V",
-			at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/renderer/OverlayRenderer;getOverlayBlock(Lnet/minecraft/entity/player/PlayerEntity;)Lorg/apache/commons/lang3/tuple/Pair;"))
+			at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/renderer/OverlayRenderer;getOverlayBlock(Lnet/minecraft/entity/player/PlayerEntity;)Lorg/apache/commons/lang3/tuple/Pair;", remap = false))
 	private static Pair<BlockState, BlockPos> renderWBPortalBlockOverlay(Pair<BlockState, BlockPos> foundBlock, Minecraft minecraftIn, MatrixStack matrixStackIn)
 	{
 		if(foundBlock != null && foundBlock.getLeft().getBlock() == WBBlocks.WORLD_BLENDER_PORTAL.get()){

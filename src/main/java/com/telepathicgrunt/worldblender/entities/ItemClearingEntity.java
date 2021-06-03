@@ -1,7 +1,10 @@
 package com.telepathicgrunt.worldblender.entities;
 
 import com.telepathicgrunt.worldblender.mixin.blocks.AbstractRailBlockInvoker;
-import net.minecraft.block.*;
+import net.minecraft.block.AbstractRailBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;

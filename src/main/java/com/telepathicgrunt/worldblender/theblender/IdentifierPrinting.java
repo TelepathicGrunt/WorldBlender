@@ -1,27 +1,14 @@
 package com.telepathicgrunt.worldblender.theblender;
 
 import com.telepathicgrunt.worldblender.WorldBlender;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.registry.Registry;
-import net.minecraftforge.common.ForgeConfig;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoader;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.loading.FMLCommonLaunchHandler;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.loading.moddiscovery.ModFile;
-import net.minecraftforge.fml.loading.moddiscovery.ModFileInfo;
-import net.minecraftforge.forgespi.locating.IModFile;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReference;

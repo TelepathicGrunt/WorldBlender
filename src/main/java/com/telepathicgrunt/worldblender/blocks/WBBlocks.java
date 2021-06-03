@@ -1,6 +1,5 @@
 package com.telepathicgrunt.worldblender.blocks;
 
-import com.google.common.base.Supplier;
 import com.google.common.collect.Sets;
 import com.telepathicgrunt.worldblender.WorldBlender;
 import net.minecraft.block.Block;
