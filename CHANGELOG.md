@@ -1,3 +1,9 @@
+### **(V.3.1.5 Changes) (1.16.5 Minecraft)**
+
+##### Teleportation:
+- Adjusted teleportation to try and make sure it always picks a spot that isn't buried in blocks. Hopefully.
+
+
 ### **(V.3.1.4 Changes) (1.16.5 Minecraft)**
 
 ##### Dimension:
