@@ -31,7 +31,6 @@ public class ServerWorldMixin implements ServerWorldAccess {
 	@Shadow
 	private DragonFightManager field_241105_O_;
 
-	@Shadow private boolean insideTick;
 	@Unique
 	public AltarManager ALTAR = null;
 
