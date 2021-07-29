@@ -131,6 +131,12 @@ public class WBPortalBlock extends ContainerBlock
 					//there is no portal block and then makes it be in cooldown
 					if (destinationWorld.getDimensionKey().equals(WBIdentifiers.WB_WORLD_KEY))
 					{
+						// prevents portal over void killing pkayer
+						if(destPos.getY() == 0){
+							destinationWorld.setBlockState(destPos, Blocks.STONE.getDefaultState(), 3);
+							destPos = destPos.up();
+						}
+
 						destinationWorld.setBlockState(destPos, Blocks.AIR.getDefaultState());
 						destinationWorld.setBlockState(destPos.up(), Blocks.AIR.getDefaultState());
 						

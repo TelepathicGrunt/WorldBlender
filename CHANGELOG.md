@@ -10,6 +10,9 @@ Term blacklisting now uses Regex so you can do more advanced blacklisting.
 ##### Teleportation:
 Adjusted teleportation to try and make sure it always picks a spot that isn't buried in blocks. Hopefully.
 
+Teleporting to World Blender will make sure that the portal is not placed right at world bottom.
+ A stone block will be placed below portal so player won't die.
+
 ##### Dimension:
 Added separate noise setting file for the dimension to try and prevent issues with structure mod's dimensional whitelist/blacklisting.
 
