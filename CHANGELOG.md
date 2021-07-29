@@ -1,77 +1,79 @@
 ### **(V.4.0.0 Changes) (1.16.5 Minecraft)**
 
 ##### Config:
-* Added config option to remove structure pieces at world bottom.
+Added config option to remove structure pieces at world bottom.
   
-* Added config option to remove structure pillars that would've hit world bottom.
+Added config option to remove structure pillars that would've hit world bottom.
   
-* Term blacklisting now uses Regex so you can do more advanced blacklisting.
+Term blacklisting now uses Regex so you can do more advanced blacklisting.
 
 ##### Teleportation:
-- Adjusted teleportation to try and make sure it always picks a spot that isn't buried in blocks. Hopefully.
+Adjusted teleportation to try and make sure it always picks a spot that isn't buried in blocks. Hopefully.
 
 ##### Dimension:
-- Added separate noise setting file for the dimension to try and prevent issues with structure mod's dimensional whitelist/blacklisting.
+Added separate noise setting file for the dimension to try and prevent issues with structure mod's dimensional whitelist/blacklisting.
+
+Liquids exposed to the sky will not be contained much better.
 
 ##### Biomes:
-* Biomes are larger with Mountainous Blended biome now taller.
+Biomes are larger with Mountainous Blended biome now taller.
 
 
 ### **(V.3.1.4 Changes) (1.16.5 Minecraft)**
 
 ##### Dimension:
-- Attempt 2 boogaloo at making vanilla Enderdragon code stop loading a metric ton of chunks.
+Attempt 2 boogaloo at making vanilla Enderdragon code stop loading a metric ton of chunks.
 
 
 ### **(V.3.1.3 Changes) (1.16.5 Minecraft)**
 
 ##### Dimension:
-- Found a way to turn off the lag when entering World Blender's dimension due to vanilla Enderdragon code loading a ton of chunks by default.
+Found a way to turn off the lag when entering World Blender's dimension due to vanilla Enderdragon code loading a ton of chunks by default.
 
 
 ### **(V.3.1.2 Changes) (1.16.5 Minecraft)**
 
 ##### Config:
-- Added "aoa3:lborean_barrier_roof" to blacklistedfeatures config's default value as that feature from Advent of Ascension (Nevermine) places Barrier Blocks at y=125.
+Added "aoa3:lborean_barrier_roof" to blacklistedfeatures config's default value as that feature from Advent of Ascension (Nevermine) places Barrier Blocks at y=125.
 
 
 ### **(V.3.1.1 Changes) (1.16.5 Minecraft)**
 
 ##### Dimension:
-- Will now do its best to remove blocks in invalid spots during worldgen and will try and remove all dropped items from newly made chunks from worldgen features breaking.
+Will now do its best to remove blocks in invalid spots during worldgen and will try and remove all dropped items from newly made chunks from worldgen features breaking.
   This means there will be a lot less floating blocks that shouldn't be floating! And possible better performance too.
 
-- Enderdragon and its podium will now only be made in any world that is using World Blender's Biome Source.
+Enderdragon and its podium will now only be made in any world that is using World Blender's Biome Source.
 
 ##### Block:
-- World Blender Portal block rendering is now optimized thanks to comp500! Special thanks to them!
+World Blender Portal block rendering is now optimized thanks to comp500! Special thanks to them!
 
-- Added screen overlay when inside the portal block.
+Added screen overlay when inside the portal block.
 
 ##### Biomes:
-- Made biomes a bit bigger in World Blender's dimension.
+Made biomes a bit bigger in World Blender's dimension.
 
-- Fixed lang file for biome names so they show up translated properly in minimaps.
+Fixed lang file for biome names so they show up translated properly in minimaps.
 
 
 ### **(V.3.1.0 Changes) (1.16.5 Minecraft)**
 
 ##### Blender:
 
-- Massive speedup to blending by Won-Ton. Special thanks to them! 
+Massive speedup to blending by Won-Ton. Special thanks to them! 
 
-- Some optimization and lots of code cleanup by Julian. Special thanks to them! 
+Some optimization and lots of code cleanup by Julian. Special thanks to them! 
 
-- Fixed possible structure spacing issues.
+Fixed possible structure spacing issues.
 
-- Fixed carvers not carving the correct blocks that can appear in World Blender's surfaces.
+Fixed carvers not carving the correct blocks that can appear in World Blender's surfaces.
 
 
 ### **(V.3.0.2 Changes) (1.16.5 Minecraft)**
 
 ##### Blender:
 
-- Imported mobs will now get their spawn weights capped so it is not much higher than vanilla's most weight mob for their category.
+Imported mobs will now get their spawn weights capped so it is not much higher than vanilla's most weight mob for their category.
   This will prevent mod's mobs from crowding out both vanill and other mod's mobs too much.
 
 
@@ -85,171 +87,171 @@
 ### **(V.3.0.0 Changes) (1.16.4 Minecraft)**
 
 ##### Blender:
-- Switched to using a Set in backend to massively improve World Blender's speed at world startup.
+Switched to using a Set in backend to massively improve World Blender's speed at world startup.
 
-- Removed code that parsed and printed out other mod's unregistered worldgen stuff. 
+Removed code that parsed and printed out other mod's unregistered worldgen stuff. 
   This is done to try and speed up World Blender a bit at world startup.
   
-- Added cleanSlateWBBiomesAtStartup config option (defaults to true) which will make sure WB biomes 
+Added cleanSlateWBBiomesAtStartup config option (defaults to true) which will make sure WB biomes 
   are completely cleared of all other mod's stuff before the blender runs and fills it with everything. 
   Can help with some mod incompatibility issues.
   
-- Found a way to spawn all forms of Villages and Ocean Ruins in a single biome! 
+Found a way to spawn all forms of Villages and Ocean Ruins in a single biome! 
   Before, there was a quirk with how multiple ConfiguredStructures with the same
   base Structure will not spawn all ConfiguredStructure forms when in a single biome.
   
 ##### Dimension:
-- Biome size now can be changed with a datapack! Add `"biome_size": 2` entry to data/world_blender/dimension/world_blender.json
+Biome size now can be changed with a datapack! Add `"biome_size": 2` entry to data/world_blender/dimension/world_blender.json
   and put the entry inside "biome_source". Change the 2 to a larger number for bigger biomes!
   
-- Reworked backend so that the Biome Source now uses the world's seed by default. Add `"seed":` entry to "biome_source" to specify a fixed seed for biome placement. 
+Reworked backend so that the Biome Source now uses the world's seed by default. Add `"seed":` entry to "biome_source" to specify a fixed seed for biome placement. 
 
-- Optimized and combined NoFloatingLiquidsOrFallingBlocks and SeparateLavaAndWater features into antiFloatingBlocksAndSeparateLiquids feature to be faster.
+Optimized and combined NoFloatingLiquidsOrFallingBlocks and SeparateLavaAndWater features into antiFloatingBlocksAndSeparateLiquids feature to be faster.
 
 ##### Structures:
-- Fixed Ocean Monuments not spawning in World Blender's dimension.
+Fixed Ocean Monuments not spawning in World Blender's dimension.
 
 ##### Mixins:
-- Prefixed all my accessor and invoker mixins due to this bug in mixins that could cause a crash with other mods for same named mixins.
+Prefixed all my accessor and invoker mixins due to this bug in mixins that could cause a crash with other mods for same named mixins.
   https://github.com/SpongePowered/Mixin/issues/430
 
 ##### Backend:
-- Added a special mixin by shartte that prevents structures from crashing the lighting threads when they replace a light block.
+Added a special mixin by shartte that prevents structures from crashing the lighting threads when they replace a light block.
   The logs had NO infomation so special thanks to shartte for figuring out the cause of this crazy crash and allowing me to use his mixin!
   https://github.com/AppliedEnergistics/Applied-Energistics-2/pull/4935
   
-- Moved identifierDump.txt to config folder and is now called world_blender-identifier_dump.txt.
+Moved identifierDump.txt to config folder and is now called world_blender-identifier_dump.txt.
   
-- Moved some of my code around so if it causes issues, it now shows up in stacktraces for easier debugging.
+Moved some of my code around so if it causes issues, it now shows up in stacktraces for easier debugging.
 
   
 ### **(V.2.0.10 Changes) (1.16.4 Minecraft)**
 
 ##### Portal:
-- Fixed portal not able to be spawned outside development environment.
+Fixed portal not able to be spawned outside development environment.
 
 
 ### **(V.2.0.9 Changes) (1.16.4 Minecraft)**
 
 ##### Config:
-- Clarified and fixed some config comments.
+Clarified and fixed some config comments.
 
 ##### Dimension:
-- Fixed possible issue with End Podium or Altar not spawning.
+Fixed possible issue with End Podium or Altar not spawning.
 
 
 ### **(V.2.0.8 Changes) (1.16.3 Minecraft)**
 
 ##### Features:
-- Optimized World Blender's feature slightly.
+Optimized World Blender's feature slightly.
 
 ##### Portal:
-- You now can specify multiple activation items! 
+You now can specify multiple activation items! 
   Just separate their identifiers with a comma.
   If you make activation item config empty, any 
   crouch right clicking can make the portal now too.
 
 ##### Backend:
-- Updated to latest mcp mappings and verified to work on 1.16.4
+Updated to latest mcp mappings and verified to work on 1.16.4
 
 
 ### **(V.2.0.7 Changes) (1.16.3 Minecraft)**
 
 ##### Blending:
-- Forgot to remove debug thing which caused crash with unregistered stuff.
+Forgot to remove debug thing which caused crash with unregistered stuff.
 
 ##### Misc:
-- Removed logo blur from logo in mod list
+Removed logo blur from logo in mod list
  
  
 ### **(V.2.0.6 Changes) (1.16.3 Minecraft)**
      
 ##### Major:
-- Register to Forge registry instead of vanilla due to a breaking 
+Register to Forge registry instead of vanilla due to a breaking 
   change done by Forge. Special thanks to andrew0030 for helping
   me with fixing this!
 
 ##### Dimension:
-- Fixed sky color.
+Fixed sky color.
  
 ##### Features:
-- Fixed Coral not spawning in dimension.
+Fixed Coral not spawning in dimension.
 
-- Set default value for blacklistedFeatures config to 
+Set default value for blacklistedFeatures config to 
   "minecraft:basalt_blobs,minecraft:blackstone_blobs"
  
  
 ### **(V.2.0.5 Changes) (1.16.3 Minecraft)**
      
 ##### Portal:
-- Fixed serverside crash when attempting to make portal. 
+Fixed serverside crash when attempting to make portal. 
   Special thanks to adoxentor for finding this crash!
 
  
 ### **(V.2.0.4 Changes) (1.16.3 Minecraft)**
      
 ##### Portal:
-- Make crouch right clicking without activation item not 
+Make crouch right clicking without activation item not 
   deny the item's behavior.
 
  
 ### **(V.2.0.3 Changes) (1.16.3 Minecraft)**
      
 ##### Portal:
-- Fixed Portal being unabled to be created from chests.
+Fixed Portal being unabled to be created from chests.
   People! It's okay to contact me about bugs! I want to know!
   Either that or people aren't playing World Blender in survival lol. *sob*
    
-- Fixed color formatting of portal messages.
+Fixed color formatting of portal messages.
 
 ##### SurfaceBuilders:
-- Added null check in case mods put null into their surfacebuilder
+Added null check in case mods put null into their surfacebuilder
   config when they really should not be doing that.
 
 ##### Mod Compat:
-- Fixed crash with Vampirism Tile Entities.
+Fixed crash with Vampirism Tile Entities.
 
 
 ### **(V.2.0.2 Changes) (1.16.3 Minecraft)**
      
 ##### Config:
-- Bamboo is now automatically blacklisted by disallowLaggyFeatures properly.
+Bamboo is now automatically blacklisted by disallowLaggyFeatures properly.
     
 ##### Blender:
-- Unregistered ConfiguredFeatures, ConfiguredStructures, and/or ConfiguredCarvers
+Unregistered ConfiguredFeatures, ConfiguredStructures, and/or ConfiguredCarvers
   will no longer be spawned in WB's dimension due to unregistered stuff possibly
   wiping out other mod's registered stuff from biomes.
  
-- Significantly reduce the log spam when other mods have unregistered
+Significantly reduce the log spam when other mods have unregistered
   ConfiguredFeatures, ConfiguredStructures, and/or ConfiguredCarvers.
 
 
 ### **(V.2.0.1 Changes) (1.16.3 Minecraft)**
      
 ##### Dimension:
-- Fixed bug where End Podium and Altar may randomly not spawn 
+Fixed bug where End Podium and Altar may randomly not spawn 
   at all in World Blender's dimension at world origin.
 
 ##### Blocks:
-- Fixed Portal block not rendering.
+Fixed Portal block not rendering.
 
-- Fixed Crash with Vampirism.
+Fixed Crash with Vampirism.
     
 ##### Structures:
-- Attempted a fix to make structure spawn properly in 
+Attempted a fix to make structure spawn properly in 
   wb dimension for mods whose structures didn't spawn previously.
 
   
 ### **(V.2.0.0 Changes) (1.16.3 Minecraft)**
     
 ##### Major:
-- Ported 1.16.3 WorldBlender from Fabric to Forge!
+Ported 1.16.3 WorldBlender from Fabric to Forge!
 
   
 ### **(V.1.3.8 Changes) (1.15.2 Minecraft)**
    
 ##### Compat:
-- Fixed mod compat with Terraforged. Special thanks to Terraforged dev, Dags, for the compat code!
+Fixed mod compat with Terraforged. Special thanks to Terraforged dev, Dags, for the compat code!
 
 
 ### **(V.1.3.7 Changes) (1.15.2 Minecraft)**
