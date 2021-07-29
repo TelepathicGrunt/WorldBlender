@@ -23,6 +23,11 @@
     "worldgen.GenerationSettingsAccessor",
     "worldgen.MobSpawnInfoAccessor",
     "worldgen.OceanMonumentStructureMixin",
+    "worldgen.OceanRuinPiecesPieceMixin",
+    "worldgen.ScatteredStructurePieceMixin",
+    "worldgen.ShipwreckPiecesPieceMixin",
+    "worldgen.TemplateMixin",
+    "worldgen.StructurePieceMixin",
     "worldgen.WeightedBlockStateProviderMixin"
   ],
   "client": [

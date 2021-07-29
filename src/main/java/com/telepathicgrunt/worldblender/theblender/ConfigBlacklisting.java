@@ -4,6 +4,7 @@ import com.telepathicgrunt.worldblender.WorldBlender;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class ConfigBlacklisting
 {
@@ -69,7 +70,7 @@ public class ConfigBlacklisting
 			return blacklistedEntry.substring(0, blacklistedEntry.length() - 1).equals(resourceLocationToCheck.getNamespace());
 		}
 		//term specific ban
-		return resourceLocationToCheck.getPath().contains(blacklistedEntry);
+		return Pattern.compile(blacklistedEntry).matcher(resourceLocationToCheck.getPath()).find();
 	}
 	
 

@@ -490,9 +490,8 @@ public class TheBlender {
 			// Dunno why someone would set null but we should check anyway
 			STRUCTURE_CONFIGS.values().removeIf(Objects::isNull);
 
-			// These maps map be immutable for some chunk generators. Our own won't be unless
-			// someone messes with it. I take no chances so defensive programming incoming!
 			// Set the structure spacing config in dimensions running world blender only.
+			// We use the reference to our own map so we can add more values later.
 			((DimensionStructureSettingsAccessor) serverWorld.getChunkProvider().generator.func_235957_b_()).wb_setStructureConfigMap(STRUCTURE_CONFIGS);
 		}
 	}

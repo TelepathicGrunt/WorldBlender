@@ -1,7 +1,20 @@
-### **(V.3.1.5 Changes) (1.16.5 Minecraft)**
+### **(V.4.0.0 Changes) (1.16.5 Minecraft)**
+
+##### Config:
+* Added config option to remove structure pieces at world bottom.
+  
+* Added config option to remove structure pillars that would've hit world bottom.
+  
+* Term blacklisting now uses Regex so you can do more advanced blacklisting.
 
 ##### Teleportation:
 - Adjusted teleportation to try and make sure it always picks a spot that isn't buried in blocks. Hopefully.
+
+##### Dimension:
+- Added separate noise setting file for the dimension to try and prevent issues with structure mod's dimensional whitelist/blacklisting.
+
+##### Biomes:
+* Biomes are larger with Mountainous Blended biome now taller.
 
 
 ### **(V.3.1.4 Changes) (1.16.5 Minecraft)**
