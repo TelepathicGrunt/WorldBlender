@@ -14,7 +14,7 @@ For developers that want to add World Blender to their mod's workspace:
 
 &nbsp;
 
-Don't forget to change 3.1.4 with the actual latest version of this mod.
+Don't forget to change 4.0.0 with the actual latest version of this mod.
 
 <blockquote>dependencies {
 
@@ -22,7 +22,7 @@ Don't forget to change 3.1.4 with the actual latest version of this mod.
 &nbsp; ...
 
 
-&nbsp; implementation fg.deobf("com.telepathicgrunt:WorldBlender:1.16.5-3.1.4-forge")
+&nbsp; implementation fg.deobf("com.telepathicgrunt:WorldBlender:1.16.5-4.0.0-forge")
 
 
 }</blockquote>
