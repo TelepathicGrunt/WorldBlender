@@ -205,7 +205,23 @@ public class WBBlendingConfigs {
                             " and vanilla's icebergs: ",
                             " \"tree, minecraft:iceberg\"\n")
                     .translation("world_blender.config.blacklist.blacklistedfeatures")
-                    .define("blacklistedFeatures", "minecraft:basalt_blobs,minecraft:blackstone_blobs,aoa3:lborean_barrier_roof"));
+                    .define("blacklistedFeatures",
+                            "betterendforge:purple_polypore_dense, " +
+                            "betterendforge:twisted_umbrella_moss, " +
+                            "betterendforge:umbrella_moss, " +
+                            "betterendforge:sulphuric_lake, " +
+                            "betterendforge:bubble_coral, " +
+                            "betterendforge:bulb_moss, " +
+                            "betterendforge:charnia_red, " +
+                            "betterendforge:creeping_moss, " +
+                            "betterendforge:end_lily, " +
+                            "betterendforge:end_lake_rare, " +
+                            "betterendforge:end_lake_normal, " +
+                            "betterendforge:end_lake, " +
+                            "betterendforge:desert_lake, " +
+                            "minecraft:basalt_blobs, " +
+                            "minecraft:blackstone_blobs, " +
+                            "aoa3:lborean_barrier_roof"));
 
 
             blacklistedStructures = subscriber.subscribe(builder
@@ -229,7 +245,11 @@ public class WBBlendingConfigs {
                             " and vanilla's igloos: ",
                             " \"temple, minecraft:igloo\"\n")
                     .translation("world_blender.config.blacklist.blacklistedstructures")
-                    .define("blacklistedStructures", ""));
+                    .define("blacklistedStructures",
+                            "betterendforge:painted_mountain_structure, " +
+                            "betterendforge:mountain_structure, " +
+                            "betterendforge:megalake_structure, " +
+                            "betterendforge:megalake_small_structure"));
 
 
             blacklistedCarvers = subscriber.subscribe(builder
