@@ -192,7 +192,7 @@ public class FeatureGrouping {
 		JsonObject root = jsonElement.getAsJsonObject();
 
 		JsonElement _config = root.get("config");
-		if (_config != null) {
+		if (_config != null && _config.isJsonObject()) {
 			JsonObject config = _config.getAsJsonObject();
 			
 			JsonElement features = config.get("features");
