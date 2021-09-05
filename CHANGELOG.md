@@ -3,6 +3,9 @@
 ##### Config:
 Added some Better End's stuff to World Blender's config blacklist default values to keep the dimension looking nicer and not overwhelmed.
 
+##### Blending:
+Fixed crash if someone's configuredfeature json has a state field that is not a json object.
+
 
 ### **(V.4.0.0 Changes) (1.16.5 Minecraft)**
 

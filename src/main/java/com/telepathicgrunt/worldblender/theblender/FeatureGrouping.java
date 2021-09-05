@@ -154,7 +154,9 @@ public class FeatureGrouping {
 		JsonObject jsonStartObject = jsonElement.getAsJsonObject();
 		for (Map.Entry<String, JsonElement> entry : jsonStartObject.entrySet()) {
 			if (entry.getKey().equals("state")) {
-				JsonObject state = entry.getValue().getAsJsonObject();
+				JsonElement jsonElementState = entry.getValue();
+				if(!jsonElementState.isJsonObject()) continue;
+				JsonObject state = jsonElementState.getAsJsonObject();
 				
 				JsonElement name = state.get("Name");
 				if (name == null) continue;
