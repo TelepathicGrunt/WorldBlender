@@ -70,3 +70,6 @@ apply from: 'gradle/manifest.gradle'
 apply from: 'gradle/maven.gradle'
 apply from: 'gradle/curseforge.gradle'
 apply from: 'gradle/modrinth.gradle'
+
+task buildAndRelease{}
+tasks.buildAndRelease.dependsOn(tasks.build, tasks.publish, tasks.curseforge, tasks.publishModrinth)
