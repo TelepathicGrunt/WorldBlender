@@ -1,7 +1,11 @@
 package com.telepathicgrunt.worldblender.theblender;
 
 import com.telepathicgrunt.worldblender.configs.WBBlendingConfigs;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -76,11 +80,30 @@ public class ConfigBlacklisting
 		//term specific ban
 		return Pattern.compile(blacklistedEntry).matcher(resourceLocationToCheck.getPath()).find();
 	}
-	
+
+	private static boolean biomeMatchFound(String blacklistedEntry, Biome biome, ResourceLocation resourceLocationToCheck)
+	{
+		if(blacklistedEntry.contains("#"))
+		{
+			return biome.getCategory().getName().toLowerCase(Locale.ROOT).equals(blacklistedEntry.replace("#", ""));
+		}
+		else if(blacklistedEntry.contains("@"))
+		{
+			return BiomeDictionary.hasType(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, resourceLocationToCheck), BiomeDictionary.Type.getType(blacklistedEntry.replace("@", "")));
+		}
+
+		return matchFound(blacklistedEntry, resourceLocationToCheck);
+	}
 
 	public static boolean isResourceLocationBlacklisted(BlacklistType type, ResourceLocation incomingRL)
 	{
 		List<String> listToUse = TYPE_TO_BLACKLIST.get(type);
 		return listToUse.stream().anyMatch(banEntry -> matchFound(banEntry, incomingRL));
+	}
+
+	public static boolean isBiomeBlacklisted(BlacklistType type, Biome biome, ResourceLocation incomingRL)
+	{
+		List<String> listToUse = TYPE_TO_BLACKLIST.get(type);
+		return listToUse.stream().anyMatch(banEntry -> biomeMatchFound(banEntry, biome, incomingRL));
 	}
 }

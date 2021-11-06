@@ -221,7 +221,8 @@ public class TheBlender {
 		// ignore our own biomes to speed things up and prevent possible duplications
 		if (biomeID.getNamespace().equals(WorldBlender.MODID)) return;
 		
-		if (shouldSkip(
+		if (shouldBiomeSkip(
+			biome,
 			biomeID,
 			WBBlendingConfigs.allowVanillaBiomeImport.get(),
 			WBBlendingConfigs.allowModdedBiomeImport.get(),
@@ -525,5 +526,21 @@ public class TheBlender {
 		if (!isVanilla && !allowModded) return true;
 		
 		return blacklist != null && ConfigBlacklisting.isResourceLocationBlacklisted(blacklist, id);
+	}
+
+	private static boolean shouldBiomeSkip(
+			Biome biome,
+			@Nullable ResourceLocation id,
+			boolean allowVanilla,
+			boolean allowModded,
+			@Nullable ConfigBlacklisting.BlacklistType blacklist
+	) {
+		if (id == null) return true;
+
+		boolean isVanilla = id.getNamespace().equals("minecraft");
+		if (isVanilla && !allowVanilla) return true;
+		if (!isVanilla && !allowModded) return true;
+
+		return blacklist != null && ConfigBlacklisting.isBiomeBlacklisted(blacklist, biome, id);
 	}
 }

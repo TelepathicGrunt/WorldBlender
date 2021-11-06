@@ -3,6 +3,8 @@
 ##### Configs:
 Significantly cleaned up the config system backend code for my mod. Let me know if any config no longer works but it should be ok!
 
+Added ability for the blanket blacklist to not import from biomes based on their category or biome dictionary type. See config for more info on how. (uses # and @ to work)
+
 
 ### **(V.4.0.1 Changes) (1.16.5 Minecraft)**
 
