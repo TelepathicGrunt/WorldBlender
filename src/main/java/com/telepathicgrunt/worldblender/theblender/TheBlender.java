@@ -4,12 +4,17 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.telepathicgrunt.worldblender.WorldBlender;
 import com.telepathicgrunt.worldblender.configs.WBBlendingConfigs;
+import com.telepathicgrunt.worldblender.configs.WBDimensionConfigs;
 import com.telepathicgrunt.worldblender.dimension.WBBiomeProvider;
 import com.telepathicgrunt.worldblender.features.WBConfiguredFeatures;
-import com.telepathicgrunt.worldblender.mixin.worldgen.*;
+import com.telepathicgrunt.worldblender.mixin.worldgen.CarverAccessor;
+import com.telepathicgrunt.worldblender.mixin.worldgen.ChunkGeneratorAccessor;
+import com.telepathicgrunt.worldblender.mixin.worldgen.ConfiguredCarverAccessor;
+import com.telepathicgrunt.worldblender.mixin.worldgen.DimensionStructureSettingsAccessor;
+import com.telepathicgrunt.worldblender.mixin.worldgen.GenerationSettingsAccessor;
+import com.telepathicgrunt.worldblender.mixin.worldgen.MobSpawnInfoAccessor;
 import com.telepathicgrunt.worldblender.surfacebuilder.SurfaceBlender;
 import com.telepathicgrunt.worldblender.theblender.ConfigBlacklisting.BlacklistType;
-import com.telepathicgrunt.worldblender.utils.ConfigHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityClassification;
@@ -36,9 +41,17 @@ import net.minecraftforge.common.world.MobSpawnInfoBuilder;
 import net.minecraftforge.event.world.WorldEvent;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -210,8 +223,8 @@ public class TheBlender {
 		
 		if (shouldSkip(
 			biomeID,
-			c -> c.allowVanillaBiomeImport,
-			c -> c.allowModdedBiomeImport,
+			WBBlendingConfigs.allowVanillaBiomeImport.get(),
+			WBBlendingConfigs.allowModdedBiomeImport.get(),
 			BlacklistType.BLANKET
 		)) return;
 		
@@ -263,7 +276,7 @@ public class TheBlender {
 		}
 
 		// make carvers be able to carve any underground blocks including netherrack, end stone, and modded blocks
-		if (WorldBlender.WBDimensionConfig.carversCanCarveMoreBlocks.get()) {
+		if (WBDimensionConfigs.carversCanCarveMoreBlocks.get()) {
 			List<CarverAccessor> carvers = blendedCarversByStage.values().stream()
 				.flatMap(Collection::stream)
 				.map(carver -> (ConfiguredCarverAccessor) carver.get())
@@ -330,8 +343,8 @@ public class TheBlender {
 				
 				if (shouldSkip(
 					featureID,
-					c -> c.allowVanillaFeatures,
-					c -> c.allowModdedFeatures,
+					WBBlendingConfigs.allowVanillaFeatures.get(),
+					WBBlendingConfigs.allowModdedFeatures.get(),
 					BlacklistType.FEATURE
 				)) continue;
 				
@@ -351,7 +364,7 @@ public class TheBlender {
 
 				// if bamboo, dont import as we will import our own bamboo at a better stage.
 				// if we have no laggy feature config on, then the feature must not be fire, lava, bamboo, etc in order to be added
-				if (featureGrouping.isBamboo(feature) || (WorldBlender.WBBlendingConfig.disallowFireLavaBasaltFeatures.get() && featureGrouping.isFireOrBasalt(feature)))
+				if (featureGrouping.isBamboo(feature) || (WBBlendingConfigs.disallowFireLavaBasaltFeatures.get() && featureGrouping.isFireOrBasalt(feature)))
 					continue;
 
 				stageFeatures.add(featureSupplier);
@@ -376,8 +389,8 @@ public class TheBlender {
 			
 			if (shouldSkip(
 				configuredStructureID,
-				c -> c.allowVanillaStructures,
-				c -> c.allowModdedStructures,
+				WBBlendingConfigs.allowVanillaStructures.get(),
+				WBBlendingConfigs.allowModdedStructures.get(),
 				BlacklistType.STRUCTURE
 			)) continue;
 			
@@ -407,8 +420,8 @@ public class TheBlender {
 				
 				if (shouldSkip(
 					configuredCarverID,
-					c -> c.allowVanillaCarvers,
-					c -> c.allowModdedCarvers,
+					WBBlendingConfigs.allowVanillaCarvers.get(),
+					WBBlendingConfigs.allowModdedCarvers.get(),
 					BlacklistType.CARVER
 				)) continue;
 				
@@ -434,8 +447,8 @@ public class TheBlender {
 				
 				if (shouldSkip(
 					entityTypeID,
-					c -> c.allowVanillaSpawns,
-					c -> c.allowModdedSpawns,
+					WBBlendingConfigs.allowVanillaSpawns.get(),
+					WBBlendingConfigs.allowModdedSpawns.get(),
 					BlacklistType.SPAWN
 				)) continue;
 				
@@ -455,8 +468,8 @@ public class TheBlender {
 	private void addBiomeSurfaceConfig(ISurfaceBuilderConfig biomeSurface, ResourceLocation biomeID) {
 		if (shouldSkip(
 			biomeID,
-			c -> c.allowVanillaSurfaces,
-			c -> c.allowModdedSurfaces,
+			WBBlendingConfigs.allowVanillaSurfaces.get(),
+			WBBlendingConfigs.allowModdedSurfaces.get(),
 			null
 		)) return;
 		
@@ -501,15 +514,15 @@ public class TheBlender {
 	 */
 	private static boolean shouldSkip(
 		@Nullable ResourceLocation id,
-		Function<WBBlendingConfigs.WBConfigValues, ConfigHelper.ConfigValueListener<Boolean>> allowVanilla,
-		Function<WBBlendingConfigs.WBConfigValues, ConfigHelper.ConfigValueListener<Boolean>> allowModded,
+		boolean allowVanilla,
+		boolean allowModded,
 		@Nullable ConfigBlacklisting.BlacklistType blacklist
 	) {
 		if (id == null) return true;
 		
 		boolean isVanilla = id.getNamespace().equals("minecraft");
-		if (isVanilla && !allowVanilla.apply(WorldBlender.WBBlendingConfig).get()) return true;
-		if (!isVanilla && !allowModded.apply(WorldBlender.WBBlendingConfig).get()) return true;
+		if (isVanilla && !allowVanilla) return true;
+		if (!isVanilla && !allowModded) return true;
 		
 		return blacklist != null && ConfigBlacklisting.isResourceLocationBlacklisted(blacklist, id);
 	}

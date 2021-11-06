@@ -1,9 +1,13 @@
 package com.telepathicgrunt.worldblender.theblender;
 
-import com.telepathicgrunt.worldblender.WorldBlender;
+import com.telepathicgrunt.worldblender.configs.WBBlendingConfigs;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class ConfigBlacklisting
@@ -21,12 +25,12 @@ public class ConfigBlacklisting
 
 	public static void setupBlackLists() 
 	{
-		List<String> blanketBL = parseConfigAndAssignEntries(WorldBlender.WBBlendingConfig.blanketBlacklist.get());
-		List<String> featureBL = parseConfigAndAssignEntries(WorldBlender.WBBlendingConfig.blacklistedFeatures.get());
-		List<String> structureBL = parseConfigAndAssignEntries(WorldBlender.WBBlendingConfig.blacklistedStructures.get());
-		List<String> carverBL = parseConfigAndAssignEntries(WorldBlender.WBBlendingConfig.blacklistedCarvers.get());
-		List<String> spawnBL = parseConfigAndAssignEntries(WorldBlender.WBBlendingConfig.blacklistedSpawns.get());
-		List<String> surfaceBL = parseConfigAndAssignEntries(WorldBlender.WBBlendingConfig.blacklistedBiomeSurfaces.get());
+		List<String> blanketBL = parseConfigAndAssignEntries(WBBlendingConfigs.blanketBlacklist.get());
+		List<String> featureBL = parseConfigAndAssignEntries(WBBlendingConfigs.blacklistedFeatures.get());
+		List<String> structureBL = parseConfigAndAssignEntries(WBBlendingConfigs.blacklistedStructures.get());
+		List<String> carverBL = parseConfigAndAssignEntries(WBBlendingConfigs.blacklistedCarvers.get());
+		List<String> spawnBL = parseConfigAndAssignEntries(WBBlendingConfigs.blacklistedSpawns.get());
+		List<String> surfaceBL = parseConfigAndAssignEntries(WBBlendingConfigs.blacklistedBiomeSurfaces.get());
 
 		TYPE_TO_BLACKLIST = new HashMap<>();
 		TYPE_TO_BLACKLIST.put(BlacklistType.BLANKET, blanketBL);

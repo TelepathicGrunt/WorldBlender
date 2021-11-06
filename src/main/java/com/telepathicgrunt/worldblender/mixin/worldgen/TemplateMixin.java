@@ -1,6 +1,6 @@
 package com.telepathicgrunt.worldblender.mixin.worldgen;
 
-import com.telepathicgrunt.worldblender.WorldBlender;
+import com.telepathicgrunt.worldblender.configs.WBDimensionConfigs;
 import com.telepathicgrunt.worldblender.dimension.WBBiomeProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IServerWorld;
@@ -30,7 +30,7 @@ public class TemplateMixin {
                                                           PlacementSettings placementData, Random random, int i,
                                                           CallbackInfoReturnable<Boolean> cir)
     {
-        if(WorldBlender.WBDimensionConfig.removeWorldBottomStructures.get() &&
+        if(WBDimensionConfigs.removeWorldBottomStructures.get() &&
             world.getWorld().getChunkProvider().getChunkGenerator().getBiomeProvider() instanceof WBBiomeProvider &&
             pos.getY() <= 0)
         {

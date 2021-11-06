@@ -1,6 +1,7 @@
 package com.telepathicgrunt.worldblender.blocks;
 
 import com.telepathicgrunt.worldblender.WorldBlender;
+import com.telepathicgrunt.worldblender.configs.WBPortalConfigs;
 import it.unimi.dsi.fastutil.objects.Object2BooleanArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.block.Block;
@@ -27,7 +28,12 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import org.apache.logging.log4j.Level;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class WBPortalSpawning
@@ -110,7 +116,7 @@ public class WBPortalSpawning
 				WBPortalSpawning.VALID_CHEST_BLOCKS_ENTITY_TYPES.getOrDefault(blockEntity.getType(), false))
 		{
 			//checks to make sure the activation item is a real item before doing the rest of the checks
-			String[] activationItems = WorldBlender.WBPortalConfig.activationItem.get().split(",");
+			String[] activationItems = WBPortalConfigs.activationItem.get().split(",");
 			Arrays.parallelSetAll(activationItems, (i) -> activationItems[i].trim().toLowerCase(Locale.ROOT).replace(' ', '_'));
 			boolean validItem = false;
 
@@ -186,14 +192,14 @@ public class WBPortalSpawning
 				boolean isMissingRequiredBlocks = false;
 
 				//all unique blocks in chests must be a part of the require blocks list
-				if(WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get() <= REQUIRED_PORTAL_BLOCKS.size())
+				if(WBPortalConfigs.uniqueBlocksNeeded.get() <= REQUIRED_PORTAL_BLOCKS.size())
 				{
 					for(Item blockItem : uniqueBlocksSet)
 					{
 						listOfRequireBlocksNotFound.remove(Block.getBlockFromItem(blockItem));
 					}
 
-					if(WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get() > REQUIRED_PORTAL_BLOCKS.size() - listOfRequireBlocksNotFound.size())
+					if(WBPortalConfigs.uniqueBlocksNeeded.get() > REQUIRED_PORTAL_BLOCKS.size() - listOfRequireBlocksNotFound.size())
 					{
 						isMissingRequiredBlocks = true;
 					}
@@ -215,8 +221,8 @@ public class WBPortalSpawning
 				//warn player that they do not have enough required blocks for the portal
 				if(isMissingRequiredBlocks)
 				{
-					WorldBlender.LOGGER.log(Level.INFO, "World Blender: There are not enough required blocks in the chests. Please add the needed required blocks and then add any other unique blocks until you have "+WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get()+" unique blocks. The require blocks specified in the config are " + REQUIRED_PORTAL_BLOCKS.stream().map(entry -> Registry.BLOCK.getKey(entry).toString()).collect(Collectors.joining(", ")));
-					StringTextComponent message = new StringTextComponent(TextFormatting.YELLOW + "World Blender: " + TextFormatting.WHITE + "There are not enough required blocks in the chests. Please add the needed required blocks and then add any other unique blocks until you have " + TextFormatting.RED+WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get()+TextFormatting.WHITE + " unique blocks. The require blocks specified in the config are " + TextFormatting.GOLD + REQUIRED_PORTAL_BLOCKS.stream().map(entry -> Registry.BLOCK.getKey(entry).toString()).collect(Collectors.joining(", ")));
+					WorldBlender.LOGGER.log(Level.INFO, "World Blender: There are not enough required blocks in the chests. Please add the needed required blocks and then add any other unique blocks until you have "+WBPortalConfigs.uniqueBlocksNeeded.get()+" unique blocks. The require blocks specified in the config are " + REQUIRED_PORTAL_BLOCKS.stream().map(entry -> Registry.BLOCK.getKey(entry).toString()).collect(Collectors.joining(", ")));
+					StringTextComponent message = new StringTextComponent(TextFormatting.YELLOW + "World Blender: " + TextFormatting.WHITE + "There are not enough required blocks in the chests. Please add the needed required blocks and then add any other unique blocks until you have " + TextFormatting.RED+WBPortalConfigs.uniqueBlocksNeeded.get()+TextFormatting.WHITE + " unique blocks. The require blocks specified in the config are " + TextFormatting.GOLD + REQUIRED_PORTAL_BLOCKS.stream().map(entry -> Registry.BLOCK.getKey(entry).toString()).collect(Collectors.joining(", ")));
 					player.sendStatusMessage(message, false);
 					return ActionResultType.FAIL;
 				}
@@ -225,13 +231,13 @@ public class WBPortalSpawning
 
 				invalidItemSet.remove(Items.AIR); //We don't need to list air
 				if (invalidItemSet.size() == 0 &&
-						uniqueBlocksSet.size() >= WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get())
+						uniqueBlocksSet.size() >= WBPortalConfigs.uniqueBlocksNeeded.get())
 				{
 					//enough unique blocks were found and no items are in chest. Make portal now
 					for (BlockPos blockpos : BlockPos.getAllInBoxMutable(position, position.add(cornerOffset)))
 					{
 						//consume chest and contents if config says so
-						if (WorldBlender.WBPortalConfig.consumeChests.get())
+						if (WBPortalConfigs.consumeChests.get())
 						{
 							TileEntity chestTileEntity = world.getTileEntity(blockpos);
 							if(chestTileEntity != null &&
@@ -262,7 +268,7 @@ public class WBPortalSpawning
 				//throw error and list all the invalid items in the chests
 				else
 				{
-					String msg = TextFormatting.YELLOW + "World Blender: " + TextFormatting.WHITE + "There are not enough unique block items in the chests. (stacks or duplicates are ignored) You need " + TextFormatting.RED + WorldBlender.WBPortalConfig.uniqueBlocksNeeded.get() + TextFormatting.WHITE + " block items to make the portal but there is only " + TextFormatting.GREEN + uniqueBlocksSet.size() + TextFormatting.WHITE + " unique block items right now.";
+					String msg = TextFormatting.YELLOW + "World Blender: " + TextFormatting.WHITE + "There are not enough unique block items in the chests. (stacks or duplicates are ignored) You need " + TextFormatting.RED + WBPortalConfigs.uniqueBlocksNeeded.get() + TextFormatting.WHITE + " block items to make the portal but there is only " + TextFormatting.GREEN + uniqueBlocksSet.size() + TextFormatting.WHITE + " unique block items right now.";
 
 					if(invalidItemSet.size() > 0)
 					{

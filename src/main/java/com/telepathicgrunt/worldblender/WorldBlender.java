@@ -12,7 +12,6 @@ import com.telepathicgrunt.worldblender.features.WBConfiguredFeatures;
 import com.telepathicgrunt.worldblender.features.WBFeatures;
 import com.telepathicgrunt.worldblender.surfacebuilder.WBSurfaceBuilders;
 import com.telepathicgrunt.worldblender.theblender.TheBlender;
-import com.telepathicgrunt.worldblender.utils.ConfigHelper;
 import com.telepathicgrunt.worldblender.utils.MessageHandler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -21,6 +20,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -35,18 +35,14 @@ public class WorldBlender{
 	public static final String MODID = "world_blender";
 	public static final Logger LOGGER = LogManager.getLogger(MODID);
 
-	public static WBBlendingConfigs.WBConfigValues WBBlendingConfig = null;
-	public static WBDimensionConfigs.WBConfigValues WBDimensionConfig = null;
-	public static WBPortalConfigs.WBConfigValues WBPortalConfig = null;
-
 	private static boolean chestListGenerated = false;
 
 	public WorldBlender() {
 
 		//Set up config
-		WBBlendingConfig = ConfigHelper.register(ModConfig.Type.COMMON, WBBlendingConfigs.WBConfigValues::new, "world_blender-blending.toml");
-		WBDimensionConfig = ConfigHelper.register(ModConfig.Type.COMMON, WBDimensionConfigs.WBConfigValues::new, "world_blender-dimension.toml");
-		WBPortalConfig = ConfigHelper.register(ModConfig.Type.COMMON, WBPortalConfigs.WBConfigValues::new, "world_blender-portal.toml");
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WBBlendingConfigs.GENERAL_SPEC, "world_blender-blending.toml");
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WBDimensionConfigs.GENERAL_SPEC, "world_blender-dimension.toml");
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WBPortalConfigs.GENERAL_SPEC, "world_blender-portal.toml");
 
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
@@ -81,7 +77,7 @@ public class WorldBlender{
 		// We do not need to re-make like when entering other worlds as blocks/tile-entities are
 		// not dynamic registries like worldgen registries are.
 		if(!chestListGenerated){
-			WBPortalSpawning.generateRequiredBlockList(event.getWorld(), WBPortalConfig.requiredBlocksInChests.get());
+			WBPortalSpawning.generateRequiredBlockList(event.getWorld(), WBPortalConfigs.requiredBlocksInChests.get());
 			chestListGenerated = true;
 		}
 	}

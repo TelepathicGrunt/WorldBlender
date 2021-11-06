@@ -1,6 +1,6 @@
 package com.telepathicgrunt.worldblender.surfacebuilder;
 
-import com.telepathicgrunt.worldblender.WorldBlender;
+import com.telepathicgrunt.worldblender.configs.WBBlendingConfigs;
 import com.telepathicgrunt.worldblender.theblender.ConfigBlacklisting;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -25,8 +25,8 @@ public class SurfaceBlender {
 		surfaces.add(SurfaceBuilder.NETHERRACK_CONFIG);
 		surfaces.add(SurfaceBuilder.END_STONE_CONFIG);
 		
-		if (WorldBlender.WBBlendingConfig.allowVanillaSurfaces.get() &&
-			WorldBlender.WBBlendingConfig.allowVanillaBiomeImport.get()) {
+		if (WBBlendingConfigs.allowVanillaSurfaces.get() &&
+			WBBlendingConfigs.allowVanillaBiomeImport.get()) {
 			surfaces.add(SurfaceBuilder.GRASS_DIRT_GRAVEL_CONFIG);
 			surfaces.add(SurfaceBuilder.PODZOL_DIRT_GRAVEL_CONFIG);
 			surfaces.add(SurfaceBuilder.RED_SAND_WHITE_TERRACOTTA_GRAVEL_CONFIG);

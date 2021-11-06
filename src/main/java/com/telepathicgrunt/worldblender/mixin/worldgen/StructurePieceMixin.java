@@ -1,6 +1,6 @@
 package com.telepathicgrunt.worldblender.mixin.worldgen;
 
-import com.telepathicgrunt.worldblender.WorldBlender;
+import com.telepathicgrunt.worldblender.configs.WBDimensionConfigs;
 import com.telepathicgrunt.worldblender.dimension.WBBiomeProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -38,7 +38,7 @@ public class StructurePieceMixin {
     )
     private void worldblender_disablePillars(ISeedReader world, BlockState blockstate, int x, int y, int z, MutableBoundingBox boundingbox, CallbackInfo ci)
     {
-        if(WorldBlender.WBDimensionConfig.removeStructurePillars.get() &&
+        if(WBDimensionConfigs.removeStructurePillars.get() &&
                 world.getWorld().getChunkProvider().getChunkGenerator().getBiomeProvider() instanceof WBBiomeProvider)
         {
             int heightmapY = world.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, getXWithOffset(x, z), getZWithOffset(x, z));

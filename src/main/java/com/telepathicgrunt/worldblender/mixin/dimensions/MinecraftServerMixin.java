@@ -3,7 +3,7 @@ package com.telepathicgrunt.worldblender.mixin.dimensions;
 import com.mojang.authlib.GameProfileRepository;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.datafixers.DataFixer;
-import com.telepathicgrunt.worldblender.WorldBlender;
+import com.telepathicgrunt.worldblender.configs.WBBlendingConfigs;
 import com.telepathicgrunt.worldblender.theblender.IdentifierPrinting;
 import com.telepathicgrunt.worldblender.theblender.TheBlender;
 import net.minecraft.resources.DataPackRegistries;
@@ -13,12 +13,9 @@ import net.minecraft.server.management.PlayerProfileCache;
 import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.chunk.listener.IChunkStatusListenerFactory;
-import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.storage.IServerConfiguration;
 import net.minecraft.world.storage.SaveFormat;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -28,10 +25,6 @@ import java.net.Proxy;
 
 @Mixin(value = MinecraftServer.class, priority = Integer.MAX_VALUE)
 public class MinecraftServerMixin {
-
-    @Final
-    @Shadow
-    private TemplateManager templateManager;
 
     @Inject(
             method = "<init>(Ljava/lang/Thread;Lnet/minecraft/util/registry/DynamicRegistries$Impl;Lnet/minecraft/world/storage/SaveFormat$LevelSave;Lnet/minecraft/world/storage/IServerConfiguration;Lnet/minecraft/resources/ResourcePackList;Ljava/net/Proxy;Lcom/mojang/datafixers/DataFixer;Lnet/minecraft/resources/DataPackRegistries;Lcom/mojang/authlib/minecraft/MinecraftSessionService;Lcom/mojang/authlib/GameProfileRepository;Lnet/minecraft/server/management/PlayerProfileCache;Lnet/minecraft/world/chunk/listener/IChunkStatusListenerFactory;)V",
@@ -44,7 +37,7 @@ public class MinecraftServerMixin {
                                      PlayerProfileCache userCache, IChunkStatusListenerFactory worldGenerationProgressListenerFactory,
                                      CallbackInfo ci)
     {
-        if(WorldBlender.WBBlendingConfig.resourceLocationDump.get()){
+        if(WBBlendingConfigs.resourceLocationDump.get()){
             IdentifierPrinting.printAllResourceLocations(impl);
         }
 

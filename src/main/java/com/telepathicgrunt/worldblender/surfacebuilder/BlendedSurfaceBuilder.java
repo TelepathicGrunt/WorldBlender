@@ -1,6 +1,7 @@
 package com.telepathicgrunt.worldblender.surfacebuilder;
 
 import com.telepathicgrunt.worldblender.WorldBlender;
+import com.telepathicgrunt.worldblender.configs.WBDimensionConfigs;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
@@ -94,7 +95,7 @@ public class BlendedSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig> 
 		//		}
 		
 		int chosenConfigIndex = 2; // Grass surface
-		double noiseScale = WorldBlender.WBDimensionConfig.surfaceScale.get();
+		double noiseScale = WBDimensionConfigs.surfaceScale.get();
 		
 		for (int configIndex = 0; configIndex < blender.surfaces.size(); configIndex++) {
 			if (configIndex == 0) {

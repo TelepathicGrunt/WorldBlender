@@ -1,6 +1,6 @@
 package com.telepathicgrunt.worldblender.mixin.worldgen;
 
-import com.telepathicgrunt.worldblender.WorldBlender;
+import com.telepathicgrunt.worldblender.configs.WBDimensionConfigs;
 import com.telepathicgrunt.worldblender.dimension.WBBiomeProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -37,7 +37,7 @@ public class ShipwreckPiecesPieceMixin {
                                                    ChunkPos chunkPos, BlockPos pos, CallbackInfoReturnable<Boolean> cir,
                                                    int i, int j)
     {
-        if(WorldBlender.WBDimensionConfig.removeWorldBottomStructures.get() &&
+        if(WBDimensionConfigs.removeWorldBottomStructures.get() &&
                 world.getWorld().getChunkProvider().getChunkGenerator().getBiomeProvider() instanceof WBBiomeProvider &&
                 j <= 0)
         {
@@ -60,7 +60,7 @@ public class ShipwreckPiecesPieceMixin {
                                                     int i, int j, BlockPos pos2, Heightmap.Type type, int k, BlockPos blockPos,
                                                     Iterator<BlockPos> blockPosIterator, BlockPos blockPos2, int l)
     {
-        if(WorldBlender.WBDimensionConfig.removeWorldBottomStructures.get() &&
+        if(WBDimensionConfigs.removeWorldBottomStructures.get() &&
                 world.getWorld().getChunkProvider().getChunkGenerator().getBiomeProvider() instanceof WBBiomeProvider &&
                 l <= 0)
         {

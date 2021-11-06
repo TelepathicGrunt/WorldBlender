@@ -1,6 +1,6 @@
 package com.telepathicgrunt.worldblender.features;
 
-import com.telepathicgrunt.worldblender.WorldBlender;
+import com.telepathicgrunt.worldblender.configs.WBDimensionConfigs;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -17,7 +17,11 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 
 public class AntiFloatingBlocksAndSeparateLiquids extends Feature<NoFeatureConfig>
@@ -98,9 +102,9 @@ public class AntiFloatingBlocksAndSeparateLiquids extends Feature<NoFeatureConfi
 	public boolean generate(ISeedReader world, ChunkGenerator chunkgenerator, Random rand, BlockPos position, NoFeatureConfig config)
 	{
 		//this feature is completely turned off.
-		if(!WorldBlender.WBDimensionConfig.preventFallingBlocks.get() &&
-			!WorldBlender.WBDimensionConfig.containFloatingLiquids.get() &&
-			!WorldBlender.WBDimensionConfig.preventLavaTouchingWater.get())
+		if(!WBDimensionConfigs.preventFallingBlocks.get() &&
+			!WBDimensionConfigs.containFloatingLiquids.get() &&
+			!WBDimensionConfigs.preventLavaTouchingWater.get())
 		{
 			return false;
 		}
@@ -131,7 +135,7 @@ public class AntiFloatingBlocksAndSeparateLiquids extends Feature<NoFeatureConfi
 					currentBlockstate = cachedChunk.getBlockState(mutable);
 
 					// current block is a lava-tagged fluid
-					if (WorldBlender.WBDimensionConfig.preventLavaTouchingWater.get() &&
+					if (WBDimensionConfigs.preventLavaTouchingWater.get() &&
 							currentBlockstate.getFluidState().isTagged(FluidTags.LAVA))
 					{
 						for (Direction face : Direction.values()) {
@@ -186,7 +190,7 @@ public class AntiFloatingBlocksAndSeparateLiquids extends Feature<NoFeatureConfi
 	 */
 	private static boolean preventfalling(ISeedReader world, IChunk cachedChunk, BlockPos.Mutable mutable, BlockState lastBlockstate, BlockState currentBlockstate)
 	{
-		if(!WorldBlender.WBDimensionConfig.preventFallingBlocks.get()) return false;
+		if(!WBDimensionConfigs.preventFallingBlocks.get()) return false;
 		
 		if(lastBlockstate.getBlock() instanceof FallingBlock) {
 			setReplacementBlock(world, cachedChunk, mutable, lastBlockstate, lastBlockstate, currentBlockstate);
@@ -204,7 +208,7 @@ public class AntiFloatingBlocksAndSeparateLiquids extends Feature<NoFeatureConfi
 	 */
 	private static boolean liquidContaining(ISeedReader world, IChunk cachedChunk, BlockPos.Mutable mutable, BlockState lastBlockstate, BlockState currentBlockstate)
 	{
-		if(!WorldBlender.WBDimensionConfig.containFloatingLiquids.get()) return false;
+		if(!WBDimensionConfigs.containFloatingLiquids.get()) return false;
 		
 		boolean touchingLiquid = false;
 		BlockState neighboringBlockstate = null;

@@ -1,6 +1,6 @@
 package com.telepathicgrunt.worldblender.mixin.dimensions;
 
-import com.telepathicgrunt.worldblender.WorldBlender;
+import com.telepathicgrunt.worldblender.configs.WBDimensionConfigs;
 import com.telepathicgrunt.worldblender.dimension.AltarManager;
 import com.telepathicgrunt.worldblender.dimension.WBBiomeProvider;
 import com.telepathicgrunt.worldblender.utils.ServerWorldAccess;
@@ -15,7 +15,11 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.spawner.ISpecialSpawner;
 import net.minecraft.world.storage.IServerWorldInfo;
 import net.minecraft.world.storage.SaveFormat;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -49,7 +53,7 @@ public class ServerWorldMixin implements ServerWorldAccess {
 		ServerWorld serverWorld = (ServerWorld)(Object)this;
 
 		if(serverWorld.getChunkProvider().getChunkGenerator().getBiomeProvider() instanceof WBBiomeProvider){
-			if(WorldBlender.WBDimensionConfig.spawnEnderDragon.get()) {
+			if(WBDimensionConfigs.spawnEnderDragon.get()) {
 				((DimensionTypeAccessor)dimensionType).wb_setHasDragonFight(true);
 				field_241105_O_ = new DragonFightManager(serverWorld, server.getServerConfiguration().getDimensionGeneratorSettings().getSeed(), server.getServerConfiguration().getDragonFightData());
 			}

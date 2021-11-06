@@ -1,6 +1,6 @@
 package com.telepathicgrunt.worldblender.mixin.worldgen;
 
-import com.telepathicgrunt.worldblender.WorldBlender;
+import com.telepathicgrunt.worldblender.configs.WBDimensionConfigs;
 import com.telepathicgrunt.worldblender.dimension.WBBiomeProvider;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
@@ -37,7 +37,7 @@ public abstract class ScatteredStructurePieceMixin extends StructurePiece {
     private void worldblender_disableHeightmapSnap(IWorld world, MutableBoundingBox boundingBox, int height, CallbackInfoReturnable<Boolean> cir,
                                                    int j, int k, BlockPos.Mutable mutable)
     {
-        if(WorldBlender.WBDimensionConfig.removeWorldBottomStructures.get() &&
+        if(WBDimensionConfigs.removeWorldBottomStructures.get() &&
                 world instanceof WorldGenRegion &&
                 ((WorldGenRegion)world).getWorld().getChunkProvider().getChunkGenerator().getBiomeProvider() instanceof WBBiomeProvider &&
                 world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, mutable).getY() <= 0)

@@ -1,6 +1,6 @@
 package com.telepathicgrunt.worldblender.mixin.worldgen;
 
-import com.telepathicgrunt.worldblender.WorldBlender;
+import com.telepathicgrunt.worldblender.configs.WBDimensionConfigs;
 import com.telepathicgrunt.worldblender.dimension.WBBiomeProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -37,7 +37,7 @@ public class OceanRuinPiecesPieceMixin {
                                                    ChunkPos chunkPos, BlockPos pos, CallbackInfoReturnable<Boolean> cir,
                                                    int i)
     {
-        if(WorldBlender.WBDimensionConfig.removeWorldBottomStructures.get() &&
+        if(WBDimensionConfigs.removeWorldBottomStructures.get() &&
                 world.getWorld().getChunkProvider().getChunkGenerator().getBiomeProvider() instanceof WBBiomeProvider &&
                 i <= 0)
         {
@@ -56,7 +56,7 @@ public class OceanRuinPiecesPieceMixin {
     private void worldblender_disableHeightmapSnap2(BlockPos start, IBlockReader world, BlockPos end, CallbackInfoReturnable<Integer> cir,
                                                     int i, int j)
     {
-        if(WorldBlender.WBDimensionConfig.removeWorldBottomStructures.get() &&
+        if(WBDimensionConfigs.removeWorldBottomStructures.get() &&
                 world instanceof WorldGenRegion &&
                 ((WorldGenRegion) world).getWorld().getChunkProvider().getChunkGenerator().getBiomeProvider() instanceof WBBiomeProvider &&
                 j <= 1)
